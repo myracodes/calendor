@@ -6,7 +6,7 @@
   --accent: #a0522d;
 
   color: var(--ink);
-  background-color: var(--paper);
+  background-color: #fff;
   font-family: system-ui, sans-serif;
   line-height: 1.5;
 }

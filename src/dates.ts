@@ -10,14 +10,14 @@ export interface DayCell {
   weekday: number
 }
 
-const MONTH_FORMAT = new Intl.DateTimeFormat('fr-FR', {
-  month: 'long',
-  timeZone: 'UTC',
+const MONTH_FORMAT = new Intl.DateTimeFormat("fr-FR", {
+  month: "long",
+  timeZone: "UTC",
 })
 
-const WEEKDAY_FORMAT = new Intl.DateTimeFormat('fr-FR', {
-  weekday: 'long',
-  timeZone: 'UTC',
+const WEEKDAY_FORMAT = new Intl.DateTimeFormat("fr-FR", {
+  weekday: "long",
+  timeZone: "UTC",
 })
 
 /** @param month 1-12 */
@@ -28,9 +28,7 @@ export function monthName(month: number): string {
 /** Monday-first weekday names. */
 export function weekdayNames(): string[] {
   // 2026-01-05 is a Monday.
-  return Array.from({ length: 7 }, (_, i) =>
-    WEEKDAY_FORMAT.format(new Date(Date.UTC(2026, 0, 5 + i))),
-  )
+  return Array.from({ length: 7 }, (_, i) => WEEKDAY_FORMAT.format(new Date(Date.UTC(2026, 0, 5 + i))))
 }
 
 /** @param month 1-12 */
@@ -50,8 +48,7 @@ function toIso(year: number, month: number, day: number): string {
 export function monthGrid(year: number, month: number): DayCell[][] {
   const total = daysInMonth(year, month)
   // getUTCDay(): 0 = Sunday … 6 = Saturday; convert to 0 = Monday … 6 = Sunday.
-  const firstWeekday =
-    (new Date(Date.UTC(year, month - 1, 1)).getUTCDay() + 6) % 7
+  const firstWeekday = (new Date(Date.UTC(year, month - 1, 1)).getUTCDay() + 6) % 7
 
   const cells: DayCell[] = []
   for (let i = 0; i < firstWeekday; i++) {
@@ -75,12 +72,20 @@ export function monthGrid(year: number, month: number): DayCell[][] {
   return weeks
 }
 
+const WEEK_MS = 7 * 24 * 60 * 60 * 1000
+
+/**
+ * Index of the Monday-based week containing the given date, counted from
+ * 2001-01-01 (a Monday). Two dates share an index iff they are in the same
+ * calendar week.
+ */
+export function weekIndex(iso: string): number {
+  const ts = Date.parse(`${iso}T00:00:00Z`)
+  return Math.floor((ts - Date.UTC(2001, 0, 1)) / WEEK_MS)
+}
+
 /** Normalizes (year, month offset) into a real { year, month } pair. */
-export function addMonths(
-  year: number,
-  month: number,
-  offset: number,
-): { year: number; month: number } {
+export function addMonths(year: number, month: number, offset: number): { year: number; month: number } {
   const index = year * 12 + (month - 1) + offset
   return { year: Math.floor(index / 12), month: (index % 12) + 1 }
 }

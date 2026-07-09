@@ -51,7 +51,7 @@ select {
   background: var(--paper);
 }
 
-input[type='number'] {
+input[type="number"] {
   width: 6rem;
 }
 
@@ -67,6 +67,46 @@ button {
 
 button:hover {
   border-color: var(--accent);
+}
+
+.weekday-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.picker-caption {
+  font-size: 0.9rem;
+  color: var(--ink-light);
+}
+
+.weekday-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.weekday-option {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.25rem;
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.35rem 0.5rem;
+  background: var(--paper);
+  cursor: pointer;
+}
+
+.weekday-option:has(input:checked) {
+  border-color: var(--accent);
+  background: #fff;
+}
+
+.preset-row {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px dashed var(--line);
 }
 
 .illustration-preview {

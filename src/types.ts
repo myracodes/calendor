@@ -1,7 +1,16 @@
 export type EventRule =
-  | { kind: 'daily' }
-  | { kind: 'monthly'; day: number }
-  | { kind: 'once'; date: string } // ISO "yyyy-mm-dd"
+  | { kind: "daily" }
+  | {
+      kind: "weekly"
+      /** 0 = Monday … 6 = Sunday */
+      weekdays: number[]
+      /** every N weeks (1 = every week) */
+      interval: number
+      /** ISO "yyyy-mm-dd" — reference week when interval > 1 */
+      anchor: string
+    }
+  | { kind: "monthly"; day: number }
+  | { kind: "once"; date: string } // ISO "yyyy-mm-dd"
 
 export interface CalendarEvent {
   id: string

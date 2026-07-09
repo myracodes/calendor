@@ -6,10 +6,7 @@ Générateur de calendriers PDF avec un design « imitation papier » et des pol
 
 - Choix de la période : année, premier mois, nombre de mois (une page A4 paysage par mois)
 - Illustration personnalisée (PNG/JPEG) affichée en haut de chaque page
-- Événements récurrents ou ponctuels affichés dans les cases du calendrier :
-  - quotidien (tous les jours)
-  - mensuel (le jour N de chaque mois)
-  - date unique
+- Événements récurrents ou ponctuels affichés dans les cases du calendrier
 - Génération et téléchargement du PDF côté client (aucun serveur)
 
 ## Stack
