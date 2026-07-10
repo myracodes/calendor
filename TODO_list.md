@@ -2,7 +2,6 @@
 
 - ajouter la prévisualisation ?
 - pouvoir choisir un calendrier annuel vs mensuel vs hebdo ?
-- pouvoir choisir la couleur d'un élément à ajouter au calendrier (petit color picker)
 - possibilité d'ajouter les rdv médicaux
 - possibilité de choisir l'emoji parmi une sélection : médecin / rdv / deadline / anniversaire / plantes...
 - ajouter les vacances scolaires ?

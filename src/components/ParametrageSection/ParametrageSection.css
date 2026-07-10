@@ -85,27 +85,23 @@
   gap: 1rem;
   padding: 0.5rem 0.9rem;
   border: 1px solid var(--line);
-  border-left: 5px solid var(--periwinkle);
+  border-left: 5px solid var(--ink);
   background: var(--surface);
 }
 
-/* Liseré qui déroule la palette au fil de la liste */
-.event-list li:nth-child(5n + 1) {
-  border-left-color: var(--cotton-rose);
+/* ===== Sélecteur de couleur ===== */
+
+.color-field {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.4rem;
 }
 
-.event-list li:nth-child(5n + 2) {
-  border-left-color: var(--pink-orchid);
-}
-
-.event-list li:nth-child(5n + 3) {
-  border-left-color: var(--periwinkle);
-}
-
-.event-list li:nth-child(5n + 4) {
-  border-left-color: var(--sky-blue);
-}
-
-.event-list li:nth-child(5n + 5) {
-  border-left-color: var(--celadon);
+.color-field input {
+  width: var(--control-h);
+  height: var(--control-h);
+  padding: 0.2rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  cursor: pointer;
 }

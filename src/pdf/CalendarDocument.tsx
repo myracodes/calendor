@@ -141,9 +141,6 @@ const styles = StyleSheet.create({
     lineHeight: 1.15,
     color: INK,
   },
-  dailyEvent: {
-    color: INK_LIGHT,
-  },
   lifeEvent: {
     fontSize: 8,
     lineHeight: 1.15,
@@ -280,14 +277,19 @@ function MonthPage({ settings, year, month }: MonthPageProps) {
                       {LIFE_EVENT_TYPES.filter(kind => kind.isEnabled(settings)).map(kind =>
                         lifeEventsForDay(kind.events, month, day).map(event => (
                           <Text key={`${kind.emoji}-${event.name}`} style={[styles.lifeEvent, kind.style]}>
-                            {kind.emoji ? lifeEventLabel(kind.emoji, event, year, kind.showAge) : lifeEventLabel("", event, year, kind.showAge)}
+                            {kind.emoji
+                              ? lifeEventLabel(kind.emoji, event, year, kind.showAge)
+                              : lifeEventLabel("", event, year, kind.showAge)}
                           </Text>
                         )),
                       )}
                       {eventsForDay(settings.events, day, iso, weekday).map(event => (
                         <Text
                           key={event.id}
-                          style={event.rule.kind === "daily" ? [styles.event, styles.dailyEvent] : styles.event}
+                          style={[
+                            styles.event,
+                            { color: event.color ?? (event.rule.kind === "daily" ? INK_LIGHT : INK) },
+                          ]}
                         >
                           • {event.label}
                         </Text>

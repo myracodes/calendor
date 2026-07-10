@@ -5,7 +5,7 @@ export interface Preset {
   /** also turn on the birthdays from src/birthdays.ts */
   includeBirthdays?: boolean
   includeDeaths?: boolean
-  events: { label: string; rule: EventRule }[]
+  events: { label: string; rule: EventRule; color?: string }[]
 }
 
 /** Ajoute les événements d'un preset (sans doublons) et active ses options d'affichage. */
@@ -28,16 +28,22 @@ export const PRESETS: Preset[] = [
     includeBirthdays: true,
     includeDeaths: true,
     events: [
-      { label: "piano · chant · duolingo", rule: { kind: "daily" } },
-      { label: "vitamine D", rule: { kind: "daily" } },
-      { label: "Step 11h30", rule: { kind: "weekly", weekdays: [6], interval: 1, anchor: "2026-01-01" } },
+      { label: "piano · chant · duolingo", rule: { kind: "daily" }, color: "#A5522B" },
+      { label: "vitamine D", rule: { kind: "daily" }, color: "#246F29" },
       {
         label: "B12",
         rule: { kind: "weekly", weekdays: [6], interval: 1, anchor: "2026-01-01" },
+        color: "#246F29",
+      },
+      {
+        label: "Step 11h30",
+        rule: { kind: "weekly", weekdays: [6], interval: 1, anchor: "2026-01-01" },
+        color: "#DC3C0F",
       },
       {
         label: "arroser les plantes 🪴",
         rule: { kind: "weekly", weekdays: [6], interval: 1, anchor: "2026-01-01" },
+        color: "#516F24",
       },
     ],
   },

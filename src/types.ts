@@ -16,6 +16,8 @@ export interface CalendarEvent {
   id: string
   label: string
   rule: EventRule
+  /** hex color for this event's text/marker; falls back to the base ink color when unset */
+  color?: string
 }
 
 export interface CalendarSettings {

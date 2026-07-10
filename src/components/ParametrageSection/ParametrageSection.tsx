@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { weekdayNames } from "../../dates"
+import { INK } from "../../pdf/theme"
 import { applyPresetToSettings, PRESETS } from "../../presets"
 import type { CalendarEvent, CalendarSettings, EventRule, SettingsUpdater } from "../../types"
 import "./ParametrageSection.css"
@@ -8,6 +9,8 @@ const WEEKDAYS = weekdayNames()
 const CURRENT_YEAR = new Date().getFullYear()
 const TODAY_ISO = new Date().toISOString().slice(0, 10)
 const DEFAULT_PRESET_NAME = PRESETS[0]?.name ?? ""
+/** Couleur de base des événements — proposée par défaut dans le sélecteur de couleur. */
+const BASE_COLOR = INK
 
 type RuleKind = EventRule["kind"]
 
@@ -19,6 +22,7 @@ interface EventDraft {
   anchor: string
   monthDay: number
   date: string
+  color: string
 }
 
 const EMPTY_DRAFT: EventDraft = {
@@ -29,6 +33,7 @@ const EMPTY_DRAFT: EventDraft = {
   anchor: TODAY_ISO,
   monthDay: 1,
   date: `${CURRENT_YEAR}-01-01`,
+  color: BASE_COLOR,
 }
 
 function buildRule(draft: EventDraft): EventRule {
@@ -93,6 +98,7 @@ export function ParametrageSection({ settings, onUpdate }: ParametrageSectionPro
       id: crypto.randomUUID(),
       label,
       rule: buildRule(draft),
+      color: draft.color === BASE_COLOR ? undefined : draft.color,
     }
     onUpdate("events", [...settings.events, event])
     setDraft(prev => ({ ...EMPTY_DRAFT, kind: prev.kind }))
@@ -194,6 +200,14 @@ export function ParametrageSection({ settings, onUpdate }: ParametrageSectionPro
             <option value="once">Date unique</option>
           </select>
         </label>
+        <label className="color-field">
+          Couleur
+          <input
+            type="color"
+            value={draft.color}
+            onChange={e => setDraft(prev => ({ ...prev, color: e.target.value }))}
+          />
+        </label>
         {draft.kind === "weekly" && (
           <>
             <div className="weekday-picker" role="group" aria-label="Jours de la semaine">
@@ -269,7 +283,7 @@ export function ParametrageSection({ settings, onUpdate }: ParametrageSectionPro
       {settings.events.length > 0 && (
         <ul className="event-list">
           {settings.events.map(event => (
-            <li key={event.id}>
+            <li key={event.id} style={{ borderLeftColor: event.color ?? BASE_COLOR }}>
               <span>
                 <strong>{event.label}</strong> — {describeRule(event.rule)}
               </span>
