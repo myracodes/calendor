@@ -68,7 +68,7 @@ export const PRESETS: Preset[] = [
       },
       {
         label: "Aspirateur",
-        rule: { kind: "weekly", weekdays: [6], interval: 2, anchor: "2026-01-01" },
+        rule: { kind: "weekly", weekdays: [6], interval: 2, anchor: "2026-01-08" },
         color: MY,
       },
       {
@@ -78,7 +78,7 @@ export const PRESETS: Preset[] = [
       },
       {
         label: "Evier sdb",
-        rule: { kind: "weekly", weekdays: [5], interval: 2, anchor: "2026-01-01" },
+        rule: { kind: "weekly", weekdays: [5], interval: 2, anchor: "2026-01-08" },
         color: MY,
       },
       {
@@ -88,7 +88,7 @@ export const PRESETS: Preset[] = [
       },
       {
         label: "Lessive",
-        rule: { kind: "weekly", weekdays: [5], interval: 2, anchor: "2026-01-01" },
+        rule: { kind: "weekly", weekdays: [5], interval: 2, anchor: "2026-01-08" },
         color: MY,
       },
     ],
