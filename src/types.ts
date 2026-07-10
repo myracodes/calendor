@@ -19,13 +19,22 @@ export interface CalendarEvent {
 }
 
 export interface CalendarSettings {
-  title: string
   year: number
   /** 1-12 */
   startMonth: number
   /** number of month pages to generate */
   monthCount: number
-  /** data URL of the uploaded illustration, if any */
+  /** data URL of the uploaded background image, if any (falls back to a default) */
   illustration: string | null
+  /** show the birthdays from src/events/birthdays.ts on the calendar */
+  includeBirthdays: boolean
+  /** show the deaths from src/events/deaths.ts on the calendar */
+  includeDeaths: boolean
+  /** show the festive days from src/events/otherEvents.ts on the calendar */
+  includeOtherEvents: boolean
+  /** show the weekly schedules from src/events/schedules.ts under each weekday name */
+  includeSchedules: boolean
   events: CalendarEvent[]
 }
+
+export type SettingsUpdater = <K extends keyof CalendarSettings>(key: K, value: CalendarSettings[K]) => void

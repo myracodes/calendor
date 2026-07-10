@@ -1,14 +1,63 @@
+/* ===================================================================
+   Design tokens — palette pastel, gradients et dimensions réutilisables
+   =================================================================== */
+
 :root {
-  --ink: #41382c;
-  --ink-light: #8a7a63;
-  --paper: #fbf5e9;
-  --line: #c9b99d;
-  --accent: #a0522d;
+  /* --- Palette --- */
+  --lemon-chiffon: #fbf8cc;
+  --powder-petal: #fde4cf;
+  --cotton-rose: #ffcfd2;
+  --pink-orchid: #f1c0e8;
+  --periwinkle: #cfbaf0;
+  --baby-blue-ice: #a3c4f3;
+  --sky-blue: #90dbf4;
+  --electric-aqua: #8eecf5;
+  --soft-cyan: #98f5e1;
+  --celadon: #b9fbc0;
+
+  /* --- Tokens sémantiques --- */
+  --ink: #3b3554;
+  --ink-light: #767093;
+  --paper: #fffdfa;
+  --surface: #ffffff;
+  --line: #e9e5f4;
+  --accent: var(--periwinkle);
+  --accent-strong: #8f7bd8;
+
+  /* --- Gradients réutilisables --- */
+  --gradient-rainbow: linear-gradient(
+    90deg,
+    var(--lemon-chiffon),
+    var(--powder-petal),
+    var(--cotton-rose),
+    var(--pink-orchid),
+    var(--periwinkle),
+    var(--baby-blue-ice),
+    var(--sky-blue),
+    var(--electric-aqua),
+    var(--soft-cyan),
+    var(--celadon)
+  );
+  --gradient-sun: linear-gradient(135deg, var(--lemon-chiffon), var(--powder-petal), var(--cotton-rose));
+  --gradient-candy: linear-gradient(135deg, var(--cotton-rose), var(--pink-orchid) 55%, var(--periwinkle));
+  --gradient-sky: linear-gradient(135deg, var(--baby-blue-ice), var(--sky-blue), var(--electric-aqua));
+  --gradient-mint: linear-gradient(135deg, var(--electric-aqua), var(--soft-cyan), var(--celadon));
+
+  /* --- Dimensions & effets --- */
+  --control-h: 2.5rem;
+  --radius-none: 0;
+  --radius-s: 8px;
+  --radius-none: 12px;
+  --radius-l: 20px;
+  --radius-pill: 999px;
+  --shadow-soft: 0 2px 16px rgba(105, 90, 166, 0.1);
+  --shadow-lift: 0 6px 20px rgba(105, 90, 166, 0.18);
+  --focus-ring: 0 0 0 3px color-mix(in srgb, var(--accent) 55%, transparent);
 
   color: var(--ink);
-  background-color: #fff;
   font-family: system-ui, sans-serif;
   line-height: 1.5;
+  accent-color: var(--accent-strong);
 }
 
 * {
@@ -18,4 +67,10 @@
 body {
   margin: 0;
   min-height: 100vh;
+  background:
+    radial-gradient(55rem 38rem at 115% -10%, color-mix(in srgb, var(--sky-blue) 35%, transparent), transparent 65%),
+    radial-gradient(48rem 34rem at -15% 15%, color-mix(in srgb, var(--pink-orchid) 30%, transparent), transparent 65%),
+    radial-gradient(50rem 32rem at 50% 115%, color-mix(in srgb, var(--celadon) 35%, transparent), transparent 65%),
+    var(--paper);
+  background-attachment: fixed;
 }

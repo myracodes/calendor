@@ -1,30 +1,93 @@
-.app {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 2rem 1rem 4rem;
+/* ===== Utilitaires ===== */
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
+/* ===== Layout ===== */
+
+.app {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2.5rem 1.25rem 0rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+/* ===== En-tête ===== */
+
 .app h1 {
-  margin-bottom: 0;
+  margin: 0;
+  font-size: 2.4rem;
+  letter-spacing: -0.02em;
+}
+
+.app h1::after {
+  content: "";
+  display: block;
+  width: 8rem;
+  height: 0.4rem;
+  margin-top: 0.4rem;
+  background: var(--gradient-rainbow);
 }
 
 .tagline {
-  margin-top: 0.25rem;
+  margin: 0.6rem 0 2rem;
   color: var(--ink-light);
 }
 
+/* ===== Cartes ===== */
+
 .card {
-  background: #fff;
+  position: relative;
+  overflow: hidden;
+  background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 1rem 1.25rem;
-  margin-bottom: 1.25rem;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-soft);
+}
+
+/* Liseré coloré en haut de chaque carte, personnalisable via --card-accent */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: var(--card-accent, var(--gradient-rainbow));
+}
+
+.card--sun {
+  --card-accent: var(--gradient-sun);
+}
+
+.card--candy {
+  --card-accent: var(--gradient-candy);
+}
+
+.card--sky {
+  --card-accent: var(--gradient-sky);
 }
 
 .card h2 {
-  margin-top: 0;
-  font-size: 1.1rem;
+  display: inline-block;
+  margin: 0 0 1.25rem;
+  padding: 0.2rem 0.75rem;
+  font-size: 1.05rem;
+  background: var(--card-accent, var(--gradient-rainbow));
 }
+
+/* ===== Formulaires ===== */
 
 .row {
   display: flex;
@@ -36,115 +99,115 @@
 label {
   display: flex;
   flex-direction: column;
-  gap: 0.25rem;
+  gap: 0.3rem;
   font-size: 0.9rem;
   color: var(--ink-light);
 }
 
-input,
+/* Contrôles alignés sur une même hauteur (--control-h) */
+input:not([type="checkbox"]):not([type="file"]),
 select {
+  height: var(--control-h);
   font: inherit;
   color: var(--ink);
-  padding: 0.4rem 0.5rem;
+  padding: 0 0.75rem;
   border: 1px solid var(--line);
-  border-radius: 6px;
-  background: var(--paper);
+  background: var(--surface);
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+input:focus-visible,
+select:focus-visible {
+  outline: none;
+  border-color: var(--accent-strong);
+  box-shadow: var(--focus-ring);
 }
 
 input[type="number"] {
-  width: 6rem;
+  width: 6.5rem;
 }
 
+/* ===== Boutons ===== */
+
 button {
+  height: var(--control-h);
   font: inherit;
-  padding: 0.45rem 1rem;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  background: var(--paper);
+  font-weight: 600;
+  padding: 0 1.2rem;
+  border: none;
+  background: var(--gradient-candy);
   color: var(--ink);
   cursor: pointer;
+  box-shadow: var(--shadow-soft);
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease,
+    filter 0.15s ease;
 }
 
 button:hover {
-  border-color: var(--accent);
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-lift);
+  filter: saturate(1.2);
 }
 
-.weekday-picker {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+button:active {
+  transform: translateY(0);
+  box-shadow: var(--shadow-soft);
 }
 
-.picker-caption {
-  font-size: 0.9rem;
+button:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.btn-remove {
+  height: 2rem;
+  padding: 0 0.9rem;
+  font-size: 0.85rem;
+  background: var(--cotton-rose);
+  box-shadow: none;
+}
+
+.hint {
+  margin: 0.75rem 0 0;
+  font-size: 0.85rem;
   color: var(--ink-light);
 }
 
-.weekday-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.weekday-option {
-  flex-direction: row;
-  align-items: center;
-  gap: 0.25rem;
-  color: var(--ink);
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  padding: 0.35rem 0.5rem;
-  background: var(--paper);
-  cursor: pointer;
-}
-
-.weekday-option:has(input:checked) {
-  border-color: var(--accent);
-  background: #fff;
-}
-
-.preset-row {
-  margin-bottom: 1rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px dashed var(--line);
-}
-
-.illustration-preview {
-  display: block;
-  margin-top: 0.75rem;
-  max-height: 120px;
-  max-width: 100%;
-  border-radius: 6px;
-}
-
-.event-list {
-  list-style: none;
-  padding: 0;
-  margin: 1rem 0 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.event-list li {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  border-bottom: 1px dashed var(--line);
-  padding-bottom: 0.5rem;
-}
+/* ===== Génération ===== */
 
 .generate {
   width: 100%;
-  padding: 0.8rem;
+  height: 3.25rem;
   font-size: 1.1rem;
-  background: var(--accent);
-  color: #fff;
-  border: none;
+  font-weight: 700;
+  background: var(--gradient-rainbow);
+  background-size: 200% 100%;
+  transition:
+    background-position 0.4s ease,
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.generate:hover {
+  background-position: 100% 0;
 }
 
 .generate:disabled {
   opacity: 0.6;
   cursor: wait;
+  transform: none;
+}
+
+/* ===== Pied de page ===== */
+
+.footer {
+  margin-top: 2.5rem;
+  text-align: center;
+  justify-self: flex-end;
+  color: var(--ink-light);
+  font-size: 0.85rem;
 }
