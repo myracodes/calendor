@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "@react-pdf/renderer"
+import { INK, SCHEDULE } from "../colors"
 import { schedulesForWeekday } from "../events/schedules"
 import type { Schedule } from "../events/schedules.type"
-import { INK, SCHEDULE } from "./theme"
 
 const styles = StyleSheet.create({
   cell: {

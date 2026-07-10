@@ -1,5 +1,5 @@
-// Tokens de couleur du PDF, dérivés de la palette pastel de l'app (voir
-// src/index.css). Partagés entre les différents composants de src/pdf/.
+// Palette de couleurs centralisée, dérivée de la palette pastel de l'app
+// (voir src/index.css pour les tokens CSS équivalents utilisés dans l'UI).
 
 export const INK = "#3b3554"
 export const INK_LIGHT = "#767093"
@@ -23,3 +23,12 @@ export const RAINBOW = [
   "#98f5e1", // soft-cyan
   "#b9fbc0", // celadon
 ]
+
+// Horaires hebdomadaires (voir src/events/schedules.ts)
+export const MARKET = "#DB504A"
+export const LIBRARY = "#A14EBF"
+export const POOL = "#6C91BF"
+
+// Couleurs par personne, réutilisables dans les presets de tâches
+export const QQ = "#258ea6"
+export const MY = "#ff0f80"

@@ -1,6 +1,6 @@
 import { useState } from "react"
+import { INK } from "../../colors"
 import { weekdayNames } from "../../dates"
-import { INK } from "../../pdf/theme"
 import { applyPresetToSettings, PRESETS } from "../../presets"
 import type { CalendarEvent, CalendarSettings, EventRule, SettingsUpdater } from "../../types"
 import "./ParametrageSection.css"
@@ -65,7 +65,7 @@ function describeRule(rule: EventRule): string {
     case "weekly": {
       const days = rule.weekdays.map(d => WEEKDAYS[d]).join(", ")
       if (rule.interval <= 1) return `chaque ${days}`
-      return `toutes les ${rule.interval} semaines le ${days} (à partir de la semaine du ${frenchDate(rule.anchor)})`
+      return `toutes les ${rule.interval} semaines le ${days}`
     }
     case "monthly":
       return `le ${rule.day} de chaque mois`

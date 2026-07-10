@@ -1,3 +1,4 @@
+import { MY, QQ } from "./colors"
 import type { CalendarSettings, EventRule } from "./types"
 
 export interface Preset {
@@ -49,14 +50,38 @@ export const PRESETS: Preset[] = [
   },
   {
     name: "Ménage",
+    includeBirthdays: false,
+    includeDeaths: false,
     events: [
       {
-        label: "Aspirateur Quentin",
+        label: "Aspirateur",
         rule: { kind: "weekly", weekdays: [0], interval: 2, anchor: "2026-01-01" },
+        color: QQ,
       },
       {
-        label: "Aspirateur Myriam",
+        label: "Aspirateur",
         rule: { kind: "weekly", weekdays: [6], interval: 2, anchor: "2026-01-01" },
+        color: MY,
+      },
+      {
+        label: "Evier sdb",
+        rule: { kind: "weekly", weekdays: [5], interval: 2, anchor: "2026-01-01" },
+        color: QQ,
+      },
+      {
+        label: "Evier sdb",
+        rule: { kind: "weekly", weekdays: [5], interval: 2, anchor: "2026-01-01" },
+        color: MY,
+      },
+      {
+        label: "Lessive",
+        rule: { kind: "weekly", weekdays: [1], interval: 2, anchor: "2026-01-01" },
+        color: QQ,
+      },
+      {
+        label: "Lessive",
+        rule: { kind: "weekly", weekdays: [5], interval: 2, anchor: "2026-01-01" },
+        color: MY,
       },
     ],
   },

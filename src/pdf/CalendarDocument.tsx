@@ -1,5 +1,6 @@
 import { Document, Font, Image, Page, StyleSheet, Text, View } from "@react-pdf/renderer"
 import type { ComponentProps } from "react"
+import { BIRTHDAY, DEATH, FESTIVE, INK, INK_LIGHT, LINE, PAPER, RAINBOW } from "../colors"
 import { addMonths, monthGrid, monthName, weekIndex, weekdayNames } from "../dates"
 import { BIRTHDAYS } from "../events/birthdays"
 import { DEATHS } from "../events/deaths"
@@ -9,7 +10,6 @@ import { publicHolidaysForYear } from "../events/publicHolidays"
 import type { CalendarEvent, CalendarSettings } from "../types"
 import { WeekdayHeaderCell } from "./WeekdayHeaderCell"
 import { backgroundForMonth } from "./monthBackgrounds"
-import { BIRTHDAY, DEATH, FESTIVE, INK, INK_LIGHT, LINE, PAPER, RAINBOW } from "./theme"
 
 // BASE_URL makes the public/ paths work both locally ("/") and on
 // GitHub Pages ("/calendor/").
