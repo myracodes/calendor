@@ -6,10 +6,12 @@ export interface Preset {
   /** also turn on the birthdays from src/birthdays.ts */
   includeBirthdays?: boolean
   includeDeaths?: boolean
+  includeOtherEvents?: boolean
+  includeSchedules?: boolean
   events: { label: string; rule: EventRule; color?: string }[]
 }
 
-/** Ajoute les événements d'un preset (sans doublons) et active ses options d'affichage. */
+/** Ajoute les événements d'un preset (sans doublons) et applique ses options d'affichage. */
 export function applyPresetToSettings(settings: CalendarSettings, preset: Preset): CalendarSettings {
   const existing = new Set(settings.events.map(event => `${event.rule.kind}:${event.label}`))
   const added = preset.events
@@ -17,8 +19,10 @@ export function applyPresetToSettings(settings: CalendarSettings, preset: Preset
     .map(event => ({ ...event, id: crypto.randomUUID() }))
   return {
     ...settings,
-    includeBirthdays: settings.includeBirthdays || Boolean(preset.includeBirthdays),
-    includeDeaths: settings.includeDeaths || Boolean(preset.includeDeaths),
+    includeBirthdays: Boolean(preset.includeBirthdays),
+    includeDeaths: Boolean(preset.includeDeaths),
+    includeOtherEvents: Boolean(preset.includeOtherEvents),
+    includeSchedules: Boolean(preset.includeSchedules),
     events: [...settings.events, ...added],
   }
 }
@@ -28,6 +32,8 @@ export const PRESETS: Preset[] = [
     name: "My",
     includeBirthdays: true,
     includeDeaths: true,
+    includeOtherEvents: true,
+    includeSchedules: true,
     events: [
       { label: "piano · chant · duolingo", rule: { kind: "daily" }, color: "#A5522B" },
       { label: "vitamine D", rule: { kind: "daily" }, color: "#246F29" },
@@ -52,6 +58,8 @@ export const PRESETS: Preset[] = [
     name: "Ménage",
     includeBirthdays: false,
     includeDeaths: false,
+    includeOtherEvents: true,
+    includeSchedules: false,
     events: [
       {
         label: "Aspirateur",

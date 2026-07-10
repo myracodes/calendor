@@ -164,7 +164,6 @@ button:focus-visible {
 }
 
 .btn-remove {
-  height: 2rem;
   padding: 0 0.9rem;
   font-size: 0.85rem;
   background: var(--cotton-rose);

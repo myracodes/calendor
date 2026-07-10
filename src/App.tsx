@@ -5,26 +5,24 @@ import { IllustrationSection } from "./components/IllustrationSection/Illustrati
 import { ParametrageSection } from "./components/ParametrageSection/ParametrageSection"
 import { PeriodSection } from "./components/PeriodSection/PeriodSection"
 import { CalendarDocument } from "./pdf/CalendarDocument"
-import { applyPresetToSettings, PRESETS } from "./presets"
 import type { CalendarSettings } from "./types"
 import { COMMIT_HASH } from "./version"
 
 const CURRENT_YEAR = new Date().getFullYear()
+const CURRENT_MONTH = new Date().getMonth() + 1
 
 function buildInitialSettings(): CalendarSettings {
-  const base: CalendarSettings = {
-    year: CURRENT_YEAR + 1,
-    startMonth: 1,
-    monthCount: 16,
+  return {
+    year: CURRENT_YEAR,
+    startMonth: CURRENT_MONTH,
+    monthCount: 12,
     illustration: null,
-    includeBirthdays: true,
-    includeDeaths: true,
-    includeOtherEvents: true,
-    includeSchedules: true,
+    includeBirthdays: false,
+    includeDeaths: false,
+    includeOtherEvents: false,
+    includeSchedules: false,
     events: [],
   }
-  const defaultPreset = PRESETS[0]
-  return defaultPreset ? applyPresetToSettings(base, defaultPreset) : base
 }
 
 export default function App() {

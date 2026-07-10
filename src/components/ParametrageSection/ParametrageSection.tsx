@@ -111,6 +111,8 @@ export function ParametrageSection({ settings, onUpdate }: ParametrageSectionPro
     onUpdate("events", next.events)
     onUpdate("includeBirthdays", next.includeBirthdays)
     onUpdate("includeDeaths", next.includeDeaths)
+    onUpdate("includeOtherEvents", next.includeOtherEvents)
+    onUpdate("includeSchedules", next.includeSchedules)
   }
 
   function removeEvent(id: string) {
@@ -118,6 +120,14 @@ export function ParametrageSection({ settings, onUpdate }: ParametrageSectionPro
       "events",
       settings.events.filter(event => event.id !== id),
     )
+  }
+
+  function resetPreset() {
+    onUpdate("events", [])
+    onUpdate("includeBirthdays", false)
+    onUpdate("includeDeaths", false)
+    onUpdate("includeOtherEvents", false)
+    onUpdate("includeSchedules", false)
   }
 
   return (
@@ -170,6 +180,9 @@ export function ParametrageSection({ settings, onUpdate }: ParametrageSectionPro
         </label>
         <button type="button" onClick={() => applyPreset(presetName)}>
           Ajouter
+        </button>
+        <button type="button" className="btn-remove" onClick={resetPreset}>
+          Réinitialiser
         </button>
       </div>
       <div className="row">
