@@ -1,5 +1,7 @@
 # TO DO LIST
 
+# A FAIRE
+
 - ajouter la prévisualisation ?
 - pouvoir choisir un calendrier annuel vs mensuel vs hebdo ?
 - possibilité d'ajouter les rdv médicaux
@@ -14,3 +16,9 @@
 - horaires piscine en fonction des vacances etc
 - anchor dans presets devrait être optionnel si l'intervalle n'est pas plus de 1
 - améliorer le design
+- ajouter le nom du jour férié
+- gérer le cas où on a beaucoup de choses dans une case, ça crée une deuxième page vide, ou bien ça agrandit les cases
+
+## Idées d'évolutions futures
+
+- pouvoir ajouter une photo différente par mois
