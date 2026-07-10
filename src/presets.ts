@@ -36,7 +36,7 @@ export const PRESETS: Preset[] = [
         rule: { kind: "weekly", weekdays: [6], interval: 1, anchor: "2026-01-01" },
       },
       {
-        label: "arroser les plantes",
+        label: "arroser les plantes 🪴",
         rule: { kind: "weekly", weekdays: [6], interval: 1, anchor: "2026-01-01" },
       },
     ],

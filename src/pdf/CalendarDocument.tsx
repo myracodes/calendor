@@ -178,7 +178,6 @@ const LIFE_EVENT_TYPES = [
     isEnabled: (settings: CalendarSettings) => settings.includeDeaths,
   },
   {
-    emoji: "🎉",
     events: OTHER_EVENTS,
     style: styles.festive,
     showAge: false,
@@ -281,7 +280,7 @@ function MonthPage({ settings, year, month }: MonthPageProps) {
                       {LIFE_EVENT_TYPES.filter(kind => kind.isEnabled(settings)).map(kind =>
                         lifeEventsForDay(kind.events, month, day).map(event => (
                           <Text key={`${kind.emoji}-${event.name}`} style={[styles.lifeEvent, kind.style]}>
-                            {lifeEventLabel(kind.emoji, event, year, kind.showAge)}
+                            {kind.emoji ? lifeEventLabel(kind.emoji, event, year, kind.showAge) : lifeEventLabel("", event, year, kind.showAge)}
                           </Text>
                         )),
                       )}
