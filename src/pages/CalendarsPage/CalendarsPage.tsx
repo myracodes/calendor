@@ -17,6 +17,7 @@ function buildInitialSettings(): CalendarSettings {
     year: CURRENT_YEAR,
     startMonth: CURRENT_MONTH,
     monthCount: 12,
+    weekCount: 1,
     illustration: null,
     includeBirthdays: false,
     includeDeaths: false,
@@ -33,6 +34,8 @@ export function CalendarsPage() {
   const activePreset = PRESETS.find(preset => preset.name === activeTemplate)
   const lockToMonthly = activePreset?.requiresMonthly ?? false
   const hideEventsCheckboxes = activePreset?.hideEventsCheckboxes ?? false
+  // le format hebdomadaire (grille pointillée vierge) n'a de sens que pour "Calendrier vierge"
+  const allowWeekly = activeTemplate === BLANK_TEMPLATE
 
   function update<K extends keyof CalendarSettings>(key: K, value: CalendarSettings[K]) {
     setSettings(prev => ({ ...prev, [key]: value }))
@@ -45,7 +48,7 @@ export function CalendarsPage() {
       const url = URL.createObjectURL(blob)
       const link = document.createElement("a")
       link.href = url
-      link.download = `calendrier-${settings.year}.pdf`
+      link.download = settings.format === "weekly" ? "calendrier-hebdomadaire.pdf" : `calendrier-${settings.year}.pdf`
       link.click()
       URL.revokeObjectURL(url)
     } finally {
@@ -59,7 +62,7 @@ export function CalendarsPage() {
 
       <TemplateTabs settings={settings} onUpdate={update} active={activeTemplate} onSelectActive={setActiveTemplate} />
 
-      <PeriodSection settings={settings} onUpdate={update} lockToMonthly={lockToMonthly} />
+      <PeriodSection settings={settings} onUpdate={update} lockToMonthly={lockToMonthly} allowWeekly={allowWeekly} />
       <IllustrationSection settings={settings} onUpdate={update} />
       <ParametrageSection settings={settings} onUpdate={update} hideEventsCheckboxes={hideEventsCheckboxes} />
 

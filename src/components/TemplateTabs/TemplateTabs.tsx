@@ -33,7 +33,8 @@ export function TemplateTabs({ settings, onUpdate, active, onSelectActive }: Tem
     onUpdate("includeSchedules", next.includeSchedules)
     // "To do list" est bâtie sur des libellés/récurrences propres au format mensuel ;
     // le format annuel ne les affiche pas, donc on force le retour au mensuel.
-    if (preset.requiresMonthly) onUpdate("format", "monthly")
+    // Le format hebdomadaire n'existe que pour "Calendrier vierge", donc tout preset y met fin aussi.
+    if (preset.requiresMonthly || settings.format === "weekly") onUpdate("format", "monthly")
   }
 
   return (

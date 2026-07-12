@@ -111,6 +111,8 @@ export function ParametrageSection({ settings, onUpdate, hideEventsCheckboxes }:
     )
   }
 
+  if (settings.format === "weekly") return null
+
   return (
     <section className="card card--sky">
       <h2>Paramétrage</h2>

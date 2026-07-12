@@ -3,12 +3,23 @@ import { addMonths } from "../dates"
 import type { CalendarSettings } from "../types"
 import { AnnualPage } from "./AnnualPage"
 import { MonthPage } from "./MonthPage"
+import { WeekPage } from "./WeekPage"
 
 export function CalendarDocument({ settings }: { settings: CalendarSettings }) {
   if (settings.format === "annual") {
     return (
       <Document title="Calendrier">
         <AnnualPage settings={settings} year={settings.year} />
+      </Document>
+    )
+  }
+
+  if (settings.format === "weekly") {
+    return (
+      <Document title="Calendrier">
+        {Array.from({ length: settings.weekCount }, (_, i) => (
+          <WeekPage key={i} />
+        ))}
       </Document>
     )
   }

@@ -20,7 +20,7 @@ export interface CalendarEvent {
   color?: string
 }
 
-export type CalendarFormat = "monthly" | "annual"
+export type CalendarFormat = "monthly" | "annual" | "weekly"
 
 export interface CalendarSettings {
   format: CalendarFormat
@@ -29,6 +29,8 @@ export interface CalendarSettings {
   startMonth: number
   /** number of month pages to generate */
   monthCount: number
+  /** number of blank weekly pages to generate (format "weekly" only) */
+  weekCount: number
   /** data URL of the uploaded background image, if any (falls back to a default) */
   illustration: string | null
   /** show the birthdays from src/events/birthdays.ts on the calendar */
