@@ -6,20 +6,24 @@ const MONTHS = Array.from({ length: 12 }, (_, i) => i + 1)
 interface PeriodSectionProps {
   settings: CalendarSettings
   onUpdate: SettingsUpdater
+  // true si le modèle actif (ex. "To do list") impose le format mensuel : dans ce cas, on masque le <select>
+  lockToMonthly: boolean
 }
 
-export function PeriodSection({ settings, onUpdate }: PeriodSectionProps) {
+export function PeriodSection({ settings, onUpdate, lockToMonthly }: PeriodSectionProps) {
   return (
     <section className="card card--sun">
       <h2>Période</h2>
       <div className="row">
-        <label>
-          Format
-          <select value={settings.format} onChange={e => onUpdate("format", e.target.value as CalendarFormat)}>
-            <option value="monthly">Mensuel</option>
-            <option value="annual">Annuel</option>
-          </select>
-        </label>
+        {!lockToMonthly && (
+          <label>
+            Format
+            <select value={settings.format} onChange={e => onUpdate("format", e.target.value as CalendarFormat)}>
+              <option value="monthly">Mensuel</option>
+              <option value="annual">Annuel</option>
+            </select>
+          </label>
+        )}
         <label>
           Année
           <input type="number" value={settings.year} onChange={e => onUpdate("year", Number(e.target.value))} />

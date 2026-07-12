@@ -3,8 +3,9 @@ import { useState } from "react"
 import { IllustrationSection } from "../../components/IllustrationSection/IllustrationSection"
 import { ParametrageSection } from "../../components/ParametrageSection/ParametrageSection"
 import { PeriodSection } from "../../components/PeriodSection/PeriodSection"
-import { TemplateTabs } from "../../components/TemplateTabs/TemplateTabs"
+import { BLANK_TEMPLATE, TemplateTabs } from "../../components/TemplateTabs/TemplateTabs"
 import { CalendarDocument } from "../../pdf/CalendarDocument"
+import { PRESETS } from "../../presets"
 import type { CalendarSettings } from "../../types"
 
 const CURRENT_YEAR = new Date().getFullYear()
@@ -28,6 +29,8 @@ function buildInitialSettings(): CalendarSettings {
 export function CalendarsPage() {
   const [settings, setSettings] = useState<CalendarSettings>(buildInitialSettings)
   const [generating, setGenerating] = useState(false)
+  const [activeTemplate, setActiveTemplate] = useState<string>(BLANK_TEMPLATE)
+  const lockToMonthly = PRESETS.find(preset => preset.name === activeTemplate)?.requiresMonthly ?? false
 
   function update<K extends keyof CalendarSettings>(key: K, value: CalendarSettings[K]) {
     setSettings(prev => ({ ...prev, [key]: value }))
@@ -52,9 +55,9 @@ export function CalendarsPage() {
     <>
       <p className="tagline">Mon générateur de calendriers personnalisés</p>
 
-      <TemplateTabs settings={settings} onUpdate={update} />
+      <TemplateTabs settings={settings} onUpdate={update} active={activeTemplate} onSelectActive={setActiveTemplate} />
 
-      <PeriodSection settings={settings} onUpdate={update} />
+      <PeriodSection settings={settings} onUpdate={update} lockToMonthly={lockToMonthly} />
       <IllustrationSection settings={settings} onUpdate={update} />
       <ParametrageSection settings={settings} onUpdate={update} />
 

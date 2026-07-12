@@ -8,6 +8,8 @@ export interface Preset {
   includeDeaths?: boolean
   includeOtherEvents?: boolean
   includeSchedules?: boolean
+  /** true si les événements de ce modèle (libellés/récurrences) n'ont de sens qu'en format mensuel — impose alors le mensuel et masque le sélecteur Format */
+  requiresMonthly?: boolean
   events: { label: string; rule: EventRule; color?: string }[]
 }
 
@@ -34,6 +36,7 @@ export const PRESETS: Preset[] = [
     includeDeaths: true,
     includeOtherEvents: true,
     includeSchedules: true,
+    requiresMonthly: true,
     events: [
       { label: "piano · chant · duolingo", rule: { kind: "daily" }, color: "#A5522B" },
       { label: "vitamine D", rule: { kind: "daily" }, color: "#246F29" },
@@ -60,6 +63,7 @@ export const PRESETS: Preset[] = [
     includeDeaths: false,
     includeOtherEvents: true,
     includeSchedules: false,
+    requiresMonthly: true,
     events: [
       {
         label: "Aspirateur",

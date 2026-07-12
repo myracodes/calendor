@@ -1,20 +1,19 @@
-import { useState } from "react"
 import { applyPresetToSettings, PRESETS } from "../../presets"
 import type { CalendarSettings, SettingsUpdater } from "../../types"
 import "./TemplateTabs.css"
 
-const BLANK = "__blank__"
+export const BLANK_TEMPLATE = "__blank__"
 
 interface TemplateTabsProps {
   settings: CalendarSettings
   onUpdate: SettingsUpdater
+  active: string
+  onSelectActive: (active: string) => void
 }
 
-export function TemplateTabs({ settings, onUpdate }: TemplateTabsProps) {
-  const [active, setActive] = useState<string>(BLANK)
-
+export function TemplateTabs({ settings, onUpdate, active, onSelectActive }: TemplateTabsProps) {
   function selectBlank() {
-    setActive(BLANK)
+    onSelectActive(BLANK_TEMPLATE)
     onUpdate("events", [])
     onUpdate("includeBirthdays", false)
     onUpdate("includeDeaths", false)
@@ -25,13 +24,16 @@ export function TemplateTabs({ settings, onUpdate }: TemplateTabsProps) {
   function selectPreset(name: string) {
     const preset = PRESETS.find(p => p.name === name)
     if (!preset) return
-    setActive(name)
+    onSelectActive(name)
     const next = applyPresetToSettings({ ...settings, events: [] }, preset)
     onUpdate("events", next.events)
     onUpdate("includeBirthdays", next.includeBirthdays)
     onUpdate("includeDeaths", next.includeDeaths)
     onUpdate("includeOtherEvents", next.includeOtherEvents)
     onUpdate("includeSchedules", next.includeSchedules)
+    // "To do list" est bâtie sur des libellés/récurrences propres au format mensuel ;
+    // le format annuel ne les affiche pas, donc on force le retour au mensuel.
+    if (preset.requiresMonthly) onUpdate("format", "monthly")
   }
 
   return (
@@ -39,8 +41,8 @@ export function TemplateTabs({ settings, onUpdate }: TemplateTabsProps) {
       <button
         type="button"
         role="tab"
-        aria-selected={active === BLANK}
-        className={active === BLANK ? "template-tab template-tab--active" : "template-tab"}
+        aria-selected={active === BLANK_TEMPLATE}
+        className={active === BLANK_TEMPLATE ? "template-tab template-tab--active" : "template-tab"}
         onClick={selectBlank}
       >
         Calendrier vierge
