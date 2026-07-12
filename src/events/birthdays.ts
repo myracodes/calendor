@@ -69,6 +69,7 @@ export const BIRTHDAYS: LifeEvent[] = [
   { name: "Lilou", day: 3, month: 11, year: 1997 },
   { name: "Manoune", day: 4, month: 11, year: 1991 },
   { name: "Hachiko", day: 6, month: 11, year: 1993 },
+  { name: "Dodé", day: 9, month: 11, year: 1990 },
   { name: "Ana", day: 22, month: 11 },
   { name: "Markus", day: 28, month: 11 },
   // Décembre
