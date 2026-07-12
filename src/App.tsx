@@ -1,69 +1,29 @@
-import { pdf } from "@react-pdf/renderer"
-import { useState } from "react"
+import { HashRouter, Navigate, Route, Routes } from "react-router-dom"
 import "./App.css"
-import { IllustrationSection } from "./components/IllustrationSection/IllustrationSection"
-import { ParametrageSection } from "./components/ParametrageSection/ParametrageSection"
-import { PeriodSection } from "./components/PeriodSection/PeriodSection"
-import { CalendarDocument } from "./pdf/CalendarDocument"
-import type { CalendarSettings } from "./types"
+import { Navbar } from "./components/Navbar/Navbar"
+import { BatchCookingPage } from "./pages/BatchCookingPage/BatchCookingPage"
+import { BudgetPage } from "./pages/BudgetPage/BudgetPage"
+import { CalendarsPage } from "./pages/CalendarsPage/CalendarsPage"
 import { COMMIT_HASH } from "./version"
 
-const CURRENT_YEAR = new Date().getFullYear()
-const CURRENT_MONTH = new Date().getMonth() + 1
-
-function buildInitialSettings(): CalendarSettings {
-  return {
-    year: CURRENT_YEAR,
-    startMonth: CURRENT_MONTH,
-    monthCount: 12,
-    illustration: null,
-    includeBirthdays: false,
-    includeDeaths: false,
-    includeOtherEvents: false,
-    includeSchedules: false,
-    events: [],
-  }
-}
-
 export default function App() {
-  const [settings, setSettings] = useState<CalendarSettings>(buildInitialSettings)
-  const [generating, setGenerating] = useState(false)
-
-  function update<K extends keyof CalendarSettings>(key: K, value: CalendarSettings[K]) {
-    setSettings(prev => ({ ...prev, [key]: value }))
-  }
-
-  async function generatePdf() {
-    setGenerating(true)
-    try {
-      const blob = await pdf(<CalendarDocument settings={settings} />).toBlob()
-      const url = URL.createObjectURL(blob)
-      const link = document.createElement("a")
-      link.href = url
-      link.download = `calendrier-${settings.year}.pdf`
-      link.click()
-      URL.revokeObjectURL(url)
-    } finally {
-      setGenerating(false)
-    }
-  }
-
   return (
-    <main className="app">
-      <h1>Calendor</h1>
-      <p className="tagline">Mon générateur de calendriers personnalisés</p>
+    <HashRouter>
+      <main className="app">
+        <h1>Calendor</h1>
+        <Navbar />
 
-      <PeriodSection settings={settings} onUpdate={update} />
-      <IllustrationSection settings={settings} onUpdate={update} />
-      <ParametrageSection settings={settings} onUpdate={update} />
+        <Routes>
+          <Route path="/" element={<Navigate to="/calendars" replace />} />
+          <Route path="/calendars" element={<CalendarsPage />} />
+          <Route path="/budget" element={<BudgetPage />} />
+          <Route path="/batch-cooking" element={<BatchCookingPage />} />
+        </Routes>
 
-      <button type="button" className="generate" disabled={generating} onClick={generatePdf}>
-        {generating ? "Génération…" : "Générer le PDF"}
-      </button>
-
-      <footer className="footer">
-        <p>version {COMMIT_HASH}</p>
-      </footer>
-    </main>
+        <footer className="footer">
+          <p>version {COMMIT_HASH}</p>
+        </footer>
+      </main>
+    </HashRouter>
   )
 }
