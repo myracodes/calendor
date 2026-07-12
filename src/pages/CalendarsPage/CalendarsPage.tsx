@@ -30,7 +30,9 @@ export function CalendarsPage() {
   const [settings, setSettings] = useState<CalendarSettings>(buildInitialSettings)
   const [generating, setGenerating] = useState(false)
   const [activeTemplate, setActiveTemplate] = useState<string>(BLANK_TEMPLATE)
-  const lockToMonthly = PRESETS.find(preset => preset.name === activeTemplate)?.requiresMonthly ?? false
+  const activePreset = PRESETS.find(preset => preset.name === activeTemplate)
+  const lockToMonthly = activePreset?.requiresMonthly ?? false
+  const hideEventsCheckboxes = activePreset?.hideEventsCheckboxes ?? false
 
   function update<K extends keyof CalendarSettings>(key: K, value: CalendarSettings[K]) {
     setSettings(prev => ({ ...prev, [key]: value }))
@@ -59,7 +61,7 @@ export function CalendarsPage() {
 
       <PeriodSection settings={settings} onUpdate={update} lockToMonthly={lockToMonthly} />
       <IllustrationSection settings={settings} onUpdate={update} />
-      <ParametrageSection settings={settings} onUpdate={update} />
+      <ParametrageSection settings={settings} onUpdate={update} hideEventsCheckboxes={hideEventsCheckboxes} />
 
       <button type="button" className="generate" disabled={generating} onClick={generatePdf}>
         {generating ? "Génération…" : "Générer le PDF"}

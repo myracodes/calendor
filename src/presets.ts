@@ -3,17 +3,19 @@ import type { CalendarSettings, EventRule } from "./types"
 
 export interface Preset {
   name: string
-  /** also turn on the birthdays from src/birthdays.ts */
   includeBirthdays?: boolean
   includeDeaths?: boolean
   includeOtherEvents?: boolean
   includeSchedules?: boolean
-  /** true si les événements de ce modèle (libellés/récurrences) n'ont de sens qu'en format mensuel — impose alors le mensuel et masque le sélecteur Format */
+  // true si les événements de ce modèle (libellés/récurrences) n'ont de sens qu'en format mensuel — impose alors le mensuel et masque le sélecteur Format
   requiresMonthly?: boolean
+  // dans certains presets (ex. "Planning ménage"), on ne souhaite pas afficher les événements de vie et les horaires,
+  // donc on masque les cases à cocher correspondantes.
+  hideEventsCheckboxes?: boolean
   events: { label: string; rule: EventRule; color?: string }[]
 }
 
-/** Ajoute les événements d'un preset (sans doublons) et applique ses options d'affichage. */
+// Ajoute les événements d'un preset (sans doublons) et applique ses options d'affichage.
 export function applyPresetToSettings(settings: CalendarSettings, preset: Preset): CalendarSettings {
   const existing = new Set(settings.events.map(event => `${event.rule.kind}:${event.label}`))
   const added = preset.events
@@ -64,6 +66,7 @@ export const PRESETS: Preset[] = [
     includeOtherEvents: true,
     includeSchedules: false,
     requiresMonthly: true,
+    hideEventsCheckboxes: true,
     events: [
       {
         label: "Aspirateur",

@@ -75,9 +75,12 @@ function describeRule(rule: EventRule): string {
 interface ParametrageSectionProps {
   settings: CalendarSettings
   onUpdate: SettingsUpdater
+  // dans certains presets (ex. "Planning ménage"), on ne souhaite pas afficher les événements de vie et les horaires,
+  // donc on masque les cases à cocher correspondantes.
+  hideEventsCheckboxes: boolean
 }
 
-export function ParametrageSection({ settings, onUpdate }: ParametrageSectionProps) {
+export function ParametrageSection({ settings, onUpdate, hideEventsCheckboxes }: ParametrageSectionProps) {
   const [draft, setDraft] = useState<EventDraft>(EMPTY_DRAFT)
 
   function toggleWeekday(day: number) {
@@ -111,44 +114,46 @@ export function ParametrageSection({ settings, onUpdate }: ParametrageSectionPro
   return (
     <section className="card card--sky">
       <h2>Paramétrage</h2>
-      <div className={settings.format === "monthly" ? "row row-divider" : "row"}>
-        <label className="checkbox-option">
-          <input
-            type="checkbox"
-            checked={settings.includeBirthdays}
-            onChange={e => onUpdate("includeBirthdays", e.target.checked)}
-          />
-          Anniversaires
-        </label>
-        <label className="checkbox-option">
-          <input
-            type="checkbox"
-            checked={settings.includeDeaths}
-            onChange={e => onUpdate("includeDeaths", e.target.checked)}
-          />
-          Décès
-        </label>
-        {settings.format === "monthly" && (
+      {hideEventsCheckboxes ? null : (
+        <div className={settings.format === "monthly" ? "row row-divider" : "row"}>
           <label className="checkbox-option">
             <input
               type="checkbox"
-              checked={settings.includeOtherEvents}
-              onChange={e => onUpdate("includeOtherEvents", e.target.checked)}
+              checked={settings.includeBirthdays}
+              onChange={e => onUpdate("includeBirthdays", e.target.checked)}
             />
-            Fêtes
+            Anniversaires
           </label>
-        )}
-        {settings.format === "monthly" && (
           <label className="checkbox-option">
             <input
               type="checkbox"
-              checked={settings.includeSchedules}
-              onChange={e => onUpdate("includeSchedules", e.target.checked)}
+              checked={settings.includeDeaths}
+              onChange={e => onUpdate("includeDeaths", e.target.checked)}
             />
-            Horaires
+            Décès
           </label>
-        )}
-      </div>
+          {settings.format === "monthly" && (
+            <label className="checkbox-option">
+              <input
+                type="checkbox"
+                checked={settings.includeOtherEvents}
+                onChange={e => onUpdate("includeOtherEvents", e.target.checked)}
+              />
+              Fêtes
+            </label>
+          )}
+          {settings.format === "monthly" && (
+            <label className="checkbox-option">
+              <input
+                type="checkbox"
+                checked={settings.includeSchedules}
+                onChange={e => onUpdate("includeSchedules", e.target.checked)}
+              />
+              Horaires
+            </label>
+          )}
+        </div>
+      )}
       {settings.format === "monthly" && (
         <>
           <div className="row">
