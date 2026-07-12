@@ -12,6 +12,7 @@ const CURRENT_MONTH = new Date().getMonth() + 1
 
 function buildInitialSettings(): CalendarSettings {
   return {
+    format: "monthly",
     year: CURRENT_YEAR,
     startMonth: CURRENT_MONTH,
     monthCount: 12,

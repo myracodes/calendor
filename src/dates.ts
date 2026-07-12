@@ -84,6 +84,11 @@ export function weekIndex(iso: string): number {
   return Math.floor((ts - Date.UTC(2001, 0, 1)) / WEEK_MS)
 }
 
+/** 0 = Monday … 6 = Sunday */
+export function weekdayOf(year: number, month: number, day: number): number {
+  return (new Date(Date.UTC(year, month - 1, day)).getUTCDay() + 6) % 7
+}
+
 /** Normalizes (year, month offset) into a real { year, month } pair. */
 export function addMonths(year: number, month: number, offset: number): { year: number; month: number } {
   const index = year * 12 + (month - 1) + offset

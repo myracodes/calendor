@@ -20,7 +20,10 @@ export interface CalendarEvent {
   color?: string
 }
 
+export type CalendarFormat = "monthly" | "annual"
+
 export interface CalendarSettings {
+  format: CalendarFormat
   year: number
   /** 1-12 */
   startMonth: number
