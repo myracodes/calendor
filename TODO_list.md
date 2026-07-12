@@ -3,10 +3,9 @@
 # A FAIRE
 
 - ajouter la prévisualisation ?
-- calendrier hebdo ? en plus de yearly et monthly
 - possibilité d'ajouter les rdv médicaux
 - possibilité de choisir l'emoji parmi une sélection : médecin / rdv / deadline / anniversaire / plantes...
-- ajouter les vacances scolaires ?
+- ajouter les vacances scolaires ? avec un booléen pour choisir de les afficher ou non ?
 - possibilité d'ajouter les congés
 - couleur des éléments selon le type
 - preset Période pour pouvoir choisir "le mois prochain", "l'année prochaine", "les 6 prochains mois" ou custom (custom = l'actuel)
