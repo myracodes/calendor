@@ -1,0 +1,63 @@
+/* Les deux sessions côte à côte (empilées sur petit écran via flex-wrap). */
+.session-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.session {
+  flex: 1;
+  min-width: 260px;
+}
+
+.session h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.meal-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.meal-list li {
+  padding: 8px 12px;
+  border: 1px solid var(--line, #e9e5f4);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.65);
+}
+
+.meal-protein {
+  font-weight: 600;
+}
+
+/* Repas remplacé par un plat spécial (burritos, lasagnes, ramen…). */
+.meal-special {
+  border-left: 3px solid var(--accent-strong, #8f7bd8);
+}
+
+/* Liste de courses : une colonne par catégorie. */
+.shopping-columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.shopping-columns section {
+  flex: 1;
+  min-width: 180px;
+}
+
+.shopping-columns h3 {
+  margin: 0 0 8px;
+  font-size: 1rem;
+}
+
+.shopping-columns ul {
+  margin: 0;
+  padding-left: 20px;
+}
