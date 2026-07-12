@@ -13,3 +13,7 @@ Règles à respecter dans ce projet. Ce fichier est mis à jour au fil de l'eau.
 ## Organisation des fichiers
 
 - Un fichier = une responsabilité (données, types, logique d'affichage). Découper plutôt qu'entasser : voir `src/events/` (un fichier de données par catégorie + un fichier de types partagé) et `src/pdf/` (un composant par bloc de mise en page, tokens de style partagés dans `theme.ts`).
+
+## Commandes terminal
+
+- Avant de demander une autorisation pour une commande dans le terminal, toujours expliquer à quoi elle sert et comment elle est construite (en une ligne)
