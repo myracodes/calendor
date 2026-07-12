@@ -111,7 +111,7 @@ export function ParametrageSection({ settings, onUpdate }: ParametrageSectionPro
   return (
     <section className="card card--sky">
       <h2>Paramétrage</h2>
-      <div className="row row-divider">
+      <div className={settings.format === "monthly" ? "row row-divider" : "row"}>
         <label className="checkbox-option">
           <input
             type="checkbox"
@@ -128,144 +128,156 @@ export function ParametrageSection({ settings, onUpdate }: ParametrageSectionPro
           />
           Décès
         </label>
-        <label className="checkbox-option">
-          <input
-            type="checkbox"
-            checked={settings.includeOtherEvents}
-            onChange={e => onUpdate("includeOtherEvents", e.target.checked)}
-          />
-          Fêtes
-        </label>
-        <label className="checkbox-option">
-          <input
-            type="checkbox"
-            checked={settings.includeSchedules}
-            onChange={e => onUpdate("includeSchedules", e.target.checked)}
-          />
-          Horaires
-        </label>
+        {settings.format === "monthly" && (
+          <label className="checkbox-option">
+            <input
+              type="checkbox"
+              checked={settings.includeOtherEvents}
+              onChange={e => onUpdate("includeOtherEvents", e.target.checked)}
+            />
+            Fêtes
+          </label>
+        )}
+        {settings.format === "monthly" && (
+          <label className="checkbox-option">
+            <input
+              type="checkbox"
+              checked={settings.includeSchedules}
+              onChange={e => onUpdate("includeSchedules", e.target.checked)}
+            />
+            Horaires
+          </label>
+        )}
       </div>
-      <div className="row">
-        <label>
-          Libellé
-          <input
-            type="text"
-            value={draft.label}
-            placeholder="to do"
-            onChange={e => setDraft(prev => ({ ...prev, label: e.target.value }))}
-            onKeyDown={e => e.key === "Enter" && addEvent()}
-          />
-        </label>
-        <label>
-          Récurrence
-          <select
-            value={draft.kind}
-            onChange={e =>
-              setDraft(prev => ({
-                ...prev,
-                kind: e.target.value as RuleKind,
-              }))
-            }
-          >
-            <option value="daily">Quotidien</option>
-            <option value="weekly">Hebdomadaire</option>
-            <option value="monthly">Mensuel</option>
-            <option value="once">Date unique</option>
-          </select>
-        </label>
-        <label className="color-field">
-          Couleur
-          <input
-            type="color"
-            value={draft.color}
-            onChange={e => setDraft(prev => ({ ...prev, color: e.target.value }))}
-          />
-        </label>
-        {draft.kind === "weekly" && (
-          <>
-            <div className="weekday-picker" role="group" aria-label="Jours de la semaine">
-              <span className="picker-caption">Jours</span>
-              <div className="weekday-options">
-                {WEEKDAYS.map((name, day) => (
-                  <label key={name} className="weekday-option">
-                    <input type="checkbox" checked={draft.weekdays.includes(day)} onChange={() => toggleWeekday(day)} />
-                    {name.slice(0, 3)}.
-                  </label>
-                ))}
-              </div>
-            </div>
+      {settings.format === "monthly" && (
+        <>
+          <div className="row">
             <label>
-              Toutes les… (semaines)
+              Libellé
               <input
-                type="number"
-                min={1}
-                max={12}
-                value={draft.interval}
+                type="text"
+                value={draft.label}
+                placeholder="to do"
+                onChange={e => setDraft(prev => ({ ...prev, label: e.target.value }))}
+                onKeyDown={e => e.key === "Enter" && addEvent()}
+              />
+            </label>
+            <label>
+              Récurrence
+              <select
+                value={draft.kind}
                 onChange={e =>
                   setDraft(prev => ({
                     ...prev,
-                    interval: Math.max(1, Math.min(12, Number(e.target.value) || 1)),
+                    kind: e.target.value as RuleKind,
                   }))
                 }
+              >
+                <option value="daily">Quotidien</option>
+                <option value="weekly">Hebdomadaire</option>
+                <option value="monthly">Mensuel</option>
+                <option value="once">Date unique</option>
+              </select>
+            </label>
+            <label className="color-field">
+              Couleur
+              <input
+                type="color"
+                value={draft.color}
+                onChange={e => setDraft(prev => ({ ...prev, color: e.target.value }))}
               />
             </label>
-            {draft.interval > 1 && (
+            {draft.kind === "weekly" && (
+              <>
+                <div className="weekday-picker" role="group" aria-label="Jours de la semaine">
+                  <span className="picker-caption">Jours</span>
+                  <div className="weekday-options">
+                    {WEEKDAYS.map((name, day) => (
+                      <label key={name} className="weekday-option">
+                        <input
+                          type="checkbox"
+                          checked={draft.weekdays.includes(day)}
+                          onChange={() => toggleWeekday(day)}
+                        />
+                        {name.slice(0, 3)}.
+                      </label>
+                    ))}
+                  </div>
+                </div>
+                <label>
+                  Toutes les… (semaines)
+                  <input
+                    type="number"
+                    min={1}
+                    max={12}
+                    value={draft.interval}
+                    onChange={e =>
+                      setDraft(prev => ({
+                        ...prev,
+                        interval: Math.max(1, Math.min(12, Number(e.target.value) || 1)),
+                      }))
+                    }
+                  />
+                </label>
+                {draft.interval > 1 && (
+                  <label>
+                    Semaine de référence
+                    <input
+                      type="date"
+                      value={draft.anchor}
+                      onChange={e => setDraft(prev => ({ ...prev, anchor: e.target.value }))}
+                    />
+                  </label>
+                )}
+              </>
+            )}
+            {draft.kind === "monthly" && (
               <label>
-                Semaine de référence
+                Jour du mois
                 <input
-                  type="date"
-                  value={draft.anchor}
-                  onChange={e => setDraft(prev => ({ ...prev, anchor: e.target.value }))}
+                  type="number"
+                  min={1}
+                  max={31}
+                  value={draft.monthDay}
+                  onChange={e =>
+                    setDraft(prev => ({
+                      ...prev,
+                      monthDay: Math.max(1, Math.min(31, Number(e.target.value) || 1)),
+                    }))
+                  }
                 />
               </label>
             )}
-          </>
-        )}
-        {draft.kind === "monthly" && (
-          <label>
-            Jour du mois
-            <input
-              type="number"
-              min={1}
-              max={31}
-              value={draft.monthDay}
-              onChange={e =>
-                setDraft(prev => ({
-                  ...prev,
-                  monthDay: Math.max(1, Math.min(31, Number(e.target.value) || 1)),
-                }))
-              }
-            />
-          </label>
-        )}
-        {draft.kind === "once" && (
-          <label>
-            Date
-            <input
-              type="date"
-              value={draft.date}
-              onChange={e => setDraft(prev => ({ ...prev, date: e.target.value }))}
-            />
-          </label>
-        )}
-        <button type="button" onClick={addEvent}>
-          Ajouter
-        </button>
-      </div>
+            {draft.kind === "once" && (
+              <label>
+                Date
+                <input
+                  type="date"
+                  value={draft.date}
+                  onChange={e => setDraft(prev => ({ ...prev, date: e.target.value }))}
+                />
+              </label>
+            )}
+            <button type="button" onClick={addEvent}>
+              Ajouter
+            </button>
+          </div>
 
-      {settings.events.length > 0 && (
-        <ul className="event-list">
-          {settings.events.map(event => (
-            <li key={event.id} style={{ borderLeftColor: event.color ?? BASE_COLOR }}>
-              <span>
-                <strong>{event.label}</strong> — {describeRule(event.rule)}
-              </span>
-              <button type="button" className="btn-remove" onClick={() => removeEvent(event.id)}>
-                Supprimer
-              </button>
-            </li>
-          ))}
-        </ul>
+          {settings.events.length > 0 && (
+            <ul className="event-list">
+              {settings.events.map(event => (
+                <li key={event.id} style={{ borderLeftColor: event.color ?? BASE_COLOR }}>
+                  <span>
+                    <strong>{event.label}</strong> — {describeRule(event.rule)}
+                  </span>
+                  <button type="button" className="btn-remove" onClick={() => removeEvent(event.id)}>
+                    Supprimer
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </>
       )}
     </section>
   )
