@@ -10,8 +10,10 @@ export default function App() {
   return (
     <HashRouter>
       <main className="app">
-        <h1>Calendor</h1>
-        <Navbar />
+        <div className="app-header">
+          <h1>Calendor</h1>
+          <Navbar />
+        </div>
 
         <Routes>
           <Route path="/" element={<Navigate to="/calendars" replace />} />
