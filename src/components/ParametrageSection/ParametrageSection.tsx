@@ -1,14 +1,12 @@
 import { useState } from "react"
 import { INK } from "../../colors"
 import { weekdayNames } from "../../dates"
-import { applyPresetToSettings, PRESETS } from "../../presets"
 import type { CalendarEvent, CalendarSettings, EventRule, SettingsUpdater } from "../../types"
 import "./ParametrageSection.css"
 
 const WEEKDAYS = weekdayNames()
 const CURRENT_YEAR = new Date().getFullYear()
 const TODAY_ISO = new Date().toISOString().slice(0, 10)
-const DEFAULT_PRESET_NAME = PRESETS[0]?.name ?? ""
 /** Couleur de base des événements — proposée par défaut dans le sélecteur de couleur. */
 const BASE_COLOR = INK
 
@@ -81,7 +79,6 @@ interface ParametrageSectionProps {
 
 export function ParametrageSection({ settings, onUpdate }: ParametrageSectionProps) {
   const [draft, setDraft] = useState<EventDraft>(EMPTY_DRAFT)
-  const [presetName, setPresetName] = useState(DEFAULT_PRESET_NAME)
 
   function toggleWeekday(day: number) {
     setDraft(prev => ({
@@ -104,30 +101,11 @@ export function ParametrageSection({ settings, onUpdate }: ParametrageSectionPro
     setDraft(prev => ({ ...EMPTY_DRAFT, kind: prev.kind }))
   }
 
-  function applyPreset(name: string) {
-    const preset = PRESETS.find(p => p.name === name)
-    if (!preset) return
-    const next = applyPresetToSettings(settings, preset)
-    onUpdate("events", next.events)
-    onUpdate("includeBirthdays", next.includeBirthdays)
-    onUpdate("includeDeaths", next.includeDeaths)
-    onUpdate("includeOtherEvents", next.includeOtherEvents)
-    onUpdate("includeSchedules", next.includeSchedules)
-  }
-
   function removeEvent(id: string) {
     onUpdate(
       "events",
       settings.events.filter(event => event.id !== id),
     )
-  }
-
-  function resetPreset() {
-    onUpdate("events", [])
-    onUpdate("includeBirthdays", false)
-    onUpdate("includeDeaths", false)
-    onUpdate("includeOtherEvents", false)
-    onUpdate("includeSchedules", false)
   }
 
   return (
@@ -166,24 +144,6 @@ export function ParametrageSection({ settings, onUpdate }: ParametrageSectionPro
           />
           Horaires
         </label>
-      </div>
-      <div className="row row-divider">
-        <label>
-          Preset
-          <select value={presetName} onChange={e => setPresetName(e.target.value)}>
-            {PRESETS.map(preset => (
-              <option key={preset.name} value={preset.name}>
-                {preset.name}
-              </option>
-            ))}
-          </select>
-        </label>
-        <button type="button" onClick={() => applyPreset(presetName)}>
-          Ajouter
-        </button>
-        <button type="button" className="btn-remove" onClick={resetPreset}>
-          Réinitialiser
-        </button>
       </div>
       <div className="row">
         <label>

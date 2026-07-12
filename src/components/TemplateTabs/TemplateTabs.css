@@ -1,0 +1,29 @@
+.template-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0 0 2rem;
+}
+
+.template-tab {
+  flex: 1 1 auto;
+  min-width: 10rem;
+  height: 3rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--ink-light);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: none;
+}
+
+.template-tab:hover {
+  border-color: var(--accent);
+}
+
+.template-tab--active {
+  color: var(--ink);
+  background: var(--gradient-rainbow);
+  border-color: transparent;
+  box-shadow: var(--shadow-soft);
+}

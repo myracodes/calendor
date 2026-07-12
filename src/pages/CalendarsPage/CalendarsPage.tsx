@@ -3,6 +3,7 @@ import { useState } from "react"
 import { IllustrationSection } from "../../components/IllustrationSection/IllustrationSection"
 import { ParametrageSection } from "../../components/ParametrageSection/ParametrageSection"
 import { PeriodSection } from "../../components/PeriodSection/PeriodSection"
+import { TemplateTabs } from "../../components/TemplateTabs/TemplateTabs"
 import { CalendarDocument } from "../../pdf/CalendarDocument"
 import type { CalendarSettings } from "../../types"
 
@@ -49,6 +50,8 @@ export function CalendarsPage() {
   return (
     <>
       <p className="tagline">Mon générateur de calendriers personnalisés</p>
+
+      <TemplateTabs settings={settings} onUpdate={update} />
 
       <PeriodSection settings={settings} onUpdate={update} />
       <IllustrationSection settings={settings} onUpdate={update} />

@@ -100,7 +100,7 @@
 .color-field input {
   width: var(--control-h);
   height: var(--control-h);
-  padding: 0.2rem;
+  padding: 0.05rem;
   border: 1px solid var(--line);
   background: var(--surface);
   cursor: pointer;

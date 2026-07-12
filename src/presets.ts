@@ -29,7 +29,7 @@ export function applyPresetToSettings(settings: CalendarSettings, preset: Preset
 
 export const PRESETS: Preset[] = [
   {
-    name: "My",
+    name: "To do list",
     includeBirthdays: true,
     includeDeaths: true,
     includeOtherEvents: true,
@@ -55,7 +55,7 @@ export const PRESETS: Preset[] = [
     ],
   },
   {
-    name: "Ménage",
+    name: "Planning ménage",
     includeBirthdays: false,
     includeDeaths: false,
     includeOtherEvents: true,
