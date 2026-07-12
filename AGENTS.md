@@ -17,3 +17,7 @@ Règles à respecter dans ce projet. Ce fichier est mis à jour au fil de l'eau.
 ## Commandes terminal
 
 - Avant de demander une autorisation pour une commande dans le terminal, toujours expliquer à quoi elle sert et comment elle est construite (en une ligne)
+
+## Commentaires
+
+- Pas besoin de rédiger les commentaires en anglais. Ce projet est une sorte de `util` personnel, qui n'a pas vocation à être partagé, ni développé avec des non-francophones.
