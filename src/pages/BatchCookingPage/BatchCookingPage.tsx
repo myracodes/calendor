@@ -1,29 +1,46 @@
 import { useState } from "react"
-import { generateWeekPlan, type Meal, type WeekPlan } from "../../batchCooking/generator"
+import { generateWeekPlan, type Meal, type SessionPlan, type WeekPlan } from "../../batchCooking/generator"
 import { type Occasion, OCCASIONS, seasonForMonth } from "../../batchCooking/ingredients"
 import "./BatchCookingPage.css"
 
 const CURRENT_SEASON = seasonForMonth(new Date().getMonth() + 1)
 
-const SESSION_TITLES = {
-  1: "Session 1 (dimanche) — début de semaine",
-  2: "Session 2 (mercredi) — fin de semaine",
-} as const
+const SESSION_TITLES = ["Session 1 (dimanche) — début de semaine", "Session 2 (mercredi) — fin de semaine"]
 
 function MealItem({ meal }: { meal: Meal }) {
   if (meal.kind === "special") {
     return (
       <li className="meal-special">
-        <span className="meal-protein">{meal.name}</span> · plat spécial
+        <span className="meal-name">{meal.name}</span> · plat spécial
       </li>
     )
   }
-  const { combo } = meal
+  const { recipe } = meal
+  if (recipe.name) {
+    return (
+      <li>
+        <span className="meal-name">{recipe.name}</span> · {recipe.ingredients.join(" · ")}
+      </li>
+    )
+  }
+  return <li>{recipe.ingredients.join(" · ")}</li>
+}
+
+function SessionBlock({ title, session }: { title: string; session: SessionPlan }) {
   return (
-    <li>
-      <span className="meal-protein">{combo.name ?? combo.protein}</span>
-      {combo.name ? ` · ${combo.protein}` : ""} · {combo.starch} · {combo.vegetables.join(" & ")}
-    </li>
+    <div className="session">
+      <h3>{title}</h3>
+      <ul className="meal-list">
+        {session.meals.map((meal, i) => (
+          <MealItem key={i} meal={meal} />
+        ))}
+      </ul>
+      {session.toPrepare.length > 0 && (
+        <p className="hint">
+          À préparer : {session.toPrepare.map(({ ingredient, count }) => `${ingredient} ×${count}`).join(", ")}
+        </p>
+      )}
+    </div>
   )
 }
 
@@ -31,6 +48,7 @@ export function BatchCookingPage() {
   const [occasion, setOccasion] = useState<Occasion>(CURRENT_SEASON)
   const [mealCount, setMealCount] = useState(7)
   const [plan, setPlan] = useState<WeekPlan | null>(null)
+  const hasMeals = plan !== null && plan.sessions.some(session => session.meals.length > 0)
 
   return (
     <>
@@ -62,32 +80,23 @@ export function BatchCookingPage() {
         </div>
       </section>
 
-      {plan && plan.meals.length === 0 && (
+      {plan && !hasMeals && (
         <section className="card card--candy">
           <h2>Repas de la semaine</h2>
           <p className="hint">
-            Aucune combinaison de repas n'est compatible avec cette occasion — ajoute des combinaisons dans
-            src/batchCooking/meals.ts (avec les libellés exacts des ingrédients).
+            Aucune recette n'est compatible avec cette occasion — ajoute des recettes dans
+            src/batchCooking/recipes.ts (et vérifie les libellés exacts des ingrédients saisonniers).
           </p>
         </section>
       )}
 
-      {plan && plan.meals.length > 0 && (
+      {plan && hasMeals && (
         <>
           <section className="card card--candy">
             <h2>Repas de la semaine</h2>
             <div className="session-list">
-              {([1, 2] as const).map(session => (
-                <div key={session} className="session">
-                  <h3>{SESSION_TITLES[session]}</h3>
-                  <ul className="meal-list">
-                    {plan.meals
-                      .filter(meal => meal.session === session)
-                      .map((meal, i) => (
-                        <MealItem key={i} meal={meal} />
-                      ))}
-                  </ul>
-                </div>
+              {plan.sessions.map((session, i) => (
+                <SessionBlock key={i} title={SESSION_TITLES[i]} session={session} />
               ))}
             </div>
           </section>
@@ -96,26 +105,12 @@ export function BatchCookingPage() {
             <h2>Liste de courses</h2>
             <div className="shopping-columns">
               <section>
-                <h3>Protéines</h3>
+                <h3>Ingrédients (× nombre de plats)</h3>
                 <ul>
-                  {plan.shopping.proteins.map(item => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </section>
-              <section>
-                <h3>Féculents</h3>
-                <ul>
-                  {plan.shopping.starches.map(item => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </section>
-              <section>
-                <h3>Légumes</h3>
-                <ul>
-                  {plan.shopping.vegetables.map(item => (
-                    <li key={item}>{item}</li>
+                  {plan.shopping.map(({ ingredient, count }) => (
+                    <li key={ingredient}>
+                      {ingredient} ×{count}
+                    </li>
                   ))}
                 </ul>
               </section>

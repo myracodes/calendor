@@ -1,32 +1,39 @@
-// Génération d'une semaine de batch cooking à partir des combinaisons écrites à
-// la main dans meals.ts : le générateur ne compose rien au hasard, il tire parmi
-// les combinaisons dont tous les ingrédients sont disponibles pour l'occasion.
-// Si la liste est plus courte que la semaine, les combinaisons se répètent
-// (cohérent avec l'esprit batch cooking : on cuisine en grande quantité).
+// Génération d'une semaine de batch cooking à partir des recettes "preset" de
+// recipes.ts : le générateur choisit des plats compatibles avec l'occasion et
+// favorise ceux qui partagent des ingrédients avec les plats déjà retenus —
+// si un plat utilise des aubergines, un 2e plat aux aubergines est privilégié,
+// et les quantités à préparer par session sont comptées en nombre de plats.
 
-import { type Occasion, poolsForOccasion } from "./ingredients"
-import { COMBOS, type MealCombo } from "./meals"
+import {
+  FRESH_ALL_YEAR_VEGETABLES,
+  type Occasion,
+  PANTRY_VEGETABLES,
+  type Season,
+  VEGETABLES_BY_SEASON,
+} from "./ingredients"
+import { RECIPES, type Recipe } from "./recipes"
 import { SPECIAL_DISHES, type SpecialDish } from "./specialDishes"
-import { BREAKFAST_BASICS, fruitsForOccasion, SNACKS } from "./sweets"
+import { BREAKFAST_BASICS, FRUITS_ALL_YEAR, FRUITS_BY_SEASON, fruitsForOccasion, SNACKS } from "./sweets"
 
-export type Meal =
-  | {
-      kind: "combo"
-      combo: MealCombo
-      /** 1 = session du dimanche (début de semaine), 2 = session du mercredi (fin de semaine) */
-      session: 1 | 2
-    }
-  | { kind: "special"; name: string; session: 1 | 2 }
+export type Meal = { kind: "recipe"; recipe: Recipe } | { kind: "special"; name: string }
+
+export interface IngredientCount {
+  ingredient: string
+  /** nombre de plats qui utilisent cet ingrédient */
+  count: number
+}
+
+export interface SessionPlan {
+  meals: Meal[]
+  /** quantités à préparer pendant la session, en nombre de plats par ingrédient */
+  toPrepare: IngredientCount[]
+}
 
 export interface WeekPlan {
-  /** vide si aucune combinaison n'est compatible avec l'occasion choisie */
-  meals: Meal[]
-  // Liste de courses = l'union des ingrédients des repas retenus, par catégorie.
-  shopping: {
-    proteins: string[]
-    starches: string[]
-    vegetables: string[]
-  }
+  /** [session du dimanche, session du mercredi] — sessions vides si aucune recette compatible */
+  sessions: SessionPlan[]
+  /** liste de courses : tous les ingrédients de la semaine, en nombre de plats */
+  shopping: IngredientCount[]
   // Le côté sucré de la semaine : desserts, petits déjeuners et snacks.
   sweet: {
     fruits: string[]
@@ -41,6 +48,35 @@ export interface WeekPlan {
 // un plat spécial remplace un des repas.
 const SPECIAL_DISH_PROBABILITY = 1 / 12
 
+// Ingrédients "connus comme saisonniers" (légumes et fruits des listes par saison) :
+// seuls ceux-là peuvent rendre une recette indisponible hors saison.
+const SEASONAL_INGREDIENTS = new Set([
+  ...Object.values(VEGETABLES_BY_SEASON).flat(),
+  ...Object.values(FRUITS_BY_SEASON).flat(),
+])
+
+// Ingrédients saisonniers disponibles pour une saison donnée (les produits frais
+// et conserves toute l'année restent disponibles même listés dans une saison).
+function seasonPool(season: Season): Set<string> {
+  return new Set([
+    ...VEGETABLES_BY_SEASON[season],
+    ...FRESH_ALL_YEAR_VEGETABLES,
+    ...PANTRY_VEGETABLES,
+    ...FRUITS_BY_SEASON[season],
+    ...FRUITS_ALL_YEAR,
+  ])
+}
+
+// Canicule : uniquement les recettes marquées `canicule` (cuisson minimale).
+// Saisons imposées à la main (`seasons`) : elles remplacent la déduction.
+// Sinon : une recette est écartée si un ingrédient saisonnier est hors saison ;
+// un ingrédient inconnu des listes passe toujours (placard par défaut).
+function isAvailable(recipe: Recipe, occasion: Occasion, pool: Set<string>): boolean {
+  if (occasion === "canicule") return recipe.canicule === true
+  if (recipe.seasons) return recipe.seasons.includes(occasion)
+  return recipe.ingredients.every(ingredient => !SEASONAL_INGREDIENTS.has(ingredient) || pool.has(ingredient))
+}
+
 function shuffled<T>(items: T[]): T[] {
   const copy = [...items]
   for (let i = copy.length - 1; i > 0; i--) {
@@ -50,29 +86,53 @@ function shuffled<T>(items: T[]): T[] {
   return copy
 }
 
-// Une combinaison est disponible si chacun de ses ingrédients figure dans les
-// pools de l'occasion (comparaison stricte des libellés, voir meals.ts).
-function isAvailable(combo: MealCombo, pools: ReturnType<typeof poolsForOccasion>): boolean {
-  return (
-    pools.proteins.includes(combo.protein) &&
-    pools.starches.includes(combo.starch) &&
-    combo.vegetables.every(vegetable => pools.vegetables.includes(vegetable))
-  )
+// Sélection gloutonne : premier plat au hasard, puis à chaque étape le plat qui
+// partage le plus d'ingrédients avec ceux déjà retenus (le mélange initial
+// départage les ex æquo au hasard). Si la liste est plus courte que la semaine,
+// les plats se répètent (on cuisine en plus grande quantité).
+function selectRecipes(available: Recipe[], mealCount: number): Recipe[] {
+  if (available.length === 0) return []
+  const pool = shuffled(available)
+  const selected: Recipe[] = [pool.shift() as Recipe]
+  const chosenIngredients = new Set(selected[0].ingredients)
+
+  while (selected.length < mealCount && pool.length > 0) {
+    let bestIndex = 0
+    let bestScore = -1
+    for (let i = 0; i < pool.length; i++) {
+      const score = pool[i].ingredients.filter(ingredient => chosenIngredients.has(ingredient)).length
+      if (score > bestScore) {
+        bestScore = score
+        bestIndex = i
+      }
+    }
+    const [recipe] = pool.splice(bestIndex, 1)
+    selected.push(recipe)
+    for (const ingredient of recipe.ingredients) chosenIngredients.add(ingredient)
+  }
+
+  return Array.from({ length: mealCount }, (_, i) => selected[i % selected.length])
+}
+
+// Compte, pour une liste de repas, le nombre de plats utilisant chaque ingrédient
+// (tri : les plus utilisés d'abord, puis alphabétique).
+function ingredientCounts(meals: Meal[]): IngredientCount[] {
+  const counts = new Map<string, number>()
+  for (const meal of meals) {
+    if (meal.kind !== "recipe") continue
+    for (const ingredient of meal.recipe.ingredients) {
+      counts.set(ingredient, (counts.get(ingredient) ?? 0) + 1)
+    }
+  }
+  return [...counts]
+    .map(([ingredient, count]) => ({ ingredient, count }))
+    .sort((a, b) => b.count - a.count || a.ingredient.localeCompare(b.ingredient))
 }
 
 export function generateWeekPlan(occasion: Occasion, mealCount: number): WeekPlan {
-  const pools = poolsForOccasion(occasion)
-  const available = shuffled(COMBOS.filter(combo => isAvailable(combo, pools)))
-
-  const firstSessionMealCount = Math.ceil(mealCount / 2)
-  const meals: Meal[] =
-    available.length === 0
-      ? []
-      : Array.from({ length: mealCount }, (_, i) => ({
-          kind: "combo",
-          combo: available[i % available.length],
-          session: i < firstSessionMealCount ? 1 : 2,
-        }))
+  const pool = occasion === "canicule" ? new Set<string>() : seasonPool(occasion)
+  const available = RECIPES.filter(recipe => isAvailable(recipe, occasion, pool))
+  const meals: Meal[] = selectRecipes(available, mealCount).map(recipe => ({ kind: "recipe", recipe }))
 
   // De temps en temps, un plat spécial remplace le premier repas (session du dimanche,
   // où on a le plus de temps devant soi). Pas pendant une canicule : trop de cuisson.
@@ -82,16 +142,18 @@ export function generateWeekPlan(occasion: Occasion, mealCount: number): WeekPla
     const candidates = SPECIAL_DISHES.filter(dish => !dish.seasons || dish.seasons.includes(occasion))
     if (candidates.length > 0) {
       specialDish = candidates[Math.floor(Math.random() * candidates.length)]
-      meals[0] = { kind: "special", name: specialDish.name, session: 1 }
+      meals[0] = { kind: "special", name: specialDish.name }
     }
   }
 
-  const selectedCombos = [...new Set(meals.flatMap(meal => (meal.kind === "combo" ? [meal.combo] : [])))]
-  const shopping = {
-    proteins: [...new Set(selectedCombos.map(combo => combo.protein))],
-    starches: [...new Set(selectedCombos.map(combo => combo.starch))],
-    vegetables: [...new Set(selectedCombos.flatMap(combo => combo.vegetables))],
-  }
+  // La sélection gloutonne place les plats aux ingrédients communs côte à côte :
+  // couper au milieu garde ces regroupements au sein d'une même session.
+  const firstSessionMeals = meals.slice(0, Math.ceil(meals.length / 2))
+  const secondSessionMeals = meals.slice(Math.ceil(meals.length / 2))
+  const sessions: SessionPlan[] = [
+    { meals: firstSessionMeals, toPrepare: ingredientCounts(firstSessionMeals) },
+    { meals: secondSessionMeals, toPrepare: ingredientCounts(secondSessionMeals) },
+  ]
 
   const sweet = {
     fruits: shuffled(fruitsForOccasion(occasion)).slice(0, 4),
@@ -99,5 +161,5 @@ export function generateWeekPlan(occasion: Occasion, mealCount: number): WeekPla
     breakfast: BREAKFAST_BASICS,
   }
 
-  return { meals, shopping, sweet, specialDish }
+  return { sessions, shopping: ingredientCounts(meals), sweet, specialDish }
 }

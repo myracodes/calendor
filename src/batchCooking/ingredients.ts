@@ -78,7 +78,7 @@ export const VEGETABLES_BY_SEASON: Record<Season, string[]> = {
 
 // Légumes frais qu'on trouve toute l'année sur le marché, même hors saison :
 // ajoutés au pool de légumes quelle que soit la saison.
-export const FRESH_ALL_YEAR_VEGETABLES: string[] = ["salade verte", "aubergines", "courgettes"]
+export const FRESH_ALL_YEAR_VEGETABLES: string[] = ["salade verte", "aubergines", "courgettes", "oignons"]
 
 // Légumes en boîte / bocal / surgelés, disponibles toute l'année :
 // ajoutés au pool de légumes quelle que soit la saison.
@@ -106,7 +106,7 @@ export const PROTEINS: string[] = [
   "haricots rouges",
   "haricots blancs",
   "protéines de soja texturées",
-  "edamame",
+  "edamame", // toute l'année en surgelé ; parfaits en entrée
 ]
 
 export const STARCHES: string[] = [
@@ -123,31 +123,3 @@ export const STARCHES: string[] = [
   "nouilles de riz",
 ]
 
-// Canicule : uniquement des ingrédients qui demandent un minimum de cuisson / de chaleur
-// (crudités, bocaux prêts à l'emploi, semoule réhydratée à l'eau chaude…).
-export const CANICULE_POOLS = {
-  vegetables: [
-    "concombres",
-    "tomates cerise",
-    "avocats",
-    "radis",
-    "salade",
-    "carottes râpées",
-    "cœurs de palmier (bocal)",
-    "maïs (boîte)",
-  ],
-  proteins: ["tofu ferme (mariné)", "tofu fumé", "edamame", "pois chiches (bocal)", "haricots rouges (bocal)"],
-  starches: ["semoule", "quinoa", "boulgour fin", "pâtes (en salade)"],
-}
-
-// Pools d'ingrédients pour une occasion donnée : les saisons piochent dans les légumes de
-// saison + le frais et les conserves disponibles toute l'année (Set pour dédoublonner, un légume
-// de saison pouvant aussi être un légume toute l'année) ; la canicule a ses propres listes.
-export function poolsForOccasion(occasion: Occasion): { vegetables: string[]; proteins: string[]; starches: string[] } {
-  if (occasion === "canicule") return CANICULE_POOLS
-  return {
-    vegetables: [...new Set([...VEGETABLES_BY_SEASON[occasion], ...FRESH_ALL_YEAR_VEGETABLES, ...PANTRY_VEGETABLES])],
-    proteins: PROTEINS,
-    starches: STARCHES,
-  }
-}
