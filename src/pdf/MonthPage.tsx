@@ -21,19 +21,21 @@ const styles = StyleSheet.create({
   pageContent: {
     flexGrow: 1,
     flexDirection: "column",
-    padding: 24,
+    padding: 8,
   },
   // Bloc d'en-tête : titre du mois + liseré coloré en dessous.
   header: {
     flexDirection: "column",
-    marginBottom: 12,
-    marginTop: -12,
+    marginBottom: 8,
+    marginLeft: 16,
+    // marginTop: -12,
   },
   // Titre "<mois> <année>" en haut de page.
   monthTitle: {
     fontFamily: "BadScript",
-    fontSize: 20,
+    fontSize: 16,
     textTransform: "capitalize",
+    marginLeft: 16,
   },
   // Équivalent du liseré sous le titre de l'app (h1::after)
   titleUnderline: {
