@@ -1,5 +1,5 @@
-import { monthName } from "../../dates"
-import type { CalendarFormat, CalendarSettings, SettingsUpdater } from "../../types"
+import { monthName } from "../../../../dates"
+import type { CalendarFormat, CalendarSettings, SettingsUpdater } from "../../../../types"
 
 const MONTHS = Array.from({ length: 12 }, (_, i) => i + 1)
 

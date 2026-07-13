@@ -1,5 +1,5 @@
-import { applyPresetToSettings, PRESETS } from "../../presets"
-import type { CalendarSettings, SettingsUpdater } from "../../types"
+import { applyPresetToSettings, PRESETS } from "../../../../presets"
+import type { CalendarSettings, SettingsUpdater } from "../../../../types"
 import "./TemplateTabs.css"
 
 export const BLANK_TEMPLATE = "__blank__"

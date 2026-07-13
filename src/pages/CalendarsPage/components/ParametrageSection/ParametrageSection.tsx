@@ -1,7 +1,7 @@
 import { useState } from "react"
-import { INK } from "../../colors"
-import { weekdayNames } from "../../dates"
-import type { CalendarEvent, CalendarSettings, EventRule, SettingsUpdater } from "../../types"
+import { INK } from "../../../../colors"
+import { weekdayNames } from "../../../../dates"
+import type { CalendarEvent, CalendarSettings, EventRule, SettingsUpdater } from "../../../../types"
 import "./ParametrageSection.css"
 
 const WEEKDAYS = weekdayNames()
