@@ -36,12 +36,14 @@ function paintChecklist(painter: Painter, width: number, height: number) {
 }
 
 const styles = StyleSheet.create({
+  // Fond de la page.
   page: {
     backgroundColor: PAPER,
     color: INK,
     fontFamily: "PatrickHand",
     flexDirection: "column",
   },
+  // Conteneur de tout le contenu, avec la marge de la page.
   pageContent: {
     flexGrow: 1,
     flexDirection: "column",
@@ -59,15 +61,18 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     height: 5,
   },
+  // Une ligne de la grille = 4 cases côte à côte (voir ROWS : jours, puis "Notes").
   row: {
     flexDirection: "row",
     flexGrow: 1,
     borderTopWidth: 1,
     borderTopColor: LINE,
   },
+  // La toute première ligne n'a pas de bordure supérieure (déjà celle de la grille).
   firstRow: {
     borderTopWidth: 0,
   },
+  // Une case de la grille : nom du jour (ou "Notes") + trame à remplir.
   cell: {
     flex: 1,
     flexDirection: "column",
@@ -75,9 +80,11 @@ const styles = StyleSheet.create({
     borderLeftColor: LINE,
     padding: 6,
   },
+  // La toute première case d'une ligne n'a pas de bordure gauche (déjà celle de la grille).
   firstCell: {
     borderLeftWidth: 0,
   },
+  // Intitulé en haut de la case : nom du jour, ou "Notes".
   cellLabel: {
     fontFamily: "BadScript",
     fontSize: 12,

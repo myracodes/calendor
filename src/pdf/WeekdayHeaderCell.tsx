@@ -4,18 +4,21 @@ import { schedulesForWeekday } from "../events/schedules"
 import type { Schedule } from "../events/schedules.type"
 
 const styles = StyleSheet.create({
+  // Cellule d'en-tête d'une colonne jour, en haut de la grille du mois (une par jour de la semaine).
   cell: {
     flex: 1,
     alignItems: "center",
     paddingVertical: 4,
     paddingHorizontal: 2,
   },
+  // Nom du jour de la semaine (ex. "lundi"), centré dans la cellule.
   name: {
     fontFamily: "BadScript",
     fontSize: 10,
     textTransform: "capitalize",
     color: INK,
   },
+  // Ligne d'horaire récurrent sous le nom du jour (ex. "L'écume 11h-19h"), colorée par lieu.
   schedule: {
     fontSize: 6.5,
     lineHeight: 1.2,

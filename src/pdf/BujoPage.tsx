@@ -19,17 +19,20 @@ function columnWidth(column: BujoColumn) {
 }
 
 const styles = StyleSheet.create({
+  // Fond de la page (couleur de secours visible sous l'image de fond, le temps qu'elle charge).
   page: {
     backgroundColor: PAPER,
     color: INK,
     fontFamily: "PatrickHand",
     flexDirection: "column",
   },
+  // Conteneur de tout le contenu (au-dessus de l'image de fond), avec la marge de la page.
   pageContent: {
     flexGrow: 1,
     flexDirection: "column",
     padding: 24,
   },
+  // Titre de la page (settings.title), au-dessus du tableau — absent si le titre est vide.
   title: {
     fontFamily: "BadScript",
     fontSize: 18,
@@ -44,19 +47,23 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: LINE,
   },
+  // Liseré coloré en haut du tableau, comme sur les cartes de l'app.
   tableAccent: {
     flexDirection: "row",
     height: 5,
   },
+  // Rangée contenant toutes les colonnes du tableau, sur toute la hauteur restante.
   columns: {
     flexGrow: 1,
     flexDirection: "row",
   },
+  // Une colonne du tableau = un item paramétré : son en-tête + sa trame (largeur via columnWidth).
   column: {
     flexDirection: "column",
     borderLeftWidth: 1,
     borderLeftColor: LINE,
   },
+  // La toute première colonne n'a pas de bordure gauche (déjà celle du tableau).
   firstColumn: {
     borderLeftWidth: 0,
   },
@@ -71,6 +78,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: LINE,
   },
+  // Intitulé de la colonne dans son en-tête (textAlign centre les intitulés sur plusieurs lignes).
   columnLabel: {
     fontFamily: "BadScript",
     fontSize: 11,
