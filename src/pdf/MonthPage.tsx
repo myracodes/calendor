@@ -1,11 +1,12 @@
-import { Image, Page, StyleSheet, Text, View } from "@react-pdf/renderer"
+import { Page, StyleSheet, Text, View } from "@react-pdf/renderer"
 import { BIRTHDAY, DEATH, FESTIVE, INK, INK_LIGHT, LINE, PAPER } from "../colors"
 import { monthGrid, monthName, weekdayNames } from "../dates"
 import { publicHolidaysForYear } from "../events/publicHolidays"
 import type { CalendarSettings } from "../types"
 import { eventsForDay, LIFE_EVENT_KINDS, lifeEventLabel, lifeEventsForDay } from "./calendarData"
 import { backgroundForMonth } from "./monthBackgrounds"
-import { PAGE_HEIGHT_PT, PAGE_WIDTH_PT, RainbowBar, SURFACE } from "./shared"
+import { PageBackground } from "./PageBackground"
+import { RainbowBar, SURFACE } from "./shared"
 import { WeekdayHeaderCell } from "./WeekdayHeaderCell"
 
 const styles = StyleSheet.create({
@@ -15,25 +16,6 @@ const styles = StyleSheet.create({
     color: INK,
     fontFamily: "PatrickHand",
     flexDirection: "column",
-  },
-  // Image couvrant toute la page en mode "fond de page".
-  pageBackgroundImage: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: PAGE_WIDTH_PT,
-    height: PAGE_HEIGHT_PT,
-    objectFit: "cover",
-  },
-  // Voile clair par-dessus l'image de fond pour garder le texte lisible.
-  pageBackgroundOverlay: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: PAGE_WIDTH_PT,
-    height: PAGE_HEIGHT_PT,
-    backgroundColor: PAPER,
-    opacity: 0.78,
   },
   // Conteneur de tout le contenu (au-dessus de l'image de fond), avec la marge de la page.
   pageContent: {
@@ -161,8 +143,7 @@ export function MonthPage({ settings, year, month }: MonthPageProps) {
 
   return (
     <Page size="A4" orientation="landscape" style={styles.page}>
-      <Image fixed style={styles.pageBackgroundImage} src={backgroundImage} />
-      <View fixed style={styles.pageBackgroundOverlay} />
+      <PageBackground src={backgroundImage} />
 
       <View style={styles.pageContent}>
         <View style={styles.header}>

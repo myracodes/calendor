@@ -1,22 +1,22 @@
 import { useRef } from "react"
-import type { CalendarSettings, SettingsUpdater } from "../../types"
 import "./IllustrationSection.css"
 
 interface IllustrationSectionProps {
-  settings: CalendarSettings
-  onUpdate: SettingsUpdater
+  /** data URL de l'image importée, ou null si aucune */
+  illustration: string | null
+  onUpdate: (illustration: string | null) => void
 }
 
-export function IllustrationSection({ settings, onUpdate }: IllustrationSectionProps) {
+export function IllustrationSection({ illustration, onUpdate }: IllustrationSectionProps) {
   const illustrationInputRef = useRef<HTMLInputElement>(null)
 
   function onIllustrationChange(file: File | undefined) {
     if (!file) {
-      onUpdate("illustration", null)
+      onUpdate(null)
       return
     }
     const reader = new FileReader()
-    reader.onload = () => onUpdate("illustration", reader.result as string)
+    reader.onload = () => onUpdate(reader.result as string)
     reader.readAsDataURL(file)
   }
 
@@ -34,9 +34,9 @@ export function IllustrationSection({ settings, onUpdate }: IllustrationSectionP
             onChange={e => onIllustrationChange(e.target.files?.[0])}
           />
         </label>
-        {settings.illustration && (
+        {illustration && (
           <div className="illustration-preview-wrap">
-            <img className="illustration-preview" src={settings.illustration} alt="Aperçu de l'illustration" />
+            <img className="illustration-preview" src={illustration} alt="Aperçu de l'illustration" />
             <button
               type="button"
               className="btn-remove"

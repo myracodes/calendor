@@ -1,8 +1,9 @@
 import { Canvas, Page, StyleSheet, Text, View } from "@react-pdf/renderer"
 import type { BujoColumn, BujoSettings } from "../bujo/types"
 import { INK, LINE, PAPER } from "../colors"
+import { PageBackground } from "./PageBackground"
 import { paintCheckboxes, paintDottedLines } from "./paint"
-import { RainbowBar } from "./shared"
+import { RainbowBar, SURFACE } from "./shared"
 
 // Largeurs des colonnes, en points : "case à cocher" et "petit" (une lettre) sont
 // fixes, "moyen" (quelques mots) aussi ; "grand" se partage l'espace restant.
@@ -35,9 +36,11 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   // Cadre englobant tout le tableau, avec le liseré coloré des autres formats de page.
+  // Fond légèrement translucide pour rester lisible par-dessus une image de fond.
   table: {
     flexGrow: 1,
     flexDirection: "column",
+    backgroundColor: SURFACE,
     borderWidth: 1,
     borderColor: LINE,
   },
@@ -85,6 +88,7 @@ const styles = StyleSheet.create({
 export function BujoPage({ settings }: { settings: BujoSettings }) {
   return (
     <Page size="A4" orientation={settings.orientation} style={styles.page}>
+      {settings.illustration && <PageBackground src={settings.illustration} orientation={settings.orientation} />}
       <View style={styles.pageContent}>
         {settings.title.trim() !== "" && <Text style={styles.title}>{settings.title}</Text>}
         <View style={styles.table}>

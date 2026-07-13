@@ -63,7 +63,7 @@ export function CalendarsPage() {
       <TemplateTabs settings={settings} onUpdate={update} active={activeTemplate} onSelectActive={setActiveTemplate} />
 
       <PeriodSection settings={settings} onUpdate={update} lockToMonthly={lockToMonthly} allowWeekly={allowWeekly} />
-      <IllustrationSection settings={settings} onUpdate={update} />
+      <IllustrationSection illustration={settings.illustration} onUpdate={value => update("illustration", value)} />
       <ParametrageSection settings={settings} onUpdate={update} hideEventsCheckboxes={hideEventsCheckboxes} />
 
       <button type="button" className="generate" disabled={generating} onClick={generatePdf}>

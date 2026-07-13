@@ -17,5 +17,7 @@ export interface BujoSettings {
   orientation: "portrait" | "landscape"
   /** nombre de pages identiques à générer */
   pageCount: number
+  /** data URL de l'image de fond importée, ou null pour une page blanche */
+  illustration: string | null
   columns: BujoColumn[]
 }

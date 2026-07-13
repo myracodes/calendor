@@ -1,6 +1,7 @@
 import { pdf } from "@react-pdf/renderer"
 import { useState } from "react"
 import type { BujoColumn, BujoSettings, DottedWidth } from "../../bujo/types"
+import { IllustrationSection } from "../../components/IllustrationSection/IllustrationSection"
 import { BujoDocument } from "../../pdf/BujoDocument"
 import "./BujoFactoryPage.css"
 
@@ -19,9 +20,10 @@ function buildInitialSettings(): BujoSettings {
     title: "",
     orientation: "portrait",
     pageCount: 1,
+    illustration: null,
     // Exemple de départ : un suivi de tâches, à adapter librement.
     columns: [
-      { id: crypto.randomUUID(), label: "Date", kind: "dotted", width: "small" },
+      { id: crypto.randomUUID(), label: "Date", kind: "dotted", width: "medium" },
       { id: crypto.randomUUID(), label: "Tâche", kind: "dotted", width: "large" },
       { id: crypto.randomUUID(), label: "Fait", kind: "checkbox", width: "medium" },
     ],
@@ -155,6 +157,8 @@ export function BujoFactoryPage() {
         </button>
         {settings.columns.length === 0 && <p className="hint">Ajoute au moins une colonne pour générer la page.</p>}
       </section>
+
+      <IllustrationSection illustration={settings.illustration} onUpdate={value => update("illustration", value)} />
 
       <button
         type="button"
