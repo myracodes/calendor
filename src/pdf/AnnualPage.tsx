@@ -201,7 +201,10 @@ export function AnnualPage({ settings, year }: AnnualPageProps) {
           <RainbowBar style={styles.gridAccent} />
           <View style={styles.headerRow}>
             {MONTHS.map((month, i) => (
-              <View key={month} style={i === 0 ? [styles.monthHeaderCell, styles.firstMonthCell] : styles.monthHeaderCell}>
+              <View
+                key={month}
+                style={i === 0 ? [styles.monthHeaderCell, styles.firstMonthCell] : styles.monthHeaderCell}
+              >
                 <Text style={styles.monthHeaderText}>{MONTH_LABELS[month - 1]}</Text>
               </View>
             ))}
@@ -216,7 +219,15 @@ export function AnnualPage({ settings, year }: AnnualPageProps) {
                     <View key={month} style={[...baseCellStyle, styles.emptyCell]}>
                       <Svg style={styles.emptyCellHatch} viewBox="0 0 100 100" preserveAspectRatio="none">
                         {HATCH_LINES.map(({ topX, bottomX }, hatchIndex) => (
-                          <Line key={hatchIndex} x1={topX} y1={0} x2={bottomX} y2={100} stroke={INK_LIGHT} strokeWidth={1} />
+                          <Line
+                            key={hatchIndex}
+                            x1={topX}
+                            y1={0}
+                            x2={bottomX}
+                            y2={100}
+                            stroke={INK_LIGHT}
+                            strokeWidth={1}
+                          />
                         ))}
                       </Svg>
                     </View>
@@ -230,7 +241,10 @@ export function AnnualPage({ settings, year }: AnnualPageProps) {
                 const hasDeath = deathEvents !== null && lifeEventsForDay(deathEvents, month, day).length > 0
 
                 return (
-                  <View key={month} style={isWeekend || isHoliday ? [...baseCellStyle, styles.weekendCell] : baseCellStyle}>
+                  <View
+                    key={month}
+                    style={isWeekend || isHoliday ? [...baseCellStyle, styles.weekendCell] : baseCellStyle}
+                  >
                     <View style={styles.cellMarkRow}>
                       <Text style={styles.cellDayNumber}>{day}</Text>
                       <Text style={styles.cellWeekdayLetter}>{WEEKDAY_LETTERS[weekday]}</Text>

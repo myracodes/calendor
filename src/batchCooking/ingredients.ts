@@ -122,4 +122,3 @@ export const STARCHES: string[] = [
   "nouilles soba",
   "nouilles de riz",
 ]
-

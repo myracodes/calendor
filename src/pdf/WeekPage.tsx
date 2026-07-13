@@ -1,34 +1,27 @@
 import { Canvas, Page, StyleSheet, Text, View } from "@react-pdf/renderer"
 import { INK, LINE, PAPER } from "../colors"
 import { weekdayNames } from "../dates"
+import {
+  CHECKBOX_SIZE,
+  CHECKBOX_STROKE,
+  DOT_LINE_WIDTH,
+  DOT_SPACE,
+  type Painter,
+  paintDottedLines,
+  ROW_HEIGHT,
+} from "./paint"
 import { RainbowBar } from "./shared"
 
-// Lignes pointillées façon bullet journal (points ronds via un pointillé quasi nul + bouts
-// arrondis), dessinées à la volée : react-pdf n'a pas de motif de fond répétable natif.
-// Même couleur que le nom du jour (INK) pour rester visible à l'impression.
-const DOT_LINE_WIDTH = 1.2
-const DOT_SPACE = 4
-const ROW_HEIGHT = 22
-
 // Liste de cases à cocher dans la case "Notes" : une case par ligne, suivie d'une ligne pointillée à écrire.
-const CHECKBOX_SIZE = 8
 const CHECKBOX_TO_LINE_GAP = 8
 
-function paintDottedLines(painter: any, width: number, height: number) {
-  painter.strokeColor(INK).lineCap("round").lineWidth(DOT_LINE_WIDTH).dash(0.01, { space: DOT_SPACE })
-  for (let y = ROW_HEIGHT; y <= height; y += ROW_HEIGHT) {
-    painter.moveTo(0, y).lineTo(width, y).stroke()
-  }
-  return null
-}
-
-function paintChecklist(painter: any, width: number, height: number) {
+function paintChecklist(painter: Painter, width: number, height: number) {
   const lineStartX = CHECKBOX_SIZE + CHECKBOX_TO_LINE_GAP
   const rowYs: number[] = []
   for (let y = 4; y + CHECKBOX_SIZE <= height; y += ROW_HEIGHT) rowYs.push(y)
 
   // Cases à cocher (traits pleins) d'abord, pour ne pas hériter du pointillé des lignes ci-dessous.
-  painter.strokeColor(INK).lineWidth(0.75)
+  painter.strokeColor(INK).lineWidth(CHECKBOX_STROKE)
   for (const y of rowYs) {
     painter.rect(0, y, CHECKBOX_SIZE, CHECKBOX_SIZE).stroke()
   }

@@ -5,6 +5,7 @@ const LINKS = [
   { to: "/calendars", label: "Calendriers" },
   { to: "/budget", label: "Budget" },
   { to: "/batch-cooking", label: "Batch cooking" },
+  { to: "/bujo", label: "BuJo factory" },
 ]
 
 export function Navbar() {

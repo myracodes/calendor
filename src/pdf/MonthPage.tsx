@@ -193,7 +193,10 @@ export function MonthPage({ settings, year, month }: MonthPageProps) {
                       </Text>
                       {LIFE_EVENT_KINDS.filter(kind => kind.isEnabled(settings)).map(kind =>
                         lifeEventsForDay(kind.events, month, day).map(event => (
-                          <Text key={`${kind.key}-${event.name}`} style={[styles.lifeEvent, LIFE_EVENT_STYLE[kind.key]]}>
+                          <Text
+                            key={`${kind.key}-${event.name}`}
+                            style={[styles.lifeEvent, LIFE_EVENT_STYLE[kind.key]]}
+                          >
                             {lifeEventLabel(kind.emoji ?? "", event, year, kind.showAge)}
                           </Text>
                         )),

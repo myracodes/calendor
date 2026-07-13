@@ -3,6 +3,7 @@ import "./App.css"
 import { Navbar } from "./components/Navbar/Navbar"
 import { BatchCookingPage } from "./pages/BatchCookingPage/BatchCookingPage"
 import { BudgetPage } from "./pages/BudgetPage/BudgetPage"
+import { BujoFactoryPage } from "./pages/BujoFactoryPage/BujoFactoryPage"
 import { CalendarsPage } from "./pages/CalendarsPage/CalendarsPage"
 import { COMMIT_HASH } from "./version"
 
@@ -20,6 +21,7 @@ export default function App() {
           <Route path="/calendars" element={<CalendarsPage />} />
           <Route path="/budget" element={<BudgetPage />} />
           <Route path="/batch-cooking" element={<BatchCookingPage />} />
+          <Route path="/bujo" element={<BujoFactoryPage />} />
         </Routes>
 
         <footer className="footer">

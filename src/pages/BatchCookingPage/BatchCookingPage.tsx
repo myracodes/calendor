@@ -84,8 +84,8 @@ export function BatchCookingPage() {
         <section className="card card--candy">
           <h2>Repas de la semaine</h2>
           <p className="hint">
-            Aucune recette n'est compatible avec cette occasion — ajoute des recettes dans
-            src/batchCooking/recipes.ts (et vérifie les libellés exacts des ingrédients saisonniers).
+            Aucune recette n'est compatible avec cette occasion — ajoute des recettes dans src/batchCooking/recipes.ts
+            (et vérifie les libellés exacts des ingrédients saisonniers).
           </p>
         </section>
       )}
