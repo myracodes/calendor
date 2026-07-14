@@ -2,7 +2,6 @@
 
 # A FAIRE
 
-- ajouter la prévisualisation ?
 - possibilité d'ajouter les rdv médicaux
 - possibilité de choisir l'emoji parmi une sélection : médecin / rdv / deadline / anniversaire / plantes...
 - ajouter les vacances scolaires ? avec un booléen pour choisir de les afficher ou non ?
@@ -13,10 +12,10 @@
 - anchor dans presets devrait être optionnel si l'intervalle n'est pas plus de 1
 - ajouter le nom du jour férié
 - gérer le cas où on a beaucoup de choses dans une case, ça crée une deuxième page vide, ou bien ça agrandit les cases
-- ne plus afficher l'âge si la personne est décédée.
 
 ## Idées d'évolutions futures
 
+- ajouter la prévisualisation ?
 - pages imprimables : portée (musique)
 - accords piano / guitare / ukulele (charts)
 - pouvoir ajouter une photo différente par mois

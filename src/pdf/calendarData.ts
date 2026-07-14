@@ -37,11 +37,17 @@ export function lifeEventsForDay(events: LifeEvent[], month: number, day: number
 }
 
 /**
- * "🎂 Papi (1924 / 103 ans)" avec showAge, "🕯️ Bastien (2024)" sans.
+ * "🎂 Papi (1924 — 103 ans)" avec showAge, "🕯️ Bastien (2024)" sans.
+ * Personne décédée (event.died) : plus d'âge, "🎂 Papi (1927-2003)" — ou année de
+ * naissance seule si l'année de décès est inconnue.
  * Rien entre parenthèses si l'année est inconnue.
  */
 export function lifeEventLabel(emoji: string, event: LifeEvent, calendarYear: number, showAge: boolean): string {
   if (event.year === undefined) return `${emoji} ${event.name}`
+  if (event.died) {
+    const detail = event.died.year === undefined ? `${event.year}` : `${event.year}-${event.died.year}`
+    return `${emoji} ${event.name} (${detail})`
+  }
   const detail = showAge ? `${event.year} — ${calendarYear - event.year} ans` : `${event.year}`
   return `${emoji} ${event.name} (${detail})`
 }

@@ -9,6 +9,8 @@ import type { LifeEvent } from "./lifeEvents.type"
  */
 
 // { name: "Birthday", day: 30, month: MONTH.JUILLET, year: 1992 },
+// Personne décédée (affiche "1927-2003" au lieu de l'âge ; year de died optionnel) :
+// { name: "Birthday", day: 30, month: MONTH.JUILLET, year: 1927, died: { year: 2003 } },
 export const BIRTHDAYS: LifeEvent[] = [
   // Janvier
   { name: "Jaqueline", day: 18, month: MONTH.JANVIER, year: 1969 },
@@ -26,7 +28,7 @@ export const BIRTHDAYS: LifeEvent[] = [
   { name: "Ouragan-Lion", day: 30, month: MONTH.MARS, year: 2018 },
   // Avril
   { name: "Bintou", day: 3, month: MONTH.AVRIL },
-  { name: "Bastien", day: 27, month: MONTH.AVRIL },
+  { name: "Bastien", day: 27, month: MONTH.AVRIL, year: 1997, died: { year: 2024 } },
   { name: "Alice K'", day: 30, month: MONTH.AVRIL },
   // Mai
   { name: "Hannah", day: 3, month: MONTH.MAI, year: 1993 },
@@ -41,12 +43,12 @@ export const BIRTHDAYS: LifeEvent[] = [
   { name: "Maxime", day: 1, month: MONTH.JUILLET },
   { name: "Hakim & Ali", day: 2, month: MONTH.JUILLET, year: 1975 },
   { name: "Chacha", day: 7, month: MONTH.JUILLET },
-  { name: "Papi", day: 17, month: MONTH.JUILLET, year: 1924 },
+  { name: "Papi", day: 17, month: MONTH.JUILLET, year: 1924, died: { year: 2003 } },
   { name: "Shishou", day: 17, month: MONTH.JUILLET, year: 2003 },
   { name: "Limounette", day: 17, month: MONTH.JUILLET, year: 1992 },
   { name: "Miko", day: 25, month: MONTH.JUILLET },
   { name: "My", day: 30, month: MONTH.JUILLET, year: 1992 },
-  { name: "Jumeaux", day: 30, month: MONTH.JUILLET, year: 2003 },
+  { name: "Jumeaux", day: 30, month: MONTH.JUILLET },
   // Août
   { name: "Titi", day: 3, month: MONTH.AOÛT, year: 1996 },
   { name: "Jake", day: 10, month: MONTH.AOÛT },
