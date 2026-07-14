@@ -1,5 +1,6 @@
 import { Line, Page, StyleSheet, Svg, Text, View } from "@react-pdf/renderer"
 import { INK, INK_LIGHT, LINE, PAPER } from "../colors"
+import { WEEKDAY } from "../constants/weekdays"
 import { daysInMonth, weekdayOf } from "../dates"
 import { publicHolidaysForYear } from "../events/publicHolidays"
 import type { CalendarSettings } from "../types"
@@ -235,7 +236,7 @@ export function AnnualPage({ settings, year }: AnnualPageProps) {
                 }
 
                 const weekday = weekdayOf(year, month, day)
-                const isWeekend = weekday === 5 || weekday === 6
+                const isWeekend = weekday === WEEKDAY.SAMEDI || weekday === WEEKDAY.DIMANCHE
                 const isHoliday = lifeEventsForDay(publicHolidays, month, day).length > 0
                 const hasBirthday = birthdayEvents !== null && lifeEventsForDay(birthdayEvents, month, day).length > 0
                 const hasDeath = deathEvents !== null && lifeEventsForDay(deathEvents, month, day).length > 0

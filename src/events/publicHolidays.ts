@@ -1,3 +1,4 @@
+import { MONTH, type Month } from "../constants/months"
 import type { LifeEvent } from "./lifeEvents.type"
 
 /**
@@ -9,14 +10,14 @@ import type { LifeEvent } from "./lifeEvents.type"
  */
 
 const FIXED_PUBLIC_HOLIDAYS: LifeEvent[] = [
-  { name: "Jour de l'an", day: 1, month: 1 },
-  { name: "Fête du travail", day: 1, month: 5 },
-  { name: "Victoire 1945", day: 8, month: 5 },
-  { name: "Fête nationale", day: 14, month: 7 },
-  { name: "Assomption", day: 15, month: 8 },
-  { name: "Toussaint", day: 1, month: 11 },
-  { name: "Armistice", day: 11, month: 11 },
-  { name: "Noël", day: 25, month: 12 },
+  { name: "Jour de l'an", day: 1, month: MONTH.JANVIER },
+  { name: "Fête du travail", day: 1, month: MONTH.MAI },
+  { name: "Victoire 1945", day: 8, month: MONTH.MAI },
+  { name: "Fête nationale", day: 14, month: MONTH.JUILLET },
+  { name: "Assomption", day: 15, month: MONTH.AOÛT },
+  { name: "Toussaint", day: 1, month: MONTH.NOVEMBRE },
+  { name: "Armistice", day: 11, month: MONTH.NOVEMBRE },
+  { name: "Noël", day: 25, month: MONTH.DÉCEMBRE },
 ]
 
 const EASTER_BASED_HOLIDAYS = [
@@ -50,7 +51,8 @@ export function publicHolidaysForYear(year: number): LifeEvent[] {
   const movable = EASTER_BASED_HOLIDAYS.map(({ name, offsetDays }) => {
     const date = new Date(easter)
     date.setDate(easter.getDate() + offsetDays)
-    return { name, day: date.getDate(), month: date.getMonth() + 1 }
+    // mois calculé depuis la date de Pâques (mars à juin), d'où le cast vers Month
+    return { name, day: date.getDate(), month: (date.getMonth() + 1) as Month }
   })
   return [...FIXED_PUBLIC_HOLIDAYS, ...movable]
 }

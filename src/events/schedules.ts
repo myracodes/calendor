@@ -1,4 +1,5 @@
 import { LIBRARY, MARKET, POOL } from "../colors"
+import { WEEKDAY } from "../constants/weekdays"
 import type { Schedule } from "./schedules.type"
 
 /**
@@ -6,22 +7,22 @@ import type { Schedule } from "./schedules.type"
  * affichés sous le nom de chaque jour de la semaine.
  */
 export const SCHEDULES: Schedule[] = [
-  { name: "Marché", weekday: 2, color: MARKET },
-  { name: "Marché", weekday: 5, color: MARKET },
-  { name: "L'écume", weekday: 4, hours: "14h-18h" },
-  { name: "L'écume", weekday: 5, hours: "11h-19h" },
-  { name: "Bibliothèque", weekday: 1, hours: "15h-20h", color: LIBRARY },
-  { name: "Bibliothèque", weekday: 2, hours: "10h-18h", color: LIBRARY },
-  { name: "Bibliothèque", weekday: 3, hours: "15h-20h", color: LIBRARY },
-  { name: "Bibliothèque", weekday: 4, hours: "15h-18h", color: LIBRARY },
-  { name: "Bibliothèque", weekday: 5, hours: "10h-18h", color: LIBRARY },
-  { name: "Piscine", weekday: 0, hours: "12h-13h30 et 18h-19h30", color: POOL },
-  { name: "Piscine", weekday: 1, hours: "12h-13h30", color: POOL },
-  { name: "Piscine", weekday: 2, hours: "12h-19h30", color: POOL },
-  { name: "Piscine", weekday: 3, hours: "12h-13h30 et 18h-19h30", color: POOL },
-  { name: "Piscine", weekday: 4, hours: "12h-13h30 et 18h-20h30", color: POOL },
-  { name: "Piscine", weekday: 5, hours: "14h30-17h30", color: POOL },
-  { name: "Piscine", weekday: 6, hours: "9h-12h30", color: POOL },
+  { name: "Marché", weekday: WEEKDAY.MERCREDI, color: MARKET },
+  { name: "Marché", weekday: WEEKDAY.SAMEDI, color: MARKET },
+  { name: "L'écume", weekday: WEEKDAY.VENDREDI, hours: "14h-18h" },
+  { name: "L'écume", weekday: WEEKDAY.SAMEDI, hours: "11h-19h" },
+  { name: "Bibliothèque", weekday: WEEKDAY.MARDI, hours: "15h-20h", color: LIBRARY },
+  { name: "Bibliothèque", weekday: WEEKDAY.MERCREDI, hours: "10h-18h", color: LIBRARY },
+  { name: "Bibliothèque", weekday: WEEKDAY.JEUDI, hours: "15h-20h", color: LIBRARY },
+  { name: "Bibliothèque", weekday: WEEKDAY.VENDREDI, hours: "15h-18h", color: LIBRARY },
+  { name: "Bibliothèque", weekday: WEEKDAY.SAMEDI, hours: "10h-18h", color: LIBRARY },
+  { name: "Piscine", weekday: WEEKDAY.LUNDI, hours: "12h-13h30 et 18h-19h30", color: POOL },
+  { name: "Piscine", weekday: WEEKDAY.MARDI, hours: "12h-13h30", color: POOL },
+  { name: "Piscine", weekday: WEEKDAY.MERCREDI, hours: "12h-19h30", color: POOL },
+  { name: "Piscine", weekday: WEEKDAY.JEUDI, hours: "12h-13h30 et 18h-19h30", color: POOL },
+  { name: "Piscine", weekday: WEEKDAY.VENDREDI, hours: "12h-13h30 et 18h-20h30", color: POOL },
+  { name: "Piscine", weekday: WEEKDAY.SAMEDI, hours: "14h30-17h30", color: POOL },
+  { name: "Piscine", weekday: WEEKDAY.DIMANCHE, hours: "9h-12h30", color: POOL },
 ]
 
 /** Horaires récurrents pour un jour de la semaine donné (0 = lundi … 6 = dimanche). */

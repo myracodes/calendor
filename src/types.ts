@@ -2,7 +2,7 @@ export type EventRule =
   | { kind: "daily" }
   | {
       kind: "weekly"
-      /** 0 = Monday … 6 = Sunday */
+      /** jours de la semaine (constantes WEEKDAY : 0 = lundi … 6 = dimanche) */
       weekdays: number[]
       /** every N weeks (1 = every week) */
       interval: number

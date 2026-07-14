@@ -1,6 +1,8 @@
 // Listes d'ingrédients acceptés pour le batch cooking (100 % végane).
 // Listes hardcodées : à ajuster à la main selon les goûts et ce qu'on trouve au marché.
 
+import { MONTH } from "../constants/months"
+
 export type Season = "printemps" | "été" | "automne" | "hiver"
 
 // Une "occasion" = une saison, ou un contexte particulier qui restreint les ingrédients
@@ -11,9 +13,9 @@ export const OCCASIONS: Occasion[] = ["printemps", "été", "automne", "hiver", 
 
 /** @param month 1-12 */
 export function seasonForMonth(month: number): Season {
-  if (month >= 3 && month <= 5) return "printemps"
-  if (month >= 6 && month <= 8) return "été"
-  if (month >= 9 && month <= 11) return "automne"
+  if (month >= MONTH.MARS && month <= MONTH.MAI) return "printemps"
+  if (month >= MONTH.JUIN && month <= MONTH.AOÛT) return "été"
+  if (month >= MONTH.SEPTEMBRE && month <= MONTH.NOVEMBRE) return "automne"
   return "hiver"
 }
 

@@ -13,6 +13,7 @@
 - anchor dans presets devrait être optionnel si l'intervalle n'est pas plus de 1
 - ajouter le nom du jour férié
 - gérer le cas où on a beaucoup de choses dans une case, ça crée une deuxième page vide, ou bien ça agrandit les cases
+- ne plus afficher l'âge si la personne est décédée.
 
 ## Idées d'évolutions futures
 
