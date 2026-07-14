@@ -27,20 +27,19 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "column",
     marginBottom: 8,
-    marginLeft: 16,
-    // marginTop: -12,
+    marginLeft: 40,
   },
   // Titre "<mois> <année>" en haut de page.
   monthTitle: {
     fontFamily: "BadScript",
     fontSize: 16,
     textTransform: "capitalize",
-    marginLeft: 16,
+    marginLeft: 40,
   },
   // Équivalent du liseré sous le titre de l'app (h1::after)
   titleUnderline: {
     flexDirection: "row",
-    width: 130,
+    width: 170,
     height: 2,
   },
   // Cadre englobant toute la grille du mois (en-tête des jours de la semaine + semaines).
@@ -53,7 +52,7 @@ const styles = StyleSheet.create({
   // Liseré coloré en haut de la grille, comme sur les cartes de l'app
   gridAccent: {
     flexDirection: "row",
-    height: 5,
+    height: 3,
   },
   // Ligne d'en-tête avec le nom de chaque jour de la semaine (une WeekdayHeaderCell par colonne).
   weekdayRow: {
@@ -83,18 +82,28 @@ const styles = StyleSheet.create({
   firstDayCell: {
     borderLeftWidth: 0,
   },
-  // Numéro du jour, en haut de chaque cellule ("· férié" y est ajouté inline si besoin).
+  // Coin haut-droit de la cellule, en absolu : numéro du jour, et mention "férié" en
+  // dessous si besoin. Hors du flux, la première ligne d'événement démarre ainsi tout
+  // en haut de la cellule.
+  dayCorner: {
+    position: "absolute",
+    top: 0,
+    right: 3,
+    flexDirection: "column",
+    alignItems: "flex-end",
+  },
+  // Numéro du jour.
   dayNumber: {
     fontFamily: "BadScript",
-    fontSize: 10,
-    marginTop: -2,
+    fontSize: 14,
   },
-  // Mention "· férié" accolée au numéro du jour.
+  // Mention "férié" sous le numéro du jour.
   holidayTag: {
     fontFamily: "PatrickHand",
     fontWeight: "normal",
-    fontSize: 7,
+    fontSize: 10,
     color: INK_LIGHT,
+    marginTop: -2,
   },
   // Ligne de texte d'un événement personnalisé (settings.events) dans une cellule jour.
   event: {
@@ -168,12 +177,6 @@ export function MonthPage({ settings, year, month }: MonthPageProps) {
                 <View key={cellIndex} style={cellIndex === 0 ? [styles.dayCell, styles.firstDayCell] : styles.dayCell}>
                   {day !== null && iso !== null ? (
                     <>
-                      <Text style={styles.dayNumber}>
-                        {day}
-                        {lifeEventsForDay(publicHolidays, month, day).length > 0 ? (
-                          <Text style={styles.holidayTag}> · férié</Text>
-                        ) : null}
-                      </Text>
                       {LIFE_EVENT_KINDS.filter(kind => kind.isEnabled(settings)).map(kind =>
                         lifeEventsForDay(kind.events, month, day).map(event => (
                           <Text
@@ -195,6 +198,13 @@ export function MonthPage({ settings, year, month }: MonthPageProps) {
                           • {event.label}
                         </Text>
                       ))}
+                      {/* Rendu en dernier pour rester lisible par-dessus une ligne d'événement qui le chevaucherait. */}
+                      <View style={styles.dayCorner}>
+                        <Text style={styles.dayNumber}>{day}</Text>
+                        {lifeEventsForDay(publicHolidays, month, day).length > 0 ? (
+                          <Text style={styles.holidayTag}>férié</Text>
+                        ) : null}
+                      </View>
                     </>
                   ) : null}
                 </View>
