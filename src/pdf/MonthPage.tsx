@@ -1,5 +1,6 @@
 import { Page, StyleSheet, Text, View } from "@react-pdf/renderer"
-import { BIRTHDAY, DEATH, FESTIVE, INK, INK_LIGHT, LINE, PAPER } from "../colors"
+import { BIRTHDAY, DAY_OFF, DEATH, FESTIVE, INK, INK_LIGHT, LINE, PAPER } from "../colors"
+import { WEEKDAY } from "../constants/weekdays"
 import { monthGrid, monthName, weekdayNames } from "../dates"
 import { publicHolidaysForYear } from "../events/publicHolidays"
 import type { CalendarSettings } from "../types"
@@ -81,6 +82,10 @@ const styles = StyleSheet.create({
   // La toute première cellule d'une semaine (lundi) n'a pas de bordure gauche.
   firstDayCell: {
     borderLeftWidth: 0,
+  },
+  // Fond légèrement plus sombre (pink-orchid translucide) des cases week-end et jour férié.
+  dayOffCell: {
+    backgroundColor: DAY_OFF,
   },
   // Coin haut-droit de la cellule, en absolu : numéro du jour, et mention "férié" en
   // dessous si besoin. Hors du flux, la première ligne d'événement démarre ainsi tout
@@ -173,42 +178,50 @@ export function MonthPage({ settings, year, month }: MonthPageProps) {
           </View>
           {weeks.map((week, weekIndex) => (
             <View key={weekIndex} style={weekIndex === 0 ? [styles.week, styles.firstWeek] : styles.week}>
-              {week.map(({ day, iso, weekday }, cellIndex) => (
-                <View key={cellIndex} style={cellIndex === 0 ? [styles.dayCell, styles.firstDayCell] : styles.dayCell}>
-                  {day !== null && iso !== null ? (
-                    <>
-                      {LIFE_EVENT_KINDS.filter(kind => kind.isEnabled(settings)).map(kind =>
-                        lifeEventsForDay(kind.events, month, day).map(event => (
+              {week.map(({ day, iso, weekday }, cellIndex) => {
+                const isHoliday = day !== null && lifeEventsForDay(publicHolidays, month, day).length > 0
+                const isWeekend = weekday === WEEKDAY.SAMEDI || weekday === WEEKDAY.DIMANCHE
+                const cellStyle = [
+                  styles.dayCell,
+                  ...(cellIndex === 0 ? [styles.firstDayCell] : []),
+                  // Case teintée seulement pour un vrai jour (pas les cases vides hors mois).
+                  ...(day !== null && (isWeekend || isHoliday) ? [styles.dayOffCell] : []),
+                ]
+                return (
+                  <View key={cellIndex} style={cellStyle}>
+                    {day !== null && iso !== null ? (
+                      <>
+                        {LIFE_EVENT_KINDS.filter(kind => kind.isEnabled(settings)).map(kind =>
+                          lifeEventsForDay(kind.events, month, day).map(event => (
+                            <Text
+                              key={`${kind.key}-${event.name}`}
+                              style={[styles.lifeEvent, LIFE_EVENT_STYLE[kind.key]]}
+                            >
+                              {lifeEventLabel(kind.emoji ?? "", event, year, kind.showAge)}
+                            </Text>
+                          )),
+                        )}
+                        {eventsForDay(settings.events, day, iso, weekday).map(event => (
                           <Text
-                            key={`${kind.key}-${event.name}`}
-                            style={[styles.lifeEvent, LIFE_EVENT_STYLE[kind.key]]}
+                            key={event.id}
+                            style={[
+                              styles.event,
+                              { color: event.color ?? (event.rule.kind === "daily" ? INK_LIGHT : INK) },
+                            ]}
                           >
-                            {lifeEventLabel(kind.emoji ?? "", event, year, kind.showAge)}
+                            • {event.label}
                           </Text>
-                        )),
-                      )}
-                      {eventsForDay(settings.events, day, iso, weekday).map(event => (
-                        <Text
-                          key={event.id}
-                          style={[
-                            styles.event,
-                            { color: event.color ?? (event.rule.kind === "daily" ? INK_LIGHT : INK) },
-                          ]}
-                        >
-                          • {event.label}
-                        </Text>
-                      ))}
-                      {/* Rendu en dernier pour rester lisible par-dessus une ligne d'événement qui le chevaucherait. */}
-                      <View style={styles.dayCorner}>
-                        <Text style={styles.dayNumber}>{day}</Text>
-                        {lifeEventsForDay(publicHolidays, month, day).length > 0 ? (
-                          <Text style={styles.holidayTag}>férié</Text>
-                        ) : null}
-                      </View>
-                    </>
-                  ) : null}
-                </View>
-              ))}
+                        ))}
+                        {/* Rendu en dernier pour rester lisible par-dessus une ligne d'événement qui le chevaucherait. */}
+                        <View style={styles.dayCorner}>
+                          <Text style={styles.dayNumber}>{day}</Text>
+                          {isHoliday ? <Text style={styles.holidayTag}>férié</Text> : null}
+                        </View>
+                      </>
+                    ) : null}
+                  </View>
+                )
+              })}
             </View>
           ))}
         </View>

@@ -8,6 +8,7 @@
 - possibilité d'ajouter les congés
 - couleur des éléments selon le type
 - preset Période pour pouvoir choisir "le mois prochain", "l'année prochaine", "les 6 prochains mois" ou custom (custom = l'actuel)
+- pouvoir paramétrer tous les x mois / x jours / x années
 - horaires piscine en fonction des vacances etc
 - anchor dans presets devrait être optionnel si l'intervalle n'est pas plus de 1
 - ajouter le nom du jour férié

@@ -120,6 +120,16 @@ export const PRESETS: Preset[] = [
         rule: { kind: "daily" },
         color: "#1073c4",
       },
+      {
+        label: "chanson cahier musique",
+        rule: { kind: "monthly", day: 1 },
+        color: "#1073c4",
+      },
+      {
+        label: "administratif",
+        rule: { kind: "monthly", day: 1 },
+        color: "#1073c4",
+      },
     ],
   },
   {

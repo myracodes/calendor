@@ -6,6 +6,8 @@ export const INK_LIGHT = "#767093"
 export const PAPER = "#ffffff"
 export const LINE = "#e9e5f4"
 export const BIRTHDAY = "#b565a8" // pink-orchid foncé, lisible sur fond clair
+// Fond des cases week-end / jour férié du calendrier mensuel : cotton-rose en transparence légère
+export const DAY_OFF = "#ffcfd240"
 export const DEATH = "#8f7bd8" // accent-strong de l'app
 export const FESTIVE = "#3d84b8" // sky-blue foncé, lisible sur fond clair
 export const SCHEDULE = "#3f8f63" // celadon foncé, lisible sur fond clair
