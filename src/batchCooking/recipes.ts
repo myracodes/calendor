@@ -155,3 +155,5 @@ export const RECIPES: Recipe[] = [
     canicule: true,
   },
 ]
+
+// desserts > ajouter pudding de chia aux fruits
