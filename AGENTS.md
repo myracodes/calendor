@@ -20,6 +20,10 @@ Règles à respecter dans ce projet. Ce fichier est mis à jour au fil de l'eau.
 
 - Avant de demander une autorisation pour une commande dans le terminal, toujours expliquer à quoi elle sert et comment elle est construite (en une ligne)
 
+## Langue
+
+- Le code (identifiants, noms de variables/fonctions/fichiers) est de préférence en anglais. Mais le projet contient beaucoup de données en français (libellés d'articles, presets, événements…) : quand le code manipule directement ces données, rester en français a du sens (ex. `src/courses/`, où `SelectionParCategorie` ou `validerSelection` collent aux données qu'ils décrivent).
+
 ## Commentaires
 
 - Pas besoin de rédiger les commentaires en anglais. Ce projet est une sorte de `util` personnel, qui n'a pas vocation à être partagé, ni développé avec des non-francophones.

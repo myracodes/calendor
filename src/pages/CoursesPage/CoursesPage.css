@@ -1,0 +1,88 @@
+/* La liste en cours : une "puce" par article, retirable d'un clic. */
+.courses-liste {
+  list-style: none;
+  margin: 0 0 1.25rem;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.courses-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.4rem 0.3rem 0.7rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  font-size: 0.9rem;
+}
+
+/* Les achats ponctuels (hors catalogue) se repèrent à leur liseré pointillé. */
+.courses-chip--libre {
+  border-style: dashed;
+  border-color: var(--accent-strong);
+}
+
+/* Bouton × d'une puce : neutralise le style global des boutons de l'app. */
+.courses-chip button {
+  height: auto;
+  padding: 0 0.25rem;
+  background: none;
+  box-shadow: none;
+  color: var(--ink-light);
+  font-size: 1.05rem;
+  line-height: 1;
+}
+
+.courses-chip button:hover {
+  transform: none;
+  box-shadow: none;
+  color: var(--ink);
+}
+
+/* Formulaire d'ajout d'un achat ponctuel. */
+.courses-ajout {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-end;
+}
+
+.courses-ajout-champ {
+  flex: 1;
+  min-width: 160px;
+}
+
+/* Le bouton de remise à zéro, en retrait sous le formulaire d'ajout. */
+.courses-vider {
+  margin-top: 1rem;
+}
+
+.courses-vider:disabled {
+  opacity: 0.5;
+  cursor: default;
+  transform: none;
+}
+
+/* Les boutons d'ajout rapide, côte à côte. */
+.courses-ajouts-rapides {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+/* Grille des cases à cocher d'une catégorie. */
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.4rem 1rem;
+}
+
+/* Une case à cocher et son libellé sur la même ligne
+   (le style global des labels de l'app est en colonne). */
+.courses-article {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--ink);
+}

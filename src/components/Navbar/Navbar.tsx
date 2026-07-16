@@ -5,6 +5,7 @@ const LINKS = [
   { to: "/calendars", label: "Calendriers" },
   { to: "/budget", label: "Budget" },
   { to: "/batch-cooking", label: "Batch cooking" },
+  { to: "/courses", label: "Courses" },
   { to: "/bujo", label: "BuJo factory" },
   { to: "/courrier", label: "Courrier" },
 ]
