@@ -5,6 +5,7 @@ import { BatchCookingPage } from "./pages/BatchCookingPage/BatchCookingPage"
 import { BudgetPage } from "./pages/BudgetPage/BudgetPage"
 import { BujoFactoryPage } from "./pages/BujoFactoryPage/BujoFactoryPage"
 import { CalendarsPage } from "./pages/CalendarsPage/CalendarsPage"
+import { CourrierPage } from "./pages/CourrierPage/CourrierPage"
 import { COMMIT_HASH } from "./version"
 
 export default function App() {
@@ -22,6 +23,7 @@ export default function App() {
           <Route path="/budget" element={<BudgetPage />} />
           <Route path="/batch-cooking" element={<BatchCookingPage />} />
           <Route path="/bujo" element={<BujoFactoryPage />} />
+          <Route path="/courrier" element={<CourrierPage />} />
         </Routes>
 
         <footer className="footer">

@@ -1,0 +1,37 @@
+/* Un champ du courrier occupe toute la largeur de sa carte. */
+.courrier-field {
+  width: 100%;
+}
+
+.courrier-field input {
+  width: 100%;
+}
+
+/* Les textareas reprennent le style des inputs de l'app (App.css ne cible que input/select). */
+.courrier-field textarea {
+  font: inherit;
+  color: var(--ink);
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  resize: vertical;
+  min-height: 8rem;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.courrier-field textarea:focus-visible {
+  outline: none;
+  border-color: var(--accent-strong);
+  box-shadow: var(--focus-ring);
+}
+
+/* Le corps du courrier mérite plus de place que les blocs de coordonnées. */
+.courrier-field .courrier-corps {
+  min-height: 18rem;
+}
+
+.courrier-objet {
+  margin-top: 1rem;
+}

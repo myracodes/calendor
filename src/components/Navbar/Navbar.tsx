@@ -6,6 +6,7 @@ const LINKS = [
   { to: "/budget", label: "Budget" },
   { to: "/batch-cooking", label: "Batch cooking" },
   { to: "/bujo", label: "BuJo factory" },
+  { to: "/courrier", label: "Courrier" },
 ]
 
 export function Navbar() {

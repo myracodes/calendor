@@ -21,6 +21,11 @@ Font.register({
   family: "BadScript",
   src: `${BASE}fonts/BadScript-Regular.ttf`,
 })
+// Carlito : clone libre de Calibri, pour les documents "sérieux" (courriers).
+Font.register({
+  family: "Carlito",
+  fonts: [{ src: `${BASE}fonts/Carlito-Regular.ttf` }, { src: `${BASE}fonts/Carlito-Bold.ttf`, fontWeight: "bold" }],
+})
 // Handwritten text should not be hyphenated.
 Font.registerHyphenationCallback(word => [word])
 // Text fonts have no emoji glyphs; emojis are rendered from local Twemoji

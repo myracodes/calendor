@@ -13,7 +13,6 @@
 - anchor dans presets devrait être optionnel si l'intervalle n'est pas plus de 1
 - ajouter le nom du jour férié
 - gérer le cas où on a beaucoup de choses dans une case, ça crée une deuxième page vide, ou bien ça agrandit les cases
-- générateur de courrier PDF avec formattage
 - liste de courses
 
 ## Idées d'évolutions futures

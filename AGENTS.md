@@ -23,3 +23,4 @@ Règles à respecter dans ce projet. Ce fichier est mis à jour au fil de l'eau.
 ## Commentaires
 
 - Pas besoin de rédiger les commentaires en anglais. Ce projet est une sorte de `util` personnel, qui n'a pas vocation à être partagé, ni développé avec des non-francophones.
+- Dans les styles des PDF (`StyleSheet.create` de `src/pdf/`), commenter chaque ligne de style (à quoi sert la valeur choisie) pour faciliter la maintenance.
