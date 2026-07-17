@@ -1,6 +1,6 @@
-import { pdf } from "@react-pdf/renderer"
 import { useState } from "react"
 import { CalendarDocument } from "../../pdf/CalendarDocument"
+import { downloadPdf } from "../../pdf/downloadPdf"
 import { PRESETS } from "../../presets"
 import { IllustrationSection } from "../../shared/IllustrationSection/IllustrationSection"
 import type { CalendarSettings } from "../../types"
@@ -44,13 +44,10 @@ export function CalendarsPage() {
   async function generatePdf() {
     setGenerating(true)
     try {
-      const blob = await pdf(<CalendarDocument settings={settings} />).toBlob()
-      const url = URL.createObjectURL(blob)
-      const link = document.createElement("a")
-      link.href = url
-      link.download = settings.format === "weekly" ? "calendrier-hebdomadaire.pdf" : `calendrier-${settings.year}.pdf`
-      link.click()
-      URL.revokeObjectURL(url)
+      await downloadPdf(
+        <CalendarDocument settings={settings} />,
+        settings.format === "weekly" ? "calendrier-hebdomadaire.pdf" : `calendrier-${settings.year}.pdf`,
+      )
     } finally {
       setGenerating(false)
     }

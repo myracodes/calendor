@@ -1,7 +1,7 @@
-import { pdf } from "@react-pdf/renderer"
 import { useState } from "react"
 import type { BujoColumn, BujoSettings, DottedWidth } from "../../bujo/types"
 import { BujoDocument } from "../../pdf/BujoDocument"
+import { downloadPdf } from "../../pdf/downloadPdf"
 import { IllustrationSection } from "../../shared/IllustrationSection/IllustrationSection"
 import "./BujoFactoryPage.css"
 
@@ -56,14 +56,8 @@ export function BujoFactoryPage() {
   async function generatePdf() {
     setGenerating(true)
     try {
-      const blob = await pdf(<BujoDocument settings={settings} />).toBlob()
-      const url = URL.createObjectURL(blob)
-      const link = document.createElement("a")
       const slug = settings.title.trim().toLowerCase().replace(/\s+/g, "-")
-      link.href = url
-      link.download = slug === "" ? "bujo.pdf" : `bujo-${slug}.pdf`
-      link.click()
-      URL.revokeObjectURL(url)
+      await downloadPdf(<BujoDocument settings={settings} />, slug === "" ? "bujo.pdf" : `bujo-${slug}.pdf`)
     } finally {
       setGenerating(false)
     }

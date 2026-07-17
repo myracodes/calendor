@@ -1,4 +1,3 @@
-import { pdf } from "@react-pdf/renderer"
 import { useState } from "react"
 import cvPhoto from "../../assets/images/cv-photo.jpg"
 import { ACCROCHES_EN, CV_EN, TITRES_EN } from "../../cv/dataEn"
@@ -6,6 +5,7 @@ import { ACCROCHES_FR, CV_FR, TITRES_FR } from "../../cv/dataFr"
 import { fetchCvContact } from "../../cv/fetchCvContact"
 import type { CvAccroche, CvData, CvLanguage } from "../../cv/types"
 import { CvDocument } from "../../pdf/CvDocument"
+import { downloadPdf } from "../../pdf/downloadPdf"
 
 const DATA: Record<CvLanguage, CvData> = { fr: CV_FR, en: CV_EN }
 const ACCROCHES: Record<CvLanguage, Record<CvAccroche, string>> = { fr: ACCROCHES_FR, en: ACCROCHES_EN }
@@ -38,13 +38,7 @@ export function CvPage() {
         accroche: ACCROCHES[language][accroche],
         photo: cvPhoto,
       }
-      const blob = await pdf(<CvDocument cv={cv} />).toBlob()
-      const url = URL.createObjectURL(blob)
-      const link = document.createElement("a")
-      link.href = url
-      link.download = `cv-myriam-mira-${language}.pdf`
-      link.click()
-      URL.revokeObjectURL(url)
+      await downloadPdf(<CvDocument cv={cv} />, `cv-myriam-mira-${language}.pdf`)
     } finally {
       setGenerating(false)
     }

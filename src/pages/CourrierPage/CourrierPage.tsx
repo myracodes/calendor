@@ -1,7 +1,7 @@
-import { pdf } from "@react-pdf/renderer"
 import { useState } from "react"
 import type { CourrierSettings } from "../../courrier/types"
 import { CourrierDocument } from "../../pdf/CourrierDocument"
+import { downloadPdf } from "../../pdf/downloadPdf"
 import "./CourrierPage.css"
 
 /** Date du jour au format ISO "aaaa-mm-jj", dans le fuseau local. */
@@ -34,14 +34,8 @@ export function CourrierPage() {
   async function generatePdf() {
     setGenerating(true)
     try {
-      const blob = await pdf(<CourrierDocument settings={settings} />).toBlob()
-      const url = URL.createObjectURL(blob)
-      const link = document.createElement("a")
       const slug = settings.objet.trim().toLowerCase().replace(/\s+/g, "-")
-      link.href = url
-      link.download = slug === "" ? "courrier.pdf" : `courrier-${slug}.pdf`
-      link.click()
-      URL.revokeObjectURL(url)
+      await downloadPdf(<CourrierDocument settings={settings} />, slug === "" ? "courrier.pdf" : `courrier-${slug}.pdf`)
     } finally {
       setGenerating(false)
     }

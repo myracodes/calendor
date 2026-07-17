@@ -1,4 +1,3 @@
-import { pdf } from "@react-pdf/renderer"
 import { type SubmitEvent, useState } from "react"
 import { type AjoutRapide, AJOUTS_RAPIDES } from "../../courses/ajoutsRapides"
 import { articleKey, CATALOGUE } from "../../courses/catalogue"
@@ -6,6 +5,7 @@ import { PRESET_KEYS } from "../../courses/preset"
 import { selectionKeys } from "../../courses/selection"
 import type { ArticleLibre, SectionListe } from "../../courses/types"
 import { CoursesDocument } from "../../pdf/CoursesDocument"
+import { downloadPdf } from "../../pdf/downloadPdf"
 import "./CoursesPage.css"
 
 // Couleurs d'accent des cartes de catégories, en rotation.
@@ -74,13 +74,7 @@ export function CoursesPage() {
       if (libres.length > 0) {
         sections.push({ nom: "Divers", articles: libres.map(item => item.label) })
       }
-      const blob = await pdf(<CoursesDocument sections={sections} />).toBlob()
-      const url = URL.createObjectURL(blob)
-      const link = document.createElement("a")
-      link.href = url
-      link.download = "liste-de-courses.pdf"
-      link.click()
-      URL.revokeObjectURL(url)
+      await downloadPdf(<CoursesDocument sections={sections} />, "liste-de-courses.pdf")
     } finally {
       setGenerating(false)
     }
