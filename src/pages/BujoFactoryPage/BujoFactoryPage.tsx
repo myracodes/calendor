@@ -1,8 +1,8 @@
 import { pdf } from "@react-pdf/renderer"
 import { useState } from "react"
 import type { BujoColumn, BujoSettings, DottedWidth } from "../../bujo/types"
-import { IllustrationSection } from "../../components/IllustrationSection/IllustrationSection"
 import { BujoDocument } from "../../pdf/BujoDocument"
+import { IllustrationSection } from "../../shared/IllustrationSection/IllustrationSection"
 import "./BujoFactoryPage.css"
 
 const WIDTH_OPTIONS: { value: DottedWidth; label: string }[] = [

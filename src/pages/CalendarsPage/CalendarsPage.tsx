@@ -1,12 +1,12 @@
 import { pdf } from "@react-pdf/renderer"
 import { useState } from "react"
-import { IllustrationSection } from "../../components/IllustrationSection/IllustrationSection"
+import { CalendarDocument } from "../../pdf/CalendarDocument"
+import { PRESETS } from "../../presets"
+import { IllustrationSection } from "../../shared/IllustrationSection/IllustrationSection"
+import type { CalendarSettings } from "../../types"
 import { ParametrageSection } from "./components/ParametrageSection/ParametrageSection"
 import { PeriodSection } from "./components/PeriodSection/PeriodSection"
 import { BLANK_TEMPLATE, TemplateTabs } from "./components/TemplateTabs/TemplateTabs"
-import { CalendarDocument } from "../../pdf/CalendarDocument"
-import { PRESETS } from "../../presets"
-import type { CalendarSettings } from "../../types"
 
 const CURRENT_YEAR = new Date().getFullYear()
 const CURRENT_MONTH = new Date().getMonth() + 1
