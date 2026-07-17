@@ -1,5 +1,6 @@
 import { type FormEvent, useState } from "react"
 import { requireSupabase } from "../../supabase/client"
+import { PasswordInput } from "./components/PasswordInput/PasswordInput"
 import "./LoginPage.css"
 
 /**
@@ -41,13 +42,7 @@ export function LoginPage() {
           </label>
           <label>
             Mot de passe
-            <input
-              type="password"
-              value={password}
-              autoComplete="current-password"
-              required
-              onChange={e => setPassword(e.target.value)}
-            />
+            <PasswordInput value={password} onChange={setPassword} />
           </label>
           {error !== null && <p className="login-error">{error}</p>}
           <button type="submit" disabled={submitting}>

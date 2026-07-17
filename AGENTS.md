@@ -11,6 +11,11 @@ Règles à respecter dans ce projet. Ce fichier est mis à jour au fil de l'eau.
 - Pas de CSS inline (attribut `style` ou objets de style dans le JSX). Si du style est nécessaire, créer un fichier CSS dédié et l'importer.
 - Les couleurs doivent toujours garantir un score d'accessibilité optimal : viser un contraste WCAG AAA (≥ 7:1 pour le texte) sur les fonds du thème (`--paper`, `--surface`). Utiliser les tokens du thème (`src/index.css`) — notamment `--success`, `--info`, `--warning`, `--danger` — plutôt que des couleurs en dur. Si besoin d'ajouter des couleurs, demander la permission en justifiant le besoin, puis vérifier le ratio. 
 
+## Icônes (SVG)
+
+- Pas de SVG inline dans le JSX : chaque icône vit dans un fichier `.svg` de `src/assets/icons/`, importé comme URL (`import eyeIcon from "…/assets/icons/eye.svg"`) et affiché via `<img>`. Avant de créer une icône, vérifier si elle n'existe pas déjà dans ce dossier.
+- Un SVG affiché via `<img>` n'hérite pas du CSS de la page (`currentColor`, variables) : fixer la couleur dans le fichier `.svg` avec la valeur hexadécimale d'un token du thème, et l'indiquer en commentaire dans le fichier (ex. `#3b3554 = token "ink"`).
+
 ## Organisation des fichiers
 
 - Un fichier = une responsabilité (données, types, logique d'affichage). Découper plutôt qu'entasser : voir `src/events/` (un fichier de données par catégorie + un fichier de types partagé) et `src/pdf/` (un composant par bloc de mise en page, tokens de style partagés dans `theme.ts`).

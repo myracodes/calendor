@@ -14,9 +14,10 @@
 - ajouter le nom du jour férié
 - gérer le cas où on a beaucoup de choses dans une case, ça crée une deuxième page vide, ou bien ça agrandit les cases
 - invitation anniversaire
-- authentification
 - compte my, q
 - ajouter des couleurs success warning error et remplacer là où nécessaire
+- pouvoir injecter les couleurs via des variables dans les svg de src/assets/icons ?
+- FormEvent deprecated
 
 ## Idées d'évolutions futures
 
