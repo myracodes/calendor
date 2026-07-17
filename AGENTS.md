@@ -9,6 +9,7 @@ Règles à respecter dans ce projet. Ce fichier est mis à jour au fil de l'eau.
 ## CSS
 
 - Pas de CSS inline (attribut `style` ou objets de style dans le JSX). Si du style est nécessaire, créer un fichier CSS dédié et l'importer.
+- Les couleurs doivent toujours garantir un score d'accessibilité optimal : viser un contraste WCAG AAA (≥ 7:1 pour le texte) sur les fonds du thème (`--paper`, `--surface`). Utiliser les tokens du thème (`src/index.css`) — notamment `--success`, `--info`, `--warning`, `--danger` — plutôt que des couleurs en dur. Si besoin d'ajouter des couleurs, demander la permission en justifiant le besoin, puis vérifier le ratio. 
 
 ## Organisation des fichiers
 

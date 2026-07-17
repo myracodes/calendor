@@ -24,6 +24,12 @@
   --accent: var(--periwinkle);
   --accent-strong: #8f7bd8;
 
+  /* --- Couleurs d'état (contraste AAA ≥ 7:1 sur --paper et --surface) --- */
+  --success: #166534;
+  --info: #1e40af;
+  --warning: #8a3c0d;
+  --danger: #9e1b32;
+
   /* --- Gradients réutilisables --- */
   --gradient-rainbow: linear-gradient(
     90deg,

@@ -1,0 +1,23 @@
+/* L'écran de connexion : le titre et la carte, centrés dans la page. */
+.login {
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 22rem;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.login-error {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--danger);
+}

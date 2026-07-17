@@ -24,7 +24,13 @@ jobs:
           node-version: 24
           cache: npm
       - run: npm ci
+      # Config Supabase (pas des secrets : l'URL et la clé anon finissent de
+      # toute façon dans le bundle). À renseigner dans Settings → Secrets and
+      # variables → Actions → Variables. Absentes = site sans verrou.
       - run: npm run build
+        env:
+          VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist

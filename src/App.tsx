@@ -1,6 +1,10 @@
 import { HashRouter, Navigate, Route, Routes } from "react-router-dom"
 import "./App.css"
+import { AuthProvider } from "./auth/AuthProvider"
+import { useAuth } from "./auth/useAuth"
 import { Navbar } from "./components/Navbar/Navbar"
+import { LoginPage } from "./pages/LoginPage/LoginPage"
+import { isAuthRequired } from "./supabase/client"
 import { BatchCookingPage } from "./pages/BatchCookingPage/BatchCookingPage"
 import { BudgetPage } from "./pages/BudgetPage/BudgetPage"
 import { BujoFactoryPage } from "./pages/BujoFactoryPage/BujoFactoryPage"
@@ -9,7 +13,25 @@ import { CourrierPage } from "./pages/CourrierPage/CourrierPage"
 import { CoursesPage } from "./pages/CoursesPage/CoursesPage"
 import { COMMIT_HASH } from "./version"
 
+// Le verrou : l'app ne s'affiche qu'avec une session valide. Il ne joue qu'en
+// build de prod, et seulement si Supabase est configuré (voir isAuthRequired).
+function AppGate() {
+  const { session, loading } = useAuth()
+  // Évite un flash de l'écran de connexion pendant la relecture de la session.
+  if (loading) return null
+  if (isAuthRequired && session === null) return <LoginPage />
+  return <AppContent />
+}
+
 export default function App() {
+  return (
+    <AuthProvider>
+      <AppGate />
+    </AuthProvider>
+  )
+}
+
+function AppContent() {
   return (
     <HashRouter>
       <main className="app">
