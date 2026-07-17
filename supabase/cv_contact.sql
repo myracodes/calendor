@@ -18,6 +18,11 @@ alter table public.cv_contact enable row level security;
 create policy "lecture authentifiée" on public.cv_contact
   for select to authenticated using (true);
 
+-- Privilège SQL de base, indépendant de la RLS : sans lui, PostgreSQL refuse
+-- le SELECT avant même d'évaluer la policy (erreur 42501 "permission denied").
+-- Rien pour "anon" : les visiteurs non connectés n'ont aucun accès.
+grant select on public.cv_contact to authenticated;
+
 -- Modèle d'insertion (une ligne par langue), à exécuter dans le SQL editor
 -- avec les VRAIES valeurs. Ne pas écrire les vraies valeurs dans ce fichier :
 -- il est versionné — c'est précisément ce qu'on veut éviter.

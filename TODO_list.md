@@ -20,6 +20,8 @@
 - retirer le rond violet CV
 - nouvelle DA du CV
 - bg image par défaut pour les  différents modules, par ex le bujo
+- gérer la durée de la session
+- améliorer la structure des données en BDD
 
 ## Idées d'évolutions futures
 
