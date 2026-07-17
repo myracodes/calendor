@@ -17,11 +17,10 @@
 - compte my, q
 - pouvoir injecter les couleurs via des variables dans les svg de src/assets/icons ?
 - gérer les emoji
-- retirer le rond violet CV
-- nouvelle DA du CV
 - bg image par défaut pour les  différents modules, par ex le bujo
 - gérer la durée de la session
 - améliorer la structure des données en BDD
+- séparer infos: "Basée quelque part\n\n Vélo | Permis B | remote :)" en 2 morceaux
 
 ## Idées d'évolutions futures
 

@@ -2,97 +2,83 @@ import { Image, Link, StyleSheet, Text, View } from "@react-pdf/renderer"
 import type { CvData, SidebarSection } from "../cv/types"
 import { CvRichText } from "./CvRichText"
 import { CvSectionTitle } from "./CvSectionTitle"
-import { CV_AMBER, CV_FONT_DISPLAY, CV_VIOLET, CV_WHITE } from "./cvTheme"
+import { CV_AMBER, CV_FONT_DISPLAY, CV_WHITE } from "./cvTheme"
 
-const PHOTO_SIZE = 84 // diamètre de la photo/du rond d'initiales, en points
+const PHOTO_SIZE = 84 // diamètre de la photo/du rond en points
 
+// Toute cette colonne a un fond violet (CV_VIOLET_BG, voir CvDocument.tsx) : les
+// styles ci-dessous utilisent CV_WHITE / CV_AMBER, pas CV_TEXT / CV_VIOLET, pour rester lisibles dessus.
 const styles = StyleSheet.create({
+  // Nom en haut de la colonne, au-dessus de la photo.
   nom: {
-    fontFamily: CV_FONT_DISPLAY, // manuscrite des grands titres
-    fontSize: 22, // le nom est l'élément le plus gros de la colonne (la manuscrite paraît plus petite)
-    color: CV_WHITE, // blanc sur le fond violet
-    textAlign: "center", // centré dans la colonne, sous la photo
-    marginBottom: 10, // espace avant la photo/le bloc contact
+    fontFamily: CV_FONT_DISPLAY,
+    fontSize: 22, // la font manuscrite paraît plus petite qu'une sans-serif à taille égale
+    color: CV_WHITE,
+    textAlign: "center",
+    marginBottom: 8, // espace avant la photo
   },
   photo: {
-    width: PHOTO_SIZE, // photo carrée…
-    height: PHOTO_SIZE, // …de même hauteur…
-    borderRadius: PHOTO_SIZE / 2, // …arrondie en cercle
-    alignSelf: "center", // centrée dans la colonne
-    marginBottom: 10, // espace avant le bloc contact
+    width: PHOTO_SIZE,
+    height: PHOTO_SIZE,
+    borderRadius: PHOTO_SIZE / 2, // moitié du diamètre : cercle parfait
+    alignSelf: "center",
+    marginBottom: 10,
   },
-  initialesFond: {
-    backgroundColor: "#f1edfa", // violet très pâle en fond du rond, en attendant la vraie photo
-  },
-  initiales: {
-    fontSize: 30, // grosses initiales pour remplir le rond
-    fontWeight: "bold", // même graisse que le nom
-    color: CV_VIOLET, // violet principal du CV
-    lineHeight: PHOTO_SIZE / 30, // centre verticalement le texte dans le rond (hauteur de ligne = diamètre)
-    textAlign: "center", // centre horizontalement les initiales
-  },
+  // Une ligne du bloc contact (email, téléphone, GitHub, LinkedIn…), sous la photo.
   contactLigne: {
-    fontSize: 8.5, // petites lignes de contact, comme dans le CV d'origine
-    color: CV_WHITE, // blanc sur le fond violet
-    textAlign: "center", // centrées dans la colonne
-    marginBottom: 3, // léger espace entre les lignes
+    fontSize: 10,
+    color: CV_WHITE,
+    textAlign: "center",
+    marginBottom: 3,
   },
-  contactLien: {
-    color: CV_AMBER, // les liens sont ambre sur le fond violet, comme dans le CV d'origine
-    textDecoration: "underline", // soulignés pour signaler qu'ils sont cliquables
+  // Variante des lignes de contact cliquables (email, téléphone, GitHub, LinkedIn).
+  contactLink: {
+    color: CV_AMBER,
+    textDecoration: "underline", // signale que la ligne est cliquable
   },
+  // Ligne d'infos pratiques (lieu, permis, dispo…), sous le bloc contact ; la plus discrète du bloc identité.
   infos: {
-    fontSize: 7.5, // ligne d'informations pratiques, la plus discrète du bloc
-    color: CV_WHITE, // blanc sur le fond violet
-    textAlign: "center", // centrée dans la colonne
-    marginTop: 4, // espace après les lignes de contact
-    marginBottom: 14, // espace avant la première section
+    fontSize: 9,
+    color: CV_WHITE,
+    textAlign: "center",
+    marginTop: 4, // espace après la dernière ligne de contact
+    marginBottom: 14, // espace avant la première section (Formation, Compétences…)
   },
+  // Conteneur d'une section de la colonne (Formation, Compétences…).
   section: {
-    marginBottom: 14, // espace entre deux sections de la colonne
+    marginBottom: 12,
   },
+  // Conteneur d'un item au sein d'une section (ex. un diplôme de Formation).
   item: {
-    marginBottom: 7, // espace entre deux items d'une section
+    marginBottom: 7,
   },
-  itemTitre: {
-    fontSize: 9, // même taille que le texte : seule la couleur et la graisse le distinguent
-    fontWeight: "bold", // titre d'item en gras (aide aussi la lisibilité de l'ambre sur violet)
-    color: CV_AMBER, // ambre sur le fond violet, comme dans le CV d'origine
-    marginBottom: 1, // léger espace avant le texte de l'item
+  // Label en tête d'item, quand l'item en a un (ex. "Front-end :" dans Compétences).
+  itemLabel: {
+    fontSize: 9,
+    fontWeight: "bold", // distingue le label du texte qui suit (aide aussi la lisibilité de l'ambre sur violet)
+    color: CV_AMBER,
+    marginBottom: 1, // espace avant le texte de l'item
   },
-  itemTexte: {
-    fontSize: 9, // corps de texte de la colonne
-    color: CV_WHITE, // blanc sur le fond violet
-    lineHeight: 1.35, // interligne aéré pour les petits corps de texte
+  // Une ligne du texte d'un item (une par élément du tableau `texte`, ex. chaque techno de Compétences).
+  itemDetail: {
+    fontSize: 9,
+    color: CV_WHITE,
   },
 })
-
-/** Rond d'initiales affiché tant qu'aucune photo n'est fournie (data.ts, champ `photo`). */
-function Initiales({ nom }: { nom: string }) {
-  const initiales = nom
-    .split(" ")
-    .map(mot => mot[0])
-    .join("")
-  return (
-    <View style={[styles.photo, styles.initialesFond]}>
-      <Text style={styles.initiales}>{initiales}</Text>
-    </View>
-  )
-}
 
 /** Bloc d'identité en tête de la colonne de gauche : photo, nom, contact, infos pratiques. */
 export function CvIdentity({ cv }: { cv: CvData }) {
   return (
     <View>
       <Text style={styles.nom}>{cv.nom}</Text>
-      {cv.photo === null ? <Initiales nom={cv.nom} /> : <Image style={styles.photo} src={cv.photo} />}
+      {cv.photo ? <Image style={styles.photo} src={cv.photo} /> : null}
       {cv.contact.map(ligne =>
         ligne.url === undefined ? (
           <Text key={ligne.texte} style={styles.contactLigne}>
             {ligne.texte}
           </Text>
         ) : (
-          <Link key={ligne.texte} src={ligne.url} style={[styles.contactLigne, styles.contactLien]}>
+          <Link key={ligne.texte} src={ligne.url} style={[styles.contactLigne, styles.contactLink]}>
             {ligne.texte}
           </Link>
         ),
@@ -110,9 +96,11 @@ export function CvSidebarSections({ sections }: { sections: SidebarSection[] }) 
         <View key={section.titre} style={styles.section}>
           <CvSectionTitle inverse>{section.titre}</CvSectionTitle>
           {section.items.map(item => (
-            <View key={item.texte} style={styles.item}>
-              {item.titre !== undefined && <Text style={styles.itemTitre}>{item.titre}</Text>}
-              <CvRichText inverse texte={item.texte} style={styles.itemTexte} />
+            <View key={item.texte.join("\n")} style={styles.item}>
+              {item.titre !== undefined && <Text style={styles.itemLabel}>{item.titre}</Text>}
+              {item.texte.map(ligne => (
+                <CvRichText key={ligne} inverse texte={ligne} style={styles.itemDetail} />
+              ))}
             </View>
           ))}
         </View>

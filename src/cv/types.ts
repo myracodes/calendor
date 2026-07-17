@@ -7,6 +7,14 @@ export type CvPageNumber = 1 | 2
 /** Les langues disponibles du CV (un fichier de données par langue : dataFr.ts, dataEn.ts). */
 export type CvLanguage = "fr" | "en"
 
+/**
+ * Les accroches disponibles : "dev" (par défaut) pour postuler à des postes de
+ * développeuse, "management" pour des postes de cheffe de projet / scrum master.
+ * Les textes vivent dans dataFr.ts / dataEn.ts (ACCROCHES_FR / ACCROCHES_EN),
+ * le choix se fait sur la page CV à la génération.
+ */
+export type CvAccroche = "dev" | "management"
+
 /** Une ligne du bloc contact : un texte, avec une URL si la ligne est cliquable. */
 export type ContactLine = {
   texte: string
@@ -15,11 +23,12 @@ export type ContactLine = {
 
 /**
  * Un item d'une section de la colonne de gauche.
- * `titre` (optionnel) est mis en avant en violet gras, `texte` suit en dessous.
+ * `titre` (optionnel) est mis en avant en violet gras, `texte` suit en dessous
+ * (une ligne par élément du tableau).
  */
 export type SidebarItem = {
   titre?: string
-  texte: string
+  texte: string[]
 }
 
 /** Une section de la colonne de gauche (Formation, Compétences…), affectée à une page. */
@@ -27,6 +36,20 @@ export type SidebarSection = {
   titre: string
   page: CvPageNumber
   items: SidebarItem[]
+}
+
+/**
+ * Un projet mené au sein d'une même expérience (ex. mission client et projets
+ * internes en ESN). Tous les projets d'une expérience partagent la même mise
+ * en page : nom en gras violet, puis équipe, contexte et missions.
+ */
+export type Projet = {
+  nom: string
+  /** Composition de l'équipe (optionnel). */
+  equipe?: string
+  /** Contexte du projet (optionnel, une ligne par élément du tableau). */
+  contexte?: string[]
+  missions: string[]
 }
 
 /**
@@ -42,7 +65,10 @@ export type Experience = {
   equipe?: string
   /** Contexte de la mission (optionnel, une ligne par élément du tableau). */
   contexte?: string[]
-  missions: string[]
+  /** Missions de l'expérience — absentes quand l'expérience est découpée en `projets`. */
+  missions?: string[]
+  /** Projets distincts au sein de l'expérience, chacun avec ses propres équipe/contexte/missions. */
+  projets?: Projet[]
   /** Technologies et outils, affichés en pied d'expérience séparés par des "/". */
   stack?: string[]
 }
@@ -69,12 +95,9 @@ export type CvData = {
     experiencesSuite: string
     sideProjects: string
   }
-  /** Paragraphe d'introduction sous le titre. */
+  /** Paragraphe d'introduction sous le titre (l'accroche choisie remplace celle-ci à la génération, voir CvPage.tsx). */
   accroche: string
-  /**
-   * URL de la photo (src/assets/images/cv-photo.jpg), ou null si aucune photo n'est fournie.
-   * si null = rond d'initiales à la place.
-   */
+  // URL de la photo (src/assets/images/cv-photo.jpg), ou null si aucune photo n'est fournie.
   photo: string | null
   contact: ContactLine[]
   /** Ligne d'informations pratiques sous le bloc contact. */

@@ -1,20 +1,36 @@
-import type { CvData } from "./types"
+import type { CvAccroche, CvData } from "./types"
 
 // Contenu du CV en ANGLAIS (version française : dataFr.ts). C'est le seul
 // fichier à modifier pour faire évoluer cette version du CV.
 // - `page` (1 ou 2) : déplacer un bloc d'une page à l'autre pour rééquilibrer.
 // - Dans les textes, les segments entre ** sont rendus en gras violet.
 
+/**
+ * Les accroches disponibles en anglais : "dev" pour postuler à des postes de
+ * développeuse (défaut), "management" pour des postes de cheffe de projet /
+ * scrum master. Le choix se fait sur la page CV, à la génération.
+ */
+export const ACCROCHES_EN: Record<CvAccroche, string> = {
+  dev: "React, Angular, and TypeScript Software Developer with ~5 years of experience, focusing on software quality, optimized processes, and accessibility. My work is accelerated and enhanced by AI, with a pragmatic and responsible approach. I am accustomed to demanding environments (testing, documentation, cost optimization, cross-team collaboration) and to working in an Agile environment.",
+  management:
+    "Project Manager with a web development background: ~5 years of experience on web projects in Agile (Scrum) environments, following a degree in communication and digital strategy and several years as a project manager in a bank.\nThis dual profile allows me to bridge technical and business teams, produce realistic estimates, understand technical constraints, and ensure the quality of deliverables as well as processes.\nI use AI in a pragmatic and responsible way to speed up and strengthen project tracking, while keeping quality under control.",
+}
+
+/** Titre par défaut du CV selon l'accroche choisie (voir ACCROCHES_EN) ; reste modifiable sur la page CV. */
+export const TITRES_EN: Record<CvAccroche, string> = {
+  dev: "Software Developer",
+  management: "IT Project Manager",
+}
+
 export const CV_EN: CvData = {
   nom: "Myriam Mira",
-  titre: "Software Developer",
+  titre: TITRES_EN.dev,
   sections: {
     experiences: "Professional experience",
     experiencesSuite: "Professional experience (cont.)",
     sideProjects: "Side projects",
   },
-  accroche:
-    "React, Angular, and TypeScript Software Developer with ~5 years of experience, focusing on software quality, optimized processes, and accessibility. My work is accelerated and enhanced by AI, with a pragmatic and responsible approach. I am accustomed to demanding environments (testing, documentation, cost optimization, cross-team collaboration) and to working in an Agile environment.",
+  accroche: ACCROCHES_EN.dev,
   // Injectée à la génération depuis src/assets/images/cv-photo.jpg (voir CvPage.tsx).
   photo: null,
   // Coordonnées de REMPLACEMENT : les vraies vivent dans Supabase (table
@@ -28,7 +44,7 @@ export const CV_EN: CvData = {
     { texte: "linkedin.com/in/example", url: "https://www.linkedin.com/in/example/" },
     { texte: "Fluent English / French" },
   ],
-  infos: "Based somewhere\n\n Bike | driving license | remote :)",
+  infos: "Based somewhere\n\nBike | driving license | remote :)",
 
   sidebar: [
     {
@@ -37,23 +53,23 @@ export const CV_EN: CvData = {
       items: [
         {
           titre: "Advanced web and mobile development",
-          texte: "Wild Code School Paris (2021-2022)\n1-year apprenticeship",
+          texte: ["Wild Code School Paris (2021-2022)", "1-year apprenticeship"],
         },
         {
           titre: "Full-stack web development",
-          texte: "Bachelor's degree (RNCP Level 6)\nIronhack Paris (2021) - English course",
+          texte: ["Bachelor's degree (RNCP Level 6)", "Ironhack Paris (2021) - English course"],
         },
         {
           titre: "HTML, CSS, Javascript",
-          texte: "Self-learning (2021)",
+          texte: ["Self-learning (2021)"],
         },
         {
           titre: "Communications, Management, and Digital Strategy",
-          texte: "Master's Degree: Sup de Pub (2018)",
+          texte: ["Master's Degree: Sup de Pub (2018)"],
         },
         {
           titre: "Digital Professions: Web Design, Writing, and Development",
-          texte: "Bachelor's Degree: Cergy-Pontoise University (2016)",
+          texte: ["Bachelor's Degree: Cergy-Pontoise University (2016)"],
         },
       ],
     },
@@ -63,31 +79,31 @@ export const CV_EN: CvData = {
       items: [
         {
           titre: "Front-end:",
-          texte: "React / Angular / Next.js / JavaScript (TypeScript) / Storybook / Chromatic",
+          texte: ["React / Angular", "Next.js", "JavaScript (TypeScript)", "Storybook / Chromatic"],
         },
         {
           titre: "UX/UI / CSS:",
-          texte: "Tailwind / component libraries / Design System / UX/UI sensitivity / accessibility (WCAG/ARIA)",
+          texte: ["Tailwind", "component libraries", "Design System", "UX/UI sensitivity", "accessibility (WCAG/ARIA)"],
         },
-        { titre: "Back-end:", texte: "Node.js / PHP / Java" },
+        { titre: "Back-end:", texte: ["Node.js / PHP / Java"] },
       ],
     },
     {
       titre: "Skills (cont.)",
       page: 2,
       items: [
-        { titre: "Mock-ups/design:", texte: "Figma / Photoshop" },
-        { titre: "Tests:", texte: "Cypress / Jest / Jasmine" },
-        { titre: "Methodology:", texte: "pair programming / code reviews / Scrum / Agile" },
+        { titre: "Mock-ups/design:", texte: ["Figma / Photoshop"] },
+        { titre: "Tests:", texte: ["Cypress / Jest / Jasmine"] },
+        { titre: "Methodology:", texte: ["pair programming", "code reviews", "Scrum / Agile"] },
         {
           titre: "Tech watch:",
-          texte: "meetups / conferences (React Paris, NewCrafts, Devoxx, Cloud Native Days, etc.)",
+          texte: ["meetups", "conferences (React Paris, NewCrafts, Devoxx, Cloud Native Days, etc.)"],
         },
-        { titre: "Share:", texte: "speaker for Ladies of Code" },
-        { titre: "Certifications:", texte: "Microsoft AZ-900 & PL-900" },
+        { titre: "Share:", texte: ["speaker for Ladies of Code"] },
+        { titre: "Certifications:", texte: ["Microsoft AZ-900 & PL-900"] },
         {
           titre: "Tech reads:",
-          texte: "The Pragmatic Programmer, Software Craft, Clean Code, etc.",
+          texte: ["The Pragmatic Programmer, Software Craft, Clean Code, etc."],
         },
       ],
     },
@@ -96,8 +112,14 @@ export const CV_EN: CvData = {
       page: 2,
       items: [
         {
-          texte:
-            "Continuous improvement\nAttention to detail\nCuriosity\nLong-term thinking\nSystems thinking\nCommunication",
+          texte: [
+            "Continuous improvement",
+            "Attention to detail",
+            "Curiosity",
+            "Long-term thinking",
+            "Systems thinking",
+            "Communication",
+          ],
         },
       ],
     },
@@ -106,8 +128,9 @@ export const CV_EN: CvData = {
       page: 2,
       items: [
         {
-          texte:
+          texte: [
             "Sports / singing & guitar playing / volunteering / reading / theater / sewing / languages / and more!",
+          ],
         },
       ],
     },
@@ -156,17 +179,22 @@ export const CV_EN: CvData = {
       page: 1,
       poste: "Front-end web developer",
       employeur: "Avanade (consulting firm) (2022 - 2024)",
-      equipe: "Team of 15 people (6 front / 4 back / 1 PO / 1 PM / 1 QA / 1 UX/UI designer / 1 DevOps)",
-      contexte: [
-        "**VEOLIA - Wat.erp project: migrate an ASP.NET application's front-end to Angular**",
-        "Build/run of Wat.erp, the water contract management software for ~90% of the French territory.",
-      ],
-      missions: [
-        "Build: delivered “pixel perfect” screens and implemented CRUD features (**Angular/TypeScript, REST API**)",
-        "Implemented the **Design System** and reusable components (**Tailwind/Angular**)",
-        "Run: bug fixes",
-        "Championed implementation of standards",
-        "**Avanade internal projects**: worked on the internal Design System (design, development, and updates)",
+      projets: [
+        {
+          nom: "VEOLIA - Wat.erp project: migrate an ASP.NET application's front-end to Angular",
+          equipe: "Team of 15 people (6 front / 4 back / 1 PO / 1 PM / 1 QA / 1 UX/UI designer / 1 DevOps)",
+          contexte: ["Build/run of Wat.erp, the water contract management software for ~90% of the French territory."],
+          missions: [
+            "Build: delivered “pixel perfect” screens and implemented CRUD features (**Angular/TypeScript, REST API**)",
+            "Implemented the **Design System** and reusable components (**Tailwind/Angular**)",
+            "Run: bug fixes",
+            "Championed implementation of standards",
+          ],
+        },
+        {
+          nom: "Avanade internal projects",
+          missions: ["Design, development, and updates of internal **Design System** components"],
+        },
       ],
       stack: [
         "Angular",
@@ -222,7 +250,8 @@ export const CV_EN: CvData = {
       employeur: "BNP Paribas (2015 - 2018)",
       missions: [
         "Organized up to 130 events a year + internal & external communication",
-        "Webmastered internal and external websites and tools, trained staff on digital tools",
+        "Webmastering internal and external websites and tools",
+        "Acculturated staff on digital tools and trained them on internal digital platforms",
       ],
     },
   ],
@@ -230,38 +259,33 @@ export const CV_EN: CvData = {
   sideProjects: [
     {
       page: 2,
-      poste: "Calendor — printable life-organization toolbox",
+      poste: "Calendor",
       employeur: "Personal solo project (2026 - present)",
       contexte: [
-        "Web app generating paper-style organization documents: custom calendars, bullet journal pages, grocery lists, letters, batch cooking menus.",
+        "Web app generating personalized modern-style organization documents: custom calendars, bullet journal pages, grocery lists, letters, batch cooking menus.",
       ],
       missions: [
-        "**100% client-side PDF generation** (@react-pdf/renderer): multi-page calendars with recurring events, public holidays and illustrations, configurable bullet journal (columns, dotted areas, checkboxes), grocery lists with presets",
+        "**100% client-side PDF generation** (@react-pdf/renderer): multi-page calendars with recurring events and tasks, public holidays and life events, configurable bullet journal pages, grocery lists with presets",
         "**Supabase authentication** enabled through environment variables, on the way to shared multi-user lists (**RLS**)",
         "Calendar computations in **native UTC**, with no date library",
         "Quality: **strict TypeScript**, Biome + oxlint, custom **Vite** plugin injecting the commit hash, **WCAG AAA** accessibility",
         "**AI-assisted development with guardrails**: versioned and centralized agent rules (AGENTS.md), systematic review",
+        "This resume was generated by Calendor",
       ],
-      stack: [
-        "React 19",
-        "TypeScript",
-        "Vite",
-        "@react-pdf/renderer",
-        "Supabase",
-        "Biome",
-        "oxlint",
-        "GitHub Pages",
-        "Claude Code",
-      ],
+      stack: ["React 19", "TypeScript", "Vite", "Supabase", "Biome", "oxlint", "GitHub Pages", "Claude Code"],
     },
     {
       page: 2,
-      poste: "Resume generator — this document",
-      employeur: "Calendor feature (2026)",
+      poste: "Resume",
+      employeur: "Personal solo project (2025 - present)",
+      contexte: ["Online resume built with Angular."],
       missions: [
-        "This resume is generated by Calendor: **typed** content in a single data file, layout built from reusable **React components**, theme (purple/amber, Quicksand) isolated in tokens",
-        "Blocks are assigned to pages by changing a single field (**page: 1 | 2**): content evolves without touching the layout",
+        "**Angular 19** website with server-side rendering (**SSR**)",
+        "French / English **internationalization** (@angular/localize)",
+        "**PrimeNG** components",
+        "**Jasmine / Karma** unit tests",
       ],
+      stack: ["Angular 19", "TypeScript", "SSR", "PrimeNG", "RxJS", "Jasmine", "Karma", "Prettier"],
     },
   ],
 }

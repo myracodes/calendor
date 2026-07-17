@@ -1,24 +1,24 @@
 import { StyleSheet, Text, View } from "@react-pdf/renderer"
-import { CV_AMBER, CV_GOLD_LIGHT, CV_VIOLET } from "./cvTheme"
+import { CV_AMBER, CV_GOLD_LIGHT, CV_VIOLET, CV_WHITE } from "./cvTheme"
 
 const styles = StyleSheet.create({
   conteneur: {
-    alignSelf: "flex-start", // le souligné s'arrête à la fin du texte au lieu de courir sur toute la colonne
-    borderBottomWidth: 2, // souligné décoratif, signature visuelle du CV
-    borderBottomColor: CV_GOLD_LIGHT, // doré clair sur fond blanc : décoratif uniquement, le titre reste lisible sans lui
-    paddingBottom: 2, // petit espace entre le texte et son souligné
-    marginBottom: 8, // espace entre le titre et le contenu de la section
+    alignSelf: "flex-start", // le souligné s'arrête à la fin du texte, pas de la colonne
+    borderBottomWidth: 2,
+    borderBottomColor: CV_GOLD_LIGHT, // décoratif uniquement : le titre reste lisible sans lui
+    paddingBottom: 2,
+    marginBottom: 8,
   },
   conteneurInverse: {
-    borderBottomColor: CV_AMBER, // sur le fond violet, le souligné passe en ambre
+    borderBottomColor: CV_AMBER,
   },
   texte: {
-    fontSize: 13, // taille des titres de section, nettement au-dessus du corps de texte
-    fontWeight: "bold", // titres en gras (la manuscrite BadScript, trop fine ici, est réservée au nom et au titre du CV)
-    color: CV_VIOLET, // violet principal du CV, sur fond blanc
+    fontSize: 13, // nettement au-dessus du corps de texte
+    fontWeight: "bold", // BadScript, trop fine ici, est réservée au nom et au titre du CV (voir cvTheme.ts)
+    color: CV_VIOLET,
   },
   texteInverse: {
-    color: CV_AMBER, // sur le fond violet, le titre passe en ambre
+    color: CV_WHITE,
   },
 })
 

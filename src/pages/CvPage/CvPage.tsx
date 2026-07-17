@@ -1,17 +1,21 @@
 import { pdf } from "@react-pdf/renderer"
 import { useState } from "react"
 import cvPhoto from "../../assets/images/cv-photo.jpg"
-import { CV_EN } from "../../cv/dataEn"
-import { CV_FR } from "../../cv/dataFr"
+import { ACCROCHES_EN, CV_EN, TITRES_EN } from "../../cv/dataEn"
+import { ACCROCHES_FR, CV_FR, TITRES_FR } from "../../cv/dataFr"
 import { fetchCvContact } from "../../cv/fetchCvContact"
-import type { CvData, CvLanguage } from "../../cv/types"
+import type { CvAccroche, CvData, CvLanguage } from "../../cv/types"
 import { CvDocument } from "../../pdf/CvDocument"
 
 const DATA: Record<CvLanguage, CvData> = { fr: CV_FR, en: CV_EN }
+const ACCROCHES: Record<CvLanguage, Record<CvAccroche, string>> = { fr: ACCROCHES_FR, en: ACCROCHES_EN }
+const TITRES: Record<CvLanguage, Record<CvAccroche, string>> = { fr: TITRES_FR, en: TITRES_EN }
 
 export function CvPage() {
   const [language, setLanguage] = useState<CvLanguage>("fr")
-  // Titre affiché en haut du CV : vide = titre par défaut du fichier de données.
+  // Accroche choisie selon le type de poste visé (dev par défaut).
+  const [accroche, setAccroche] = useState<CvAccroche>("dev")
+  // Titre affiché en haut du CV : vide = titre par défaut de l'accroche choisie (voir defaultTitle).
   const [title, setTitle] = useState("")
   const [generating, setGenerating] = useState(false)
   // true après une génération qui n'a pas pu récupérer les vraies coordonnées
@@ -20,6 +24,7 @@ export function CvPage() {
   const [contactMissing, setContactMissing] = useState(false)
 
   const data = DATA[language]
+  const defaultTitle = TITRES[language][accroche]
 
   async function generatePdf() {
     setGenerating(true)
@@ -29,7 +34,8 @@ export function CvPage() {
       const cv: CvData = {
         ...data,
         ...contact,
-        titre: title.trim() === "" ? data.titre : title.trim(),
+        titre: title.trim() === "" ? defaultTitle : title.trim(),
+        accroche: ACCROCHES[language][accroche],
         photo: cvPhoto,
       }
       const blob = await pdf(<CvDocument cv={cv} />).toBlob()
@@ -59,8 +65,15 @@ export function CvPage() {
             </select>
           </label>
           <label>
-            Titre du CV (vide = "{data.titre}")
-            <input type="text" value={title} placeholder={data.titre} onChange={e => setTitle(e.target.value)} />
+            Accroche
+            <select value={accroche} onChange={e => setAccroche(e.target.value as CvAccroche)}>
+              <option value="dev">Développeuse (défaut)</option>
+              <option value="management">Cheffe de projet / Scrum master</option>
+            </select>
+          </label>
+          <label>
+            Titre du CV (vide = "{defaultTitle}")
+            <input type="text" value={title} placeholder={defaultTitle} onChange={e => setTitle(e.target.value)} />
           </label>
         </div>
       </section>
@@ -71,16 +84,14 @@ export function CvPage() {
           Le contenu du CV vit dans <strong>src/cv/dataFr.ts</strong> et <strong>dataEn.ts</strong> : textes, sections
           de la colonne de gauche, expériences, side projects. Chaque bloc porte un champ <strong>page</strong> (1 ou 2)
           pour le déplacer d'une page à l'autre. Les coordonnées (téléphone, email…) vivent dans Supabase (table{" "}
-          <strong>cv_contact</strong>, une ligne par langue) et sont récupérées à la génération. La photo vient de
-          src/assets/images/cv-photo.jpg.
+          <strong>cv_contact</strong>, une ligne par langue) et sont récupérées à la génération.
         </p>
       </section>
 
       {contactMissing && (
         <p className="hint">
           Les vraies coordonnées n'ont pas pu être récupérées (Supabase non configuré, session absente, ou langue
-          absente de la table cv_contact) : le PDF contient des coordonnées de remplacement. Depuis le site déployé,
-          connecte-toi puis régénère.
+          absente de la table cv_contact). Depuis le site déployé, connecte-toi puis régénère.
         </p>
       )}
 
