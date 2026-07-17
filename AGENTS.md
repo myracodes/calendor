@@ -28,7 +28,8 @@ Règles à respecter dans ce projet. Ce fichier est mis à jour au fil de l'eau.
 
 ## Langue
 
-- Le code (identifiants, noms de variables/fonctions/fichiers) est de préférence en anglais. Mais le projet contient beaucoup de données en français (libellés d'articles, presets, événements…) : quand le code manipule directement ces données, rester en français a du sens (ex. `src/courses/`, où `SelectionParCategorie` ou `validerSelection` collent aux données qu'ils décrivent).
+- Le code (identifiants, noms de variables/fonctions/fichiers) est en anglais (ex. `setLanguage`, pas `setLangue`), sauf si l'anglais rend vraiment le code incompréhensible. L'exception : quand le code manipule directement des données en français (libellés d'articles, presets, événements…), rester en français a du sens (ex. `src/courses/`, où `SelectionParCategorie` ou `validerSelection` collent aux données qu'ils décrivent).
+- Documents multilingues : certains contenus existent en plusieurs langues (ex. le CV : `src/cv/dataFr.ts` / `src/cv/dataEn.ts`). Lors d'une modification du contenu ou de la structure d'une langue, vérifier si l'autre langue est concernée et la mettre à jour si nécessaire.
 
 ## Commentaires
 

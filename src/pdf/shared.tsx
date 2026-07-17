@@ -26,6 +26,15 @@ Font.register({
   family: "Carlito",
   fonts: [{ src: `${BASE}fonts/Carlito-Regular.ttf` }, { src: `${BASE}fonts/Carlito-Bold.ttf`, fontWeight: "bold" }],
 })
+// Quicksand : sans-serif arrondie, la police du CV (voir src/pdf/cvTheme.ts).
+Font.register({
+  family: "Quicksand",
+  fonts: [
+    { src: `${BASE}fonts/Quicksand-Regular.ttf` },
+    { src: `${BASE}fonts/Quicksand-Medium.ttf`, fontWeight: "medium" },
+    { src: `${BASE}fonts/Quicksand-Bold.ttf`, fontWeight: "bold" },
+  ],
+})
 // Handwritten text should not be hyphenated.
 Font.registerHyphenationCallback(word => [word])
 // Text fonts have no emoji glyphs; emojis are rendered from local Twemoji

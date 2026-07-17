@@ -15,9 +15,11 @@
 - gérer le cas où on a beaucoup de choses dans une case, ça crée une deuxième page vide, ou bien ça agrandit les cases
 - invitation anniversaire
 - compte my, q
-- ajouter des couleurs success warning error et remplacer là où nécessaire
 - pouvoir injecter les couleurs via des variables dans les svg de src/assets/icons ?
-- FormEvent deprecated
+- gérer les emoji
+- retirer le rond violet CV
+- nouvelle DA du CV
+- bg image par défaut pour les  différents modules, par ex le bujo
 
 ## Idées d'évolutions futures
 

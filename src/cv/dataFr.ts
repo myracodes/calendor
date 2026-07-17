@@ -1,0 +1,266 @@
+import type { CvData } from "./types"
+
+// Contenu du CV en FRANÇAIS (version anglaise : dataEn.ts). C'est le seul
+// fichier à modifier pour faire évoluer cette version du CV.
+// - `page` (1 ou 2) : déplacer un bloc d'une page à l'autre pour rééquilibrer.
+// - Dans les textes, les segments entre ** sont rendus en gras violet.
+
+export const CV_FR: CvData = {
+  nom: "Myriam Mira",
+  titre: "Software developer",
+  sections: {
+    experiences: "Expérience professionnelle",
+    experiencesSuite: "Expérience professionnelle (suite)",
+    sideProjects: "Side projects",
+  },
+  accroche:
+    "Développeuse React, Angular, TypeScript, avec ~5 ans d'expérience, et un focus sur la qualité du code, des processus, et de l'accessibilité. Mes développements sont accélérés et améliorés par l'IA, avec une approche pragmatique et responsable. Je suis habituée aux environnements exigeants (tests, documentation, optimisation des coûts, collaboration inter-équipes), ainsi qu'au travail en mode Agile.",
+  // Injectée à la génération depuis src/assets/images/cv-photo.jpg (voir CvPage.tsx).
+  photo: null,
+  // Les vraies données sont dans la BDD (table cv_contact
+  // voir supabase/cv_contact.sql) et remplacent ces valeurs à la génération.
+  // Ne jamais commiter les vraies coordonnées
+  contact: [
+    { texte: "email@exemple.fr", url: "mailto:email@exemple.fr" },
+    { texte: "+33(0)6.00.00.00.00", url: "tel:+33600000000" },
+    { texte: "github.com/exemple", url: "https://github.com/exemple" },
+    { texte: "linkedin.com/in/exemple", url: "https://www.linkedin.com/in/exemple/" },
+    { texte: "Bilingue anglais / français" },
+  ],
+  infos: "Basée quelque part\n\n Vélo | Permis B | remote :)",
+
+  sidebar: [
+    {
+      titre: "Formation",
+      page: 1,
+      items: [
+        {
+          titre: "Développement web et mobile avancé",
+          texte: "Wild Code School Paris (2021-2022)\n1 an en alternance",
+        },
+        {
+          titre: "Développement web fullstack",
+          texte: "Titre RNCP niveau 6 / Bac+3/4\nIronhack Paris (2021) - en anglais",
+        },
+        {
+          titre: "HTML, CSS, Javascript",
+          texte: "Autoformation (2021)",
+        },
+        {
+          titre: "M2 Manager de la Communication et Stratégie Digitale",
+          texte: "Sup de Pub - INSEEC (2018)",
+        },
+        {
+          titre: "Licence Pro (L3) Métiers du Numérique : conception, rédaction et réalisation web",
+          texte: "Université de Cergy-Pontoise (2016)",
+        },
+      ],
+    },
+    {
+      titre: "Compétences",
+      page: 1,
+      items: [
+        {
+          titre: "Front-end :",
+          texte: "React / Angular / Next.js / JavaScript (TypeScript) / Storybook / Chromatic",
+        },
+        {
+          titre: "UX/UI / CSS :",
+          texte:
+            "Tailwind / librairies de composants / Design System / perfectionnisme UX/UI / accessibilité (WCAG/ARIA)",
+        },
+        { titre: "Back-end :", texte: "Node.js / PHP / Java" },
+      ],
+    },
+    {
+      titre: "Compétences (suite)",
+      page: 2,
+      items: [
+        { titre: "Maquettage :", texte: "Figma / Photoshop" },
+        { titre: "Tests :", texte: "Cypress / Jest / Jasmine" },
+        { titre: "Méthodologie :", texte: "pair programming / code reviews / Scrum / Agile" },
+        {
+          titre: "Veille :",
+          texte: "meetups / conférences (React Paris, NewCrafts, Devoxx, Cloud Native Days, etc.)",
+        },
+        { titre: "Partage :", texte: "oratrice Ladies of Code" },
+        { titre: "Certifications :", texte: "Microsoft AZ-900 & PL-900" },
+        {
+          titre: "Lectures tech :",
+          texte: "The Pragmatic Programmer, Software Craft, Clean Code, etc.",
+        },
+      ],
+    },
+    {
+      titre: "Soft skills",
+      page: 2,
+      items: [
+        {
+          texte:
+            "Amélioration continue\nVision long terme\nCommunication\nPensée systémique\nCuriosité\nSens du détail",
+        },
+      ],
+    },
+    {
+      titre: "Activités",
+      page: 2,
+      items: [
+        {
+          texte: "Sport / chant & guitare / bénévolat / lecture / théâtre / couture / langues vivantes / et autres !",
+        },
+      ],
+    },
+  ],
+
+  experiences: [
+    {
+      page: 1,
+      poste: "Développeuse front-end",
+      employeur: "Cap Collectif (2024 - aujourd'hui)",
+      equipe: "Équipe de 9 personnes (5 dev / 1 DevOps / 1 QA / 1 PO / 1 UX/UI designer)",
+      contexte: ["Cap Collectif développe des outils open source d'intelligence collective, en SaaS."],
+      missions: [
+        "Conception et développement de nouvelles features et refontes front-end en **React / Next.js**",
+        "Tests automatisés (**Cypress**)",
+        "Correction de bugs en production",
+        "Relecture des PR (code reviews)",
+        "Améliorations SEO (Core Web Vitals, TTFB, etc)",
+        "Mise à jour du **Design System** (45 composants) : refontes, nouveautés, **accessibilité**",
+        "Mise en place des ADR, documentation du code, présentations techniques",
+        "Utilisation quotidienne de l'**IA** (**Claude Code** / Mistral / Copilot) : débug, refactorisations, **back-end**, accélération des développements",
+        "Réduction proactive de la **dette technique** : 55% de tests legacy traduits, patch des failles de sécurité (1x/mois), montées de versions des librairies, etc.",
+        "Amélioration de la DX : **correction de 100% des tests flaky** et des “faux diffs” Chromatic",
+        "Diminution des coûts variables (40% d'économies sur la CI)",
+      ],
+      stack: [
+        "React",
+        "TypeScript",
+        "GraphQL",
+        "Next.js",
+        "Relay",
+        "Storybook",
+        "Chromatic",
+        "Figma",
+        "Cypress",
+        "CircleCI",
+        "react-hook-form",
+        "Docker",
+        "NPM",
+        "méthode Agile",
+        "Claude Code",
+        "IA",
+      ],
+    },
+    {
+      page: 1,
+      poste: "Développeuse front-end",
+      employeur: "Avanade (ESN) (2022 - 2024)",
+      equipe: "Équipe de 15 personnes (6 front / 4 back / 1 PO / 1 PM / 1 QA / 1 designer / 1 DevOps)",
+      contexte: [
+        "**Projet VEOLIA - Wat.erp : portage du front-end d'une application ASP.NET vers Angular**",
+        "Build/run de Wat.erp, le logiciel de gestion des contrats eau de ~90% du territoire français.",
+      ],
+      missions: [
+        "Build : implémentation “pixel perfect” des écrans et du CRUD (**API REST**)",
+        "Mise en place du **Design System** et des composants réutilisables (**Angular/TypeScript**)",
+        "Run : correction des bugs",
+        "Proposition et mise en place de normes",
+        "**Projets internes Avanade** : conception, développement et mise à jour de composants du Design System interne",
+      ],
+      stack: [
+        "Angular",
+        "TypeScript",
+        "REST",
+        "Tailwind",
+        "NgRx",
+        "méthode Agile (Scrum)",
+        "Azure DevOps",
+        "SCSS",
+        "PrimeNG",
+        "Adobe XD",
+        "Figma",
+      ],
+    },
+    {
+      page: 2,
+      poste: "Développeuse full-stack",
+      employeur: "Agence Visigo & projet GOOD Vibes (2021 - 2022)",
+      equipe: "Équipe de 3 personnes (1 CTPO / 1 dev full-stack / 1 UX/UI designer)",
+      contexte: [
+        "GOOD Vibes est un système d'envoi de vidéos interactives par SMS, paramétrable via un dashboard admin.",
+      ],
+      missions: [
+        "Refonte intégrale du site vitrine en **React**",
+        "Développement des features **front-end et back-end (React / Node.js)** et des composants",
+        "Correction des bugs",
+        "Gestion des projets, documentation du code, amélioration des processus internes",
+        "Définition et application de la stratégie **SEO**",
+        "Mise en place d'outils digitaux & formation de l'équipe",
+      ],
+      stack: [
+        "React",
+        "Node.js",
+        "Storybook",
+        "Chromatic",
+        "Figma",
+        "Cypress",
+        "Jest",
+        "Netlify",
+        "Sentry",
+        "GitHub",
+        "Asana",
+        "AppDrag",
+        "Google Analytics",
+        "Search Console",
+        "Twilio",
+      ],
+    },
+    {
+      page: 2,
+      poste: "Chargée de projets digitaux, communication, et événements",
+      employeur: "BNP Paribas (2015 - 2018)",
+      missions: [
+        "Organisation de 130 événements/an, communication interne et externe",
+        "Webmastering des sites et outils internes et externes, formation aux outils digitaux internes",
+      ],
+    },
+  ],
+
+  sideProjects: [
+    {
+      page: 2,
+      poste: "Calendor — boîte à outils d'organisation imprimables",
+      employeur: "Projet personnel (2026 - aujourd'hui)",
+      contexte: [
+        "Application web qui génère des documents d'organisation au design « imitation papier » : calendriers personnalisés, pages de bullet journal, listes de courses, courriers, menus de batch cooking.",
+      ],
+      missions: [
+        "Génération des **PDF 100% côté client** (@react-pdf/renderer) : calendriers multi-pages avec événements récurrents, jours fériés et illustrations, bullet journal paramétrable (colonnes, pointillés, cases à cocher), listes de courses avec presets",
+        "**Authentification Supabase** activable par variables d'environnement, en route vers des listes partagées à plusieurs (**RLS**)",
+        "Calculs de calendrier en **UTC natif**, sans librairie de dates",
+        "Qualité : **TypeScript strict**, Biome + oxlint, plugin **Vite** maison injectant le hash de commit, accessibilité **WCAG AAA**",
+        "Développement **assisté par IA avec garde-fous** : règles d'agents centralisées et versionnées (AGENTS.md), relecture systématique",
+      ],
+      stack: [
+        "React 19",
+        "TypeScript",
+        "Vite",
+        "@react-pdf/renderer",
+        "Supabase",
+        "Biome",
+        "oxlint",
+        "GitHub Pages",
+        "Claude Code",
+      ],
+    },
+    {
+      page: 2,
+      poste: "Générateur de CV — ce document",
+      employeur: "Feature de Calendor (2026)",
+      missions: [
+        "Ce CV est généré par Calendor : contenu **typé** dans un fichier de données unique, mise en page en **composants React** réutilisables, thème (violet/doré, Quicksand) isolé dans des tokens",
+        "Répartition des blocs entre les pages en changeant un seul champ (**page: 1 | 2**) : le contenu évolue sans toucher à la mise en page",
+      ],
+    },
+  ],
+}

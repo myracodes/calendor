@@ -11,6 +11,7 @@ import { BujoFactoryPage } from "./pages/BujoFactoryPage/BujoFactoryPage"
 import { CalendarsPage } from "./pages/CalendarsPage/CalendarsPage"
 import { CourrierPage } from "./pages/CourrierPage/CourrierPage"
 import { CoursesPage } from "./pages/CoursesPage/CoursesPage"
+import { CvPage } from "./pages/CvPage/CvPage"
 import { COMMIT_HASH } from "./version"
 
 // Le verrou : l'app ne s'affiche qu'avec une session valide. Il ne joue qu'en
@@ -48,6 +49,7 @@ function AppContent() {
           <Route path="/bujo" element={<BujoFactoryPage />} />
           <Route path="/courrier" element={<CourrierPage />} />
           <Route path="/courses" element={<CoursesPage />} />
+          <Route path="/cv" element={<CvPage />} />
         </Routes>
 
         <footer className="footer">
