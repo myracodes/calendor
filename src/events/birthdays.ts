@@ -46,7 +46,7 @@ export const BIRTHDAYS: LifeEvent[] = [
   { name: "Papi", day: 17, month: MONTH.JUILLET, year: 1924, died: { year: 2003 } },
   { name: "Shishou", day: 17, month: MONTH.JUILLET, year: 2003 },
   { name: "Limounette", day: 17, month: MONTH.JUILLET, year: 1992 },
-  { name: "Miko", day: 25, month: MONTH.JUILLET },
+  { name: "Miko", day: 25, month: MONTH.JUILLET, year: 1992 },
   { name: "My", day: 30, month: MONTH.JUILLET, year: 1992 },
   { name: "Jumeaux", day: 30, month: MONTH.JUILLET },
   // Août
