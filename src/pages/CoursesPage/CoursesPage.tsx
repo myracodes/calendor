@@ -1,5 +1,5 @@
 import { pdf } from "@react-pdf/renderer"
-import { type FormEvent, useState } from "react"
+import { type SubmitEvent, useState } from "react"
 import { type AjoutRapide, AJOUTS_RAPIDES } from "../../courses/ajoutsRapides"
 import { articleKey, CATALOGUE } from "../../courses/catalogue"
 import { PRESET_KEYS } from "../../courses/preset"
@@ -31,7 +31,7 @@ export function CoursesPage() {
     })
   }
 
-  function ajouterLibre(e: FormEvent) {
+  function ajouterLibre(e: SubmitEvent) {
     e.preventDefault()
     const label = saisie.trim()
     if (label === "") return

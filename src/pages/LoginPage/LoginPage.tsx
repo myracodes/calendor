@@ -1,4 +1,4 @@
-import { type FormEvent, useState } from "react"
+import { type SubmitEvent, useState } from "react"
 import { requireSupabase } from "../../supabase/client"
 import { PasswordInput } from "./components/PasswordInput/PasswordInput"
 import "./LoginPage.css"
@@ -14,7 +14,7 @@ export function LoginPage() {
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
-  async function signIn(e: FormEvent) {
+  async function signIn(e: SubmitEvent) {
     e.preventDefault()
     setSubmitting(true)
     setError(null)
