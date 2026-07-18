@@ -10,7 +10,7 @@ export type CvLanguage = "fr" | "en"
 /**
  * Les accroches disponibles : "dev" (par défaut) pour postuler à des postes de
  * développeuse, "management" pour des postes de cheffe de projet / scrum master.
- * Les textes vivent dans dataFr.ts / dataEn.ts (ACCROCHES_FR / ACCROCHES_EN),
+ * Les textes vivent dans la locale de chaque langue (voir CvLocale),
  * le choix se fait sur la page CV à la génération.
  */
 export type CvAccroche = "dev" | "management"
@@ -106,4 +106,16 @@ export type CvData = {
   experiences: Experience[]
   /** Affichés après les expériences de leur page, sous le titre "Side projects". */
   sideProjects: SideProject[]
+}
+
+/**
+ * Tout le contenu d'une langue du CV : les données, plus l'accroche et le
+ * titre par défaut de chaque type de poste visé. Chaque fichier de langue
+ * (dataFr.ts, dataEn.ts) exporte un unique objet de ce type — c'est lui qui
+ * garantit que les deux langues restent structurellement symétriques.
+ */
+export type CvLocale = {
+  cv: CvData
+  accroches: Record<CvAccroche, string>
+  titres: Record<CvAccroche, string>
 }

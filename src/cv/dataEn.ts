@@ -1,4 +1,4 @@
-import type { CvAccroche, CvData } from "./types"
+import type { CvAccroche, CvData, CvLocale } from "./types"
 
 // Contenu du CV en ANGLAIS (version française : dataFr.ts). C'est le seul
 // fichier à modifier pour faire évoluer cette version du CV.
@@ -10,19 +10,19 @@ import type { CvAccroche, CvData } from "./types"
  * développeuse (défaut), "management" pour des postes de cheffe de projet /
  * scrum master. Le choix se fait sur la page CV, à la génération.
  */
-export const ACCROCHES_EN: Record<CvAccroche, string> = {
+const ACCROCHES_EN: Record<CvAccroche, string> = {
   dev: "React, Angular, and TypeScript Software Developer with ~5 years of experience, focusing on software quality, optimized processes, and accessibility. My work is accelerated and enhanced by AI, with a pragmatic and responsible approach. I am accustomed to demanding environments (testing, documentation, cost optimization, cross-team collaboration) and to working in an Agile environment.",
   management:
     "Project Manager with a web development background: ~5 years of experience on web projects in Agile (Scrum) environments, following a degree in communication and digital strategy and several years as a project manager in a bank.\nThis dual profile allows me to bridge technical and business teams, produce realistic estimates, understand technical constraints, and ensure the quality of deliverables as well as processes.\nI use AI in a pragmatic and responsible way to speed up and strengthen project tracking, while keeping quality under control.",
 }
 
 /** Titre par défaut du CV selon l'accroche choisie (voir ACCROCHES_EN) ; reste modifiable sur la page CV. */
-export const TITRES_EN: Record<CvAccroche, string> = {
+const TITRES_EN: Record<CvAccroche, string> = {
   dev: "Software Developer",
   management: "IT Project Manager",
 }
 
-export const CV_EN: CvData = {
+const CV_EN: CvData = {
   nom: "Myriam Mira",
   titre: TITRES_EN.dev,
   sections: {
@@ -288,4 +288,11 @@ export const CV_EN: CvData = {
       stack: ["Angular 19", "TypeScript", "SSR", "PrimeNG", "RxJS", "Jasmine", "Karma", "Prettier"],
     },
   ],
+}
+
+/** L'unique export du fichier : tout le contenu anglais du CV (voir CvLocale). */
+export const CV_LOCALE_EN: CvLocale = {
+  cv: CV_EN,
+  accroches: ACCROCHES_EN,
+  titres: TITRES_EN,
 }

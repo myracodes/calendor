@@ -1,4 +1,4 @@
-import type { CvAccroche, CvData } from "./types"
+import type { CvAccroche, CvData, CvLocale } from "./types"
 
 // Contenu du CV en FRANÇAIS (version anglaise : dataEn.ts). C'est le seul
 // fichier à modifier pour faire évoluer cette version du CV.
@@ -10,19 +10,19 @@ import type { CvAccroche, CvData } from "./types"
  * développeuse (défaut), "management" pour des postes de cheffe de projet /
  * scrum master. Le choix se fait sur la page CV, à la génération.
  */
-export const ACCROCHES_FR: Record<CvAccroche, string> = {
+const ACCROCHES_FR: Record<CvAccroche, string> = {
   dev: "Développeuse React, Angular, TypeScript, avec ~5 ans d'expérience, et un focus sur la qualité du code, des processus, et de l'accessibilité.\nMes développements sont accélérés et améliorés par l'IA, avec une approche pragmatique et responsable.\nJe suis habituée aux environnements exigeants (tests, documentation, optimisation des coûts, collaboration inter-équipes), ainsi qu'au travail en mode Agile, dans des équipes de tailles variées.",
   management:
     "Cheffe de projet issue du développement web : ~5 ans d'expérience sur des projets web en mode Agile (Scrum), après une formation en communication et stratégie digitale, et plusieurs années comme cheffe de projets dans une banque. Ma double casquette me permet de faire le pont entre les équipes techniques et métier, d'estimer les charges avec réalisme, de comprendre les contraintes techniques, et de veiller à la qualité des livrables comme des processus. J'utilise l'IA avec une approche pragmatique et responsable pour accélérer et fiabiliser le suivi de projet en gardant le contrôle sur la qualité.",
 }
 
 /** Titre par défaut du CV selon l'accroche choisie (voir ACCROCHES_FR) ; reste modifiable sur la page CV. */
-export const TITRES_FR: Record<CvAccroche, string> = {
+const TITRES_FR: Record<CvAccroche, string> = {
   dev: "Software developer",
   management: "Cheffe de projet IT",
 }
 
-export const CV_FR: CvData = {
+const CV_FR: CvData = {
   nom: "Myriam Mira",
   titre: TITRES_FR.dev,
   sections: {
@@ -301,4 +301,11 @@ export const CV_FR: CvData = {
       stack: ["Angular 19", "TypeScript", "SSR", "PrimeNG", "RxJS", "Jasmine", "Karma", "Prettier"],
     },
   ],
+}
+
+/** L'unique export du fichier : tout le contenu français du CV (voir CvLocale). */
+export const CV_LOCALE_FR: CvLocale = {
+  cv: CV_FR,
+  accroches: ACCROCHES_FR,
+  titres: TITRES_FR,
 }

@@ -1,15 +1,13 @@
 import { useState } from "react"
 import cvPhoto from "../../assets/images/cv-photo.jpg"
-import { ACCROCHES_EN, CV_EN, TITRES_EN } from "../../cv/dataEn"
-import { ACCROCHES_FR, CV_FR, TITRES_FR } from "../../cv/dataFr"
+import { CV_LOCALE_EN } from "../../cv/dataEn"
+import { CV_LOCALE_FR } from "../../cv/dataFr"
 import { fetchCvContact } from "../../cv/fetchCvContact"
-import type { CvAccroche, CvData, CvLanguage } from "../../cv/types"
+import type { CvAccroche, CvData, CvLanguage, CvLocale } from "../../cv/types"
 import { CvDocument } from "../../pdf/CvDocument"
 import { downloadPdf } from "../../pdf/downloadPdf"
 
-const DATA: Record<CvLanguage, CvData> = { fr: CV_FR, en: CV_EN }
-const ACCROCHES: Record<CvLanguage, Record<CvAccroche, string>> = { fr: ACCROCHES_FR, en: ACCROCHES_EN }
-const TITRES: Record<CvLanguage, Record<CvAccroche, string>> = { fr: TITRES_FR, en: TITRES_EN }
+const LOCALES: Record<CvLanguage, CvLocale> = { fr: CV_LOCALE_FR, en: CV_LOCALE_EN }
 
 export function CvPage() {
   const [language, setLanguage] = useState<CvLanguage>("fr")
@@ -23,8 +21,8 @@ export function CvPage() {
   // remplacement du fichier de données.
   const [contactMissing, setContactMissing] = useState(false)
 
-  const data = DATA[language]
-  const defaultTitle = TITRES[language][accroche]
+  const locale = LOCALES[language]
+  const defaultTitle = locale.titres[accroche]
 
   async function generatePdf() {
     setGenerating(true)
@@ -32,10 +30,10 @@ export function CvPage() {
       const contact = await fetchCvContact(language)
       setContactMissing(contact === null)
       const cv: CvData = {
-        ...data,
+        ...locale.cv,
         ...contact,
         titre: title.trim() === "" ? defaultTitle : title.trim(),
-        accroche: ACCROCHES[language][accroche],
+        accroche: locale.accroches[accroche],
         photo: cvPhoto,
       }
       await downloadPdf(<CvDocument cv={cv} />, `cv-myriam-mira-${language}.pdf`)
