@@ -69,7 +69,8 @@ export function CourrierDocument({ settings }: { settings: CourrierSettings }) {
 
         {settings.objet.trim() !== "" && (
           <Text style={styles.objet}>
-            <Text style={styles.objetLabel}>Objet</Text> : {settings.objet.trim()}
+            <Text style={styles.objetLabel}>Objet</Text> :{" "}
+            {settings.objet.trim()}
           </Text>
         )}
 

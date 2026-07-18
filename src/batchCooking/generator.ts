@@ -13,9 +13,17 @@ import {
 } from "./ingredients"
 import { RECIPES, type Recipe } from "./recipes"
 import { SPECIAL_DISHES, type SpecialDish } from "./specialDishes"
-import { BREAKFAST_BASICS, FRUITS_ALL_YEAR, FRUITS_BY_SEASON, fruitsForOccasion, SNACKS } from "./sweets"
+import {
+  BREAKFAST_BASICS,
+  FRUITS_ALL_YEAR,
+  FRUITS_BY_SEASON,
+  fruitsForOccasion,
+  SNACKS,
+} from "./sweets"
 
-export type Meal = { kind: "recipe"; recipe: Recipe } | { kind: "special"; name: string }
+export type Meal =
+  | { kind: "recipe"; recipe: Recipe }
+  | { kind: "special"; name: string }
 
 export interface IngredientCount {
   ingredient: string
@@ -71,10 +79,16 @@ function seasonPool(season: Season): Set<string> {
 // Saisons imposées à la main (`seasons`) : elles remplacent la déduction.
 // Sinon : une recette est écartée si un ingrédient saisonnier est hors saison ;
 // un ingrédient inconnu des listes passe toujours (placard par défaut).
-function isAvailable(recipe: Recipe, occasion: Occasion, pool: Set<string>): boolean {
+function isAvailable(
+  recipe: Recipe,
+  occasion: Occasion,
+  pool: Set<string>,
+): boolean {
   if (occasion === "canicule") return recipe.canicule === true
   if (recipe.seasons) return recipe.seasons.includes(occasion)
-  return recipe.ingredients.every(ingredient => !SEASONAL_INGREDIENTS.has(ingredient) || pool.has(ingredient))
+  return recipe.ingredients.every(
+    ingredient => !SEASONAL_INGREDIENTS.has(ingredient) || pool.has(ingredient),
+  )
 }
 
 function shuffled<T>(items: T[]): T[] {
@@ -100,7 +114,9 @@ function selectRecipes(available: Recipe[], mealCount: number): Recipe[] {
     let bestIndex = 0
     let bestScore = -1
     for (let i = 0; i < pool.length; i++) {
-      const score = pool[i].ingredients.filter(ingredient => chosenIngredients.has(ingredient)).length
+      const score = pool[i].ingredients.filter(ingredient =>
+        chosenIngredients.has(ingredient),
+      ).length
       if (score > bestScore) {
         bestScore = score
         bestIndex = i
@@ -108,10 +124,14 @@ function selectRecipes(available: Recipe[], mealCount: number): Recipe[] {
     }
     const [recipe] = pool.splice(bestIndex, 1)
     selected.push(recipe)
-    for (const ingredient of recipe.ingredients) chosenIngredients.add(ingredient)
+    for (const ingredient of recipe.ingredients)
+      chosenIngredients.add(ingredient)
   }
 
-  return Array.from({ length: mealCount }, (_, i) => selected[i % selected.length])
+  return Array.from(
+    { length: mealCount },
+    (_, i) => selected[i % selected.length],
+  )
 }
 
 // Compte, pour une liste de repas, le nombre de plats utilisant chaque ingrédient
@@ -126,20 +146,37 @@ function ingredientCounts(meals: Meal[]): IngredientCount[] {
   }
   return [...counts]
     .map(([ingredient, count]) => ({ ingredient, count }))
-    .sort((a, b) => b.count - a.count || a.ingredient.localeCompare(b.ingredient))
+    .sort(
+      (a, b) => b.count - a.count || a.ingredient.localeCompare(b.ingredient),
+    )
 }
 
-export function generateWeekPlan(occasion: Occasion, mealCount: number): WeekPlan {
-  const pool = occasion === "canicule" ? new Set<string>() : seasonPool(occasion)
-  const available = RECIPES.filter(recipe => isAvailable(recipe, occasion, pool))
-  const meals: Meal[] = selectRecipes(available, mealCount).map(recipe => ({ kind: "recipe", recipe }))
+export function generateWeekPlan(
+  occasion: Occasion,
+  mealCount: number,
+): WeekPlan {
+  const pool =
+    occasion === "canicule" ? new Set<string>() : seasonPool(occasion)
+  const available = RECIPES.filter(recipe =>
+    isAvailable(recipe, occasion, pool),
+  )
+  const meals: Meal[] = selectRecipes(available, mealCount).map(recipe => ({
+    kind: "recipe",
+    recipe,
+  }))
 
   // De temps en temps, un plat spécial remplace le premier repas (session du dimanche,
   // où on a le plus de temps devant soi). Pas pendant une canicule : trop de cuisson.
   // Seuls les plats de la saison en cours (ou de toute l'année) sont candidats.
   let specialDish: SpecialDish | null = null
-  if (meals.length > 0 && occasion !== "canicule" && Math.random() < SPECIAL_DISH_PROBABILITY) {
-    const candidates = SPECIAL_DISHES.filter(dish => !dish.seasons || dish.seasons.includes(occasion))
+  if (
+    meals.length > 0 &&
+    occasion !== "canicule" &&
+    Math.random() < SPECIAL_DISH_PROBABILITY
+  ) {
+    const candidates = SPECIAL_DISHES.filter(
+      dish => !dish.seasons || dish.seasons.includes(occasion),
+    )
     if (candidates.length > 0) {
       specialDish = candidates[Math.floor(Math.random() * candidates.length)]
       meals[0] = { kind: "special", name: specialDish.name }
@@ -151,8 +188,14 @@ export function generateWeekPlan(occasion: Occasion, mealCount: number): WeekPla
   const firstSessionMeals = meals.slice(0, Math.ceil(meals.length / 2))
   const secondSessionMeals = meals.slice(Math.ceil(meals.length / 2))
   const sessions: SessionPlan[] = [
-    { meals: firstSessionMeals, toPrepare: ingredientCounts(firstSessionMeals) },
-    { meals: secondSessionMeals, toPrepare: ingredientCounts(secondSessionMeals) },
+    {
+      meals: firstSessionMeals,
+      toPrepare: ingredientCounts(firstSessionMeals),
+    },
+    {
+      meals: secondSessionMeals,
+      toPrepare: ingredientCounts(secondSessionMeals),
+    },
   ]
 
   const sweet = {

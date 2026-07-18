@@ -16,7 +16,15 @@ export interface SpecialDish {
 export const SPECIAL_DISHES: SpecialDish[] = [
   {
     name: "Burritos",
-    ingredients: ["tortillas", "avocats", "haricots rouges", "tofu râpé", "oignons", "poivrons", "tomates"],
+    ingredients: [
+      "tortillas",
+      "avocats",
+      "haricots rouges",
+      "tofu râpé",
+      "oignons",
+      "poivrons",
+      "tomates",
+    ],
   },
   {
     name: "Lasagnes",
@@ -49,12 +57,27 @@ export const SPECIAL_DISHES: SpecialDish[] = [
   },
   {
     name: "Quiche aubergine-courgette-tomate",
-    ingredients: ["pâte brisée", "tofu soyeux", "crème de soja", "aubergines", "courgettes", "tomates", "tofu fumé"],
+    ingredients: [
+      "pâte brisée",
+      "tofu soyeux",
+      "crème de soja",
+      "aubergines",
+      "courgettes",
+      "tomates",
+      "tofu fumé",
+    ],
     seasons: ["été"],
   },
   {
     name: "Quiche tofu-poireaux",
-    ingredients: ["pâte brisée", "tofu soyeux", "crème de soja", "tofu fumé", "poireaux", "salade verte"],
+    ingredients: [
+      "pâte brisée",
+      "tofu soyeux",
+      "crème de soja",
+      "tofu fumé",
+      "poireaux",
+      "salade verte",
+    ],
     seasons: ["hiver", "printemps"],
     note: "salade verte en accompagnement",
   },

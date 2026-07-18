@@ -1,8 +1,20 @@
-import { CONTACT_PLACEHOLDER, DEFAULT_TITLES, NAME, PERSONAL_INFO_PLACEHOLDER, PITCHES } from "./content/profile"
+import {
+  CONTACT_PLACEHOLDER,
+  DEFAULT_TITLES,
+  NAME,
+  PERSONAL_INFO_PLACEHOLDER,
+  PITCHES,
+} from "./content/profile"
 import { EXPERIENCES, EXPERIENCES_TITLES } from "./content/experiences"
 import { SIDEBAR } from "./content/sidebar"
 import { SIDE_PROJECTS, SIDE_PROJECTS_TITLE } from "./content/sideProjects"
-import type { CvLanguage, CvLocale, Experience, LocalizedExperience, LocalizedText } from "./types"
+import type {
+  CvLanguage,
+  CvLocale,
+  Experience,
+  LocalizedExperience,
+  LocalizedText,
+} from "./types"
 
 // Résolution du contenu bilingue de src/cv/content/ vers une langue donnée :
 // chaque LocalizedText devient une simple string, la structure reste identique.
@@ -13,16 +25,25 @@ function localizedText(text: LocalizedText, language: CvLanguage): string {
 }
 
 /** Comme localizedText, pour les champs optionnels (undefined reste undefined). */
-function optionalText(text: LocalizedText | undefined, language: CvLanguage): string | undefined {
+function optionalText(
+  text: LocalizedText | undefined,
+  language: CvLanguage,
+): string | undefined {
   return text === undefined ? undefined : localizedText(text, language)
 }
 
 /** Comme localizedText, pour les tableaux optionnels de textes. */
-function optionalTexts(texts: LocalizedText[] | undefined, language: CvLanguage): string[] | undefined {
+function optionalTexts(
+  texts: LocalizedText[] | undefined,
+  language: CvLanguage,
+): string[] | undefined {
   return texts?.map(text => localizedText(text, language))
 }
 
-function resolveExperience(experience: LocalizedExperience, language: CvLanguage): Experience {
+function resolveExperience(
+  experience: LocalizedExperience,
+  language: CvLanguage,
+): Experience {
   return {
     page: experience.page,
     role: localizedText(experience.role, language),
@@ -34,7 +55,9 @@ function resolveExperience(experience: LocalizedExperience, language: CvLanguage
       name: localizedText(project.name, language),
       team: optionalText(project.team, language),
       context: optionalTexts(project.context, language),
-      missions: project.missions.map(mission => localizedText(mission, language)),
+      missions: project.missions.map(mission =>
+        localizedText(mission, language),
+      ),
     })),
     stack: optionalTexts(experience.stack, language),
   }
@@ -46,10 +69,16 @@ function buildLocale(language: CvLanguage): CvLocale {
       name: NAME,
       sectionTitles: {
         experiences: localizedText(EXPERIENCES_TITLES.experiences, language),
-        experiencesSuite: localizedText(EXPERIENCES_TITLES.experiencesSuite, language),
+        experiencesSuite: localizedText(
+          EXPERIENCES_TITLES.experiencesSuite,
+          language,
+        ),
         sideProjects: localizedText(SIDE_PROJECTS_TITLE, language),
       },
-      contact: CONTACT_PLACEHOLDER.map(line => ({ text: localizedText(line.text, language), url: line.url })),
+      contact: CONTACT_PLACEHOLDER.map(line => ({
+        text: localizedText(line.text, language),
+        url: line.url,
+      })),
       personalInfo: localizedText(PERSONAL_INFO_PLACEHOLDER, language),
       sidebar: SIDEBAR.map(section => ({
         title: localizedText(section.title, language),
@@ -59,8 +88,12 @@ function buildLocale(language: CvLanguage): CvLocale {
           lines: item.lines.map(line => localizedText(line, language)),
         })),
       })),
-      experiences: EXPERIENCES.map(experience => resolveExperience(experience, language)),
-      sideProjects: SIDE_PROJECTS.map(project => resolveExperience(project, language)),
+      experiences: EXPERIENCES.map(experience =>
+        resolveExperience(experience, language),
+      ),
+      sideProjects: SIDE_PROJECTS.map(project =>
+        resolveExperience(project, language),
+      ),
     },
     pitches: {
       dev: localizedText(PITCHES.dev, language),

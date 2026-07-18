@@ -28,7 +28,9 @@ export function monthName(month: number): string {
 /** Monday-first weekday names. */
 export function weekdayNames(): string[] {
   // 2026-01-05 is a Monday.
-  return Array.from({ length: 7 }, (_, i) => WEEKDAY_FORMAT.format(new Date(Date.UTC(2026, 0, 5 + i))))
+  return Array.from({ length: 7 }, (_, i) =>
+    WEEKDAY_FORMAT.format(new Date(Date.UTC(2026, 0, 5 + i))),
+  )
 }
 
 /** @param month 1-12 */
@@ -48,7 +50,8 @@ function toIso(year: number, month: number, day: number): string {
 export function monthGrid(year: number, month: number): DayCell[][] {
   const total = daysInMonth(year, month)
   // getUTCDay(): 0 = Sunday … 6 = Saturday; convert to 0 = Monday … 6 = Sunday.
-  const firstWeekday = (new Date(Date.UTC(year, month - 1, 1)).getUTCDay() + 6) % 7
+  const firstWeekday =
+    (new Date(Date.UTC(year, month - 1, 1)).getUTCDay() + 6) % 7
 
   const cells: DayCell[] = []
   for (let i = 0; i < firstWeekday; i++) {
@@ -90,7 +93,11 @@ export function weekdayOf(year: number, month: number, day: number): number {
 }
 
 /** Normalizes (year, month offset) into a real { year, month } pair. */
-export function addMonths(year: number, month: number, offset: number): { year: number; month: number } {
+export function addMonths(
+  year: number,
+  month: number,
+  offset: number,
+): { year: number; month: number } {
   const index = year * 12 + (month - 1) + offset
   return { year: Math.floor(index / 12), month: (index % 12) + 1 }
 }

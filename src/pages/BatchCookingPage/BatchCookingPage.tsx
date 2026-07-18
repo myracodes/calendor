@@ -1,11 +1,23 @@
 import { useState } from "react"
-import { generateWeekPlan, type Meal, type SessionPlan, type WeekPlan } from "../../batchCooking/generator"
-import { type Occasion, OCCASIONS, seasonForMonth } from "../../batchCooking/ingredients"
+import {
+  generateWeekPlan,
+  type Meal,
+  type SessionPlan,
+  type WeekPlan,
+} from "../../batchCooking/generator"
+import {
+  type Occasion,
+  OCCASIONS,
+  seasonForMonth,
+} from "../../batchCooking/ingredients"
 import "./BatchCookingPage.css"
 
 const CURRENT_SEASON = seasonForMonth(new Date().getMonth() + 1)
 
-const SESSION_TITLES = ["Session 1 (dimanche) — début de semaine", "Session 2 (mercredi) — fin de semaine"]
+const SESSION_TITLES = [
+  "Session 1 (dimanche) — début de semaine",
+  "Session 2 (mercredi) — fin de semaine",
+]
 
 function MealItem({ meal }: { meal: Meal }) {
   if (meal.kind === "special") {
@@ -19,14 +31,21 @@ function MealItem({ meal }: { meal: Meal }) {
   if (recipe.name) {
     return (
       <li>
-        <span className="meal-name">{recipe.name}</span> · {recipe.ingredients.join(" · ")}
+        <span className="meal-name">{recipe.name}</span> ·{" "}
+        {recipe.ingredients.join(" · ")}
       </li>
     )
   }
   return <li>{recipe.ingredients.join(" · ")}</li>
 }
 
-function SessionBlock({ title, session }: { title: string; session: SessionPlan }) {
+function SessionBlock({
+  title,
+  session,
+}: {
+  title: string
+  session: SessionPlan
+}) {
   return (
     <div className="session">
       <h3>{title}</h3>
@@ -37,7 +56,10 @@ function SessionBlock({ title, session }: { title: string; session: SessionPlan 
       </ul>
       {session.toPrepare.length > 0 && (
         <p className="hint">
-          À préparer : {session.toPrepare.map(({ ingredient, count }) => `${ingredient} ×${count}`).join(", ")}
+          À préparer :{" "}
+          {session.toPrepare
+            .map(({ ingredient, count }) => `${ingredient} ×${count}`)
+            .join(", ")}
         </p>
       )}
     </div>
@@ -48,7 +70,8 @@ export function BatchCookingPage() {
   const [occasion, setOccasion] = useState<Occasion>(CURRENT_SEASON)
   const [mealCount, setMealCount] = useState(7)
   const [plan, setPlan] = useState<WeekPlan | null>(null)
-  const hasMeals = plan !== null && plan.sessions.some(session => session.meals.length > 0)
+  const hasMeals =
+    plan !== null && plan.sessions.some(session => session.meals.length > 0)
 
   return (
     <>
@@ -59,7 +82,10 @@ export function BatchCookingPage() {
         <div className="row">
           <label>
             Occasion
-            <select value={occasion} onChange={e => setOccasion(e.target.value as Occasion)}>
+            <select
+              value={occasion}
+              onChange={e => setOccasion(e.target.value as Occasion)}
+            >
               {OCCASIONS.map(o => (
                 <option key={o} value={o}>
                   {o}
@@ -74,7 +100,11 @@ export function BatchCookingPage() {
               min={2}
               max={14}
               value={mealCount}
-              onChange={e => setMealCount(Math.max(2, Math.min(14, Number(e.target.value) || 2)))}
+              onChange={e =>
+                setMealCount(
+                  Math.max(2, Math.min(14, Number(e.target.value) || 2)),
+                )
+              }
             />
           </label>
         </div>
@@ -84,8 +114,9 @@ export function BatchCookingPage() {
         <section className="card card--candy">
           <h2>Repas de la semaine</h2>
           <p className="hint">
-            Aucune recette n'est compatible avec cette occasion — ajoute des recettes dans src/batchCooking/recipes.ts
-            (et vérifie les libellés exacts des ingrédients saisonniers).
+            Aucune recette n'est compatible avec cette occasion — ajoute des
+            recettes dans src/batchCooking/recipes.ts (et vérifie les libellés
+            exacts des ingrédients saisonniers).
           </p>
         </section>
       )}
@@ -96,7 +127,11 @@ export function BatchCookingPage() {
             <h2>Repas de la semaine</h2>
             <div className="session-list">
               {plan.sessions.map((session, i) => (
-                <SessionBlock key={i} title={SESSION_TITLES[i]} session={session} />
+                <SessionBlock
+                  key={i}
+                  title={SESSION_TITLES[i]}
+                  session={session}
+                />
               ))}
             </div>
           </section>
@@ -122,7 +157,9 @@ export function BatchCookingPage() {
                       <li key={item}>{item}</li>
                     ))}
                   </ul>
-                  {plan.specialDish.note && <p className="hint">{plan.specialDish.note}</p>}
+                  {plan.specialDish.note && (
+                    <p className="hint">{plan.specialDish.note}</p>
+                  )}
                 </section>
               )}
             </div>
@@ -160,7 +197,11 @@ export function BatchCookingPage() {
         </>
       )}
 
-      <button type="button" className="generate" onClick={() => setPlan(generateWeekPlan(occasion, mealCount))}>
+      <button
+        type="button"
+        className="generate"
+        onClick={() => setPlan(generateWeekPlan(occasion, mealCount))}
+      >
         {plan ? "Regénérer" : "Générer la semaine"}
       </button>
     </>

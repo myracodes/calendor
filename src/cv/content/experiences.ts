@@ -7,16 +7,28 @@ import type { LocalizedExperience, LocalizedText } from "../types"
 //   bothLanguages quand le texte est identique — voir LocalizedText dans ../types.ts.
 
 /** Titres de la section : page 1, puis "(suite)" en page 2. */
-export const EXPERIENCES_TITLES: { experiences: LocalizedText; experiencesSuite: LocalizedText } = {
-  experiences: { fr: "Expérience professionnelle", en: "Professional experience" },
-  experiencesSuite: { fr: "Expérience professionnelle (suite)", en: "Professional experience (cont.)" },
+export const EXPERIENCES_TITLES: {
+  experiences: LocalizedText
+  experiencesSuite: LocalizedText
+} = {
+  experiences: {
+    fr: "Expérience professionnelle",
+    en: "Professional experience",
+  },
+  experiencesSuite: {
+    fr: "Expérience professionnelle (suite)",
+    en: "Professional experience (cont.)",
+  },
 }
 
 export const EXPERIENCES: LocalizedExperience[] = [
   {
     page: 1,
     role: { fr: "Développeuse front-end", en: "Front-end web developer" },
-    employer: { fr: "Cap Collectif (2024 - aujourd'hui)", en: "Cap Collectif (2024 - present)" },
+    employer: {
+      fr: "Cap Collectif (2024 - aujourd'hui)",
+      en: "Cap Collectif (2024 - present)",
+    },
     team: {
       fr: "Équipe de 9 personnes (5 dev / 1 DevOps / 1 QA / 1 PO / 1 UX/UI designer)",
       en: "Team of 9 people: 5 dev / 1 DevOps / 1 QA / 1 PO / 1 UX/UI designer",
@@ -32,10 +44,22 @@ export const EXPERIENCES: LocalizedExperience[] = [
         fr: "Conception et développement de nouvelles features et refontes front-end en **React / Next.js**",
         en: "Designed and developed new features and front-end redesigns using **React / Next.js**",
       },
-      { fr: "Tests automatisés (**Cypress**)", en: "Automated testing (**Cypress**)" },
-      { fr: "Correction de bugs en production", en: "Fixed bugs in production" },
-      { fr: "Relecture des PR (code reviews)", en: "Reviewed pull requests (code reviews)" },
-      { fr: "Améliorations SEO (Core Web Vitals, TTFB, etc)", en: "Enhanced SEO (Core Web Vitals, TTFB, etc)" },
+      {
+        fr: "Tests automatisés (**Cypress**)",
+        en: "Automated testing (**Cypress**)",
+      },
+      {
+        fr: "Correction de bugs en production",
+        en: "Fixed bugs in production",
+      },
+      {
+        fr: "Relecture des PR (code reviews)",
+        en: "Reviewed pull requests (code reviews)",
+      },
+      {
+        fr: "Améliorations SEO (Core Web Vitals, TTFB, etc)",
+        en: "Enhanced SEO (Core Web Vitals, TTFB, etc)",
+      },
       {
         fr: "Mise à jour du **Design System** (45 composants) : refontes, nouveautés, **accessibilité**",
         en: "Updated the **Design System** (45 components): redesigns, new features, **accessibility**",
@@ -87,7 +111,10 @@ export const EXPERIENCES: LocalizedExperience[] = [
   {
     page: 1,
     role: { fr: "Développeuse front-end", en: "Front-end web developer" },
-    employer: { fr: "Avanade (ESN) (2022 - 2024)", en: "Avanade (consulting firm) (2022 - 2024)" },
+    employer: {
+      fr: "Avanade (ESN) (2022 - 2024)",
+      en: "Avanade (consulting firm) (2022 - 2024)",
+    },
     projects: [
       {
         name: {
@@ -114,11 +141,17 @@ export const EXPERIENCES: LocalizedExperience[] = [
             en: "Implemented the **Design System** and reusable components (**Tailwind/Angular**)",
           },
           { fr: "Run : correction des bugs", en: "Run: bug fixes" },
-          { fr: "Proposition et mise en place de normes", en: "Championed implementation of standards" },
+          {
+            fr: "Proposition et mise en place de normes",
+            en: "Championed implementation of standards",
+          },
         ],
       },
       {
-        name: { fr: "Projets internes Avanade", en: "Avanade internal projects" },
+        name: {
+          fr: "Projets internes Avanade",
+          en: "Avanade internal projects",
+        },
         missions: [
           {
             fr: "Conception, développement et mise à jour de composants du **Design System** interne",
@@ -172,7 +205,10 @@ export const EXPERIENCES: LocalizedExperience[] = [
         fr: "Gestion des projets, documentation du code, amélioration des processus internes",
         en: "Drove continuous improvement: project management, code documentation, internal processes",
       },
-      { fr: "Définition et application de la stratégie **SEO**", en: "Designed and rolled out the **SEO** strategy" },
+      {
+        fr: "Définition et application de la stratégie **SEO**",
+        en: "Designed and rolled out the **SEO** strategy",
+      },
       {
         fr: "Mise en place d'outils digitaux & formation de l'équipe",
         en: "Set up and deployed digital tools, and trained the team to use them",

@@ -42,13 +42,29 @@ function alternating(
   // le cycle doit donc représenter un multiple de 3,5 jours (garde-fou pour l'unité "jour").
   const interval = (days / 7) * 2
   if (!Number.isInteger(interval)) {
-    throw new Error(`alternating("${label}") : un cycle de ${days} jours ne tombe pas sur un nombre entier de semaines`)
+    throw new Error(
+      `alternating("${label}") : un cycle de ${days} jours ne tombe pas sur un nombre entier de semaines`,
+    )
   }
   return [
-    { label, rule: { kind: "weekly", weekdays: [weekday], interval, anchor: BASE_ANCHOR }, color: QQ },
     {
       label,
-      rule: { kind: "weekly", weekdays: [myWeekday], interval, anchor: addDaysIso(BASE_ANCHOR, days) },
+      rule: {
+        kind: "weekly",
+        weekdays: [weekday],
+        interval,
+        anchor: BASE_ANCHOR,
+      },
+      color: QQ,
+    },
+    {
+      label,
+      rule: {
+        kind: "weekly",
+        weekdays: [myWeekday],
+        interval,
+        anchor: addDaysIso(BASE_ANCHOR, days),
+      },
       color: MY,
     },
   ]
@@ -69,8 +85,13 @@ export interface Preset {
 }
 
 // Ajoute les événements d'un preset (sans doublons) et applique ses options d'affichage.
-export function applyPresetToSettings(settings: CalendarSettings, preset: Preset): CalendarSettings {
-  const existing = new Set(settings.events.map(event => `${event.rule.kind}:${event.label}`))
+export function applyPresetToSettings(
+  settings: CalendarSettings,
+  preset: Preset,
+): CalendarSettings {
+  const existing = new Set(
+    settings.events.map(event => `${event.rule.kind}:${event.label}`),
+  )
   const added = preset.events
     .filter(event => !existing.has(`${event.rule.kind}:${event.label}`))
     .map(event => ({ ...event, id: crypto.randomUUID() }))
@@ -93,26 +114,50 @@ export const PRESETS: Preset[] = [
     includeSchedules: true,
     requiresMonthly: true,
     events: [
-      { label: "piano · chant · duolingo", rule: { kind: "daily" }, color: "#A5522B" },
+      {
+        label: "piano · chant · duolingo",
+        rule: { kind: "daily" },
+        color: "#A5522B",
+      },
       { label: "vitamine D", rule: { kind: "daily" }, color: "#246F29" },
       {
         label: "B12",
-        rule: { kind: "weekly", weekdays: [WEEKDAY.DIMANCHE], interval: 1, anchor: "2026-01-01" },
+        rule: {
+          kind: "weekly",
+          weekdays: [WEEKDAY.DIMANCHE],
+          interval: 1,
+          anchor: "2026-01-01",
+        },
         color: "#246F29",
       },
       {
         label: "Step 11h30",
-        rule: { kind: "weekly", weekdays: [WEEKDAY.DIMANCHE], interval: 1, anchor: "2026-01-01" },
+        rule: {
+          kind: "weekly",
+          weekdays: [WEEKDAY.DIMANCHE],
+          interval: 1,
+          anchor: "2026-01-01",
+        },
         color: "#DC3C0F",
       },
       {
         label: "arroser les plantes 🪴",
-        rule: { kind: "weekly", weekdays: [WEEKDAY.LUNDI], interval: 1, anchor: "2026-01-01" },
+        rule: {
+          kind: "weekly",
+          weekdays: [WEEKDAY.LUNDI],
+          interval: 1,
+          anchor: "2026-01-01",
+        },
         color: "#516F24",
       },
       {
         label: "lecture",
-        rule: { kind: "weekly", weekdays: [WEEKDAY.DIMANCHE], interval: 1, anchor: "2026-01-01" },
+        rule: {
+          kind: "weekly",
+          weekdays: [WEEKDAY.DIMANCHE],
+          interval: 1,
+          anchor: "2026-01-01",
+        },
         color: "#1073c4",
       },
       {
@@ -144,7 +189,13 @@ export const PRESETS: Preset[] = [
       // alternating(libellé, unité du cycle, durée du cycle, jour de QQ, jour de MY si différent du jour de QQ)
       // Appartement entier
       ...alternating("Faire la poussière à fond", "mois", 1, WEEKDAY.LUNDI),
-      ...alternating("Poussières + aspirateur", "semaine", 1, WEEKDAY.LUNDI, WEEKDAY.DIMANCHE),
+      ...alternating(
+        "Poussières + aspirateur",
+        "semaine",
+        1,
+        WEEKDAY.LUNDI,
+        WEEKDAY.DIMANCHE,
+      ),
       ...alternating("S", "semaine", 1, WEEKDAY.LUNDI, WEEKDAY.DIMANCHE),
 
       // Salle de bains
@@ -153,13 +204,23 @@ export const PRESETS: Preset[] = [
       ...alternating("Nettoyer les toilettes", "semaine", 1, WEEKDAY.VENDREDI),
       ...alternating("Changer le tapis de bain", "semaine", 2, WEEKDAY.MARDI),
       ...alternating("Nettoyer les miroirs", "mois", 2, WEEKDAY.JEUDI),
-      ...alternating("Nettoyer le siphon de la douche", "mois", 3, WEEKDAY.MARDI),
+      ...alternating(
+        "Nettoyer le siphon de la douche",
+        "mois",
+        3,
+        WEEKDAY.MARDI,
+      ),
 
       // Toilettes
       ...alternating("Nettoyer les toilettes", "semaine", 1, WEEKDAY.VENDREDI),
 
       // Cuisine
-      ...alternating("Nettoyer l'évier de la cuisine", "semaine", 1, WEEKDAY.LUNDI),
+      ...alternating(
+        "Nettoyer l'évier de la cuisine",
+        "semaine",
+        1,
+        WEEKDAY.LUNDI,
+      ),
       ...alternating("Nettoyer le frigo", "mois", 1, WEEKDAY.SAMEDI),
       ...alternating("Nettoyer le four", "mois", 2, WEEKDAY.SAMEDI),
       ...alternating("Nettoyer le grille-pain", "mois", 1, WEEKDAY.JEUDI),
@@ -167,35 +228,115 @@ export const PRESETS: Preset[] = [
       ...alternating("Nettoyer le frigo", "mois", 1, WEEKDAY.SAMEDI),
       ...alternating("Nettoyer le four", "mois", 2, WEEKDAY.SAMEDI),
       ...alternating("Nettoyer la desserte à épices", "mois", 2, WEEKDAY.JEUDI),
-      ...alternating("Nettoyer le lave-linge (hublot, tiroir)", "mois", 1, WEEKDAY.MERCREDI),
-      ...alternating("Vider le filtre du lave-linge", "mois", 1, WEEKDAY.MERCREDI),
-      ...alternating("Vider / nettoyer le filtre du lave-vaisselle", "semaine", 2, WEEKDAY.LUNDI),
+      ...alternating(
+        "Nettoyer le lave-linge (hublot, tiroir)",
+        "mois",
+        1,
+        WEEKDAY.MERCREDI,
+      ),
+      ...alternating(
+        "Vider le filtre du lave-linge",
+        "mois",
+        1,
+        WEEKDAY.MERCREDI,
+      ),
+      ...alternating(
+        "Vider / nettoyer le filtre du lave-vaisselle",
+        "semaine",
+        2,
+        WEEKDAY.LUNDI,
+      ),
 
       // Linge
       ...alternating("Lessive", "semaine", 1, WEEKDAY.MARDI, WEEKDAY.SAMEDI),
-      ...alternating("Vider le filtre du lave-linge", "mois", 1, WEEKDAY.MERCREDI),
-      ...alternating("Vider / nettoyer le filtre du lave-vaisselle", "semaine", 2, WEEKDAY.LUNDI),
+      ...alternating(
+        "Vider le filtre du lave-linge",
+        "mois",
+        1,
+        WEEKDAY.MERCREDI,
+      ),
+      ...alternating(
+        "Vider / nettoyer le filtre du lave-vaisselle",
+        "semaine",
+        2,
+        WEEKDAY.LUNDI,
+      ),
 
       // Salon
       ...alternating("Nettoyer les plaids", "mois", 2, WEEKDAY.DIMANCHE),
       ...alternating("Nettoyer la table basse", "semaine", 2, WEEKDAY.MERCREDI),
 
       // Chambre
-      ...alternating("Changer toute la parure de lit", "mois", 1, WEEKDAY.SAMEDI),
-      ...alternating("Changer le drap housse du lit", "semaine", 2, WEEKDAY.SAMEDI),
-      ...alternating("Passer la serpillère dans tout l'appartement", "semaine", 1, WEEKDAY.MERCREDI),
+      ...alternating(
+        "Changer toute la parure de lit",
+        "mois",
+        1,
+        WEEKDAY.SAMEDI,
+      ),
+      ...alternating(
+        "Changer le drap housse du lit",
+        "semaine",
+        2,
+        WEEKDAY.SAMEDI,
+      ),
+      ...alternating(
+        "Passer la serpillère dans tout l'appartement",
+        "semaine",
+        1,
+        WEEKDAY.MERCREDI,
+      ),
 
       // Tâches ponctuelles
       ...alternating("Nettoyer les fenêtres", "mois", 6, WEEKDAY.SAMEDI),
-      ...alternating("Nettoyer l'évier de la cuisine", "semaine", 1, WEEKDAY.LUNDI),
+      ...alternating(
+        "Nettoyer l'évier de la cuisine",
+        "semaine",
+        1,
+        WEEKDAY.LUNDI,
+      ),
       ...alternating("Nettoyer le balcon détente", "mois", 6, WEEKDAY.DIMANCHE),
-      ...alternating("Nettoyer le balcon débarras", "mois", 6, WEEKDAY.DIMANCHE),
-      ...alternating("Nettoyer le fauteuil du balcon", "mois", 2, WEEKDAY.DIMANCHE),
-      ...alternating("Nettoyer les miroirs (chambre, entrée, salle de bains)", "semaine", 2, WEEKDAY.JEUDI),
-      ...alternating("Nettoyer la porte de douche", "semaine", 2, WEEKDAY.MARDI),
-      ...alternating("Nettoyer le receveur de douche", "semaine", 1, WEEKDAY.MARDI),
-      ...alternating("Nettoyer le meuble de rangement dans la douche", "mois", 1, WEEKDAY.MARDI),
-      ...alternating("Changer et nettoyer le tapis de bain", "semaine", 2, WEEKDAY.MARDI),
+      ...alternating(
+        "Nettoyer le balcon débarras",
+        "mois",
+        6,
+        WEEKDAY.DIMANCHE,
+      ),
+      ...alternating(
+        "Nettoyer le fauteuil du balcon",
+        "mois",
+        2,
+        WEEKDAY.DIMANCHE,
+      ),
+      ...alternating(
+        "Nettoyer les miroirs (chambre, entrée, salle de bains)",
+        "semaine",
+        2,
+        WEEKDAY.JEUDI,
+      ),
+      ...alternating(
+        "Nettoyer la porte de douche",
+        "semaine",
+        2,
+        WEEKDAY.MARDI,
+      ),
+      ...alternating(
+        "Nettoyer le receveur de douche",
+        "semaine",
+        1,
+        WEEKDAY.MARDI,
+      ),
+      ...alternating(
+        "Nettoyer le meuble de rangement dans la douche",
+        "mois",
+        1,
+        WEEKDAY.MARDI,
+      ),
+      ...alternating(
+        "Changer et nettoyer le tapis de bain",
+        "semaine",
+        2,
+        WEEKDAY.MARDI,
+      ),
     ],
   },
 ]

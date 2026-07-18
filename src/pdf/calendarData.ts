@@ -32,7 +32,11 @@ export const LIFE_EVENT_KINDS = [
   },
 ]
 
-export function lifeEventsForDay(events: LifeEvent[], month: number, day: number): LifeEvent[] {
+export function lifeEventsForDay(
+  events: LifeEvent[],
+  month: number,
+  day: number,
+): LifeEvent[] {
   return events.filter(event => event.month === month && event.day === day)
 }
 
@@ -42,17 +46,32 @@ export function lifeEventsForDay(events: LifeEvent[], month: number, day: number
  * naissance seule si l'année de décès est inconnue.
  * Rien entre parenthèses si l'année est inconnue.
  */
-export function lifeEventLabel(emoji: string, event: LifeEvent, calendarYear: number, showAge: boolean): string {
+export function lifeEventLabel(
+  emoji: string,
+  event: LifeEvent,
+  calendarYear: number,
+  showAge: boolean,
+): string {
   if (event.year === undefined) return `${emoji} ${event.name}`
   if (event.died) {
-    const detail = event.died.year === undefined ? `${event.year}` : `${event.year}-${event.died.year}`
+    const detail =
+      event.died.year === undefined
+        ? `${event.year}`
+        : `${event.year}-${event.died.year}`
     return `${emoji} ${event.name} (${detail})`
   }
-  const detail = showAge ? `${event.year} — ${calendarYear - event.year} ans` : `${event.year}`
+  const detail = showAge
+    ? `${event.year} — ${calendarYear - event.year} ans`
+    : `${event.year}`
   return `${emoji} ${event.name} (${detail})`
 }
 
-export function eventsForDay(events: CalendarEvent[], day: number, iso: string, weekday: number): CalendarEvent[] {
+export function eventsForDay(
+  events: CalendarEvent[],
+  day: number,
+  iso: string,
+  weekday: number,
+): CalendarEvent[] {
   return events.filter(event => {
     const rule = event.rule
     switch (rule.kind) {

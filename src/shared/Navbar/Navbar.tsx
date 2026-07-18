@@ -24,13 +24,19 @@ export function Navbar() {
         <NavLink
           key={link.to}
           to={link.to}
-          className={({ isActive }) => `navbar-link${isActive ? " navbar-link--active" : ""}`}
+          className={({ isActive }) =>
+            `navbar-link${isActive ? " navbar-link--active" : ""}`
+          }
         >
           {link.label}
         </NavLink>
       ))}
       {session !== null && (
-        <button type="button" className="navbar-logout" onClick={() => requireSupabase().auth.signOut()}>
+        <button
+          type="button"
+          className="navbar-logout"
+          onClick={() => requireSupabase().auth.signOut()}
+        >
           Déconnexion
         </button>
       )}

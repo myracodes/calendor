@@ -11,4 +11,7 @@ export interface AuthState {
   loading: boolean
 }
 
-export const AuthContext = createContext<AuthState>({ session: null, loading: true })
+export const AuthContext = createContext<AuthState>({
+  session: null,
+  loading: true,
+})

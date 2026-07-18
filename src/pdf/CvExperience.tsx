@@ -1,7 +1,13 @@
 import { StyleSheet, Text, View } from "@react-pdf/renderer"
 import type { Experience, Project } from "../cv/types"
 import { CvRichText } from "./CvRichText"
-import { CV_BODY_LINE_HEIGHT, CV_GOLD, CV_TEXT, CV_VIOLET, CV_VIOLET_SOFT } from "./cvTheme"
+import {
+  CV_BODY_LINE_HEIGHT,
+  CV_GOLD,
+  CV_TEXT,
+  CV_VIOLET,
+  CV_VIOLET_SOFT,
+} from "./cvTheme"
 
 const styles = StyleSheet.create({
   block: {
@@ -60,7 +66,11 @@ const styles = StyleSheet.create({
 })
 
 /** Équipe, contexte et missions — le corps commun à une expérience et à chacun de ses projets. */
-function ExperienceBody({ team, context, missions }: Pick<Project, "team" | "context" | "missions">) {
+function ExperienceBody({
+  team,
+  context,
+  missions,
+}: Pick<Project, "team" | "context" | "missions">) {
   return (
     <>
       {team !== undefined && <Text style={styles.team}>{team}</Text>}
@@ -68,7 +78,13 @@ function ExperienceBody({ team, context, missions }: Pick<Project, "team" | "con
         <CvRichText key={line} text={line} style={styles.context} />
       ))}
       {missions.map(mission => (
-        <CvRichText key={mission} text={mission} style={styles.mission} prefix="→  " prefixStyle={styles.arrow} />
+        <CvRichText
+          key={mission}
+          text={mission}
+          style={styles.mission}
+          prefix="→  "
+          prefixStyle={styles.arrow}
+        />
       ))}
     </>
   )
@@ -84,11 +100,19 @@ export function CvExperience({ experience }: { experience: Experience }) {
     <View style={styles.block}>
       <Text style={styles.role}>{experience.role}</Text>
       <Text style={styles.employer}>/ {experience.employer}</Text>
-      <ExperienceBody team={experience.team} context={experience.context} missions={experience.missions ?? []} />
+      <ExperienceBody
+        team={experience.team}
+        context={experience.context}
+        missions={experience.missions ?? []}
+      />
       {experience.projects?.map(project => (
         <View key={project.name}>
           <CvRichText text={project.name} style={styles.projectName} />
-          <ExperienceBody team={project.team} context={project.context} missions={project.missions} />
+          <ExperienceBody
+            team={project.team}
+            context={project.context}
+            missions={project.missions}
+          />
         </View>
       ))}
       {experience.stack !== undefined && (

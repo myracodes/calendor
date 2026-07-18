@@ -11,7 +11,20 @@ const MONTHS = Array.from({ length: 12 }, (_, i) => i + 1)
 const DAYS = Array.from({ length: 31 }, (_, i) => i + 1)
 
 // Abréviations françaises usuelles ; la casse est gérée par textTransform (voir monthHeaderText).
-const MONTH_LABELS = ["janv.", "févr.", "mars", "avr.", "mai", "juin", "juil.", "août", "sept.", "oct.", "nov.", "déc."]
+const MONTH_LABELS = [
+  "janv.",
+  "févr.",
+  "mars",
+  "avr.",
+  "mai",
+  "juin",
+  "juil.",
+  "août",
+  "sept.",
+  "oct.",
+  "nov.",
+  "déc.",
+]
 
 // Initiale du jour de la semaine ; index 0 = lundi, 6 = dimanche (même convention que weekdayOf).
 const WEEKDAY_LETTERS = ["L", "M", "M", "J", "V", "S", "D"]
@@ -186,9 +199,13 @@ interface AnnualPageProps {
 export function AnnualPage({ settings, year }: AnnualPageProps) {
   const publicHolidays = publicHolidaysForYear(year)
   const birthdayKind = LIFE_EVENT_KINDS.find(kind => kind.key === "birthday")
-  const birthdayEvents = birthdayKind && birthdayKind.isEnabled(settings) ? birthdayKind.events : null
+  const birthdayEvents =
+    birthdayKind && birthdayKind.isEnabled(settings)
+      ? birthdayKind.events
+      : null
   const deathKind = LIFE_EVENT_KINDS.find(kind => kind.key === "death")
-  const deathEvents = deathKind && deathKind.isEnabled(settings) ? deathKind.events : null
+  const deathEvents =
+    deathKind && deathKind.isEnabled(settings) ? deathKind.events : null
 
   return (
     <Page size="A4" orientation="landscape" style={styles.page}>
@@ -204,21 +221,44 @@ export function AnnualPage({ settings, year }: AnnualPageProps) {
             {MONTHS.map((month, i) => (
               <View
                 key={month}
-                style={i === 0 ? [styles.monthHeaderCell, styles.firstMonthCell] : styles.monthHeaderCell}
+                style={
+                  i === 0
+                    ? [styles.monthHeaderCell, styles.firstMonthCell]
+                    : styles.monthHeaderCell
+                }
               >
-                <Text style={styles.monthHeaderText}>{MONTH_LABELS[month - 1]}</Text>
+                <Text style={styles.monthHeaderText}>
+                  {MONTH_LABELS[month - 1]}
+                </Text>
               </View>
             ))}
           </View>
           {DAYS.map((day, rowIndex) => (
-            <View key={day} style={rowIndex === 0 ? [styles.dayRow, styles.firstDayRow] : styles.dayRow}>
+            <View
+              key={day}
+              style={
+                rowIndex === 0
+                  ? [styles.dayRow, styles.firstDayRow]
+                  : styles.dayRow
+              }
+            >
               {MONTHS.map((month, i) => {
-                const baseCellStyle = i === 0 ? [styles.monthCell, styles.firstMonthCell] : [styles.monthCell]
+                const baseCellStyle =
+                  i === 0
+                    ? [styles.monthCell, styles.firstMonthCell]
+                    : [styles.monthCell]
 
                 if (day > daysInMonth(year, month)) {
                   return (
-                    <View key={month} style={[...baseCellStyle, styles.emptyCell]}>
-                      <Svg style={styles.emptyCellHatch} viewBox="0 0 100 100" preserveAspectRatio="none">
+                    <View
+                      key={month}
+                      style={[...baseCellStyle, styles.emptyCell]}
+                    >
+                      <Svg
+                        style={styles.emptyCellHatch}
+                        viewBox="0 0 100 100"
+                        preserveAspectRatio="none"
+                      >
                         {HATCH_LINES.map(({ topX, bottomX }, hatchIndex) => (
                           <Line
                             key={hatchIndex}
@@ -236,22 +276,40 @@ export function AnnualPage({ settings, year }: AnnualPageProps) {
                 }
 
                 const weekday = weekdayOf(year, month, day)
-                const isWeekend = weekday === WEEKDAY.SAMEDI || weekday === WEEKDAY.DIMANCHE
-                const isHoliday = lifeEventsForDay(publicHolidays, month, day).length > 0
-                const hasBirthday = birthdayEvents !== null && lifeEventsForDay(birthdayEvents, month, day).length > 0
-                const hasDeath = deathEvents !== null && lifeEventsForDay(deathEvents, month, day).length > 0
+                const isWeekend =
+                  weekday === WEEKDAY.SAMEDI || weekday === WEEKDAY.DIMANCHE
+                const isHoliday =
+                  lifeEventsForDay(publicHolidays, month, day).length > 0
+                const hasBirthday =
+                  birthdayEvents !== null &&
+                  lifeEventsForDay(birthdayEvents, month, day).length > 0
+                const hasDeath =
+                  deathEvents !== null &&
+                  lifeEventsForDay(deathEvents, month, day).length > 0
 
                 return (
                   <View
                     key={month}
-                    style={isWeekend || isHoliday ? [...baseCellStyle, styles.weekendCell] : baseCellStyle}
+                    style={
+                      isWeekend || isHoliday
+                        ? [...baseCellStyle, styles.weekendCell]
+                        : baseCellStyle
+                    }
                   >
                     <View style={styles.cellMarkRow}>
                       <Text style={styles.cellDayNumber}>{day}</Text>
-                      <Text style={styles.cellWeekdayLetter}>{WEEKDAY_LETTERS[weekday]}</Text>
-                      {isHoliday ? <Text style={styles.holidayMark}>F</Text> : null}
-                      {hasBirthday ? <Text style={styles.birthdayMark}>🎂</Text> : null}
-                      {hasDeath ? <Text style={styles.deathMark}>🕯️</Text> : null}
+                      <Text style={styles.cellWeekdayLetter}>
+                        {WEEKDAY_LETTERS[weekday]}
+                      </Text>
+                      {isHoliday ? (
+                        <Text style={styles.holidayMark}>F</Text>
+                      ) : null}
+                      {hasBirthday ? (
+                        <Text style={styles.birthdayMark}>🎂</Text>
+                      ) : null}
+                      {hasDeath ? (
+                        <Text style={styles.deathMark}>🕯️</Text>
+                      ) : null}
                     </View>
                   </View>
                 )

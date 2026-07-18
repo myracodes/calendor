@@ -78,7 +78,11 @@ export function CvIdentity({ cv }: { cv: CvData }) {
             {line.text}
           </Text>
         ) : (
-          <Link key={line.text} src={line.url} style={[styles.contactLine, styles.contactLink]}>
+          <Link
+            key={line.text}
+            src={line.url}
+            style={[styles.contactLine, styles.contactLink]}
+          >
             {line.text}
           </Link>
         ),
@@ -89,7 +93,11 @@ export function CvIdentity({ cv }: { cv: CvData }) {
 }
 
 /** Colonne de gauche du CV : sections (Formation, Compétences…) d'une page donnée. */
-export function CvSidebarSections({ sections }: { sections: SidebarSection[] }) {
+export function CvSidebarSections({
+  sections,
+}: {
+  sections: SidebarSection[]
+}) {
   return (
     <View>
       {sections.map(section => (
@@ -97,9 +105,16 @@ export function CvSidebarSections({ sections }: { sections: SidebarSection[] }) 
           <CvSectionTitle inverse>{section.title}</CvSectionTitle>
           {section.items.map(item => (
             <View key={item.lines.join("\n")} style={styles.item}>
-              {item.label !== undefined && <Text style={styles.itemLabel}>{item.label}</Text>}
+              {item.label !== undefined && (
+                <Text style={styles.itemLabel}>{item.label}</Text>
+              )}
               {item.lines.map(line => (
-                <CvRichText key={line} inverse text={line} style={styles.itemDetail} />
+                <CvRichText
+                  key={line}
+                  inverse
+                  text={line}
+                  style={styles.itemDetail}
+                />
               ))}
             </View>
           ))}

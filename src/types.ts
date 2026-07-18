@@ -44,4 +44,7 @@ export interface CalendarSettings {
   events: CalendarEvent[]
 }
 
-export type SettingsUpdater = <K extends keyof CalendarSettings>(key: K, value: CalendarSettings[K]) => void
+export type SettingsUpdater = <K extends keyof CalendarSettings>(
+  key: K,
+  value: CalendarSettings[K],
+) => void

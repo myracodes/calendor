@@ -24,7 +24,10 @@ Font.register({
 // Carlito : clone libre de Calibri, pour les documents "sérieux" (courriers).
 Font.register({
   family: "Carlito",
-  fonts: [{ src: `${BASE}fonts/Carlito-Regular.ttf` }, { src: `${BASE}fonts/Carlito-Bold.ttf`, fontWeight: "bold" }],
+  fonts: [
+    { src: `${BASE}fonts/Carlito-Regular.ttf` },
+    { src: `${BASE}fonts/Carlito-Bold.ttf`, fontWeight: "bold" },
+  ],
 })
 // Quicksand : sans-serif arrondie, la police du CV (voir src/pdf/cvTheme.ts).
 Font.register({
@@ -46,11 +49,17 @@ export const SURFACE = "rgba(255, 255, 255, 0.65)" // légèrement transparent p
 // Le dégradé arc-en-ciel de l'app, simulé par une rangée de segments colorés
 // (react-pdf ne supporte pas les dégradés CSS).
 const RAINBOW_SEGMENTS = RAINBOW.map(
-  color => StyleSheet.create({ segment: { flexGrow: 1, backgroundColor: color } }).segment,
+  color =>
+    StyleSheet.create({ segment: { flexGrow: 1, backgroundColor: color } })
+      .segment,
 )
 
 /** Bande dégradée façon "gradient-rainbow" de l'app. */
-export function RainbowBar({ style }: { style: ComponentProps<typeof View>["style"] }) {
+export function RainbowBar({
+  style,
+}: {
+  style: ComponentProps<typeof View>["style"]
+}) {
   return (
     <View style={style}>
       {RAINBOW_SEGMENTS.map((segment, i) => (

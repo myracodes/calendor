@@ -23,9 +23,24 @@ function buildInitialSettings(): BujoSettings {
     illustration: null,
     // Exemple de départ : un suivi de tâches, à adapter librement.
     columns: [
-      { id: crypto.randomUUID(), label: "Date", kind: "dotted", width: "medium" },
-      { id: crypto.randomUUID(), label: "Tâche", kind: "dotted", width: "large" },
-      { id: crypto.randomUUID(), label: "Fait", kind: "checkbox", width: "medium" },
+      {
+        id: crypto.randomUUID(),
+        label: "Date",
+        kind: "dotted",
+        width: "medium",
+      },
+      {
+        id: crypto.randomUUID(),
+        label: "Tâche",
+        kind: "dotted",
+        width: "large",
+      },
+      {
+        id: crypto.randomUUID(),
+        label: "Fait",
+        kind: "checkbox",
+        width: "medium",
+      },
     ],
   }
 }
@@ -34,14 +49,19 @@ export function BujoFactoryPage() {
   const [settings, setSettings] = useState<BujoSettings>(buildInitialSettings)
   const [generating, setGenerating] = useState(false)
 
-  function update<K extends keyof BujoSettings>(key: K, value: BujoSettings[K]) {
+  function update<K extends keyof BujoSettings>(
+    key: K,
+    value: BujoSettings[K],
+  ) {
     setSettings(prev => ({ ...prev, [key]: value }))
   }
 
   function updateColumn(id: string, patch: Partial<Omit<BujoColumn, "id">>) {
     setSettings(prev => ({
       ...prev,
-      columns: prev.columns.map(column => (column.id === id ? { ...column, ...patch } : column)),
+      columns: prev.columns.map(column =>
+        column.id === id ? { ...column, ...patch } : column,
+      ),
     }))
   }
 
@@ -50,14 +70,20 @@ export function BujoFactoryPage() {
   }
 
   function removeColumn(id: string) {
-    setSettings(prev => ({ ...prev, columns: prev.columns.filter(column => column.id !== id) }))
+    setSettings(prev => ({
+      ...prev,
+      columns: prev.columns.filter(column => column.id !== id),
+    }))
   }
 
   async function generatePdf() {
     setGenerating(true)
     try {
       const slug = settings.title.trim().toLowerCase().replace(/\s+/g, "-")
-      await downloadPdf(<BujoDocument settings={settings} />, slug === "" ? "bujo.pdf" : `bujo-${slug}.pdf`)
+      await downloadPdf(
+        <BujoDocument settings={settings} />,
+        slug === "" ? "bujo.pdf" : `bujo-${slug}.pdf`,
+      )
     } finally {
       setGenerating(false)
     }
@@ -83,7 +109,12 @@ export function BujoFactoryPage() {
             Orientation
             <select
               value={settings.orientation}
-              onChange={e => update("orientation", e.target.value as BujoSettings["orientation"])}
+              onChange={e =>
+                update(
+                  "orientation",
+                  e.target.value as BujoSettings["orientation"],
+                )
+              }
             >
               <option value="portrait">Portrait</option>
               <option value="landscape">Paysage</option>
@@ -96,7 +127,12 @@ export function BujoFactoryPage() {
               min={1}
               max={50}
               value={settings.pageCount}
-              onChange={e => update("pageCount", Math.max(1, Math.min(50, Number(e.target.value) || 1)))}
+              onChange={e =>
+                update(
+                  "pageCount",
+                  Math.max(1, Math.min(50, Number(e.target.value) || 1)),
+                )
+              }
             />
           </label>
         </div>
@@ -112,14 +148,20 @@ export function BujoFactoryPage() {
                 <input
                   type="text"
                   value={column.label}
-                  onChange={e => updateColumn(column.id, { label: e.target.value })}
+                  onChange={e =>
+                    updateColumn(column.id, { label: e.target.value })
+                  }
                 />
               </label>
               <label>
                 Contenu
                 <select
                   value={column.kind}
-                  onChange={e => updateColumn(column.id, { kind: e.target.value as BujoColumn["kind"] })}
+                  onChange={e =>
+                    updateColumn(column.id, {
+                      kind: e.target.value as BujoColumn["kind"],
+                    })
+                  }
                 >
                   <option value="dotted">Pointillés</option>
                   <option value="checkbox">Case à cocher</option>
@@ -130,7 +172,11 @@ export function BujoFactoryPage() {
                   Largeur
                   <select
                     value={column.width}
-                    onChange={e => updateColumn(column.id, { width: e.target.value as DottedWidth })}
+                    onChange={e =>
+                      updateColumn(column.id, {
+                        width: e.target.value as DottedWidth,
+                      })
+                    }
                   >
                     {WIDTH_OPTIONS.map(option => (
                       <option key={option.value} value={option.value}>
@@ -140,7 +186,11 @@ export function BujoFactoryPage() {
                   </select>
                 </label>
               )}
-              <button type="button" className="btn-remove" onClick={() => removeColumn(column.id)}>
+              <button
+                type="button"
+                className="btn-remove"
+                onClick={() => removeColumn(column.id)}
+              >
                 Supprimer
               </button>
             </li>
@@ -149,10 +199,17 @@ export function BujoFactoryPage() {
         <button type="button" onClick={addColumn}>
           Ajouter une colonne
         </button>
-        {settings.columns.length === 0 && <p className="hint">Ajoute au moins une colonne pour générer la page.</p>}
+        {settings.columns.length === 0 && (
+          <p className="hint">
+            Ajoute au moins une colonne pour générer la page.
+          </p>
+        )}
       </section>
 
-      <IllustrationSection illustration={settings.illustration} onUpdate={value => update("illustration", value)} />
+      <IllustrationSection
+        illustration={settings.illustration}
+        onUpdate={value => update("illustration", value)}
+      />
 
       <button
         type="button"

@@ -11,7 +11,12 @@ interface TemplateTabsProps {
   onSelectActive: (active: string) => void
 }
 
-export function TemplateTabs({ settings, onUpdate, active, onSelectActive }: TemplateTabsProps) {
+export function TemplateTabs({
+  settings,
+  onUpdate,
+  active,
+  onSelectActive,
+}: TemplateTabsProps) {
   function selectBlank() {
     onSelectActive(BLANK_TEMPLATE)
     onUpdate("events", [])
@@ -34,16 +39,25 @@ export function TemplateTabs({ settings, onUpdate, active, onSelectActive }: Tem
     // "To do list" est bâtie sur des libellés/récurrences propres au format mensuel ;
     // le format annuel ne les affiche pas, donc on force le retour au mensuel.
     // Le format hebdomadaire n'existe que pour "Calendrier vierge", donc tout preset y met fin aussi.
-    if (preset.requiresMonthly || settings.format === "weekly") onUpdate("format", "monthly")
+    if (preset.requiresMonthly || settings.format === "weekly")
+      onUpdate("format", "monthly")
   }
 
   return (
-    <div className="template-tabs" role="tablist" aria-label="Modèle de calendrier">
+    <div
+      className="template-tabs"
+      role="tablist"
+      aria-label="Modèle de calendrier"
+    >
       <button
         type="button"
         role="tab"
         aria-selected={active === BLANK_TEMPLATE}
-        className={active === BLANK_TEMPLATE ? "template-tab template-tab--active" : "template-tab"}
+        className={
+          active === BLANK_TEMPLATE
+            ? "template-tab template-tab--active"
+            : "template-tab"
+        }
         onClick={selectBlank}
       >
         Calendrier vierge
@@ -54,7 +68,11 @@ export function TemplateTabs({ settings, onUpdate, active, onSelectActive }: Tem
           type="button"
           role="tab"
           aria-selected={active === preset.name}
-          className={active === preset.name ? "template-tab template-tab--active" : "template-tab"}
+          className={
+            active === preset.name
+              ? "template-tab template-tab--active"
+              : "template-tab"
+          }
           onClick={() => selectPreset(preset.name)}
         >
           {preset.name}

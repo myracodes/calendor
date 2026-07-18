@@ -7,10 +7,13 @@ import DEFAULT_BACKGROUND from "../assets/images/default-background.jpg"
  * (ex. "05-may-default-background.jpg") et il sera repris pour ce mois.
  * Les mois sans image dédiée retombent sur default-background.jpg.
  */
-const monthImageModules = import.meta.glob<string>("../assets/images/[0-9][0-9]-*-default-background.jpg", {
-  eager: true,
-  import: "default",
-})
+const monthImageModules = import.meta.glob<string>(
+  "../assets/images/[0-9][0-9]-*-default-background.jpg",
+  {
+    eager: true,
+    import: "default",
+  },
+)
 
 const MONTH_BACKGROUNDS: Partial<Record<number, string>> = {}
 for (const [path, url] of Object.entries(monthImageModules)) {

@@ -15,7 +15,9 @@ const COLUMN_WIDTHS = StyleSheet.create({
 })
 
 function columnWidth(column: BujoColumn) {
-  return column.kind === "checkbox" ? COLUMN_WIDTHS.checkbox : COLUMN_WIDTHS[column.width]
+  return column.kind === "checkbox"
+    ? COLUMN_WIDTHS.checkbox
+    : COLUMN_WIDTHS[column.width]
 }
 
 const styles = StyleSheet.create({
@@ -96,9 +98,16 @@ const styles = StyleSheet.create({
 export function BujoPage({ settings }: { settings: BujoSettings }) {
   return (
     <Page size="A4" orientation={settings.orientation} style={styles.page}>
-      {settings.illustration && <PageBackground src={settings.illustration} orientation={settings.orientation} />}
+      {settings.illustration && (
+        <PageBackground
+          src={settings.illustration}
+          orientation={settings.orientation}
+        />
+      )}
       <View style={styles.pageContent}>
-        {settings.title.trim() !== "" && <Text style={styles.title}>{settings.title}</Text>}
+        {settings.title.trim() !== "" && (
+          <Text style={styles.title}>{settings.title}</Text>
+        )}
         <View style={styles.table}>
           <RainbowBar style={styles.tableAccent} />
           <View style={styles.columns}>
@@ -116,7 +125,11 @@ export function BujoPage({ settings }: { settings: BujoSettings }) {
                 </View>
                 <Canvas
                   style={styles.columnFill}
-                  paint={column.kind === "checkbox" ? paintCheckboxes : paintDottedLines}
+                  paint={
+                    column.kind === "checkbox"
+                      ? paintCheckboxes
+                      : paintDottedLines
+                  }
                 />
               </View>
             ))}

@@ -44,10 +44,30 @@
     var(--soft-cyan),
     var(--celadon)
   );
-  --gradient-sun: linear-gradient(135deg, var(--lemon-chiffon), var(--powder-petal), var(--cotton-rose));
-  --gradient-candy: linear-gradient(135deg, var(--cotton-rose), var(--pink-orchid) 55%, var(--periwinkle));
-  --gradient-sky: linear-gradient(135deg, var(--baby-blue-ice), var(--sky-blue), var(--electric-aqua));
-  --gradient-mint: linear-gradient(135deg, var(--electric-aqua), var(--soft-cyan), var(--celadon));
+  --gradient-sun: linear-gradient(
+    135deg,
+    var(--lemon-chiffon),
+    var(--powder-petal),
+    var(--cotton-rose)
+  );
+  --gradient-candy: linear-gradient(
+    135deg,
+    var(--cotton-rose),
+    var(--pink-orchid) 55%,
+    var(--periwinkle)
+  );
+  --gradient-sky: linear-gradient(
+    135deg,
+    var(--baby-blue-ice),
+    var(--sky-blue),
+    var(--electric-aqua)
+  );
+  --gradient-mint: linear-gradient(
+    135deg,
+    var(--electric-aqua),
+    var(--soft-cyan),
+    var(--celadon)
+  );
 
   /* --- Dimensions & effets --- */
   --control-h: 2.5rem;
@@ -74,9 +94,21 @@ body {
   margin: 0;
   min-height: 100vh;
   background:
-    radial-gradient(55rem 38rem at 115% -10%, color-mix(in srgb, var(--sky-blue) 35%, transparent), transparent 65%),
-    radial-gradient(48rem 34rem at -15% 15%, color-mix(in srgb, var(--pink-orchid) 30%, transparent), transparent 65%),
-    radial-gradient(50rem 32rem at 50% 115%, color-mix(in srgb, var(--celadon) 35%, transparent), transparent 65%),
+    radial-gradient(
+      55rem 38rem at 115% -10%,
+      color-mix(in srgb, var(--sky-blue) 35%, transparent),
+      transparent 65%
+    ),
+    radial-gradient(
+      48rem 34rem at -15% 15%,
+      color-mix(in srgb, var(--pink-orchid) 30%, transparent),
+      transparent 65%
+    ),
+    radial-gradient(
+      50rem 32rem at 50% 115%,
+      color-mix(in srgb, var(--celadon) 35%, transparent),
+      transparent 65%
+    ),
     var(--paper);
   background-attachment: fixed;
 }

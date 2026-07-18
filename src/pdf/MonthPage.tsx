@@ -1,10 +1,24 @@
 import { Page, StyleSheet, Text, View } from "@react-pdf/renderer"
-import { BIRTHDAY, DAY_OFF, DEATH, FESTIVE, INK, INK_LIGHT, LINE, PAPER } from "../colors"
+import {
+  BIRTHDAY,
+  DAY_OFF,
+  DEATH,
+  FESTIVE,
+  INK,
+  INK_LIGHT,
+  LINE,
+  PAPER,
+} from "../colors"
 import { WEEKDAY } from "../constants/weekdays"
 import { monthGrid, monthName, weekdayNames } from "../dates"
 import { publicHolidaysForYear } from "../events/publicHolidays"
 import type { CalendarSettings } from "../types"
-import { eventsForDay, LIFE_EVENT_KINDS, lifeEventLabel, lifeEventsForDay } from "./calendarData"
+import {
+  eventsForDay,
+  LIFE_EVENT_KINDS,
+  lifeEventLabel,
+  lifeEventsForDay,
+} from "./calendarData"
 import { backgroundForMonth } from "./monthBackgrounds"
 import { PageBackground } from "./PageBackground"
 import { RainbowBar, SURFACE } from "./shared"
@@ -136,7 +150,10 @@ const styles = StyleSheet.create({
 })
 
 // Couleur du texte par type d'événement de vie (voir LIFE_EVENT_KINDS).
-const LIFE_EVENT_STYLE: Record<(typeof LIFE_EVENT_KINDS)[number]["key"], typeof styles.birthday> = {
+const LIFE_EVENT_STYLE: Record<
+  (typeof LIFE_EVENT_KINDS)[number]["key"],
+  typeof styles.birthday
+> = {
   birthday: styles.birthday,
   death: styles.death,
   festive: styles.festive,
@@ -173,49 +190,86 @@ export function MonthPage({ settings, year, month }: MonthPageProps) {
           <RainbowBar style={styles.gridAccent} />
           <View style={styles.weekdayRow}>
             {weekdays.map((name, weekday) => (
-              <WeekdayHeaderCell key={name} name={name} weekday={weekday} showSchedules={settings.includeSchedules} />
+              <WeekdayHeaderCell
+                key={name}
+                name={name}
+                weekday={weekday}
+                showSchedules={settings.includeSchedules}
+              />
             ))}
           </View>
           {weeks.map((week, weekIndex) => (
-            <View key={weekIndex} style={weekIndex === 0 ? [styles.week, styles.firstWeek] : styles.week}>
+            <View
+              key={weekIndex}
+              style={
+                weekIndex === 0 ? [styles.week, styles.firstWeek] : styles.week
+              }
+            >
               {week.map(({ day, iso, weekday }, cellIndex) => {
-                const isHoliday = day !== null && lifeEventsForDay(publicHolidays, month, day).length > 0
-                const isWeekend = weekday === WEEKDAY.SAMEDI || weekday === WEEKDAY.DIMANCHE
+                const isHoliday =
+                  day !== null &&
+                  lifeEventsForDay(publicHolidays, month, day).length > 0
+                const isWeekend =
+                  weekday === WEEKDAY.SAMEDI || weekday === WEEKDAY.DIMANCHE
                 const cellStyle = [
                   styles.dayCell,
                   ...(cellIndex === 0 ? [styles.firstDayCell] : []),
                   // Case teintée seulement pour un vrai jour (pas les cases vides hors mois).
-                  ...(day !== null && (isWeekend || isHoliday) ? [styles.dayOffCell] : []),
+                  ...(day !== null && (isWeekend || isHoliday)
+                    ? [styles.dayOffCell]
+                    : []),
                 ]
                 return (
                   <View key={cellIndex} style={cellStyle}>
                     {day !== null && iso !== null ? (
                       <>
-                        {LIFE_EVENT_KINDS.filter(kind => kind.isEnabled(settings)).map(kind =>
-                          lifeEventsForDay(kind.events, month, day).map(event => (
-                            <Text
-                              key={`${kind.key}-${event.name}`}
-                              style={[styles.lifeEvent, LIFE_EVENT_STYLE[kind.key]]}
-                            >
-                              {lifeEventLabel(kind.emoji ?? "", event, year, kind.showAge)}
-                            </Text>
-                          )),
+                        {LIFE_EVENT_KINDS.filter(kind =>
+                          kind.isEnabled(settings),
+                        ).map(kind =>
+                          lifeEventsForDay(kind.events, month, day).map(
+                            event => (
+                              <Text
+                                key={`${kind.key}-${event.name}`}
+                                style={[
+                                  styles.lifeEvent,
+                                  LIFE_EVENT_STYLE[kind.key],
+                                ]}
+                              >
+                                {lifeEventLabel(
+                                  kind.emoji ?? "",
+                                  event,
+                                  year,
+                                  kind.showAge,
+                                )}
+                              </Text>
+                            ),
+                          ),
                         )}
-                        {eventsForDay(settings.events, day, iso, weekday).map(event => (
-                          <Text
-                            key={event.id}
-                            style={[
-                              styles.event,
-                              { color: event.color ?? (event.rule.kind === "daily" ? INK_LIGHT : INK) },
-                            ]}
-                          >
-                            • {event.label}
-                          </Text>
-                        ))}
+                        {eventsForDay(settings.events, day, iso, weekday).map(
+                          event => (
+                            <Text
+                              key={event.id}
+                              style={[
+                                styles.event,
+                                {
+                                  color:
+                                    event.color ??
+                                    (event.rule.kind === "daily"
+                                      ? INK_LIGHT
+                                      : INK),
+                                },
+                              ]}
+                            >
+                              • {event.label}
+                            </Text>
+                          ),
+                        )}
                         {/* Rendu en dernier pour rester lisible par-dessus une ligne d'événement qui le chevaucherait. */}
                         <View style={styles.dayCorner}>
                           <Text style={styles.dayNumber}>{day}</Text>
-                          {isHoliday ? <Text style={styles.holidayTag}>férié</Text> : null}
+                          {isHoliday ? (
+                            <Text style={styles.holidayTag}>férié</Text>
+                          ) : null}
                         </View>
                       </>
                     ) : null}

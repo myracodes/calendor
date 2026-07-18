@@ -9,7 +9,17 @@ export const FRUITS_BY_SEASON: Record<Season, string[]> = {
     // "rhubarbe",
     "cerises (fin de saison)",
   ],
-  été: ["abricots", "pêches", "nectarines", "melon", "pastèque", "framboises", "myrtilles", "prunes", "cerises"],
+  été: [
+    "abricots",
+    "pêches",
+    "nectarines",
+    "melon",
+    "pastèque",
+    "framboises",
+    "myrtilles",
+    "prunes",
+    "cerises",
+  ],
   automne: [
     "raisins",
     "poires",

@@ -6,7 +6,10 @@ import type { ReactElement } from "react"
  * téléchargement par le navigateur sous le nom de fichier fourni.
  * Utilisée par toutes les pages "Générer le PDF" de l'app.
  */
-export async function downloadPdf(pdfDocument: ReactElement<DocumentProps>, fileName: string): Promise<void> {
+export async function downloadPdf(
+  pdfDocument: ReactElement<DocumentProps>,
+  fileName: string,
+): Promise<void> {
   const blob = await pdf(pdfDocument).toBlob()
   // Lien temporaire vers le blob, cliqué programmatiquement : le seul moyen,
   // côté navigateur, de déclencher un téléchargement en imposant le nom de fichier.

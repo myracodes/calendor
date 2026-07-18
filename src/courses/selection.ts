@@ -6,7 +6,9 @@ import type { CategorieCourses } from "./types"
 
 // Map élargie en <string, …> : la validation compare des clés venant
 // d'Object.entries (des strings), pas des littéraux du catalogue.
-const categoriesParId = new Map<string, CategorieCourses>(CATALOGUE.map(categorie => [categorie.id, categorie]))
+const categoriesParId = new Map<string, CategorieCourses>(
+  CATALOGUE.map(categorie => [categorie.id, categorie]),
+)
 
 /**
  * Garde-fou : chaque entrée d'une sélection doit référencer une catégorie et un
@@ -17,15 +19,22 @@ const categoriesParId = new Map<string, CategorieCourses>(CATALOGUE.map(categori
  * de type — ici, on plante immédiatement avec un message qui nomme le fautif.
  * @param contexte préfixe des messages d'erreur ("Preset hebdomadaire", "Ajout rapide Soirée"…)
  */
-export function validerSelection(contexte: string, selection: SelectionParCategorie): void {
+export function validerSelection(
+  contexte: string,
+  selection: SelectionParCategorie,
+): void {
   for (const [categorieId, articles] of Object.entries(selection)) {
     const categorie = categoriesParId.get(categorieId)
     if (categorie === undefined) {
       throw new Error(`${contexte} : catégorie inconnue — ${categorieId}`)
     }
-    const inconnus = (articles ?? []).filter(article => !categorie.articles.includes(article))
+    const inconnus = (articles ?? []).filter(
+      article => !categorie.articles.includes(article),
+    )
     if (inconnus.length > 0) {
-      throw new Error(`${contexte} : articles absents de "${categorie.nom}" — ${inconnus.join(", ")}`)
+      throw new Error(
+        `${contexte} : articles absents de "${categorie.nom}" — ${inconnus.join(", ")}`,
+      )
     }
   }
 }

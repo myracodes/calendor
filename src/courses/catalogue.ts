@@ -302,9 +302,13 @@ export type SelectionParCategorie = {
 for (const categorie of CATALOGUE) {
   // Élargit les littéraux du `as const` en simples strings, pour indexOf.
   const articles: readonly string[] = categorie.articles
-  const doublons = articles.filter((article, i) => articles.indexOf(article) !== i)
+  const doublons = articles.filter(
+    (article, i) => articles.indexOf(article) !== i,
+  )
   if (doublons.length > 0) {
-    throw new Error(`Catalogue de courses : libellés en double dans "${categorie.nom}" — ${doublons.join(", ")}`)
+    throw new Error(
+      `Catalogue de courses : libellés en double dans "${categorie.nom}" — ${doublons.join(", ")}`,
+    )
   }
 }
 

@@ -19,7 +19,8 @@ export function LoginPage() {
     setSubmitting(true)
     setError(null)
     try {
-      const { error: signInError } = await requireSupabase().auth.signInWithPassword({ email, password })
+      const { error: signInError } =
+        await requireSupabase().auth.signInWithPassword({ email, password })
       if (signInError) {
         // Message générique : ne pas révéler si l'email existe ou non.
         setError("Connexion impossible : vérifie l'email et le mot de passe.")
@@ -38,7 +39,13 @@ export function LoginPage() {
         <form className="login-form" onSubmit={signIn}>
           <label>
             Email
-            <input type="email" value={email} autoComplete="email" required onChange={e => setEmail(e.target.value)} />
+            <input
+              type="email"
+              value={email}
+              autoComplete="email"
+              required
+              onChange={e => setEmail(e.target.value)}
+            />
           </label>
           <label>
             Mot de passe

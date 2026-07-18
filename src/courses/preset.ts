@@ -19,7 +19,14 @@ import { selectionKeys, validerSelection } from "./selection"
 
 export const PRESET_HEBDO: SelectionParCategorie = {
   fruits: ["banane", "kiwi vert", "mangue"],
-  legumes: ["salade verte", "tomate cerise", "carotte", "aubergine", "courgette", "oignon"],
+  legumes: [
+    "salade verte",
+    "tomate cerise",
+    "carotte",
+    "aubergine",
+    "courgette",
+    "oignon",
+  ],
   frais: ["tofu", "yaourts"],
   epicerie: ["pain de mie"],
   "petit-dejeuner": ["lait d'avoine"],

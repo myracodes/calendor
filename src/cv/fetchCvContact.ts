@@ -16,7 +16,9 @@ type ContactRowLine = { texte: string; url?: string }
  * absente de la table. Dans ce cas, le CV est généré avec les coordonnées de
  * remplacement de content/profile.ts.
  */
-export async function fetchCvContact(language: CvLanguage): Promise<CvContact | null> {
+export async function fetchCvContact(
+  language: CvLanguage,
+): Promise<CvContact | null> {
   if (supabase === null) return null
   const { data, error } = await supabase
     .from("cv_contact")
@@ -27,7 +29,10 @@ export async function fetchCvContact(language: CvLanguage): Promise<CvContact | 
   return {
     // Colonne jsonb : Supabase la renvoie non typée, la forme est garantie par
     // l'insertion (voir le modèle dans supabase/cv_contact.sql).
-    contact: (data.contact as ContactRowLine[]).map(line => ({ text: line.texte, url: line.url })),
+    contact: (data.contact as ContactRowLine[]).map(line => ({
+      text: line.texte,
+      url: line.url,
+    })),
     personalInfo: data.infos as string,
   }
 }

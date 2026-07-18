@@ -81,7 +81,9 @@ const styles = StyleSheet.create({
 // Répartit les rayons sur deux colonnes de hauteurs proches, sans couper un
 // rayon en deux. Poids d'un rayon ≈ son nombre de lignes : le titre (2) + un
 // article par ligne. On remplit la colonne de gauche jusqu'à la moitié du total.
-function splitInTwoColumns(sections: SectionListe[]): [SectionListe[], SectionListe[]] {
+function splitInTwoColumns(
+  sections: SectionListe[],
+): [SectionListe[], SectionListe[]] {
   const poids = (section: SectionListe) => 2 + section.articles.length
   const total = sections.reduce((somme, section) => somme + poids(section), 0)
   let cumul = 0

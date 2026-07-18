@@ -18,7 +18,9 @@ export type CvLanguage = "fr" | "en"
  * plutôt que de dupliquer : elle rend l'intention explicite — un texte
  * identique est un choix assumé, pas un oubli de traduction.
  */
-export type LocalizedText = { fr: string; en: string } | { bothLanguages: string }
+export type LocalizedText =
+  | { fr: string; en: string }
+  | { bothLanguages: string }
 
 /**
  * Les accroches disponibles : "dev" (par défaut) pour postuler à des postes de

@@ -33,7 +33,10 @@ export function CvPage() {
         pitch: locale.pitches[pitch],
         photo: cvPhoto,
       }
-      await downloadPdf(<CvDocument cv={cv} />, `cv-myriam-mira-${language}.pdf`)
+      await downloadPdf(
+        <CvDocument cv={cv} />,
+        `cv-myriam-mira-${language}.pdf`,
+      )
     } finally {
       setGenerating(false)
     }
@@ -48,21 +51,34 @@ export function CvPage() {
         <div className="row">
           <label>
             Langue
-            <select value={language} onChange={e => setLanguage(e.target.value as CvLanguage)}>
+            <select
+              value={language}
+              onChange={e => setLanguage(e.target.value as CvLanguage)}
+            >
               <option value="fr">Français</option>
               <option value="en">Anglais</option>
             </select>
           </label>
           <label>
             Accroche
-            <select value={pitch} onChange={e => setPitch(e.target.value as CvPitch)}>
+            <select
+              value={pitch}
+              onChange={e => setPitch(e.target.value as CvPitch)}
+            >
               <option value="dev">Développeuse (défaut)</option>
-              <option value="management">Cheffe de projet / Scrum master</option>
+              <option value="management">
+                Cheffe de projet / Scrum master
+              </option>
             </select>
           </label>
           <label>
             Titre du CV (vide = "{defaultTitle}")
-            <input type="text" value={title} placeholder={defaultTitle} onChange={e => setTitle(e.target.value)} />
+            <input
+              type="text"
+              value={title}
+              placeholder={defaultTitle}
+              onChange={e => setTitle(e.target.value)}
+            />
           </label>
         </div>
       </section>
@@ -70,23 +86,33 @@ export function CvPage() {
       <section className="card card--sun">
         <h2>Contenu</h2>
         <p>
-          Le contenu du CV vit dans <strong>src/cv/content/</strong> (un fichier par section : profil, sidebar,
-          expériences, side projects), avec les deux langues côte à côte. Chaque bloc porte un champ{" "}
-          <strong>page</strong> (1 ou 2) pour le déplacer d'une page à l'autre. Les coordonnées (téléphone, email…)
-          vivent dans Supabase (table <strong>cv_contact</strong>, une ligne par langue) et sont récupérées à la
-          génération.
+          Le contenu du CV vit dans <strong>src/cv/content/</strong> (un fichier
+          par section : profil, sidebar, expériences, side projects), avec les
+          deux langues côte à côte. Chaque bloc porte un champ{" "}
+          <strong>page</strong> (1 ou 2) pour le déplacer d'une page à l'autre.
+          Les coordonnées (téléphone, email…) vivent dans Supabase (table{" "}
+          <strong>cv_contact</strong>, une ligne par langue) et sont récupérées
+          à la génération.
         </p>
       </section>
 
       {contactMissing && (
         <p className="hint">
-          Les vraies coordonnées n'ont pas pu être récupérées (Supabase non configuré, session absente, ou langue
-          absente de la table cv_contact). Depuis le site déployé, connecte-toi puis régénère.
+          Les vraies coordonnées n'ont pas pu être récupérées (Supabase non
+          configuré, session absente, ou langue absente de la table cv_contact).
+          Depuis le site déployé, connecte-toi puis régénère.
         </p>
       )}
 
-      <button type="button" className="generate" disabled={generating} onClick={generatePdf}>
-        {generating ? "Génération…" : `Générer le PDF (${language === "fr" ? "français" : "anglais"})`}
+      <button
+        type="button"
+        className="generate"
+        disabled={generating}
+        onClick={generatePdf}
+      >
+        {generating
+          ? "Génération…"
+          : `Générer le PDF (${language === "fr" ? "français" : "anglais"})`}
       </button>
     </>
   )

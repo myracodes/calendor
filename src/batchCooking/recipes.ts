@@ -28,12 +28,20 @@ export interface Recipe {
 }
 
 export const RECIPES: Recipe[] = [
-  { ingredients: ["lentilles corail", "tofu", "tomates", "riz", "pois chiches"] },
-  { ingredients: ["boulgour", "concombres", "tomates", "avocat"], canicule: true },
+  {
+    ingredients: ["lentilles corail", "tofu", "tomates", "riz", "pois chiches"],
+  },
+  {
+    ingredients: ["boulgour", "concombres", "tomates", "avocat"],
+    canicule: true,
+  },
   { ingredients: ["lentilles vertes", "tofu", "carottes"] },
   { ingredients: ["riz", "épinards"] },
   { ingredients: ["riz", "tofu", "haricots"] },
-  { ingredients: ["semoule", "concombres", "tomates", "avocat"], canicule: true },
+  {
+    ingredients: ["semoule", "concombres", "tomates", "avocat"],
+    canicule: true,
+  },
   { ingredients: ["pâtes", "pesto", "pois chiches"] },
   { ingredients: ["pâtes", "tofu", "haricots verts"] },
   {
@@ -42,20 +50,46 @@ export const RECIPES: Recipe[] = [
   },
   {
     name: "Salade de boulgour",
-    ingredients: ["boulgour", "tomates", "concombres", "mélange de graines", "avocat", "olives"],
+    ingredients: [
+      "boulgour",
+      "tomates",
+      "concombres",
+      "mélange de graines",
+      "avocat",
+      "olives",
+    ],
     canicule: true,
   },
   {
     name: "Chili sin carne",
-    ingredients: ["haricots rouges", "riz complet", "poivrons", "tomates", "oignons"],
+    ingredients: [
+      "haricots rouges",
+      "riz complet",
+      "poivrons",
+      "tomates",
+      "oignons",
+    ],
   },
   {
     name: "Bolognaise végé",
-    ingredients: ["protéines de soja texturées", "pâtes complètes", "tomates", "oignons", "aubergines"],
+    ingredients: [
+      "protéines de soja texturées",
+      "pâtes complètes",
+      "tomates",
+      "oignons",
+      "aubergines",
+    ],
   },
   {
     name: "Ratatouille",
-    ingredients: ["tofu ferme (mariné)", "riz complet", "courgettes", "aubergines", "tomates", "poivrons"],
+    ingredients: [
+      "tofu ferme (mariné)",
+      "riz complet",
+      "courgettes",
+      "aubergines",
+      "tomates",
+      "poivrons",
+    ],
   },
   // ——— plutôt automne ———
   {
@@ -78,7 +112,13 @@ export const RECIPES: Recipe[] = [
   // ——— plutôt hiver ———
   {
     name: "Couscous",
-    ingredients: ["pois chiches", "semoule", "carottes", "navets", "courgettes"],
+    ingredients: [
+      "pois chiches",
+      "semoule",
+      "carottes",
+      "navets",
+      "courgettes",
+    ],
   },
   {
     name: "Gratin d'endives",
@@ -87,7 +127,12 @@ export const RECIPES: Recipe[] = [
   // ——— printemps ———
   {
     name: "Wok de printemps",
-    ingredients: ["tofu ferme (mariné)", "nouilles soba", "asperges", "petits pois"],
+    ingredients: [
+      "tofu ferme (mariné)",
+      "nouilles soba",
+      "asperges",
+      "petits pois",
+    ],
   },
   // ——— risottos : une variante par saison, le filtre saisonnier choisit tout seul ———
   {
@@ -141,17 +186,34 @@ export const RECIPES: Recipe[] = [
   // ——— canicule ———
   {
     name: "Taboulé",
-    ingredients: ["pois chiches (bocal)", "semoule", "concombres", "tomates cerise"],
+    ingredients: [
+      "pois chiches (bocal)",
+      "semoule",
+      "concombres",
+      "tomates cerise",
+    ],
     canicule: true,
   },
   {
     name: "Salade de pâtes",
-    ingredients: ["tofu fumé", "pâtes (en salade)", "tomates cerise", "maïs (boîte)", "avocats"],
+    ingredients: [
+      "tofu fumé",
+      "pâtes (en salade)",
+      "tomates cerise",
+      "maïs (boîte)",
+      "avocats",
+    ],
     canicule: true,
   },
   {
     name: "Bowl frais",
-    ingredients: ["edamame", "quinoa", "carottes râpées", "concombres", "radis"],
+    ingredients: [
+      "edamame",
+      "quinoa",
+      "carottes râpées",
+      "concombres",
+      "radis",
+    ],
     canicule: true,
   },
 ]

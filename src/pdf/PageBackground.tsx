@@ -33,7 +33,10 @@ interface PageBackgroundProps {
 }
 
 /** Image de fond pleine page + voile clair, à placer en premier enfant d'une <Page>. */
-export function PageBackground({ src, orientation = "landscape" }: PageBackgroundProps) {
+export function PageBackground({
+  src,
+  orientation = "landscape",
+}: PageBackgroundProps) {
   const size = SIZES[orientation]
   return (
     <>

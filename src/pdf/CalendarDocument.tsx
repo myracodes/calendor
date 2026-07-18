@@ -24,12 +24,19 @@ export function CalendarDocument({ settings }: { settings: CalendarSettings }) {
     )
   }
 
-  const months = Array.from({ length: settings.monthCount }, (_, i) => addMonths(settings.year, settings.startMonth, i))
+  const months = Array.from({ length: settings.monthCount }, (_, i) =>
+    addMonths(settings.year, settings.startMonth, i),
+  )
 
   return (
     <Document title="Calendrier">
       {months.map(({ year, month }) => (
-        <MonthPage key={`${year}-${month}`} settings={settings} year={year} month={month} />
+        <MonthPage
+          key={`${year}-${month}`}
+          settings={settings}
+          year={year}
+          month={month}
+        />
       ))}
     </Document>
   )

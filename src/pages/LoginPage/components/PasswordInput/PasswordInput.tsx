@@ -7,9 +7,17 @@ import "./PasswordInput.css"
  * Champ mot de passe avec un bouton œil pour afficher ou masquer la saisie.
  * Composant contrôlé : la valeur reste gérée par le formulaire parent.
  */
-export function PasswordInput({ value, onChange }: { value: string; onChange: (value: string) => void }) {
+export function PasswordInput({
+  value,
+  onChange,
+}: {
+  value: string
+  onChange: (value: string) => void
+}) {
   const [visible, setVisible] = useState(false)
-  const toggleLabel = visible ? "Masquer le mot de passe" : "Afficher le mot de passe"
+  const toggleLabel = visible
+    ? "Masquer le mot de passe"
+    : "Afficher le mot de passe"
 
   return (
     <span className="password-input">

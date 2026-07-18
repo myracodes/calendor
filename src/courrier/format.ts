@@ -17,7 +17,8 @@ const DATE_FORMAT = new Intl.DateTimeFormat("fr-FR", {
  */
 export function formatLieuDate(lieu: string, dateIso: string): string {
   const lieuNet = lieu.trim()
-  const dateTexte = dateIso === "" ? "" : DATE_FORMAT.format(new Date(`${dateIso}T00:00:00Z`))
+  const dateTexte =
+    dateIso === "" ? "" : DATE_FORMAT.format(new Date(`${dateIso}T00:00:00Z`))
   if (lieuNet === "") {
     return dateTexte === "" ? "" : `Le ${dateTexte}`
   }

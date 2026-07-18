@@ -11,17 +11,29 @@ export const SIDEBAR: LocalizedSidebarSection[] = [
     page: 1,
     items: [
       {
-        label: { fr: "Développement web et mobile avancé", en: "Advanced web and mobile development" },
+        label: {
+          fr: "Développement web et mobile avancé",
+          en: "Advanced web and mobile development",
+        },
         lines: [
           { bothLanguages: "Wild Code School Paris (2021-2022)" },
           { fr: "1 an en alternance", en: "1-year apprenticeship" },
         ],
       },
       {
-        label: { fr: "Développement web fullstack", en: "Full-stack web development" },
+        label: {
+          fr: "Développement web fullstack",
+          en: "Full-stack web development",
+        },
         lines: [
-          { fr: "Titre RNCP niveau 6 / Bac+3/4", en: "Bachelor's degree (RNCP Level 6)" },
-          { fr: "Ironhack Paris (2021) - en anglais", en: "Ironhack Paris (2021) - English course" },
+          {
+            fr: "Titre RNCP niveau 6 / Bac+3/4",
+            en: "Bachelor's degree (RNCP Level 6)",
+          },
+          {
+            fr: "Ironhack Paris (2021) - en anglais",
+            en: "Ironhack Paris (2021) - English course",
+          },
         ],
       },
       {
@@ -33,7 +45,12 @@ export const SIDEBAR: LocalizedSidebarSection[] = [
           fr: "M2 Manager de la Communication et Stratégie Digitale",
           en: "Communications, Management, and Digital Strategy",
         },
-        lines: [{ fr: "Sup de Pub - INSEEC (2018)", en: "Master's Degree: Sup de Pub (2018)" }],
+        lines: [
+          {
+            fr: "Sup de Pub - INSEEC (2018)",
+            en: "Master's Degree: Sup de Pub (2018)",
+          },
+        ],
       },
       {
         label: {
@@ -41,7 +58,10 @@ export const SIDEBAR: LocalizedSidebarSection[] = [
           en: "Digital Professions: Web Design, Writing, and Development",
         },
         lines: [
-          { fr: "Université de Cergy-Pontoise (2016)", en: "Bachelor's Degree: Cergy-Pontoise University (2016)" },
+          {
+            fr: "Université de Cergy-Pontoise (2016)",
+            en: "Bachelor's Degree: Cergy-Pontoise University (2016)",
+          },
         ],
       },
     ],
@@ -107,7 +127,9 @@ export const SIDEBAR: LocalizedSidebarSection[] = [
       },
       {
         label: { fr: "Partage :", en: "Share:" },
-        lines: [{ fr: "oratrice Ladies of Code", en: "speaker for Ladies of Code" }],
+        lines: [
+          { fr: "oratrice Ladies of Code", en: "speaker for Ladies of Code" },
+        ],
       },
       {
         label: { fr: "Certifications :", en: "Certifications:" },
@@ -115,7 +137,12 @@ export const SIDEBAR: LocalizedSidebarSection[] = [
       },
       {
         label: { fr: "Lectures tech :", en: "Tech reads:" },
-        lines: [{ bothLanguages: "The Pragmatic Programmer, Software Craft, Clean Code, etc." }],
+        lines: [
+          {
+            bothLanguages:
+              "The Pragmatic Programmer, Software Craft, Clean Code, etc.",
+          },
+        ],
       },
     ],
   },

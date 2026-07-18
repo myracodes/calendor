@@ -24,10 +24,14 @@ function buildInitialSettings(): CourrierSettings {
 }
 
 export function CourrierPage() {
-  const [settings, setSettings] = useState<CourrierSettings>(buildInitialSettings)
+  const [settings, setSettings] =
+    useState<CourrierSettings>(buildInitialSettings)
   const [generating, setGenerating] = useState(false)
 
-  function update<K extends keyof CourrierSettings>(key: K, value: CourrierSettings[K]) {
+  function update<K extends keyof CourrierSettings>(
+    key: K,
+    value: CourrierSettings[K],
+  ) {
     setSettings(prev => ({ ...prev, [key]: value }))
   }
 
@@ -35,7 +39,10 @@ export function CourrierPage() {
     setGenerating(true)
     try {
       const slug = settings.objet.trim().toLowerCase().replace(/\s+/g, "-")
-      await downloadPdf(<CourrierDocument settings={settings} />, slug === "" ? "courrier.pdf" : `courrier-${slug}.pdf`)
+      await downloadPdf(
+        <CourrierDocument settings={settings} />,
+        slug === "" ? "courrier.pdf" : `courrier-${slug}.pdf`,
+      )
     } finally {
       setGenerating(false)
     }
@@ -51,7 +58,9 @@ export function CourrierPage() {
           Coordonnées (une information par ligne)
           <textarea
             value={settings.expediteur}
-            placeholder={"Myriam\n221 B Baker Street\nLondon\nemail@gmail.com\n07 07 07 07 07"}
+            placeholder={
+              "Myriam\n221 B Baker Street\nLondon\nemail@gmail.com\n07 07 07 07 07"
+            }
             onChange={e => update("expediteur", e.target.value)}
           />
         </label>
@@ -63,7 +72,9 @@ export function CourrierPage() {
           Coordonnées (une information par ligne)
           <textarea
             value={settings.destinataire}
-            placeholder={"Service client\n10 avenue des Réclamations\n75008 Paris"}
+            placeholder={
+              "Service client\n10 avenue des Réclamations\n75008 Paris"
+            }
             onChange={e => update("destinataire", e.target.value)}
           />
         </label>
@@ -83,11 +94,16 @@ export function CourrierPage() {
           </label>
           <label>
             Date (optionnelle)
-            <input type="date" value={settings.date} onChange={e => update("date", e.target.value)} />
+            <input
+              type="date"
+              value={settings.date}
+              onChange={e => update("date", e.target.value)}
+            />
           </label>
         </div>
         <label className="courrier-field courrier-objet">
-          Objet (optionnel, ne pas ajouter le préfixe "Objet :", déjà inclus dans le PDF)
+          Objet (optionnel, ne pas ajouter le préfixe "Objet :", déjà inclus
+          dans le PDF)
           <input
             type="text"
             value={settings.objet}
@@ -104,11 +120,17 @@ export function CourrierPage() {
           <textarea
             className="courrier-corps"
             value={settings.corps}
-            placeholder={"Madame, Monsieur,\n\nJe me permets de vous relancer au sujet de…\n\nCordialement"}
+            placeholder={
+              "Madame, Monsieur,\n\nJe me permets de vous relancer au sujet de…\n\nCordialement"
+            }
             onChange={e => update("corps", e.target.value)}
           />
         </label>
-        {settings.corps.trim() === "" && <p className="hint">Rédige le corps du courrier pour générer le PDF.</p>}
+        {settings.corps.trim() === "" && (
+          <p className="hint">
+            Rédige le corps du courrier pour générer le PDF.
+          </p>
+        )}
       </section>
 
       <button

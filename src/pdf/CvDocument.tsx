@@ -3,7 +3,14 @@ import type { CvData, CvPageNumber, Experience } from "../cv/types"
 import { CvExperience } from "./CvExperience"
 import { CvIdentity, CvSidebarSections } from "./CvSidebar"
 import { CvSectionTitle } from "./CvSectionTitle"
-import { CV_BODY_LINE_HEIGHT, CV_FONT, CV_FONT_DISPLAY, CV_TEXT, CV_VIOLET, CV_VIOLET_BG } from "./cvTheme"
+import {
+  CV_BODY_LINE_HEIGHT,
+  CV_FONT,
+  CV_FONT_DISPLAY,
+  CV_TEXT,
+  CV_VIOLET,
+  CV_VIOLET_BG,
+} from "./cvTheme"
 
 // Mise en page du CV : deux pages A4 portrait, chacune découpée en deux
 // colonnes (sidebar à gauche, expériences à droite). Le contenu de chaque
@@ -50,13 +57,22 @@ const styles = StyleSheet.create({
  * titre puis un bloc par expérience. Rien du tout si la liste est vide — pas
  * de titre orphelin quand une page n'a aucun bloc de cette section.
  */
-function ExperienceSection({ title, experiences }: { title: string; experiences: Experience[] }) {
+function ExperienceSection({
+  title,
+  experiences,
+}: {
+  title: string
+  experiences: Experience[]
+}) {
   if (experiences.length === 0) return null
   return (
     <>
       <CvSectionTitle>{title}</CvSectionTitle>
       {experiences.map(experience => (
-        <CvExperience key={`${experience.role} / ${experience.employer}`} experience={experience} />
+        <CvExperience
+          key={`${experience.role} / ${experience.employer}`}
+          experience={experience}
+        />
       ))}
     </>
   )
@@ -64,9 +80,12 @@ function ExperienceSection({ title, experiences }: { title: string; experiences:
 
 /** Document PDF "CV" : deux pages A4 portrait au style du CV d'origine (violet/doré). */
 export function CvDocument({ cv }: { cv: CvData }) {
-  const sidebarSections = (page: CvPageNumber) => cv.sidebar.filter(section => section.page === page)
-  const experiences = (page: CvPageNumber) => cv.experiences.filter(experience => experience.page === page)
-  const sideProjects = (page: CvPageNumber) => cv.sideProjects.filter(project => project.page === page)
+  const sidebarSections = (page: CvPageNumber) =>
+    cv.sidebar.filter(section => section.page === page)
+  const experiences = (page: CvPageNumber) =>
+    cv.experiences.filter(experience => experience.page === page)
+  const sideProjects = (page: CvPageNumber) =>
+    cv.sideProjects.filter(project => project.page === page)
 
   return (
     <Document title={`CV - ${cv.name}`} author={cv.name}>
@@ -78,8 +97,14 @@ export function CvDocument({ cv }: { cv: CvData }) {
         <View style={styles.main}>
           <Text style={styles.title}>{cv.title}</Text>
           <Text style={styles.pitch}>{cv.pitch}</Text>
-          <ExperienceSection title={cv.sectionTitles.experiences} experiences={experiences(1)} />
-          <ExperienceSection title={cv.sectionTitles.sideProjects} experiences={sideProjects(1)} />
+          <ExperienceSection
+            title={cv.sectionTitles.experiences}
+            experiences={experiences(1)}
+          />
+          <ExperienceSection
+            title={cv.sectionTitles.sideProjects}
+            experiences={sideProjects(1)}
+          />
         </View>
         <Text style={styles.pagination}>1/2</Text>
       </Page>
@@ -89,8 +114,14 @@ export function CvDocument({ cv }: { cv: CvData }) {
           <CvSidebarSections sections={sidebarSections(2)} />
         </View>
         <View style={styles.main}>
-          <ExperienceSection title={cv.sectionTitles.experiencesSuite} experiences={experiences(2)} />
-          <ExperienceSection title={cv.sectionTitles.sideProjects} experiences={sideProjects(2)} />
+          <ExperienceSection
+            title={cv.sectionTitles.experiencesSuite}
+            experiences={experiences(2)}
+          />
+          <ExperienceSection
+            title={cv.sectionTitles.sideProjects}
+            experiences={sideProjects(2)}
+          />
         </View>
         <Text style={styles.pagination}>2/2</Text>
       </Page>

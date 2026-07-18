@@ -9,7 +9,13 @@ export type Season = "printemps" | "été" | "automne" | "hiver"
 // (ex. canicule : uniquement ce qui demande un minimum de cuisson / de chaleur).
 export type Occasion = Season | "canicule"
 
-export const OCCASIONS: Occasion[] = ["printemps", "été", "automne", "hiver", "canicule"]
+export const OCCASIONS: Occasion[] = [
+  "printemps",
+  "été",
+  "automne",
+  "hiver",
+  "canicule",
+]
 
 /** @param month 1-12 */
 export function seasonForMonth(month: number): Season {
@@ -80,7 +86,12 @@ export const VEGETABLES_BY_SEASON: Record<Season, string[]> = {
 
 // Légumes frais qu'on trouve toute l'année sur le marché, même hors saison :
 // ajoutés au pool de légumes quelle que soit la saison.
-export const FRESH_ALL_YEAR_VEGETABLES: string[] = ["salade verte", "aubergines", "courgettes", "oignons"]
+export const FRESH_ALL_YEAR_VEGETABLES: string[] = [
+  "salade verte",
+  "aubergines",
+  "courgettes",
+  "oignons",
+]
 
 // Légumes en boîte / bocal / surgelés, disponibles toute l'année :
 // ajoutés au pool de légumes quelle que soit la saison.

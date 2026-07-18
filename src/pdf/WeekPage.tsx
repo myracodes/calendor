@@ -27,7 +27,10 @@ function paintChecklist(painter: Painter, width: number, height: number) {
   }
 
   // Lignes pointillées alignées sur le bas de chaque case à cocher.
-  painter.lineCap("round").lineWidth(DOT_LINE_WIDTH).dash(0.01, { space: DOT_SPACE })
+  painter
+    .lineCap("round")
+    .lineWidth(DOT_LINE_WIDTH)
+    .dash(0.01, { space: DOT_SPACE })
   for (const y of rowYs) {
     const bottomY = y + CHECKBOX_SIZE
     painter.moveTo(lineStartX, bottomY).lineTo(width, bottomY).stroke()
@@ -97,7 +100,8 @@ const styles = StyleSheet.create({
   },
 })
 
-const [MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY] = weekdayNames()
+const [MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY] =
+  weekdayNames()
 
 // Modèle générique et sans date : chaque page de "Calendrier vierge" hebdomadaire est identique.
 const ROWS: string[][] = [
@@ -113,11 +117,28 @@ export function WeekPage() {
         <View style={styles.grid}>
           <RainbowBar style={styles.gridAccent} />
           {ROWS.map((row, rowIndex) => (
-            <View key={rowIndex} style={rowIndex === 0 ? [styles.row, styles.firstRow] : styles.row}>
+            <View
+              key={rowIndex}
+              style={
+                rowIndex === 0 ? [styles.row, styles.firstRow] : styles.row
+              }
+            >
               {row.map((label, cellIndex) => (
-                <View key={label} style={cellIndex === 0 ? [styles.cell, styles.firstCell] : styles.cell}>
+                <View
+                  key={label}
+                  style={
+                    cellIndex === 0
+                      ? [styles.cell, styles.firstCell]
+                      : styles.cell
+                  }
+                >
                   <Text style={styles.cellLabel}>{label}</Text>
-                  <Canvas style={styles.cellFill} paint={label === "Notes" ? paintChecklist : paintDottedLines} />
+                  <Canvas
+                    style={styles.cellFill}
+                    paint={
+                      label === "Notes" ? paintChecklist : paintDottedLines
+                    }
+                  />
                 </View>
               ))}
             </View>

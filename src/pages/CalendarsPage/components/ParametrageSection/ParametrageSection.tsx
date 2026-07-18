@@ -1,7 +1,12 @@
 import { useState } from "react"
 import { INK } from "../../../../colors"
 import { weekdayNames } from "../../../../dates"
-import type { CalendarEvent, CalendarSettings, EventRule, SettingsUpdater } from "../../../../types"
+import type {
+  CalendarEvent,
+  CalendarSettings,
+  EventRule,
+  SettingsUpdater,
+} from "../../../../types"
 import "./ParametrageSection.css"
 
 const WEEKDAYS = weekdayNames()
@@ -80,13 +85,19 @@ interface ParametrageSectionProps {
   hideEventsCheckboxes: boolean
 }
 
-export function ParametrageSection({ settings, onUpdate, hideEventsCheckboxes }: ParametrageSectionProps) {
+export function ParametrageSection({
+  settings,
+  onUpdate,
+  hideEventsCheckboxes,
+}: ParametrageSectionProps) {
   const [draft, setDraft] = useState<EventDraft>(EMPTY_DRAFT)
 
   function toggleWeekday(day: number) {
     setDraft(prev => ({
       ...prev,
-      weekdays: prev.weekdays.includes(day) ? prev.weekdays.filter(d => d !== day) : [...prev.weekdays, day],
+      weekdays: prev.weekdays.includes(day)
+        ? prev.weekdays.filter(d => d !== day)
+        : [...prev.weekdays, day],
     }))
   }
 
@@ -117,7 +128,9 @@ export function ParametrageSection({ settings, onUpdate, hideEventsCheckboxes }:
     <section className="card card--sky">
       <h2>Paramétrage</h2>
       {hideEventsCheckboxes ? null : (
-        <div className={settings.format === "monthly" ? "row row-divider" : "row"}>
+        <div
+          className={settings.format === "monthly" ? "row row-divider" : "row"}
+        >
           <label className="checkbox-option">
             <input
               type="checkbox"
@@ -165,7 +178,9 @@ export function ParametrageSection({ settings, onUpdate, hideEventsCheckboxes }:
                 type="text"
                 value={draft.label}
                 placeholder="to do"
-                onChange={e => setDraft(prev => ({ ...prev, label: e.target.value }))}
+                onChange={e =>
+                  setDraft(prev => ({ ...prev, label: e.target.value }))
+                }
                 onKeyDown={e => e.key === "Enter" && addEvent()}
               />
             </label>
@@ -191,12 +206,18 @@ export function ParametrageSection({ settings, onUpdate, hideEventsCheckboxes }:
               <input
                 type="color"
                 value={draft.color}
-                onChange={e => setDraft(prev => ({ ...prev, color: e.target.value }))}
+                onChange={e =>
+                  setDraft(prev => ({ ...prev, color: e.target.value }))
+                }
               />
             </label>
             {draft.kind === "weekly" && (
               <>
-                <div className="weekday-picker" role="group" aria-label="Jours de la semaine">
+                <div
+                  className="weekday-picker"
+                  role="group"
+                  aria-label="Jours de la semaine"
+                >
                   <span className="picker-caption">Jours</span>
                   <div className="weekday-options">
                     {WEEKDAYS.map((name, day) => (
@@ -221,7 +242,10 @@ export function ParametrageSection({ settings, onUpdate, hideEventsCheckboxes }:
                     onChange={e =>
                       setDraft(prev => ({
                         ...prev,
-                        interval: Math.max(1, Math.min(12, Number(e.target.value) || 1)),
+                        interval: Math.max(
+                          1,
+                          Math.min(12, Number(e.target.value) || 1),
+                        ),
                       }))
                     }
                   />
@@ -232,7 +256,9 @@ export function ParametrageSection({ settings, onUpdate, hideEventsCheckboxes }:
                     <input
                       type="date"
                       value={draft.anchor}
-                      onChange={e => setDraft(prev => ({ ...prev, anchor: e.target.value }))}
+                      onChange={e =>
+                        setDraft(prev => ({ ...prev, anchor: e.target.value }))
+                      }
                     />
                   </label>
                 )}
@@ -249,7 +275,10 @@ export function ParametrageSection({ settings, onUpdate, hideEventsCheckboxes }:
                   onChange={e =>
                     setDraft(prev => ({
                       ...prev,
-                      monthDay: Math.max(1, Math.min(31, Number(e.target.value) || 1)),
+                      monthDay: Math.max(
+                        1,
+                        Math.min(31, Number(e.target.value) || 1),
+                      ),
                     }))
                   }
                 />
@@ -261,7 +290,9 @@ export function ParametrageSection({ settings, onUpdate, hideEventsCheckboxes }:
                 <input
                   type="date"
                   value={draft.date}
-                  onChange={e => setDraft(prev => ({ ...prev, date: e.target.value }))}
+                  onChange={e =>
+                    setDraft(prev => ({ ...prev, date: e.target.value }))
+                  }
                 />
               </label>
             )}
@@ -273,11 +304,18 @@ export function ParametrageSection({ settings, onUpdate, hideEventsCheckboxes }:
           {settings.events.length > 0 && (
             <ul className="event-list">
               {settings.events.map(event => (
-                <li key={event.id} style={{ borderLeftColor: event.color ?? BASE_COLOR }}>
+                <li
+                  key={event.id}
+                  style={{ borderLeftColor: event.color ?? BASE_COLOR }}
+                >
                   <span>
                     <strong>{event.label}</strong> — {describeRule(event.rule)}
                   </span>
-                  <button type="button" className="btn-remove" onClick={() => removeEvent(event.id)}>
+                  <button
+                    type="button"
+                    className="btn-remove"
+                    onClick={() => removeEvent(event.id)}
+                  >
                     Supprimer
                   </button>
                 </li>

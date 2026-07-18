@@ -30,14 +30,22 @@ export const DEFAULT_TITLES: Record<CvPitch, LocalizedText> = {
 // remplacent ces valeurs à la génération. Ne jamais écrire les vraies
 // coordonnées ici : ce fichier est versionné et finit dans le bundle public.
 export const CONTACT_PLACEHOLDER: LocalizedContactLine[] = [
-  { text: { fr: "email@exemple.fr", en: "email@example.com" }, url: "mailto:email@example.com" },
+  {
+    text: { fr: "email@exemple.fr", en: "email@example.com" },
+    url: "mailto:email@example.com",
+  },
   { text: { bothLanguages: "+33(0)6.00.00.00.00" }, url: "tel:+33600000000" },
-  { text: { fr: "github.com/exemple", en: "github.com/example" }, url: "https://github.com/example" },
+  {
+    text: { fr: "github.com/exemple", en: "github.com/example" },
+    url: "https://github.com/example",
+  },
   {
     text: { fr: "linkedin.com/in/exemple", en: "linkedin.com/in/example" },
     url: "https://www.linkedin.com/in/example/",
   },
-  { text: { fr: "Bilingue anglais / français", en: "Fluent English / French" } },
+  {
+    text: { fr: "Bilingue anglais / français", en: "Fluent English / French" },
+  },
 ]
 
 /** Ligne d'informations pratiques, de REMPLACEMENT elle aussi (la vraie vit dans Supabase). */

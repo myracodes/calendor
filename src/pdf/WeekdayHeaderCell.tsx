@@ -52,7 +52,11 @@ interface WeekdayHeaderCellProps {
 }
 
 /** En-tête d'une colonne de jour : son nom, et les horaires récurrents qui s'y rattachent. */
-export function WeekdayHeaderCell({ name, weekday, showSchedules }: WeekdayHeaderCellProps) {
+export function WeekdayHeaderCell({
+  name,
+  weekday,
+  showSchedules,
+}: WeekdayHeaderCellProps) {
   const schedules = showSchedules ? schedulesForWeekday(weekday) : []
 
   return (
@@ -61,7 +65,10 @@ export function WeekdayHeaderCell({ name, weekday, showSchedules }: WeekdayHeade
       {schedules.map(schedule => (
         <Text
           key={`${schedule.name}-${schedule.hours ?? ""}`}
-          style={[styles.schedule, scheduleColorStyle(schedule.color ?? SCHEDULE)]}
+          style={[
+            styles.schedule,
+            scheduleColorStyle(schedule.color ?? SCHEDULE),
+          ]}
         >
           {scheduleLabel(schedule)}
         </Text>

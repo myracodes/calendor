@@ -7,7 +7,10 @@ interface IllustrationSectionProps {
   onUpdate: (illustration: string | null) => void
 }
 
-export function IllustrationSection({ illustration, onUpdate }: IllustrationSectionProps) {
+export function IllustrationSection({
+  illustration,
+  onUpdate,
+}: IllustrationSectionProps) {
   const illustrationInputRef = useRef<HTMLInputElement>(null)
 
   function onIllustrationChange(file: File | undefined) {
@@ -36,12 +39,17 @@ export function IllustrationSection({ illustration, onUpdate }: IllustrationSect
         </label>
         {illustration && (
           <div className="illustration-preview-wrap">
-            <img className="illustration-preview" src={illustration} alt="Aperçu de l'illustration" />
+            <img
+              className="illustration-preview"
+              src={illustration}
+              alt="Aperçu de l'illustration"
+            />
             <button
               type="button"
               className="btn-remove"
               onClick={() => {
-                if (illustrationInputRef.current) illustrationInputRef.current.value = ""
+                if (illustrationInputRef.current)
+                  illustrationInputRef.current.value = ""
                 onIllustrationChange(undefined)
               }}
             >

@@ -26,10 +26,22 @@ const styles = StyleSheet.create({
  * Titre de section du CV, souligné d'un trait décoratif.
  * `inverse` : variante pour le fond violet de la colonne de gauche (ambre au lieu de violet/doré).
  */
-export function CvSectionTitle({ children, inverse = false }: { children: string; inverse?: boolean }) {
+export function CvSectionTitle({
+  children,
+  inverse = false,
+}: {
+  children: string
+  inverse?: boolean
+}) {
   return (
-    <View style={inverse ? [styles.container, styles.containerInverse] : styles.container}>
-      <Text style={inverse ? [styles.text, styles.textInverse] : styles.text}>{children}</Text>
+    <View
+      style={
+        inverse ? [styles.container, styles.containerInverse] : styles.container
+      }
+    >
+      <Text style={inverse ? [styles.text, styles.textInverse] : styles.text}>
+        {children}
+      </Text>
     </View>
   )
 }

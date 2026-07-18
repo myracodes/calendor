@@ -40,7 +40,10 @@ export function CvRichText({
       {segments.map((segment, i) =>
         i % 2 === 1 ? (
           // biome-ignore lint/suspicious/noArrayIndexKey: segments statiques, jamais réordonnés
-          <Text key={i} style={inverse ? [styles.bold, styles.boldInverse] : styles.bold}>
+          <Text
+            key={i}
+            style={inverse ? [styles.bold, styles.boldInverse] : styles.bold}
+          >
             {segment}
           </Text>
         ) : (

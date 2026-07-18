@@ -14,7 +14,9 @@ const ACCENTS = ["card--sun", "card--candy", "card--sky"]
 export function CoursesPage() {
   // La sélection est indexée par clé catégorie + article (articleKey) — le même
   // libellé peut exister dans deux rayons — initialisée avec le preset hebdomadaire.
-  const [selection, setSelection] = useState<ReadonlySet<string>>(() => new Set(PRESET_KEYS))
+  const [selection, setSelection] = useState<ReadonlySet<string>>(
+    () => new Set(PRESET_KEYS),
+  )
   const [libres, setLibres] = useState<ArticleLibre[]>([])
   const [saisie, setSaisie] = useState("")
   const [generating, setGenerating] = useState(false)
@@ -61,7 +63,10 @@ export function CoursesPage() {
   const listeCatalogue = CATALOGUE.flatMap(categorie =>
     categorie.articles
       .filter(article => selection.has(articleKey(categorie.id, article)))
-      .map(article => ({ key: articleKey(categorie.id, article), label: article })),
+      .map(article => ({
+        key: articleKey(categorie.id, article),
+        label: article,
+      })),
   )
 
   async function generatePdf() {
@@ -69,12 +74,20 @@ export function CoursesPage() {
     try {
       const sections: SectionListe[] = CATALOGUE.map(categorie => ({
         nom: categorie.nom,
-        articles: categorie.articles.filter(article => selection.has(articleKey(categorie.id, article))),
+        articles: categorie.articles.filter(article =>
+          selection.has(articleKey(categorie.id, article)),
+        ),
       })).filter(section => section.articles.length > 0)
       if (libres.length > 0) {
-        sections.push({ nom: "Divers", articles: libres.map(item => item.label) })
+        sections.push({
+          nom: "Divers",
+          articles: libres.map(item => item.label),
+        })
       }
-      await downloadPdf(<CoursesDocument sections={sections} />, "liste-de-courses.pdf")
+      await downloadPdf(
+        <CoursesDocument sections={sections} />,
+        "liste-de-courses.pdf",
+      )
     } finally {
       setGenerating(false)
     }
@@ -87,13 +100,20 @@ export function CoursesPage() {
       <section className="card">
         <h2>Ma liste</h2>
         {estVide ? (
-          <p className="hint">La liste est vide : coche des articles ci-dessous ou ajoute un achat ponctuel.</p>
+          <p className="hint">
+            La liste est vide : coche des articles ci-dessous ou ajoute un achat
+            ponctuel.
+          </p>
         ) : (
           <ul className="courses-liste">
             {listeCatalogue.map(item => (
               <li key={item.key} className="courses-chip">
                 {item.label}
-                <button type="button" aria-label={`Retirer ${item.label}`} onClick={() => toggle(item.key)}>
+                <button
+                  type="button"
+                  aria-label={`Retirer ${item.label}`}
+                  onClick={() => toggle(item.key)}
+                >
                   ×
                 </button>
               </li>
@@ -101,7 +121,11 @@ export function CoursesPage() {
             {libres.map(item => (
               <li key={item.id} className="courses-chip courses-chip--libre">
                 {item.label}
-                <button type="button" aria-label={`Retirer ${item.label}`} onClick={() => retirerLibre(item.id)}>
+                <button
+                  type="button"
+                  aria-label={`Retirer ${item.label}`}
+                  onClick={() => retirerLibre(item.id)}
+                >
                   ×
                 </button>
               </li>
@@ -111,11 +135,21 @@ export function CoursesPage() {
         <form className="courses-ajout" onSubmit={ajouterLibre}>
           <label className="courses-ajout-champ">
             Achat ponctuel (hors catalogue)
-            <input type="text" value={saisie} placeholder="ampoule E27" onChange={e => setSaisie(e.target.value)} />
+            <input
+              type="text"
+              value={saisie}
+              placeholder="ampoule E27"
+              onChange={e => setSaisie(e.target.value)}
+            />
           </label>
           <button type="submit">Ajouter</button>
         </form>
-        <button type="button" className="btn-remove courses-vider" onClick={viderListe} disabled={estVide}>
+        <button
+          type="button"
+          className="btn-remove courses-vider"
+          onClick={viderListe}
+          disabled={estVide}
+        >
           Vider la liste
         </button>
       </section>
@@ -124,7 +158,11 @@ export function CoursesPage() {
         <h2>Ajout rapide</h2>
         <div className="courses-ajouts-rapides">
           {AJOUTS_RAPIDES.map(ajout => (
-            <button key={ajout.id} type="button" onClick={() => appliquerAjoutRapide(ajout)}>
+            <button
+              key={ajout.id}
+              type="button"
+              onClick={() => appliquerAjoutRapide(ajout)}
+            >
               + {ajout.nom}
             </button>
           ))}
@@ -132,7 +170,10 @@ export function CoursesPage() {
       </section>
 
       {CATALOGUE.map((categorie, i) => (
-        <section key={categorie.id} className={`card ${ACCENTS[i % ACCENTS.length]}`}>
+        <section
+          key={categorie.id}
+          className={`card ${ACCENTS[i % ACCENTS.length]}`}
+        >
           <h2>{categorie.nom}</h2>
           <div className="courses-grid">
             {categorie.articles.map(article => (
@@ -149,7 +190,12 @@ export function CoursesPage() {
         </section>
       ))}
 
-      <button type="button" className="generate" disabled={generating || estVide} onClick={generatePdf}>
+      <button
+        type="button"
+        className="generate"
+        disabled={generating || estVide}
+        onClick={generatePdf}
+      >
         {generating ? "Génération…" : "Générer le PDF"}
       </button>
     </>
