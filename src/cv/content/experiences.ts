@@ -73,8 +73,8 @@ export const EXPERIENCES: LocalizedExperience[] = [
         en: "Daily use of **AI** (**Claude Code** / Mistral / Copilot): debugging, refactoring, **back-end development**, faster and better developments",
       },
       {
-        fr: "Réduction proactive de la **dette technique** : 55% de tests legacy traduits, patch des failles de sécurité (1x/mois), montées de versions des librairies, etc.",
-        en: "Proactively reduced **technical debt**: 55% of legacy tests translated, regularly patched known vulnerabilities (each month), upgraded libraries, etc.",
+        fr: "Gestion et réduction proactive de la **dette technique** : 55% de tests legacy traduits, planification des patchs des failles de sécurité (1x/mois), montées de versions des librairies, etc.",
+        en: "Proactively managed and reduced **technical debt**: 55% of legacy tests translated, scheduled patching of known vulnerabilities, upgraded libraries, etc.",
       },
       {
         fr: "Amélioration de la DX : **correction de 100% des tests flaky** et des “faux diffs” Chromatic",

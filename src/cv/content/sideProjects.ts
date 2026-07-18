@@ -22,8 +22,8 @@ export const SIDE_PROJECTS: LocalizedExperience[] = [
     },
     context: [
       {
-        fr: "Application web qui génère des documents d'organisation au design moderne : calendriers personnalisés, pages de bullet journal, listes de courses, courriers, menus de batch cooking, etc.",
-        en: "Web app generating personalized modern-style organization documents: custom calendars, bullet journal pages, grocery lists, letters, batch cooking menus.",
+        fr: "Application web qui génère des documents d'organisation au design moderne : calendriers personnalisés, CV multilangues, pages de bullet journal, listes de courses, courriers, menus de batch cooking, etc.",
+        en: "Web app generating personalized modern-style organization documents: custom calendars, multilingual resumes, bullet journal pages, grocery lists, letters, batch cooking menus.",
       },
     ],
     missions: [
@@ -32,8 +32,8 @@ export const SIDE_PROJECTS: LocalizedExperience[] = [
         en: "**100% client-side PDF generation** (@react-pdf/renderer): multi-page calendars with recurring events and tasks, public holidays and life events, configurable bullet journal pages, grocery lists with presets",
       },
       {
-        fr: "**Authentification Supabase** activable par variables d'environnement, en route vers des listes partagées à plusieurs (**RLS**)",
-        en: "**Supabase authentication** enabled through environment variables, on the way to shared multi-user lists (**RLS**)",
+        fr: "**Authentification** et **base de données** via Subapase",
+        en: "Supabase **authentication** and **database**",
       },
       {
         fr: "Calculs de calendrier en **UTC natif**, sans librairie de dates",

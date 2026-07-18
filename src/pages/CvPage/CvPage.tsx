@@ -87,12 +87,11 @@ export function CvPage() {
         <h2>Contenu</h2>
         <p>
           Le contenu du CV vit dans <strong>src/cv/content/</strong> (un fichier
-          par section : profil, sidebar, expériences, side projects), avec les
-          deux langues côte à côte. Chaque bloc porte un champ{" "}
-          <strong>page</strong> (1 ou 2) pour le déplacer d'une page à l'autre.
-          Les coordonnées (téléphone, email…) vivent dans Supabase (table{" "}
+          par section). Chaque bloc contient un champ <strong>page</strong> (1
+          ou 2) pour le déplacer d'une page à l'autre. Les coordonnées
+          personnelles sont stockées dans Supabase (table{" "}
           <strong>cv_contact</strong>, une ligne par langue) et sont récupérées
-          à la génération.
+          à la génération du PDF.
         </p>
       </section>
 

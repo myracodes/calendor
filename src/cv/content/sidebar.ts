@@ -113,6 +113,10 @@ export const SIDEBAR: LocalizedSidebarSection[] = [
           { bothLanguages: "pair programming" },
           { bothLanguages: "code reviews" },
           { bothLanguages: "Scrum / Agile" },
+          {
+            fr: "Formation / certification Scrum PSM I : septembre 2026",
+            en: "Scrum PSM I training / certification: September 2026",
+          },
         ],
       },
       {

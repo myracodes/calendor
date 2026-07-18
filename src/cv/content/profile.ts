@@ -14,8 +14,13 @@ export const PITCHES: Record<CvPitch, LocalizedText> = {
     en: "React, Angular, and TypeScript Software Developer with ~5 years of experience, focusing on software quality, optimized processes, and accessibility. My work is accelerated and enhanced by AI, with a pragmatic and responsible approach. I am accustomed to demanding environments (testing, documentation, cost optimization, cross-team collaboration) and to working in an Agile environment.",
   },
   management: {
-    fr: "Cheffe de projet issue du développement web : ~5 ans d'expérience sur des projets web en mode Agile (Scrum), après une formation en communication et stratégie digitale, et plusieurs années comme cheffe de projets dans une banque. Ma double casquette me permet de faire le pont entre les équipes techniques et métier, d'estimer les charges avec réalisme, de comprendre les contraintes techniques, et de veiller à la qualité des livrables comme des processus. J'utilise l'IA avec une approche pragmatique et responsable pour accélérer et fiabiliser le suivi de projet en gardant le contrôle sur la qualité.",
-    en: "Project Manager with a web development background: ~5 years of experience on web projects in Agile (Scrum) environments, following a degree in communication and digital strategy and several years as a project manager in a bank.\nThis dual profile allows me to bridge technical and business teams, produce realistic estimates, understand technical constraints, and ensure the quality of deliverables as well as processes.\nI use AI in a pragmatic and responsible way to speed up and strengthen project tracking, while keeping quality under control.",
+    fr: `Cheffe de projets IT issue du développement web et habituée aux environnements Agile (Scrum). Mon double profil technique et métier me permet de clarifier les besoins, faciliter la collaboration entre les équipes et garantir la cohérence entre attentes métier et contraintes techniques.
+    Grâce à une compréhension fine des enjeux techniques, j’établis des estimations fiables, j’anticipe les risques et je pilote des projets nécessitant rigueur, coordination et suivi précis, notamment dans le secteur bancaire où j’ai travaillé pendant plusieurs années.
+    J’utilise l’IA de manière pragmatique et responsable pour gagner en efficacité dans mes activités techniques et dans la structuration du travail au sein des projets.`,
+    en: `IT Project Manager with a background in web development and experience working in Agile (Scrum) environments.
+    My combined technical and business profile helps me clarify requirements, support collaboration between teams, and ensure consistency between business needs and technical constraints.
+    With a solid understanding of technical considerations, I provide reliable estimates, anticipate risks, and manage projects that require rigor, coordination, and careful follow‑up — including in the banking sector, where I worked for several years.
+    I use AI in a pragmatic and responsible way to improve efficiency in both technical work and project-related activities.`,
   },
 }
 
