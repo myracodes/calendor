@@ -60,6 +60,10 @@ export const EXPERIENCES: LocalizedExperience[] = [
         fr: "Diminution des coûts variables (40% d'économies sur la CI)",
         en: "Reduced variable costs (40% savings on CI yearly)",
       },
+      {
+        fr: "Pilotage des tâches techniques : recherches, création des **EPIC**, découpage et **priorisation** des tâches",
+        en: "Owned technical tasks: research, **EPIC** creation, task breakdown and **prioritization**",
+      },
     ],
     stack: [
       { bothLanguages: "React" },

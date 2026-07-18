@@ -31,6 +31,7 @@ Règles à respecter dans ce projet. Ce fichier est mis à jour au fil de l'eau.
 
 - Le code (identifiants, noms de variables/fonctions/fichiers) est en anglais (ex. `setLanguage`, pas `setLangue`), sauf si l'anglais rend vraiment le code incompréhensible. L'exception : quand le code manipule directement des données en français (libellés d'articles, presets, événements…), rester en français a du sens (ex. `src/courses/`, où `SelectionParCategorie` ou `validerSelection` collent aux données qu'ils décrivent).
 - Documents multilingues : colocaliser les langues au même endroit plutôt que de maintenir des fichiers parallèles (ex. le CV : type `LocalizedText` de `src/cv/types.ts`, clés `fr`/`en` côte à côte, `bothLanguages` quand le texte est identique dans les deux langues). Si un contenu reste malgré tout dupliqué par langue, toute modification d'une langue doit déclencher la vérification et, si besoin, la mise à jour de l'autre.
+- Ajout de contenu dans un document multilingue : l'ajouter dans toutes les langues (en traduisant), sauf mention contraire explicite.
 
 ## Nommage
 
