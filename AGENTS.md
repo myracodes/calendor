@@ -5,6 +5,7 @@ Règles à respecter dans ce projet. Ce fichier est mis à jour au fil de l'eau.
 ## Git
 
 - Ne jamais effectuer d'action git (commit, push, branch, reset, etc.). Les opérations git sont gérées manuellement par Myriam.
+- Après chaque refactorisation (ou lot de modifications cohérent), proposer un titre de commit — sans faire le commit. Style des titres existants : Conventional Commits, en anglais, en minuscules (ex. `refactor: share pdf download helper across pages`).
 
 ## CSS
 
