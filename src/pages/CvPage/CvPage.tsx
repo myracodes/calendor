@@ -1,28 +1,25 @@
 import { useState } from "react"
 import cvPhoto from "../../assets/images/cv-photo.jpg"
-import { CV_LOCALE_EN } from "../../cv/dataEn"
-import { CV_LOCALE_FR } from "../../cv/dataFr"
+import { CV_LOCALES } from "../../cv/buildLocale"
 import { fetchCvContact } from "../../cv/fetchCvContact"
-import type { CvAccroche, CvData, CvLanguage, CvLocale } from "../../cv/types"
+import type { CvData, CvLanguage, CvPitch } from "../../cv/types"
 import { CvDocument } from "../../pdf/CvDocument"
 import { downloadPdf } from "../../pdf/downloadPdf"
-
-const LOCALES: Record<CvLanguage, CvLocale> = { fr: CV_LOCALE_FR, en: CV_LOCALE_EN }
 
 export function CvPage() {
   const [language, setLanguage] = useState<CvLanguage>("fr")
   // Accroche choisie selon le type de poste visé (dev par défaut).
-  const [accroche, setAccroche] = useState<CvAccroche>("dev")
+  const [pitch, setPitch] = useState<CvPitch>("dev")
   // Titre affiché en haut du CV : vide = titre par défaut de l'accroche choisie (voir defaultTitle).
   const [title, setTitle] = useState("")
   const [generating, setGenerating] = useState(false)
   // true après une génération qui n'a pas pu récupérer les vraies coordonnées
   // depuis Supabase (voir fetchCvContact) : le PDF contient les valeurs de
-  // remplacement du fichier de données.
+  // remplacement de content/profile.ts.
   const [contactMissing, setContactMissing] = useState(false)
 
-  const locale = LOCALES[language]
-  const defaultTitle = locale.titres[accroche]
+  const locale = CV_LOCALES[language]
+  const defaultTitle = locale.titles[pitch]
 
   async function generatePdf() {
     setGenerating(true)
@@ -32,8 +29,8 @@ export function CvPage() {
       const cv: CvData = {
         ...locale.cv,
         ...contact,
-        titre: title.trim() === "" ? defaultTitle : title.trim(),
-        accroche: locale.accroches[accroche],
+        title: title.trim() === "" ? defaultTitle : title.trim(),
+        pitch: locale.pitches[pitch],
         photo: cvPhoto,
       }
       await downloadPdf(<CvDocument cv={cv} />, `cv-myriam-mira-${language}.pdf`)
@@ -58,7 +55,7 @@ export function CvPage() {
           </label>
           <label>
             Accroche
-            <select value={accroche} onChange={e => setAccroche(e.target.value as CvAccroche)}>
+            <select value={pitch} onChange={e => setPitch(e.target.value as CvPitch)}>
               <option value="dev">Développeuse (défaut)</option>
               <option value="management">Cheffe de projet / Scrum master</option>
             </select>
@@ -73,10 +70,11 @@ export function CvPage() {
       <section className="card card--sun">
         <h2>Contenu</h2>
         <p>
-          Le contenu du CV vit dans <strong>src/cv/dataFr.ts</strong> et <strong>dataEn.ts</strong> : textes, sections
-          de la colonne de gauche, expériences, side projects. Chaque bloc porte un champ <strong>page</strong> (1 ou 2)
-          pour le déplacer d'une page à l'autre. Les coordonnées (téléphone, email…) vivent dans Supabase (table{" "}
-          <strong>cv_contact</strong>, une ligne par langue) et sont récupérées à la génération.
+          Le contenu du CV vit dans <strong>src/cv/content/</strong> (un fichier par section : profil, sidebar,
+          expériences, side projects), avec les deux langues côte à côte. Chaque bloc porte un champ{" "}
+          <strong>page</strong> (1 ou 2) pour le déplacer d'une page à l'autre. Les coordonnées (téléphone, email…)
+          vivent dans Supabase (table <strong>cv_contact</strong>, une ligne par langue) et sont récupérées à la
+          génération.
         </p>
       </section>
 

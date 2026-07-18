@@ -2,22 +2,22 @@ import { StyleSheet, Text, View } from "@react-pdf/renderer"
 import { CV_AMBER, CV_GOLD_LIGHT, CV_VIOLET, CV_WHITE } from "./cvTheme"
 
 const styles = StyleSheet.create({
-  conteneur: {
+  container: {
     alignSelf: "flex-start", // le souligné s'arrête à la fin du texte, pas de la colonne
     borderBottomWidth: 2,
     borderBottomColor: CV_GOLD_LIGHT, // décoratif uniquement : le titre reste lisible sans lui
     paddingBottom: 2,
     marginBottom: 8,
   },
-  conteneurInverse: {
+  containerInverse: {
     borderBottomColor: CV_AMBER,
   },
-  texte: {
+  text: {
     fontSize: 13, // nettement au-dessus du corps de texte
     fontWeight: "bold", // BadScript, trop fine ici, est réservée au nom et au titre du CV (voir cvTheme.ts)
     color: CV_VIOLET,
   },
-  texteInverse: {
+  textInverse: {
     color: CV_WHITE,
   },
 })
@@ -28,8 +28,8 @@ const styles = StyleSheet.create({
  */
 export function CvSectionTitle({ children, inverse = false }: { children: string; inverse?: boolean }) {
   return (
-    <View style={inverse ? [styles.conteneur, styles.conteneurInverse] : styles.conteneur}>
-      <Text style={inverse ? [styles.texte, styles.texteInverse] : styles.texte}>{children}</Text>
+    <View style={inverse ? [styles.container, styles.containerInverse] : styles.container}>
+      <Text style={inverse ? [styles.text, styles.textInverse] : styles.text}>{children}</Text>
     </View>
   )
 }

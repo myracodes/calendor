@@ -10,7 +10,7 @@ const PHOTO_SIZE = 84 // diamètre de la photo/du rond en points
 // styles ci-dessous utilisent CV_WHITE / CV_AMBER, pas CV_TEXT / CV_VIOLET, pour rester lisibles dessus.
 const styles = StyleSheet.create({
   // Nom en haut de la colonne, au-dessus de la photo.
-  nom: {
+  name: {
     fontFamily: CV_FONT_DISPLAY,
     fontSize: 22, // la font manuscrite paraît plus petite qu'une sans-serif à taille égale
     color: CV_WHITE,
@@ -25,7 +25,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   // Une ligne du bloc contact (email, téléphone, GitHub, LinkedIn…), sous la photo.
-  contactLigne: {
+  contactLine: {
     fontSize: 10,
     color: CV_WHITE,
     textAlign: "center",
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     textDecoration: "underline", // signale que la ligne est cliquable
   },
   // Ligne d'infos pratiques (lieu, permis, dispo…), sous le bloc contact ; la plus discrète du bloc identité.
-  infos: {
+  personalInfo: {
     fontSize: 9,
     color: CV_WHITE,
     textAlign: "center",
@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     color: CV_AMBER,
     marginBottom: 1, // espace avant le texte de l'item
   },
-  // Une ligne du texte d'un item (une par élément du tableau `texte`, ex. chaque techno de Compétences).
+  // Une ligne du texte d'un item (une par élément du tableau `lines`, ex. chaque techno de Compétences).
   itemDetail: {
     fontSize: 9,
     color: CV_WHITE,
@@ -70,20 +70,20 @@ const styles = StyleSheet.create({
 export function CvIdentity({ cv }: { cv: CvData }) {
   return (
     <View>
-      <Text style={styles.nom}>{cv.nom}</Text>
+      <Text style={styles.name}>{cv.name}</Text>
       {cv.photo ? <Image style={styles.photo} src={cv.photo} /> : null}
-      {cv.contact.map(ligne =>
-        ligne.url === undefined ? (
-          <Text key={ligne.texte} style={styles.contactLigne}>
-            {ligne.texte}
+      {cv.contact.map(line =>
+        line.url === undefined ? (
+          <Text key={line.text} style={styles.contactLine}>
+            {line.text}
           </Text>
         ) : (
-          <Link key={ligne.texte} src={ligne.url} style={[styles.contactLigne, styles.contactLink]}>
-            {ligne.texte}
+          <Link key={line.text} src={line.url} style={[styles.contactLine, styles.contactLink]}>
+            {line.text}
           </Link>
         ),
       )}
-      <Text style={styles.infos}>{cv.infos}</Text>
+      <Text style={styles.personalInfo}>{cv.personalInfo}</Text>
     </View>
   )
 }
@@ -93,13 +93,13 @@ export function CvSidebarSections({ sections }: { sections: SidebarSection[] }) 
   return (
     <View>
       {sections.map(section => (
-        <View key={section.titre} style={styles.section}>
-          <CvSectionTitle inverse>{section.titre}</CvSectionTitle>
+        <View key={section.title} style={styles.section}>
+          <CvSectionTitle inverse>{section.title}</CvSectionTitle>
           {section.items.map(item => (
-            <View key={item.texte.join("\n")} style={styles.item}>
-              {item.titre !== undefined && <Text style={styles.itemLabel}>{item.titre}</Text>}
-              {item.texte.map(ligne => (
-                <CvRichText key={ligne} inverse texte={ligne} style={styles.itemDetail} />
+            <View key={item.lines.join("\n")} style={styles.item}>
+              {item.label !== undefined && <Text style={styles.itemLabel}>{item.label}</Text>}
+              {item.lines.map(line => (
+                <CvRichText key={line} inverse text={line} style={styles.itemDetail} />
               ))}
             </View>
           ))}

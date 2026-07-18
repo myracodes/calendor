@@ -30,7 +30,11 @@ Règles à respecter dans ce projet. Ce fichier est mis à jour au fil de l'eau.
 ## Langue
 
 - Le code (identifiants, noms de variables/fonctions/fichiers) est en anglais (ex. `setLanguage`, pas `setLangue`), sauf si l'anglais rend vraiment le code incompréhensible. L'exception : quand le code manipule directement des données en français (libellés d'articles, presets, événements…), rester en français a du sens (ex. `src/courses/`, où `SelectionParCategorie` ou `validerSelection` collent aux données qu'ils décrivent).
-- Documents multilingues : certains contenus existent en plusieurs langues (ex. le CV : `src/cv/dataFr.ts` / `src/cv/dataEn.ts`). Lors d'une modification du contenu ou de la structure d'une langue, vérifier si l'autre langue est concernée et la mettre à jour si nécessaire.
+- Documents multilingues : colocaliser les langues au même endroit plutôt que de maintenir des fichiers parallèles (ex. le CV : type `LocalizedText` de `src/cv/types.ts`, clés `fr`/`en` côte à côte, `bothLanguages` quand le texte est identique dans les deux langues). Si un contenu reste malgré tout dupliqué par langue, toute modification d'une langue doit déclencher la vérification et, si besoin, la mise à jour de l'autre.
+
+## Nommage
+
+- Des noms explicites, toujours : pas de variables d'une lettre ni d'abréviations opaques. Exception : les usages idiomatiques si communs qu'ils sont évidents, comme `e` dans un `onChange(e)` ou l'index `i` d'un `.map()`.
 
 ## Commentaires
 

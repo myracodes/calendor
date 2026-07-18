@@ -2,11 +2,11 @@ import { StyleSheet, Text, type TextProps } from "@react-pdf/renderer"
 import { CV_AMBER, CV_VIOLET } from "./cvTheme"
 
 const styles = StyleSheet.create({
-  gras: {
+  bold: {
     fontWeight: "bold",
     color: CV_VIOLET,
   },
-  grasInverse: {
+  boldInverse: {
     color: CV_AMBER, // sur le fond violet de la colonne de gauche (voir CvSidebar.tsx)
   },
 })
@@ -20,27 +20,27 @@ const styles = StyleSheet.create({
  * "→" des missions, absente de Quicksand : voir CvExperience.tsx).
  */
 export function CvRichText({
-  texte,
+  text,
   style,
   inverse = false,
   prefix,
   prefixStyle,
 }: {
-  texte: string
+  text: string
   style?: TextProps["style"]
   inverse?: boolean
   prefix?: string
   prefixStyle?: TextProps["style"]
 }) {
   // Un split sur "**" alterne segments normaux (indices pairs) et segments en gras (indices impairs).
-  const segments = texte.split("**")
+  const segments = text.split("**")
   return (
     <Text style={style}>
       {prefix !== undefined && <Text style={prefixStyle}>{prefix}</Text>}
       {segments.map((segment, i) =>
         i % 2 === 1 ? (
           // biome-ignore lint/suspicious/noArrayIndexKey: segments statiques, jamais réordonnés
-          <Text key={i} style={inverse ? [styles.gras, styles.grasInverse] : styles.gras}>
+          <Text key={i} style={inverse ? [styles.bold, styles.boldInverse] : styles.bold}>
             {segment}
           </Text>
         ) : (

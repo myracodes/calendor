@@ -1,30 +1,30 @@
 import { StyleSheet, Text, View } from "@react-pdf/renderer"
-import type { Experience, Projet } from "../cv/types"
+import type { Experience, Project } from "../cv/types"
 import { CvRichText } from "./CvRichText"
 import { CV_BODY_LINE_HEIGHT, CV_GOLD, CV_TEXT, CV_VIOLET, CV_VIOLET_SOFT } from "./cvTheme"
 
 const styles = StyleSheet.create({
-  bloc: {
+  block: {
     marginBottom: 14,
   },
-  poste: {
+  role: {
     fontSize: 12.5, // juste sous les titres de section
     fontWeight: "bold",
     color: CV_VIOLET,
   },
-  employeur: {
+  employer: {
     fontSize: 10, // plus petit que l'intitulé de poste qu'il complète
     fontWeight: "medium", // demi-gras : se distingue du texte courant sans concurrencer le poste
     color: CV_VIOLET_SOFT,
     marginBottom: 2,
   },
-  equipe: {
+  team: {
     fontSize: 8.5,
     color: CV_VIOLET_SOFT,
     lineHeight: CV_BODY_LINE_HEIGHT,
     marginBottom: 2,
   },
-  contexte: {
+  context: {
     fontSize: 9,
     color: CV_TEXT,
     lineHeight: CV_BODY_LINE_HEIGHT,
@@ -43,14 +43,14 @@ const styles = StyleSheet.create({
     lineHeight: CV_BODY_LINE_HEIGHT,
     marginTop: 2, // avec le marginBottom de la dernière mission : double espacement avant le pied d'expérience
   },
-  stackSeparateur: {
+  stackSeparator: {
     color: CV_GOLD,
   },
-  fleche: {
+  arrow: {
     fontFamily: "Carlito", // Quicksand n'a pas le glyphe "→" (U+2192) : Carlito l'a, et est déjà enregistrée (voir shared.tsx)
   },
   // Nom d'un projet au sein de l'expérience : sous-titre entre le poste et les missions.
-  projetNom: {
+  projectName: {
     fontSize: 9.5,
     fontWeight: "bold",
     color: CV_VIOLET,
@@ -60,15 +60,15 @@ const styles = StyleSheet.create({
 })
 
 /** Équipe, contexte et missions — le corps commun à une expérience et à chacun de ses projets. */
-function CorpsExperience({ equipe, contexte, missions }: Pick<Projet, "equipe" | "contexte" | "missions">) {
+function ExperienceBody({ team, context, missions }: Pick<Project, "team" | "context" | "missions">) {
   return (
     <>
-      {equipe !== undefined && <Text style={styles.equipe}>{equipe}</Text>}
-      {contexte?.map(ligne => (
-        <CvRichText key={ligne} texte={ligne} style={styles.contexte} />
+      {team !== undefined && <Text style={styles.team}>{team}</Text>}
+      {context?.map(line => (
+        <CvRichText key={line} text={line} style={styles.context} />
       ))}
       {missions.map(mission => (
-        <CvRichText key={mission} texte={mission} style={styles.mission} prefix="→  " prefixStyle={styles.fleche} />
+        <CvRichText key={mission} text={mission} style={styles.mission} prefix="→  " prefixStyle={styles.arrow} />
       ))}
     </>
   )
@@ -76,26 +76,26 @@ function CorpsExperience({ equipe, contexte, missions }: Pick<Projet, "equipe" |
 
 /**
  * Une expérience professionnelle : poste, employeur, puis son corps (équipe,
- * contexte, missions) — ou, si elle est découpée en `projets`, le même corps
+ * contexte, missions) — ou, si elle est découpée en `projects`, le même corps
  * répété pour chaque projet sous son nom — et la stack en pied.
  */
 export function CvExperience({ experience }: { experience: Experience }) {
   return (
-    <View style={styles.bloc}>
-      <Text style={styles.poste}>{experience.poste}</Text>
-      <Text style={styles.employeur}>/ {experience.employeur}</Text>
-      <CorpsExperience equipe={experience.equipe} contexte={experience.contexte} missions={experience.missions ?? []} />
-      {experience.projets?.map(projet => (
-        <View key={projet.nom}>
-          <CvRichText texte={projet.nom} style={styles.projetNom} />
-          <CorpsExperience equipe={projet.equipe} contexte={projet.contexte} missions={projet.missions} />
+    <View style={styles.block}>
+      <Text style={styles.role}>{experience.role}</Text>
+      <Text style={styles.employer}>/ {experience.employer}</Text>
+      <ExperienceBody team={experience.team} context={experience.context} missions={experience.missions ?? []} />
+      {experience.projects?.map(project => (
+        <View key={project.name}>
+          <CvRichText text={project.name} style={styles.projectName} />
+          <ExperienceBody team={project.team} context={project.context} missions={project.missions} />
         </View>
       ))}
       {experience.stack !== undefined && (
         <Text style={styles.stack}>
           {experience.stack.map((techno, i) => (
             <Text key={techno}>
-              {i > 0 && <Text style={styles.stackSeparateur}> / </Text>}
+              {i > 0 && <Text style={styles.stackSeparator}> / </Text>}
               {techno}
             </Text>
           ))}
