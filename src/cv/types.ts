@@ -86,8 +86,10 @@ export type SideProject = Experience
  */
 export type CvContact = Pick<CvData, "contact" | "infos">
 
+/** Le CV complet, tel que rendu par CvDocument. Assemblé à la génération (voir CvPage.tsx). */
 export type CvData = {
   nom: string
+  /** Titre du CV, choisi à la génération (saisie libre, ou titre par défaut de l'accroche — voir CvLocale). */
   titre: string
   /** Titres des sections de la colonne principale, dans la langue du CV. */
   sections: {
@@ -95,9 +97,9 @@ export type CvData = {
     experiencesSuite: string
     sideProjects: string
   }
-  /** Paragraphe d'introduction sous le titre (l'accroche choisie remplace celle-ci à la génération, voir CvPage.tsx). */
+  /** Paragraphe d'introduction sous le titre : l'accroche choisie à la génération (voir CvLocale). */
   accroche: string
-  // URL de la photo (src/assets/images/cv-photo.jpg), ou null si aucune photo n'est fournie.
+  /** URL de la photo (src/assets/images/cv-photo.jpg), ou null si aucune photo n'est fournie. */
   photo: string | null
   contact: ContactLine[]
   /** Ligne d'informations pratiques sous le bloc contact. */
@@ -109,13 +111,22 @@ export type CvData = {
 }
 
 /**
+ * Le contenu que les fichiers de langue fournissent : un CvData sans les
+ * champs injectés à la génération (titre saisi/choisi, accroche choisie,
+ * photo importée). Les écrire dans les données serait mensonger : ils sont
+ * systématiquement remplacés, et ce type rend l'oubli d'une injection
+ * impossible à compiler.
+ */
+export type CvContent = Omit<CvData, "titre" | "accroche" | "photo">
+
+/**
  * Tout le contenu d'une langue du CV : les données, plus l'accroche et le
  * titre par défaut de chaque type de poste visé. Chaque fichier de langue
  * (dataFr.ts, dataEn.ts) exporte un unique objet de ce type — c'est lui qui
  * garantit que les deux langues restent structurellement symétriques.
  */
 export type CvLocale = {
-  cv: CvData
+  cv: CvContent
   accroches: Record<CvAccroche, string>
   titres: Record<CvAccroche, string>
 }

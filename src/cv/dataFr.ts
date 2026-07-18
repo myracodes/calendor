@@ -1,4 +1,4 @@
-import type { CvAccroche, CvData, CvLocale } from "./types"
+import type { CvAccroche, CvContent, CvLocale } from "./types"
 
 // Contenu du CV en FRANÇAIS (version anglaise : dataEn.ts). C'est le seul
 // fichier à modifier pour faire évoluer cette version du CV.
@@ -22,17 +22,16 @@ const TITRES_FR: Record<CvAccroche, string> = {
   management: "Cheffe de projet IT",
 }
 
-const CV_FR: CvData = {
+// Le titre, l'accroche et la photo ne sont pas ici : choisis/injectés à la
+// génération (voir CvPage.tsx), ils vivent dans TITRES_FR, ACCROCHES_FR et
+// src/assets/images/cv-photo.jpg.
+const CV_FR: CvContent = {
   nom: "Myriam Mira",
-  titre: TITRES_FR.dev,
   sections: {
     experiences: "Expérience professionnelle",
     experiencesSuite: "Expérience professionnelle (suite)",
     sideProjects: "Side projects",
   },
-  accroche: ACCROCHES_FR.dev,
-  // Injectée à la génération depuis src/assets/images/cv-photo.jpg (voir CvPage.tsx).
-  photo: null,
   // Les vraies données sont dans la BDD (table cv_contact
   // voir supabase/cv_contact.sql) et remplacent ces valeurs à la génération.
   // Ne jamais commiter les vraies coordonnées
