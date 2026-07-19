@@ -32,6 +32,10 @@ export const SIDE_PROJECTS: LocalizedExperience[] = [
         en: "**100% client-side PDF generation** (@react-pdf/renderer): multi-page calendars with recurring events and tasks, public holidays and life events, configurable bullet journal pages, grocery lists with presets",
       },
       {
+        fr: "Définition du besoin, conception des fonctionnalités, de l'UX/UI, et des documents générés",
+        en: "Defining requirements, designing features, designing UX/UI, and designingthe generated documents",
+      },
+      {
         fr: "**Authentification** et **base de données** via Subapase",
         en: "Supabase **authentication** and **database**",
       },
@@ -40,12 +44,12 @@ export const SIDE_PROJECTS: LocalizedExperience[] = [
         en: "Calendar computations in **native UTC**, with no date library",
       },
       {
-        fr: "Qualité : **TypeScript strict**, Biome + oxlint, plugin **Vite** maison injectant le hash de commit, accessibilité **WCAG AAA**",
-        en: "Quality: **strict TypeScript**, Biome + oxlint, custom **Vite** plugin injecting the commit hash, **WCAG AAA** accessibility",
+        fr: "Qualité : **TypeScript strict**, Biome + oxlint, accessibilité **WCAG AAA**",
+        en: "Quality: **strict TypeScript**, Biome + oxlint, **WCAG AAA** accessibility",
       },
       {
-        fr: "Développement **assisté par IA avec garde-fous** : règles d'agents centralisées et versionnées (AGENTS.md), relecture systématique",
-        en: "**AI-assisted development with guardrails**: versioned and centralized agent rules (AGENTS.md), systematic review",
+        fr: "Développement **assisté par IA** : règles d'agents centralisées (AGENTS.md), relecture systématique, adaptation du modèle à la tâche",
+        en: "**AI-assisted development**: centralized agent rules (AGENTS.md), systematic review, model adaptation to the task",
       },
       {
         fr: "Ce CV a été généré par Calendor.",

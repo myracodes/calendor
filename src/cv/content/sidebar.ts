@@ -143,8 +143,8 @@ export const SIDEBAR: LocalizedSidebarSection[] = [
         label: { fr: "Lectures tech :", en: "Tech reads:" },
         lines: [
           {
-            bothLanguages:
-              "The Pragmatic Programmer, Software Craft, Clean Code, etc.",
+            fr: "The Pragmatic Programmer, Software Craft, Clean Code, Programmer avec Java, etc.",
+            en: "The Pragmatic Programmer, Software Craft, Clean Code, Programming with Java, etc.",
           },
         ],
       },

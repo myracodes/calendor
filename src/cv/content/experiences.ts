@@ -137,8 +137,8 @@ export const EXPERIENCES: LocalizedExperience[] = [
             en: "Build: delivered “pixel perfect” screens and implemented CRUD features (**Angular/TypeScript, REST API**)",
           },
           {
-            fr: "Mise en place du **Design System** et des composants réutilisables (**Angular/TypeScript**)",
-            en: "Implemented the **Design System** and reusable components (**Tailwind/Angular**)",
+            fr: "Mise en place du **Design System** et des composants réutilisables (**Angular**)",
+            en: "Implemented the **Design System** and reusable components (**Angular**)",
           },
           { fr: "Run : correction des bugs", en: "Run: bug fixes" },
           {
