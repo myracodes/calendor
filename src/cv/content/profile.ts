@@ -5,13 +5,34 @@ import type { CvPitch, LocalizedContactLine, LocalizedText } from "../types"
 // ou en une fois via bothLanguages quand le texte est identique — voir
 // LocalizedText dans ../types.ts.
 
+const EXPERIENCE_START_YEAR = 2021
+const EXPERIENCE_START_MONTH = 11 // novembre
+
+function getExperienceYears() {
+  const now = new Date()
+  const startDate = new Date(EXPERIENCE_START_YEAR, EXPERIENCE_START_MONTH - 1, 1)
+
+  const totalMonths =
+    (now.getFullYear() - startDate.getFullYear()) * 12 +
+    (now.getMonth() - startDate.getMonth())
+
+  let years = Math.floor(totalMonths / 12)
+  const remainingMonths = totalMonths % 12
+
+  if (remainingMonths > 6) {
+    years += 1
+  }
+
+  return years
+}
+
 export const NAME = "Myriam Mira"
 
 /** Les accroches, par type de poste visé (le choix se fait sur la page CV, à la génération). */
 export const PITCHES: Record<CvPitch, LocalizedText> = {
   dev: {
-    fr: "Développeuse React, Angular, TypeScript, avec ~5 ans d'expérience, et un focus sur la qualité du code, des processus, et de l'accessibilité.\nMes développements sont accélérés et améliorés par l'IA, avec une approche pragmatique et responsable.\nJe suis habituée aux environnements exigeants (tests, documentation, optimisation des coûts, collaboration inter-équipes), ainsi qu'au travail en mode Agile, dans des équipes de tailles variées.",
-    en: "React, Angular, and TypeScript Software Developer with ~5 years of experience, focusing on software quality, optimized processes, and accessibility. My work is accelerated and enhanced by AI, with a pragmatic and responsible approach. I am accustomed to demanding environments (testing, documentation, cost optimization, cross-team collaboration) and to working in an Agile environment.",
+    fr: `Développeuse React, Angular, TypeScript, avec ${getExperienceYears()} ans d'expérience, et un focus sur la qualité du code, des processus, et de l'accessibilité.\nMes développements sont accélérés et améliorés par l'IA, avec une approche pragmatique et responsable.\nJe suis habituée aux environnements exigeants (tests, documentation, optimisation des coûts, collaboration inter-équipes), ainsi qu'au travail en mode Agile, dans des équipes de tailles variées.`,
+    en: `React, Angular, and TypeScript Software Developer with ${getExperienceYears()} years of experience, focusing on software quality, optimized processes, and accessibility. My work is accelerated and enhanced by AI, with a pragmatic and responsible approach. I am accustomed to demanding environments (testing, documentation, cost optimization, cross-team collaboration) and to working in an Agile environment.`,
   },
   management: {
     fr: `Cheffe de projets IT issue du développement web et habituée aux environnements Agile (Scrum). Mon double profil technique et métier me permet de clarifier les besoins, faciliter la collaboration entre les équipes et garantir la cohérence entre attentes métier et contraintes techniques.

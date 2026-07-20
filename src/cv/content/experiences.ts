@@ -41,8 +41,8 @@ export const EXPERIENCES: LocalizedExperience[] = [
     ],
     missions: [
       {
-        fr: "Conception et développement de nouvelles features et refontes front-end en **React / Next.js**",
-        en: "Designed and developed new features and front-end redesigns using **React / Next.js**",
+        fr: "Développement de nouvelles features et refontes front-end (**React / Next.js**)",
+        en: "Developed new features and front-end redesigns (**React / Next.js**)",
       },
       {
         fr: "Tests automatisés (**Cypress**)",
@@ -133,17 +133,21 @@ export const EXPERIENCES: LocalizedExperience[] = [
         ],
         missions: [
           {
-            fr: "Build : implémentation “pixel perfect” des écrans et du CRUD (**API REST**)",
-            en: "Build: delivered “pixel perfect” screens and implemented CRUD features (**Angular/TypeScript, REST API**)",
+            fr: "Build : implémentation “pixel perfect” des écrans d'après les maquettes",
+            en: "Build: delivered “pixel perfect” screens based on the mock-ups",
           },
           {
-            fr: "Mise en place du **Design System** et des composants réutilisables (**Angular**)",
-            en: "Implemented the **Design System** and reusable components (**Angular**)",
+            fr: "Intégration du CRUD (API REST) côté front-end",
+            en: "Integration of CRUD features (REST API) on the front-end",
+          },
+          {
+            fr: "Mise en place du **Design System** et des composants réutilisables (**Angular**), en collaboration avec le designer UX/UI",
+            en: "Implemented the **Design System** and reusable components (**Angular**) in collaboration with the UX/UI designer",
           },
           { fr: "Run : correction des bugs", en: "Run: bug fixes" },
           {
-            fr: "Proposition et mise en place de normes",
-            en: "Championed implementation of standards",
+            fr: "Proposition et mise en place de normes (git flow, conventional commits, approche design system, conventions de nommage, etc.)",
+            en: "Championed implementation of standards (git flow, conventional commits, design system approach, naming conventions, etc.)",
           },
         ],
       },
@@ -155,7 +159,15 @@ export const EXPERIENCES: LocalizedExperience[] = [
         missions: [
           {
             fr: "Conception, développement et mise à jour de composants du **Design System** interne",
-            en: "Design, development, and updates of internal **Design System** components",
+            en: "Designed, developed, and updated the internal **Design System** components",
+          },
+          {
+            fr: "Développement d'outils internes",
+            en: "Developed internal tools",
+          },
+          {
+            fr: "Réalisation **pixel perfect** d'écrans d'après des maquettes Adobe XD",
+            en: "Delivered **pixel perfect** screens based on Adobe XD mock-ups",
           },
         ],
       },
