@@ -118,8 +118,8 @@ export const EXPERIENCES: LocalizedExperience[] = [
     projects: [
       {
         name: {
-          fr: "Projet VEOLIA - Wat.erp : portage du front-end d'une application ASP.NET vers Angular",
-          en: "VEOLIA - Wat.erp project: migrate an ASP.NET application's front-end to Angular",
+          fr: "Projet VEOLIA - Wat.erp : portage du front-end (ASP.NET) vers Angular",
+          en: "VEOLIA - Wat.erp project: migrate the front-end (ASP.NET) to Angular",
         },
         team: {
           fr: "Équipe de 15 personnes (6 front / 4 back / 1 PO / 1 PM / 1 QA / 1 designer / 1 DevOps)",
