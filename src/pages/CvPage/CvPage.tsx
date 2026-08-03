@@ -33,9 +33,10 @@ export function CvPage() {
         pitch: locale.pitches[pitch],
         photo: cvPhoto,
       }
+      const pitchSlug = pitch === "management" ? "it" : "dev"
       await downloadPdf(
         <CvDocument cv={cv} />,
-        `cv-myriam-mira-${language}.pdf`,
+        `cv-myriam-mira-${language}-${pitchSlug}.pdf`,
       )
     } finally {
       setGenerating(false)
