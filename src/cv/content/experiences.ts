@@ -253,22 +253,28 @@ export const EXPERIENCES: LocalizedExperience[] = [
   {
     page: 2,
     role: {
-      fr: "Chargée de projets digitaux, communication, et événements",
-      en: "Communications and events project manager",
+      fr: "Chargée de projets digitaux, et événements",
+      en: "Digital projects and events officer",
     },
     employer: { bothLanguages: "BNP Paribas (2015 - 2018)" },
+    context: [
+      {
+        fr: "BNP Paribas est un grand groupe bancaire au sein duquel j'ai mené des projets dans 3 entités différentes (Mécénat, Legal, Achats), avec une forte coordination et un niveau d'exigence élevé.",
+        en: "BNP Paribas is an international banking group where I led projects in 3 different entities (Philantropy, Legal, Procurement), with strong coordination and a high level of quality.",
+      },
+    ],
     missions: [
       {
-        fr: "Organisation de jusqu'à 130 événements/an, communication interne et externe",
-        en: "Organized up to 130 events a year + internal & external communication",
+        fr: "Événémentiel : organisation de jusqu'à 130 événements/an, pour des centaines de participant·es",
+        en: "Events: organized up to 130 events a year with hundreds of participants",
       },
       {
-        fr: "Webmastering des sites et outils internes et externes",
-        en: "Webmastering internal and external websites and tools",
+        fr: "Gestion de la communication digitale et webmastering : intranet, site externe, réseaux sociaux, réseau social d'entreprise, etc.",
+        en: "Digital communication management and webmastering: intranet, external website, social networks, corporate social network, etc.",
       },
       {
-        fr: "Acculturation digitale et formation aux outils digitaux internes",
-        en: "Acculturated staff on digital tools and trained them on internal digital platforms",
+        fr: "Acculturation digitale, mise en place des outils digitaux internes et formation des équipes à leur utilisation",
+        en: "Digital acculturation, deployed new internal digital tools and trained the teams to use them",
       },
     ],
   },
