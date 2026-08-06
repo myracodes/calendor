@@ -1,6 +1,8 @@
 # TO DO LIST
 
-# A FAIRE
+## A FAIRE
+
+### Calendrier
 
 - possibilité d'ajouter les rdv médicaux
 - possibilité de choisir l'emoji parmi une sélection : médecin / rdv / deadline / anniversaire / plantes...
@@ -14,12 +16,21 @@
 - ajouter le nom du jour férié
 - gérer le cas où on a beaucoup de choses dans une case, ça crée une deuxième page vide, ou bien ça agrandit les cases
 - invitation anniversaire
-- compte my, q
-- pouvoir injecter les couleurs via des variables dans les svg de src/assets/icons ?
-- gérer les emoji
-- bg image par défaut pour les  différents modules, par ex le bujo
+
+### Authentification
+
+- créer les comptes pour les nouvelles users
 - gérer la durée de la session
+
+### Global
+
+- pouvoir injecter les couleurs via des variables dans les svg de src/assets/icons ?
+- gérer les emoji nativement
+- bg image par défaut pour les différents modules, par ex le bujo
 - améliorer la structure des données en BDD
+
+### CV
+
 - séparer infos: "Basée quelque part\n\n Vélo | Permis B | remote :)" en 2 morceaux
 
 ## Idées d'évolutions futures
