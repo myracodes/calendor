@@ -77,8 +77,8 @@ export const EXPERIENCES: LocalizedExperience[] = [
         en: "Proactively managed and reduced **technical debt**: 55% of legacy tests translated, scheduled patching of known vulnerabilities, upgraded libraries, etc.",
       },
       {
-        fr: "Amélioration de la DX : **correction de 100% des tests flaky** et des “faux diffs” Chromatic",
-        en: "Improved DX: **100% of flaky tests fixed**, 100% of “false diffs” fixed on Chromatic builds",
+        fr: "Amélioration de la DX : **correction de 100% des tests flaky** et des faux diffs Chromatic",
+        en: "Improved DX: **100% of flaky tests fixed**, 100% of false diffs fixed on Chromatic builds",
       },
       {
         fr: "Diminution des coûts variables (40% d'économies sur la CI)",

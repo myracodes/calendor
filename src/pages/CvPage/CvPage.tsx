@@ -36,7 +36,7 @@ export function CvPage() {
         pitch: pitchText.trim() === "" ? defaultPitch : pitchText.trim(),
         photo: cvPhoto,
       }
-      const pitchSlug = pitch === "management" ? "it" : "dev"
+      const pitchSlug = pitch === "dev" ? "dev" : "pm"
       await downloadPdf(
         <CvDocument cv={cv} />,
         `cv-myriam-mira-${language}-${pitchSlug}.pdf`,
@@ -70,9 +70,7 @@ export function CvPage() {
               onChange={e => setPitch(e.target.value as CvPitch)}
             >
               <option value="dev">Développeuse (défaut)</option>
-              <option value="management">
-                Cheffe de projet / Scrum master
-              </option>
+              <option value="pm">Cheffe de projet / Scrum master</option>
             </select>
           </label>
           <label>

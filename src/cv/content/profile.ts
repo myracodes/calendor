@@ -38,7 +38,7 @@ export const PITCHES: Record<CvPitch, LocalizedText> = {
     fr: `Développeuse React, Angular, TypeScript, avec ${getExperienceYears()} ans d'expérience, et un focus sur la qualité du code, des processus, et de l'accessibilité.\nMes développements sont accélérés et améliorés par l'IA, avec une approche pragmatique et responsable.\nJe suis habituée aux environnements exigeants (tests, documentation, optimisation des coûts, collaboration inter-équipes), ainsi qu'au travail en mode Agile, dans des équipes de tailles variées.`,
     en: `React, Angular, and TypeScript Software Developer with ${getExperienceYears()} years of experience, focusing on software quality, optimized processes, and accessibility. My work is accelerated and enhanced by AI, with a pragmatic and responsible approach. I am accustomed to demanding environments (testing, documentation, cost optimization, cross-team collaboration) and to working in an Agile environment.`,
   },
-  management: {
+  pm: {
     fr: `Cheffe de projets IT issue du développement web, habituée aux environnements Agile. Mon double profil technique et métier facilite la collaboration entre les équipes et l’alignement entre attentes métier et contraintes techniques.
     Grâce à une compréhension fine des enjeux, j’estime de façon fiable, anticipe les risques et pilote des projets qui exigent rigueur et coordination, notamment dans le secteur bancaire. J’utilise l’IA de manière pragmatique pour gagner en efficacité, automatiser et améliorer les processus.`,
     en: `IT Project Manager with a background in web development and experience in Agile environments. My hybrid profile facilitates collaboration across teams, and helps aligning business expectations with technical constraints.
@@ -49,7 +49,7 @@ export const PITCHES: Record<CvPitch, LocalizedText> = {
 /** Titre par défaut du CV selon l'accroche choisie ; reste modifiable sur la page CV. */
 export const DEFAULT_TITLES: Record<CvPitch, LocalizedText> = {
   dev: { fr: "Software developer", en: "Software Developer" },
-  management: { fr: "Cheffe de projet IT", en: "IT Project Manager" },
+  pm: { fr: "Cheffe de projet IT", en: "IT Project Manager" },
 }
 
 // Coordonnées de REMPLACEMENT : les vraies vivent dans Supabase (table

@@ -97,11 +97,11 @@ function buildLocale(language: CvLanguage): CvLocale {
     },
     pitches: {
       dev: localizedText(PITCHES.dev, language),
-      management: localizedText(PITCHES.management, language),
+      pm: localizedText(PITCHES.pm, language),
     },
     titles: {
       dev: localizedText(DEFAULT_TITLES.dev, language),
-      management: localizedText(DEFAULT_TITLES.management, language),
+      pm: localizedText(DEFAULT_TITLES.pm, language),
     },
   }
 }

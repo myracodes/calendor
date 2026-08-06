@@ -24,11 +24,11 @@ export type LocalizedText =
 
 /**
  * Les accroches disponibles : "dev" (par défaut) pour postuler à des postes de
- * développeuse, "management" pour des postes de cheffe de projet / scrum
+ * développeuse, "pm" pour des postes de cheffe de projet / scrum
  * master. Les textes vivent dans content/profile.ts, le choix se fait sur la
  * page CV à la génération.
  */
-export type CvPitch = "dev" | "management"
+export type CvPitch = "dev" | "pm"
 
 // --- Contenu bilingue, tel qu'écrit dans src/cv/content/ ---
 
