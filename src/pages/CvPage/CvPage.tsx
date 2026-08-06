@@ -12,6 +12,8 @@ export function CvPage() {
   const [pitch, setPitch] = useState<CvPitch>("dev")
   // Titre affiché en haut du CV : vide = titre par défaut de l'accroche choisie (voir defaultTitle).
   const [title, setTitle] = useState("")
+  // Texte de l'accroche : vide = texte par défaut de l'accroche choisie (voir defaultPitch).
+  const [pitchText, setPitchText] = useState("")
   const [generating, setGenerating] = useState(false)
   // true après une génération qui n'a pas pu récupérer les vraies coordonnées
   // depuis Supabase (voir fetchCvContact) : le PDF contient les valeurs de
@@ -20,6 +22,7 @@ export function CvPage() {
 
   const locale = CV_LOCALES[language]
   const defaultTitle = locale.titles[pitch]
+  const defaultPitch = locale.pitches[pitch]
 
   async function generatePdf() {
     setGenerating(true)
@@ -30,7 +33,7 @@ export function CvPage() {
         ...locale.cv,
         ...contact,
         title: title.trim() === "" ? defaultTitle : title.trim(),
-        pitch: locale.pitches[pitch],
+        pitch: pitchText.trim() === "" ? defaultPitch : pitchText.trim(),
         photo: cvPhoto,
       }
       const pitchSlug = pitch === "management" ? "it" : "dev"
@@ -82,6 +85,14 @@ export function CvPage() {
             />
           </label>
         </div>
+        <label>
+          Texte de l'accroche (vide = texte par défaut)
+          <textarea
+            value={pitchText}
+            placeholder={defaultPitch}
+            onChange={e => setPitchText(e.target.value)}
+          />
+        </label>
       </section>
 
       <section className="card card--sun">

@@ -129,6 +129,11 @@ label {
   color: var(--ink-light);
 }
 
+/* Espace un label qui suit un groupe de contrôles (ex. accroche sous la ligne titre/langue) */
+.row + label {
+  margin-top: 1rem;
+}
+
 /* Contrôles alignés sur une même hauteur (--control-h) */
 input:not([type="checkbox"]):not([type="file"]):not([type="color"]),
 select {
@@ -152,6 +157,26 @@ select:focus-visible {
 
 input[type="number"] {
   width: 6.5rem;
+}
+
+textarea {
+  width: 100%;
+  min-height: 10rem;
+  font: inherit;
+  color: var(--ink);
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  resize: vertical;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+textarea:focus-visible {
+  outline: none;
+  border-color: var(--accent-strong);
+  box-shadow: var(--focus-ring);
 }
 
 /* ===== Boutons ===== */
