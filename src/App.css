@@ -221,7 +221,7 @@ button:focus-visible {
 }
 
 .hint {
-  margin: 0.75rem 0 0;
+  margin: 0.75rem 0 0.5rem;
   font-size: 0.85rem;
   color: var(--ink-light);
 }
