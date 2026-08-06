@@ -30,6 +30,15 @@ export type LocalizedText =
  */
 export type CvPitch = "dev" | "pm"
 
+/**
+ * Un texte localisé qu'on peut en plus taguer pour une accroche : à la
+ * génération, un item tagué `tag: "pm"` remonte en tête de son tableau si
+ * l'accroche "pm" est choisie, ou redescend en fin si c'est "dev" (et
+ * inversement pour `tag: "dev"`). Sans tag, l'item garde sa position
+ * déclarée — voir sortByPitch dans buildLocale.ts.
+ */
+export type PitchTaggedText = LocalizedText & { tag?: CvPitch }
+
 // --- Contenu bilingue, tel qu'écrit dans src/cv/content/ ---
 
 /** Une ligne du bloc contact : un texte, avec une URL si la ligne est cliquable. */
@@ -65,7 +74,8 @@ export type LocalizedProject = {
   team?: LocalizedText
   /** Contexte du projet (une ligne par élément du tableau). */
   context?: LocalizedText[]
-  missions: LocalizedText[]
+  /** Chaque mission peut être taguée pour une accroche, voir PitchTaggedText. */
+  missions: PitchTaggedText[]
 }
 
 /**
@@ -80,8 +90,12 @@ export type LocalizedExperience = {
   team?: LocalizedText
   /** Contexte de la mission (une ligne par élément du tableau). */
   context?: LocalizedText[]
-  /** Missions de l'expérience — absentes quand l'expérience est découpée en `projects`. */
-  missions?: LocalizedText[]
+  /**
+   * Missions de l'expérience — absentes quand l'expérience est découpée en
+   * `projects`. Chaque mission peut être taguée pour une accroche, voir
+   * PitchTaggedText.
+   */
+  missions?: PitchTaggedText[]
   /** Projets distincts au sein de l'expérience, chacun avec ses propres équipe/contexte/missions. */
   projects?: LocalizedProject[]
   /** Technologies et outils, affichés en pied d'expérience séparés par des "/". */

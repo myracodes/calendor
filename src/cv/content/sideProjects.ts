@@ -6,6 +6,9 @@ import type { LocalizedExperience, LocalizedText } from "../types"
 // - Dans les textes, les segments entre ** sont rendus en gras violet.
 // - Les deux langues s'écrivent côte à côte (fr/en), ou en une fois via
 //   bothLanguages quand le texte est identique — voir LocalizedText dans ../types.ts.
+// - Une mission peut être taguée `tag: "pm"` ou `tag: "dev"` pour remonter en
+//   tête (ou redescendre en fin) de sa liste selon l'accroche choisie — voir
+//   PitchTaggedText dans ../types.ts.
 
 /** Titre de la section. */
 export const SIDE_PROJECTS_TITLE: LocalizedText = {

@@ -1,3 +1,4 @@
+import { EXPERIENCES, EXPERIENCES_TITLES } from "./content/experiences"
 import {
   CONTACT_PLACEHOLDER,
   DEFAULT_TITLES,
@@ -5,14 +6,15 @@ import {
   PERSONAL_INFO_PLACEHOLDER,
   PITCHES,
 } from "./content/profile"
-import { EXPERIENCES, EXPERIENCES_TITLES } from "./content/experiences"
 import { SIDEBAR } from "./content/sidebar"
 import { SIDE_PROJECTS, SIDE_PROJECTS_TITLE } from "./content/sideProjects"
 import type {
   CvLanguage,
   CvLocale,
+  CvPitch,
   Experience,
   LocalizedExperience,
+  LocalizedProject,
   LocalizedText,
 } from "./types"
 
@@ -40,6 +42,49 @@ function optionalTexts(
   return texts?.map(text => localizedText(text, language))
 }
 
+// Réordonnancement selon l'accroche choisie (voir PitchTaggedText dans
+// types.ts) : appliqué avant la résolution de langue, sur les missions des
+// expériences et de leurs projets.
+
+/**
+ * Trie un tableau tagué pour une accroche donnée : les items tagués pour
+ * cette accroche remontent en tête (ordre relatif conservé), les items non
+ * tagués gardent leur position déclarée, ceux tagués pour l'autre accroche
+ * redescendent en fin.
+ */
+function sortByPitch<T extends { tag?: CvPitch }>(
+  items: T[],
+  pitch: CvPitch,
+): T[] {
+  const otherPitch: CvPitch = pitch === "dev" ? "pm" : "dev"
+  return [
+    ...items.filter(item => item.tag === pitch),
+    ...items.filter(item => item.tag === undefined),
+    ...items.filter(item => item.tag === otherPitch),
+  ]
+}
+
+function applyPitchToProject(
+  project: LocalizedProject,
+  pitch: CvPitch,
+): LocalizedProject {
+  return { ...project, missions: sortByPitch(project.missions, pitch) }
+}
+
+/** Réordonne les missions d'une expérience, et celles de ses projets s'il y en a. */
+function applyPitchToExperience(
+  experience: LocalizedExperience,
+  pitch: CvPitch,
+): LocalizedExperience {
+  return {
+    ...experience,
+    missions: experience.missions && sortByPitch(experience.missions, pitch),
+    projects: experience.projects?.map(project =>
+      applyPitchToProject(project, pitch),
+    ),
+  }
+}
+
 function resolveExperience(
   experience: LocalizedExperience,
   language: CvLanguage,
@@ -61,6 +106,31 @@ function resolveExperience(
     })),
     stack: optionalTexts(experience.stack, language),
   }
+}
+
+/**
+ * Expériences résolues pour une langue et une accroche données : à appeler à
+ * la génération du CV (voir CvPage.tsx) une fois l'accroche choisie, plutôt
+ * que d'utiliser CV_LOCALES[language].cv.experiences qui fige l'accroche
+ * "dev".
+ */
+export function resolveExperiences(
+  pitch: CvPitch,
+  language: CvLanguage,
+): Experience[] {
+  return EXPERIENCES.map(experience =>
+    resolveExperience(applyPitchToExperience(experience, pitch), language),
+  )
+}
+
+/** Side projects résolus pour une langue et une accroche données — même logique que resolveExperiences. */
+export function resolveSideProjects(
+  pitch: CvPitch,
+  language: CvLanguage,
+): Experience[] {
+  return SIDE_PROJECTS.map(project =>
+    resolveExperience(applyPitchToExperience(project, pitch), language),
+  )
 }
 
 function buildLocale(language: CvLanguage): CvLocale {
@@ -88,12 +158,11 @@ function buildLocale(language: CvLanguage): CvLocale {
           lines: item.lines.map(line => localizedText(line, language)),
         })),
       })),
-      experiences: EXPERIENCES.map(experience =>
-        resolveExperience(experience, language),
-      ),
-      sideProjects: SIDE_PROJECTS.map(project =>
-        resolveExperience(project, language),
-      ),
+      // Accroche par défaut "dev" : CvPage.tsx recalcule ces deux tableaux
+      // via resolveExperiences/resolveSideProjects dès qu'une accroche est
+      // choisie, pour appliquer le réordonnancement des missions taguées.
+      experiences: resolveExperiences("dev", language),
+      sideProjects: resolveSideProjects("dev", language),
     },
     pitches: {
       dev: localizedText(PITCHES.dev, language),

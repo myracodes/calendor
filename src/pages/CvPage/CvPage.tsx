@@ -1,6 +1,10 @@
 import { useState } from "react"
 import cvPhoto from "../../assets/images/cv-photo.jpg"
-import { CV_LOCALES } from "../../cv/buildLocale"
+import {
+  CV_LOCALES,
+  resolveExperiences,
+  resolveSideProjects,
+} from "../../cv/buildLocale"
 import { fetchCvContact } from "../../cv/fetchCvContact"
 import type { CvData, CvLanguage, CvPitch } from "../../cv/types"
 import { CvDocument } from "../../pdf/CvDocument"
@@ -8,7 +12,9 @@ import { downloadPdf } from "../../pdf/downloadPdf"
 
 export function CvPage() {
   const [language, setLanguage] = useState<CvLanguage>("fr")
-  // Accroche choisie selon le type de poste visé (dev par défaut).
+  // Accroche choisie selon le type de poste visé (dev par défaut) : choisit
+  // le texte d'accroche et le titre par défaut, et réordonne les missions
+  // taguées (voir PitchTaggedText dans ../../cv/types.ts).
   const [pitch, setPitch] = useState<CvPitch>("dev")
   // Titre affiché en haut du CV : vide = titre par défaut de l'accroche choisie (voir defaultTitle).
   const [title, setTitle] = useState("")
@@ -32,6 +38,8 @@ export function CvPage() {
       const cv: CvData = {
         ...locale.cv,
         ...contact,
+        experiences: resolveExperiences(pitch, language),
+        sideProjects: resolveSideProjects(pitch, language),
         title: title.trim() === "" ? defaultTitle : title.trim(),
         pitch: pitchText.trim() === "" ? defaultPitch : pitchText.trim(),
         photo: cvPhoto,

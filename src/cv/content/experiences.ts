@@ -5,6 +5,9 @@ import type { LocalizedExperience, LocalizedText } from "../types"
 // - Dans les textes, les segments entre ** sont rendus en gras violet.
 // - Les deux langues s'écrivent côte à côte (fr/en), ou en une fois via
 //   bothLanguages quand le texte est identique — voir LocalizedText dans ../types.ts.
+// - Une mission peut être taguée `tag: "pm"` ou `tag: "dev"` pour remonter en
+//   tête (ou redescendre en fin) de sa liste quand l'accroche correspondante
+//   est choisie sur la page CV — voir PitchTaggedText dans ../types.ts.
 
 /** Titres de la section : page 1, puis "(suite)" en page 2. */
 export const EXPERIENCES_TITLES: {
@@ -65,6 +68,7 @@ export const EXPERIENCES: LocalizedExperience[] = [
         en: "Updated the **Design System** (45 components): redesigns, new features, **accessibility**",
       },
       {
+        tag: "pm",
         fr: "Mise en place des ADR, documentation du code, présentations techniques",
         en: "Implemented ADRs, code documentation, technical presentations",
       },
@@ -81,10 +85,12 @@ export const EXPERIENCES: LocalizedExperience[] = [
         en: "Improved DX: **100% of flaky tests fixed**, 100% of false diffs fixed on Chromatic builds",
       },
       {
+        tag: "pm",
         fr: "Diminution des coûts variables (40% d'économies sur la CI)",
         en: "Reduced variable costs (40% savings on CI yearly)",
       },
       {
+        tag: "pm",
         fr: "Pilotage des tâches techniques : recherches, création des **EPIC**, découpage et **priorisation** des tâches",
         en: "Owned technical tasks: research, **EPIC** creation, task breakdown and **prioritization**",
       },
