@@ -13,6 +13,12 @@ const styles = StyleSheet.create({
   block: {
     marginBottom: 14,
   },
+  // Bloc englobant poste + employeur : les deux sont imbriqués dans un même
+  // Text (voir CvExperience) pour s'écouler comme du texte inline — sur une
+  // seule ligne si ça tient, sinon l'employeur passe seul à la ligne.
+  header: {
+    marginBottom: 2,
+  },
   role: {
     fontSize: 12.5, // juste sous les titres de section
     fontWeight: "bold",
@@ -22,7 +28,6 @@ const styles = StyleSheet.create({
     fontSize: 10, // plus petit que l'intitulé de poste qu'il complète
     fontWeight: "medium", // demi-gras : se distingue du texte courant sans concurrencer le poste
     color: CV_VIOLET_SOFT,
-    marginBottom: 2,
   },
   team: {
     fontSize: 8.5,
@@ -65,6 +70,14 @@ const styles = StyleSheet.create({
   },
 })
 
+/**
+ * Rend insécable la dernière parenthèse d'un texte "Employeur (dates)" — les
+ * dates ne doivent jamais être coupées en fin de ligne.
+ */
+function nonBreakingDates(employer: string): string {
+  return employer.replace(/\([^()]*\)$/, dates => dates.replace(/ /g, " "))
+}
+
 /** Équipe, contexte et missions — le corps commun à une expérience et à chacun de ses projets. */
 function ExperienceBody({
   team,
@@ -98,8 +111,13 @@ function ExperienceBody({
 export function CvExperience({ experience }: { experience: Experience }) {
   return (
     <View style={styles.block}>
-      <Text style={styles.role}>{experience.role}</Text>
-      <Text style={styles.employer}>/ {experience.employer}</Text>
+      <Text style={styles.header}>
+        <Text style={styles.role}>{experience.role}</Text>
+        <Text style={styles.employer}>
+          {" / "}
+          {nonBreakingDates(experience.employer)}
+        </Text>
+      </Text>
       <ExperienceBody
         team={experience.team}
         context={experience.context}
