@@ -7,7 +7,10 @@ import type { LocalizedExperience, LocalizedText } from "../types"
 //   bothLanguages quand le texte est identique — voir LocalizedText dans ../types.ts.
 // - Une mission peut être taguée `tag: "pm"` ou `tag: "dev"` pour remonter en
 //   tête (ou redescendre en fin) de sa liste quand l'accroche correspondante
-//   est choisie sur la page CV — voir PitchTaggedText dans ../types.ts.
+//   est choisie sur la page CV. Elle peut aussi être réservée à une accroche
+//   avec `only: "pm"` ou `only: "dev"` : elle n'apparaît alors que pour
+//   cette accroche, et disparaît entièrement pour l'autre — voir
+//   PitchTaggedText dans ../types.ts.
 
 /** Titres de la section : page 1, puis "(suite)" en page 2. */
 export const EXPERIENCES_TITLES: {
@@ -98,6 +101,18 @@ export const EXPERIENCES: LocalizedExperience[] = [
         tag: "pm",
         fr: "Coordination avec les PO, QA et designer pour aligner besoins, contraintes et priorités.",
         en: "Coordination with the PO, QA, and designer to align requirements, constraints, and priorities.",
+      },
+      {
+        tag: "pm",
+        only: "pm",
+        fr: "Contribution à la vision produit via des propositions d'amélioration UX/UI",
+        en: "Contributed to the product vision through UX/UI improvement proposals",
+      },
+      {
+        tag: "pm",
+        only: "pm",
+        fr: "Mise en place ou amélioration des outils et processus de suivi (EPIC, tickets, priorisation, documentation, backlog).",
+        en: "Implemented or improved tracking tools and processes (EPICs, tickets, prioritization, documentation, backlog).",
       },
     ],
     stack: [

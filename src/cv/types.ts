@@ -36,8 +36,13 @@ export type CvPitch = "dev" | "pm"
  * l'accroche "pm" est choisie, ou redescend en fin si c'est "dev" (et
  * inversement pour `tag: "dev"`). Sans tag, l'item garde sa position
  * déclarée — voir sortByPitch dans buildLocale.ts.
+ *
+ * `only` va plus loin qu'un tag : un item avec `only: "pm"` n'apparaît que
+ * si l'accroche "pm" est choisie, et disparaît entièrement sinon (au lieu
+ * d'être simplement redescendu en fin de liste) — voir filterByPitch dans
+ * buildLocale.ts.
  */
-export type PitchTaggedText = LocalizedText & { tag?: CvPitch }
+export type PitchTaggedText = LocalizedText & { tag?: CvPitch; only?: CvPitch }
 
 // --- Contenu bilingue, tel qu'écrit dans src/cv/content/ ---
 

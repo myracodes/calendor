@@ -42,9 +42,20 @@ function optionalTexts(
   return texts?.map(text => localizedText(text, language))
 }
 
-// Réordonnancement selon l'accroche choisie (voir PitchTaggedText dans
-// types.ts) : appliqué avant la résolution de langue, sur les missions des
-// expériences et de leurs projets.
+// Filtrage puis réordonnancement selon l'accroche choisie (voir
+// PitchTaggedText dans types.ts) : appliqués avant la résolution de langue,
+// sur les missions des expériences et de leurs projets.
+
+/**
+ * Retire les items réservés à l'autre accroche (`only` défini et différent
+ * de l'accroche choisie). Les items sans `only` sont toujours conservés.
+ */
+function filterByPitch<T extends { only?: CvPitch }>(
+  items: T[],
+  pitch: CvPitch,
+): T[] {
+  return items.filter(item => item.only === undefined || item.only === pitch)
+}
 
 /**
  * Trie un tableau tagué pour une accroche donnée : les items tagués pour
@@ -68,17 +79,22 @@ function applyPitchToProject(
   project: LocalizedProject,
   pitch: CvPitch,
 ): LocalizedProject {
-  return { ...project, missions: sortByPitch(project.missions, pitch) }
+  return {
+    ...project,
+    missions: sortByPitch(filterByPitch(project.missions, pitch), pitch),
+  }
 }
 
-/** Réordonne les missions d'une expérience, et celles de ses projets s'il y en a. */
+/** Filtre puis réordonne les missions d'une expérience, et celles de ses projets s'il y en a. */
 function applyPitchToExperience(
   experience: LocalizedExperience,
   pitch: CvPitch,
 ): LocalizedExperience {
   return {
     ...experience,
-    missions: experience.missions && sortByPitch(experience.missions, pitch),
+    missions:
+      experience.missions &&
+      sortByPitch(filterByPitch(experience.missions, pitch), pitch),
     projects: experience.projects?.map(project =>
       applyPitchToProject(project, pitch),
     ),

@@ -7,7 +7,9 @@ import type { LocalizedExperience, LocalizedText } from "../types"
 // - Les deux langues s'écrivent côte à côte (fr/en), ou en une fois via
 //   bothLanguages quand le texte est identique — voir LocalizedText dans ../types.ts.
 // - Une mission peut être taguée `tag: "pm"` ou `tag: "dev"` pour remonter en
-//   tête (ou redescendre en fin) de sa liste selon l'accroche choisie — voir
+//   tête (ou redescendre en fin) de sa liste selon l'accroche choisie. Elle
+//   peut aussi être réservée à une accroche avec `only: "pm"` ou
+//   `only: "dev"` : elle n'apparaît alors que pour cette accroche — voir
 //   PitchTaggedText dans ../types.ts.
 
 /** Titre de la section. */
