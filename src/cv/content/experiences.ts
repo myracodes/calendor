@@ -73,12 +73,17 @@ export const EXPERIENCES: LocalizedExperience[] = [
         en: "Implemented ADRs, code documentation, technical presentations",
       },
       {
-        fr: "Utilisation quotidienne de l'**IA** (**Claude Code** / Mistral / Copilot) : débug, refactorisations, **back-end**, accélération des développements",
-        en: "Daily use of **AI** (**Claude Code** / Mistral / Copilot): debugging, refactoring, **back-end development**, faster and better developments",
+        fr: "Utilisation quotidienne de l'**IA** (**Claude Code** et autres) : débug, refactorisations, **back-end**, accélération des développements, découpage des tâches complexes, etc.",
+        en: "Daily use of **AI** (**Claude Code** and others): debugging, refactoring, **back-end development**, faster and better developments, breaking down complex tasks, etc.",
       },
       {
-        fr: "Gestion et réduction proactive de la **dette technique** : 55% de tests legacy traduits, planification des patchs des failles de sécurité (1x/mois), montées de versions des librairies, etc.",
-        en: "Proactively managed and reduced **technical debt**: 55% of legacy tests translated, scheduled patching of known vulnerabilities, upgraded libraries, etc.",
+        fr: "Gestion et réduction proactive de la **dette technique** : 80% de tests legacy traduits, planification des mises à jour de sécurité, montées de versions des librairies, etc.",
+        en: "Proactively managed and reduced **technical debt**: 80% of legacy tests translated, scheduled security updates, upgraded libraries, etc.",
+      },
+      {
+        tag: "pm",
+        fr: "Pilotage des tâches techniques : analyse des besoins, recherche de solutions techniques, création des **EPIC**, découpage, priorisation, et planificationdes tâches",
+        en: "Owned technical tasks: analyzed requirements, researched technical solutions, created **EPIC**, broke down tasks, prioritized and planned them",
       },
       {
         fr: "Amélioration de la DX : **correction de 100% des tests flaky** et des faux diffs Chromatic",
@@ -91,8 +96,8 @@ export const EXPERIENCES: LocalizedExperience[] = [
       },
       {
         tag: "pm",
-        fr: "Pilotage des tâches techniques : recherches, création des **EPIC**, découpage et **priorisation** des tâches",
-        en: "Owned technical tasks: research, **EPIC** creation, task breakdown and **prioritization**",
+        fr: "Coordination avec les PO, QA et designer pour aligner besoins, contraintes et priorités.",
+        en: "Coordination with the PO, QA, and designer to align requirements, constraints, and priorities.",
       },
     ],
     stack: [
@@ -220,8 +225,9 @@ export const EXPERIENCES: LocalizedExperience[] = [
       },
       { fr: "Correction des bugs", en: "Fixed production bugs" },
       {
-        fr: "Gestion des projets, documentation du code, amélioration des processus internes",
-        en: "Drove continuous improvement: project management, code documentation, internal processes",
+        tag: "pm",
+        fr: "Amélioration continue: gestion des projets techniques de l'agence, documentation du code, amélioration des processus internes",
+        en: "Drove continuous improvement: technical projects management, code documentation, internal processes",
       },
       {
         fr: "Définition et application de la stratégie **SEO**",
