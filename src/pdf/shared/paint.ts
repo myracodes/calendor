@@ -1,4 +1,4 @@
-import { INK } from "../colors"
+import { INK } from "../../colors"
 
 // Trames dessinées à la volée via <Canvas> : react-pdf n'a pas de motif de fond
 // répétable natif. Points ronds via un pointillé quasi nul + bouts arrondis, même

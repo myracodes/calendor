@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "@react-pdf/renderer"
-import type { Experience, Project } from "../cv/types"
+import type { Experience, Project } from "../../cv/types"
 import { CvRichText } from "./CvRichText"
 import {
   CV_BODY_LINE_HEIGHT,

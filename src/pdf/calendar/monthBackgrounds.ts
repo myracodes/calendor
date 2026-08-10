@@ -1,4 +1,4 @@
-import DEFAULT_BACKGROUND from "../assets/images/default-background.jpg"
+import DEFAULT_BACKGROUND from "../../assets/images/default-background.jpg"
 
 /**
  * Images de fond par mois, découvertes automatiquement dans

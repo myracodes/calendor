@@ -1,7 +1,7 @@
 import { useState } from "react"
 import type { CourrierSettings } from "../../courrier/types"
-import { CourrierDocument } from "../../pdf/CourrierDocument"
-import { downloadPdf } from "../../pdf/downloadPdf"
+import { CourrierDocument } from "../../pdf/courrier/CourrierDocument"
+import { downloadPdf } from "../../pdf/shared/downloadPdf"
 import "./CourrierPage.css"
 
 /** Date du jour au format ISO "aaaa-mm-jj", dans le fuseau local. */

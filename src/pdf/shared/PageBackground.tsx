@@ -1,5 +1,5 @@
 import { Image, StyleSheet, View } from "@react-pdf/renderer"
-import { PAPER } from "../colors"
+import { PAPER } from "../../colors"
 import { PAGE_HEIGHT_PT, PAGE_WIDTH_PT } from "./shared"
 
 // Dimensions absolues selon l'orientation de la page (les constantes de shared.tsx

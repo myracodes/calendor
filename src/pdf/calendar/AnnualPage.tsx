@@ -1,11 +1,11 @@
 import { Line, Page, StyleSheet, Svg, Text, View } from "@react-pdf/renderer"
-import { INK, INK_LIGHT, LINE, PAPER } from "../colors"
-import { WEEKDAY } from "../constants/weekdays"
-import { daysInMonth, weekdayOf } from "../dates"
-import { publicHolidaysForYear } from "../events/publicHolidays"
-import type { CalendarSettings } from "../types"
+import { INK, INK_LIGHT, LINE, PAPER } from "../../colors"
+import { WEEKDAY } from "../../constants/weekdays"
+import { daysInMonth, weekdayOf } from "../../dates"
+import { publicHolidaysForYear } from "../../events/publicHolidays"
+import type { CalendarSettings } from "../../types"
 import { LIFE_EVENT_KINDS, lifeEventsForDay } from "./calendarData"
-import { RainbowBar } from "./shared"
+import { RainbowBar } from "../shared/shared"
 
 const MONTHS = Array.from({ length: 12 }, (_, i) => i + 1)
 const DAYS = Array.from({ length: 31 }, (_, i) => i + 1)

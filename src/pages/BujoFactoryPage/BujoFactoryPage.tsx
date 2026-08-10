@@ -1,7 +1,7 @@
 import { useState } from "react"
 import type { BujoColumn, BujoSettings, DottedWidth } from "../../bujo/types"
-import { BujoDocument } from "../../pdf/BujoDocument"
-import { downloadPdf } from "../../pdf/downloadPdf"
+import { BujoDocument } from "../../pdf/bujo/BujoDocument"
+import { downloadPdf } from "../../pdf/shared/downloadPdf"
 import { IllustrationSection } from "../../shared/IllustrationSection/IllustrationSection"
 import "./BujoFactoryPage.css"
 

@@ -1,9 +1,9 @@
-import { weekIndex } from "../dates"
-import { BIRTHDAYS } from "../events/birthdays"
-import { DEATHS } from "../events/deaths"
-import type { LifeEvent } from "../events/lifeEvents.type"
-import { OTHER_EVENTS } from "../events/otherEvents"
-import type { CalendarEvent, CalendarSettings } from "../types"
+import { weekIndex } from "../../dates"
+import { BIRTHDAYS } from "../../events/birthdays"
+import { DEATHS } from "../../events/deaths"
+import type { LifeEvent } from "../../events/lifeEvents.type"
+import { OTHER_EVENTS } from "../../events/otherEvents"
+import type { CalendarEvent, CalendarSettings } from "../../types"
 
 // Anniversaires, décès et jours festifs partagent le même mode de filtrage
 // (par mois/jour) et de conditionnement (un booléen dans CalendarSettings).

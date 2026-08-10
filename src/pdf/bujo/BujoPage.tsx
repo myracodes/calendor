@@ -1,9 +1,9 @@
 import { Canvas, Page, StyleSheet, Text, View } from "@react-pdf/renderer"
-import type { BujoColumn, BujoSettings } from "../bujo/types"
-import { INK, LINE, PAPER } from "../colors"
-import { PageBackground } from "./PageBackground"
-import { paintCheckboxes, paintDottedLines } from "./paint"
-import { RainbowBar, SURFACE } from "./shared"
+import type { BujoColumn, BujoSettings } from "../../bujo/types"
+import { INK, LINE, PAPER } from "../../colors"
+import { PageBackground } from "../shared/PageBackground"
+import { paintCheckboxes, paintDottedLines } from "../shared/paint"
+import { RainbowBar, SURFACE } from "../shared/shared"
 
 // Largeurs des colonnes, en points : "case à cocher" et "petit" (une lettre) sont
 // fixes, "moyen" (quelques mots) aussi ; "grand" se partage l'espace restant.

@@ -1,6 +1,6 @@
 import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer"
-import { formatLieuDate } from "../courrier/format"
-import type { CourrierSettings } from "../courrier/types"
+import { formatLieuDate } from "../../courrier/format"
+import type { CourrierSettings } from "../../courrier/types"
 
 const rightAlignedContentWidth = "33.33%"
 // Mise en page d'un courrier à la française : expéditrice en haut à gauche,

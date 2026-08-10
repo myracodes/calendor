@@ -1,7 +1,7 @@
 import { StyleSheet, Text, View } from "@react-pdf/renderer"
-import { INK, SCHEDULE } from "../colors"
-import { schedulesForWeekday } from "../events/schedules"
-import type { Schedule } from "../events/schedules.type"
+import { INK, SCHEDULE } from "../../colors"
+import { schedulesForWeekday } from "../../events/schedules"
+import type { Schedule } from "../../events/schedules.type"
 
 const styles = StyleSheet.create({
   // Cellule d'en-tête d'une colonne jour, en haut de la grille du mois (une par jour de la semaine).

@@ -1,5 +1,5 @@
 import { Image, Link, StyleSheet, Text, View } from "@react-pdf/renderer"
-import type { CvData, SidebarSection } from "../cv/types"
+import type { CvData, SidebarSection } from "../../cv/types"
 import { CvRichText } from "./CvRichText"
 import { CvSectionTitle } from "./CvSectionTitle"
 import { CV_AMBER, CV_FONT_DISPLAY, CV_WHITE } from "./cvTheme"

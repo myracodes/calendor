@@ -1,6 +1,6 @@
 import { Document } from "@react-pdf/renderer"
-import { addMonths } from "../dates"
-import type { CalendarSettings } from "../types"
+import { addMonths } from "../../dates"
+import type { CalendarSettings } from "../../types"
 import { AnnualPage } from "./AnnualPage"
 import { MonthPage } from "./MonthPage"
 import { WeekPage } from "./WeekPage"

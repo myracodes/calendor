@@ -1,7 +1,7 @@
 import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer"
-import { INK, INK_LIGHT, LINE, PAPER } from "../colors"
-import type { SectionListe } from "../courses/types"
-import { RainbowBar } from "./shared"
+import { INK, INK_LIGHT, LINE, PAPER } from "../../colors"
+import type { SectionListe } from "../../courses/types"
+import { RainbowBar } from "../shared/shared"
 
 // Date d'édition de la liste, en toutes lettres ("16 juillet 2026").
 const DATE_FORMAT = new Intl.DateTimeFormat("fr-FR", {

@@ -1,6 +1,6 @@
 import { useState } from "react"
-import { CalendarDocument } from "../../pdf/CalendarDocument"
-import { downloadPdf } from "../../pdf/downloadPdf"
+import { CalendarDocument } from "../../pdf/calendar/CalendarDocument"
+import { downloadPdf } from "../../pdf/shared/downloadPdf"
 import { PRESETS } from "../../presets"
 import { IllustrationSection } from "../../shared/IllustrationSection/IllustrationSection"
 import type { CalendarSettings } from "../../types"

@@ -4,8 +4,8 @@ import { articleKey, CATALOGUE } from "../../courses/catalogue"
 import { PRESET_KEYS } from "../../courses/preset"
 import { selectionKeys } from "../../courses/selection"
 import type { ArticleLibre, SectionListe } from "../../courses/types"
-import { CoursesDocument } from "../../pdf/CoursesDocument"
-import { downloadPdf } from "../../pdf/downloadPdf"
+import { CoursesDocument } from "../../pdf/courses/CoursesDocument"
+import { downloadPdf } from "../../pdf/shared/downloadPdf"
 import "./CoursesPage.css"
 
 // Couleurs d'accent des cartes de catégories, en rotation.

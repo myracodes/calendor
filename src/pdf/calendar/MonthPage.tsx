@@ -8,11 +8,11 @@ import {
   INK_LIGHT,
   LINE,
   PAPER,
-} from "../colors"
-import { WEEKDAY } from "../constants/weekdays"
-import { monthGrid, monthName, weekdayNames } from "../dates"
-import { publicHolidaysForYear } from "../events/publicHolidays"
-import type { CalendarSettings } from "../types"
+} from "../../colors"
+import { WEEKDAY } from "../../constants/weekdays"
+import { monthGrid, monthName, weekdayNames } from "../../dates"
+import { publicHolidaysForYear } from "../../events/publicHolidays"
+import type { CalendarSettings } from "../../types"
 import {
   eventsForDay,
   LIFE_EVENT_KINDS,
@@ -20,8 +20,8 @@ import {
   lifeEventsForDay,
 } from "./calendarData"
 import { backgroundForMonth } from "./monthBackgrounds"
-import { PageBackground } from "./PageBackground"
-import { RainbowBar, SURFACE } from "./shared"
+import { PageBackground } from "../shared/PageBackground"
+import { RainbowBar, SURFACE } from "../shared/shared"
 import { WeekdayHeaderCell } from "./WeekdayHeaderCell"
 
 const styles = StyleSheet.create({

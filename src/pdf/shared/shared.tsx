@@ -1,6 +1,6 @@
 import { Font, StyleSheet, View } from "@react-pdf/renderer"
 import type { ComponentProps } from "react"
-import { RAINBOW } from "../colors"
+import { RAINBOW } from "../../colors"
 
 // BASE_URL makes the public/ paths work both locally ("/") and on
 // GitHub Pages ("/calendor/").

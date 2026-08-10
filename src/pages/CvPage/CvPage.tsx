@@ -7,8 +7,8 @@ import {
 } from "../../cv/buildLocale"
 import { fetchCvContact } from "../../cv/fetchCvContact"
 import type { CvData, CvLanguage, CvPitch } from "../../cv/types"
-import { CvDocument } from "../../pdf/CvDocument"
-import { downloadPdf } from "../../pdf/downloadPdf"
+import { CvDocument } from "../../pdf/cv/CvDocument"
+import { downloadPdf } from "../../pdf/shared/downloadPdf"
 
 export function CvPage() {
   const [language, setLanguage] = useState<CvLanguage>("fr")

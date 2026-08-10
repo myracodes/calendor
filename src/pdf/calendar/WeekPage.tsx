@@ -1,6 +1,6 @@
 import { Canvas, Page, StyleSheet, Text, View } from "@react-pdf/renderer"
-import { INK, LINE, PAPER } from "../colors"
-import { weekdayNames } from "../dates"
+import { INK, LINE, PAPER } from "../../colors"
+import { weekdayNames } from "../../dates"
 import {
   CHECKBOX_SIZE,
   CHECKBOX_STROKE,
@@ -9,8 +9,8 @@ import {
   type Painter,
   paintDottedLines,
   ROW_HEIGHT,
-} from "./paint"
-import { RainbowBar } from "./shared"
+} from "../shared/paint"
+import { RainbowBar } from "../shared/shared"
 
 // Liste de cases à cocher dans la case "Notes" : une case par ligne, suivie d'une ligne pointillée à écrire.
 const CHECKBOX_TO_LINE_GAP = 8
