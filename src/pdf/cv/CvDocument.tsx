@@ -1,8 +1,8 @@
 import { Document, Page, StyleSheet, Text, View } from "@react-pdf/renderer"
-import type { CvData, CvPageNumber, Experience } from "../cv/types"
+import type { CvData, CvPageNumber, Experience } from "../../cv/types"
 import { CvExperience } from "./CvExperience"
-import { CvIdentity, CvSidebarSections } from "./CvSidebar"
 import { CvSectionTitle } from "./CvSectionTitle"
+import { CvIdentity, CvSidebarSections } from "./CvSidebar"
 import {
   CV_BODY_LINE_HEIGHT,
   CV_FONT,
@@ -12,6 +12,7 @@ import {
   CV_VIOLET_BG,
 } from "./cvTheme"
 
+const contentPadding = 24
 // Mise en page du CV : deux pages A4 portrait, chacune découpée en deux
 // colonnes (sidebar à gauche, expériences à droite). Le contenu de chaque
 // page est choisi via le champ `page` des blocs de src/cv/content/.
@@ -22,14 +23,15 @@ const styles = StyleSheet.create({
     flexDirection: "row", // pas de padding ici : le fond violet de la sidebar doit filer jusqu'aux bords de page
   },
   sidebar: {
-    width: "31%", // proportion du CV d'origine
+    width: "31%",
     backgroundColor: CV_VIOLET_BG,
     padding: 20,
-    paddingTop: 28, // alignée sur le haut de la colonne principale
+    paddingTop: contentPadding,
   },
+  // colonne de droite : expériences et side projects
   main: {
     flex: 1,
-    padding: 28, // le CV d'origine est dense : marges resserrées (~1cm)
+    padding: contentPadding,
     paddingLeft: 20, // moins qu'à droite : l'aplat violet de la sidebar marque déjà la séparation
   },
   title: {
@@ -46,7 +48,7 @@ const styles = StyleSheet.create({
   pagination: {
     position: "absolute",
     bottom: 12,
-    right: 28, // aligné avec le padding de main
+    right: contentPadding,
     fontSize: 7.5,
     color: CV_TEXT,
   },
