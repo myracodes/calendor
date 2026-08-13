@@ -27,15 +27,11 @@ export const SIDE_PROJECTS: LocalizedExperience[] = [
     },
     context: [
       {
-        fr: "Application web qui génère des documents PDF personnalisés : calendriers, CV multilangues etc.",
-        en: "Web app generating personalized PDF documents: calendars, multilingual resumes, etc.",
+        fr: "Application web qui génère des documents PDF personnalisés.",
+        en: "Web app generating personalized PDF documents.",
       },
     ],
     missions: [
-      {
-        fr: "Génération des PDF 100% côté client (@react-pdf/renderer) : documents paramétrables (contenu, design, mise en page)",
-        en: "Client-side PDF generation (@react-pdf/renderer): documents are fully customizable (content, design, layout)",
-      },
       {
         tag: "pm",
         fr: "Pilotage du projet en autonomie complète : cadrage du besoin, priorisation des fonctionnalités, arbitrages scope/délai, de l'idée à la mise en production",
@@ -103,10 +99,16 @@ export const SIDE_PROJECTS: LocalizedExperience[] = [
         en: "French / English **internationalization** (@angular/localize)",
       },
       {
+        fr: "Définition du design, de l'UX/UI, de l'architecture, de la structure du contenu",
+        en: "Design, UX/UI, architecture, and content structure definition",
+      },
+      {
+        only: "dev",
         fr: "Composants **PrimeNG**",
         en: "**PrimeNG** components",
       },
       {
+        only: "dev",
         fr: "Tests unitaires **Jasmine / Karma**",
         en: "**Jasmine / Karma** unit tests",
       },

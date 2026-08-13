@@ -162,6 +162,8 @@ export const SIDEBAR: LocalizedSidebarSection[] = [
           { fr: "Pensée systémique", en: "Systems thinking" },
           { fr: "Curiosité", en: "Curiosity" },
           { fr: "Sens du détail", en: "Attention to detail" },
+          { fr: "Esprit d'équipe", en: "Team spirit" },
+          { fr: "Grande adaptabilité", en: "High adaptability" },
         ],
       },
     ],

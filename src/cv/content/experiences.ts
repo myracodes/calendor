@@ -50,19 +50,33 @@ export const EXPERIENCES: LocalizedExperience[] = [
         fr: "Développement de nouvelles features et refontes front-end (**React / Next.js**)",
         en: "Developed new features and front-end redesigns (**React / Next.js**)",
       },
+      // #region TESTS les missions suivantes sont rédigées différemment pour le rôle dev et pm donc ajout du "only" mode
       {
+        only: "dev",
         fr: "Tests automatisés (**Cypress**)",
         en: "Automated testing (**Cypress**)",
       },
       {
+        only: "pm",
+        fr: "Augmentation de la couverture des tests automatisés (**Cypress**)",
+        en: "Increased automated test coverage (**Cypress**)",
+      },
+      // #endregion TESTS
+      // #region BUGS FIXING les missions suivantes sont rédigées différemment pour le rôle dev et pm donc ajout du "only" mode
+      {
+        only: "dev",
         fr: "Correction de bugs en production",
         en: "Fixed bugs in production",
       },
+      { only: "pm", fr: "Gestion des incidents", en: "Incident management" },
+      // #endregion BUGS FIXING
       {
+        only: "dev",
         fr: "Relecture des PR (code reviews)",
         en: "Reviewed pull requests (code reviews)",
       },
       {
+        only: "dev",
         fr: "Améliorations SEO (Core Web Vitals, TTFB, etc)",
         en: "Enhanced SEO (Core Web Vitals, TTFB, etc)",
       },
@@ -159,21 +173,39 @@ export const EXPERIENCES: LocalizedExperience[] = [
         ],
         missions: [
           {
-            fr: "Build : implémentation “pixel perfect” des écrans d'après les maquettes",
-            en: "Build: delivered “pixel perfect” screens based on the mock-ups",
+            fr: "Build : implémentation pixel perfect des écrans d'après les maquettes",
+            en: "Build: delivered pixel perfect screens based on the mock-ups",
           },
           {
             fr: "Intégration du CRUD (API REST) côté front-end",
             en: "Integration of CRUD features (REST API) on the front-end",
           },
           {
+            tag: "pm",
             fr: "Mise en place du **Design System** et des composants réutilisables (**Angular**), en collaboration avec le designer UX/UI",
             en: "Implemented the **Design System** and reusable components (**Angular**) in collaboration with the UX/UI designer",
           },
-          { fr: "Run : correction des bugs", en: "Run: bug fixes" },
+          // #region BUGS FIXING les missions suivantes sont rédigées différemment pour le rôle dev et pm donc ajout du "only" mode
           {
-            fr: "Proposition et mise en place de normes (git flow, conventional commits, approche design system, conventions de nommage, etc.)",
-            en: "Championed implementation of standards (git flow, conventional commits, design system approach, naming conventions, etc.)",
+            only: "dev",
+            fr: "Run : correction des bugs",
+            en: "Run: bug fixes",
+          },
+          {
+            only: "pm",
+            fr: "Run : gestion des incidents",
+            en: "Run: incident management",
+          },
+          // #endregion BUGS FIXING
+          {
+            tag: "pm",
+            fr: "Proposition et mise en place de normes (git flow, conventional commits, design system, conventions de nommage, etc.)",
+            en: "Championed implementation of standards (git flow, conventional commits, design system, naming conventions, etc.)",
+          },
+          {
+            only: "pm",
+            fr: "Coordination avec l'UX/UI designer autour des contraintes techniques",
+            en: "Coordinated with the UX/UI regarding technical constraints",
           },
         ],
       },
@@ -225,32 +257,54 @@ export const EXPERIENCES: LocalizedExperience[] = [
     },
     context: [
       {
-        fr: "GOOD Vibes est un système d'envoi de vidéos interactives par SMS, paramétrable via un dashboard admin.",
-        en: "GOOD Vibes is a system for sending interactive videos via SMS, configurable through an admin dashboard.",
+        fr: "GOOD Vibes est un système d'envoi de vidéos interactives par SMS, paramétrable via un dashboard admin ; Visigo est l'agence qui l'édite.",
+        en: "GOOD Vibes is a system for sending interactive videos via SMS, configurable through an admin dashboard ; Visigo is the agency that publishes it.",
       },
     ],
     missions: [
       {
-        fr: "Refonte intégrale du site vitrine en **React**",
-        en: "Completely revamped the marketing website in **React**",
+        only: "dev",
+        fr: "Refonte intégrale du site vitrine GOOD Vibes en **React**",
+        en: "Completely revamped the GOOD Vibes marketing website in **React**",
       },
       {
-        fr: "Développement des features **front-end et back-end (React / Node.js)** et des composants",
-        en: "Developed **front-end and back-end (React / Node.js)** features and components",
+        fr: "Développement des features **front-end et back-end (React / Node.js)**",
+        en: "Developed **front-end and back-end (React / Node.js)** features",
       },
-      { fr: "Correction des bugs", en: "Fixed production bugs" },
+      {
+        only: "dev",
+        fr: "Standardisation des composants",
+        en: "Standardized components",
+      },
+      // #region BUGS FIXING les missions suivantes sont rédigées différemment pour le rôle dev et pm donc ajout du "only" mode
+      { only: "dev", fr: "Correction des bugs", en: "Fixed production bugs" },
+      { only: "pm", fr: "Gestion des incidents", en: "Incident management" },
+      // #endregion BUGS FIXING
+      { only: "dev", fr: "Déploiement (Netlify)", en: "Deployment (Netlify)" },
       {
         tag: "pm",
-        fr: "Amélioration continue: gestion des projets techniques de l'agence, documentation du code, amélioration des processus internes",
-        en: "Drove continuous improvement: technical projects management, code documentation, internal processes",
+        fr: "Amélioration continue : gestion des projets techniques de l'agence, documentation approfondie du code et des processus, amélioration des processus internes",
+        en: "Drove continuous improvement: technical projects management, in-depth code documentation, internal processes",
       },
       {
+        tag: "pm",
         fr: "Définition et application de la stratégie **SEO**",
         en: "Designed and rolled out the **SEO** strategy",
       },
       {
         fr: "Mise en place d'outils digitaux & formation de l'équipe",
         en: "Set up and deployed digital tools, and trained the team to use them",
+      },
+      {
+        only: "pm",
+        tag: "pm",
+        fr: "Coordination transverse, analyse des besoins, proposition de solutions",
+        en: "Transversal coordination, requirements analysis, solution proposals",
+      },
+      {
+        only: "pm",
+        fr: "Monitoring de la qualité éditoriale (FR/EN) et applicative",
+        en: "Monitored editorial quality (FR/EN) and application quality",
       },
     ],
     stack: [
@@ -294,8 +348,13 @@ export const EXPERIENCES: LocalizedExperience[] = [
         en: "Digital communication management and webmastering: intranet, external website, social networks, corporate social network, etc.",
       },
       {
-        fr: "Acculturation digitale, mise en place des outils digitaux internes et formation des équipes à leur utilisation",
-        en: "Digital acculturation, deployed new internal digital tools and trained the teams to use them",
+        fr: "Acculturation digitale, mise en place des outils digitaux internes et formation des équipes à leur utilisation, accompagnement au changement",
+        en: "Digital acculturation, deployed new internal digital tools and trained the teams to use them, change management",
+      },
+      {
+        only: "pm",
+        fr: "Optimisation des processus : mise en place et amélioration des outils de suivi de projet, création de gabarits/modèles pour fluidifier la gestion des projets et le reporting",
+        en: "Optimized processes: implemented and improved project tracking tools, created templates for better project management and reporting",
       },
     ],
   },
