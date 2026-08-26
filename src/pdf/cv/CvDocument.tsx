@@ -4,15 +4,17 @@ import { CvExperience } from "./CvExperience"
 import { CvSectionTitle } from "./CvSectionTitle"
 import { CvIdentity, CvSidebarSections } from "./CvSidebar"
 import {
+  CONTENT_PADDING,
   CV_BODY_LINE_HEIGHT,
   CV_FONT,
   CV_FONT_DISPLAY,
   CV_TEXT,
   CV_VIOLET,
   CV_VIOLET_BG,
+  TITLE_FONTSIZE,
+  TITLE_PADDING_TOP,
 } from "./cvTheme"
 
-const contentPadding = 24
 // Mise en page du CV : deux pages A4 portrait, chacune découpée en deux
 // colonnes (sidebar à gauche, expériences à droite). Le contenu de chaque
 // page est choisi via le champ `page` des blocs de src/cv/content/.
@@ -26,19 +28,21 @@ const styles = StyleSheet.create({
     width: "31%",
     backgroundColor: CV_VIOLET_BG,
     padding: 20,
-    paddingTop: contentPadding,
+    paddingTop: CONTENT_PADDING,
   },
-  // colonne de droite : expériences et side projects
+  // main --> colonne de droite : expériences et side projects
   main: {
     flex: 1,
-    padding: contentPadding,
+    padding: CONTENT_PADDING,
+    paddingTop: TITLE_PADDING_TOP,
     paddingLeft: 20, // moins qu'à droite : l'aplat violet de la sidebar marque déjà la séparation
   },
   title: {
+    // le titre du CV (nom + rôle) est le plus gros élément de la page
     fontFamily: CV_FONT_DISPLAY,
-    fontSize: 24, // l'élément le plus gros de la page (la manuscrite paraît plus petite qu'une sans-serif à taille égale)
+    fontSize: TITLE_FONTSIZE,
     color: CV_VIOLET,
-    marginBottom: 6,
+    marginBottom: 4,
   },
   pitch: {
     fontSize: 9,
@@ -47,9 +51,9 @@ const styles = StyleSheet.create({
   },
   pagination: {
     position: "absolute",
-    bottom: 12,
-    right: contentPadding,
-    fontSize: 7.5,
+    bottom: 14,
+    right: CONTENT_PADDING,
+    fontSize: 7,
     color: CV_TEXT,
   },
 })

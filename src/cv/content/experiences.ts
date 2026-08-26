@@ -46,11 +46,22 @@ export const EXPERIENCES: LocalizedExperience[] = [
       },
     ],
     missions: [
+      // #region FEATURES
+      // missions rédigées différemment pour le rôle dev et pm
       {
+        only: "dev",
         fr: "Développement de nouvelles features et refontes front-end (**React / Next.js**)",
         en: "Developed new features and front-end redesigns (**React / Next.js**)",
       },
-      // #region TESTS les missions suivantes sont rédigées différemment pour le rôle dev et pm donc ajout du "only" mode
+      {
+        only: "pm",
+        fr: "Développement de nouvelles fonctionnalités et refontes",
+        en: "Developed new features and front-end redesigns",
+      },
+      // #endregion FEATURES
+      // ---------------------
+      // #region TESTS
+      // missions rédigées différemment pour le rôle dev et pm
       {
         only: "dev",
         fr: "Tests automatisés (**Cypress**)",
@@ -58,32 +69,38 @@ export const EXPERIENCES: LocalizedExperience[] = [
       },
       {
         only: "pm",
-        fr: "Augmentation de la couverture des tests automatisés (**Cypress**)",
-        en: "Increased automated test coverage (**Cypress**)",
+        fr: "Augmentation de la couverture des tests automatisés",
+        en: "Increased automated test coverage",
       },
       // #endregion TESTS
-      // #region BUGS FIXING les missions suivantes sont rédigées différemment pour le rôle dev et pm donc ajout du "only" mode
+      // ---------------------
+      // #region BUGS FIXING
+      // missions rédigées différemment pour le rôle dev et pm
       {
         only: "dev",
         fr: "Correction de bugs en production",
         en: "Fixed bugs in production",
       },
-      { only: "pm", fr: "Gestion des incidents", en: "Incident management" },
+      { only: "pm", fr: "Gestion des incidents", en: "Managed incidents" },
       // #endregion BUGS FIXING
+      // ---------------------
       {
         only: "dev",
         fr: "Relecture des PR (code reviews)",
         en: "Reviewed pull requests (code reviews)",
       },
+      // ---------------------
       {
         only: "dev",
         fr: "Améliorations SEO (Core Web Vitals, TTFB, etc)",
         en: "Enhanced SEO (Core Web Vitals, TTFB, etc)",
       },
+      // ---------------------
       {
         fr: "Mise à jour du **Design System** (45 composants) : refontes, nouveautés, **accessibilité**",
         en: "Updated the **Design System** (45 components): redesigns, new features, **accessibility**",
       },
+      // ---------------------
       {
         tag: "pm",
         fr: "Mise en place des ADR, documentation du code, présentations techniques",
@@ -93,40 +110,62 @@ export const EXPERIENCES: LocalizedExperience[] = [
         fr: "Utilisation quotidienne de l'**IA** (**Claude Code** et autres) : débug, refactorisations, **back-end**, accélération des développements, découpage des tâches complexes, etc.",
         en: "Daily use of **AI** (**Claude Code** and others): debugging, refactoring, **back-end development**, faster and better developments, breaking down complex tasks, etc.",
       },
+      // ---------------------
       {
-        fr: "Gestion et réduction proactive de la **dette technique** : 80% de tests legacy traduits, planification des mises à jour de sécurité, montées de versions des librairies, etc.",
-        en: "Proactively managed and reduced **technical debt**: 80% of legacy tests translated, scheduled security updates, upgraded libraries, etc.",
+        fr: "**Gestion et réduction proactive de la dette technique** : 85% de tests legacy traduits, planification des mises à jour de sécurité, montées de versions des librairies, etc.",
+        en: "**Proactively managed and reduced technical debt**: 85% of legacy tests translated, scheduled security updates, upgraded libraries, etc.",
       },
+      // ---------------------
       {
         tag: "pm",
-        fr: "Pilotage des tâches techniques : analyse des besoins, recherche de solutions techniques, création des **EPIC**, découpage, priorisation, et planificationdes tâches",
-        en: "Owned technical tasks: analyzed requirements, researched technical solutions, created **EPIC**, broke down tasks, prioritized and planned them",
+        fr: "**Pilotage des tâches techniques** : analyse des besoins, recherche de solutions techniques, création des EPIC, découpage, priorisation, et planification des tâches",
+        en: "**Owned technical tasks**: analyzed requirements, researched technical solutions, created EPIC, broke down tasks, prioritized and planned them",
       },
+      // ---------------------
+      // #region DX
+      // missions rédigées différemment pour le rôle dev et pm
       {
+        only: "dev",
         fr: "Amélioration de la DX : **correction de 100% des tests flaky** et des faux diffs Chromatic",
         en: "Improved DX: **100% of flaky tests fixed**, 100% of false diffs fixed on Chromatic builds",
       },
       {
-        tag: "pm",
-        fr: "Diminution des coûts variables (40% d'économies sur la CI)",
-        en: "Reduced variable costs (40% savings on CI yearly)",
+        only: "pm",
+        fr: "**Correction de 100% des tests instables et des faux positifs** dans les outils de vérification visuelle (CircleCI, Chromatic)",
+        en: "**Fixed 100% of unstable tests and false positives** in visual verification tools (CircleCI, Chromatic)",
       },
+      // #endregion DX
+      // ---------------------
+      {
+        tag: "pm",
+        fr: "Diminution des coûts fixes et variables (40% d'économies sur la CI)",
+        en: "Reduced fixed and variable costs (40% savings on CI yearly)",
+      },
+      // ---------------------
       {
         tag: "pm",
         fr: "Coordination avec les PO, QA et designer pour aligner besoins, contraintes et priorités.",
         en: "Coordination with the PO, QA, and designer to align requirements, constraints, and priorities.",
       },
+      // ---------------------
       {
         tag: "pm",
         only: "pm",
         fr: "Contribution à la vision produit via des propositions d'amélioration UX/UI",
         en: "Contributed to the product vision through UX/UI improvement proposals",
       },
+      // ---------------------
       {
         tag: "pm",
         only: "pm",
-        fr: "Mise en place ou amélioration des outils et processus de suivi (EPIC, tickets, priorisation, documentation, backlog).",
-        en: "Implemented or improved tracking tools and processes (EPICs, tickets, prioritization, documentation, backlog).",
+        fr: "**Mise en place / amélioration des outils et processus de suivi**.",
+        en: "**Implemented / improved tracking tools and processes**.",
+      },
+      // ---------------------
+      {
+        tag: "pm",
+        fr: "Mise en place d'automatisations dans le backlog (GitHub Actions)",
+        en: "Implemented automations in backlog (GitHub Actions)",
       },
     ],
     stack: [
@@ -176,16 +215,20 @@ export const EXPERIENCES: LocalizedExperience[] = [
             fr: "Build : implémentation pixel perfect des écrans d'après les maquettes",
             en: "Build: delivered pixel perfect screens based on the mock-ups",
           },
+          // ---------------------
           {
             fr: "Intégration du CRUD (API REST) côté front-end",
             en: "Integration of CRUD features (REST API) on the front-end",
           },
+          // ---------------------
           {
             tag: "pm",
             fr: "Mise en place du **Design System** et des composants réutilisables (**Angular**), en collaboration avec le designer UX/UI",
             en: "Implemented the **Design System** and reusable components (**Angular**) in collaboration with the UX/UI designer",
           },
-          // #region BUGS FIXING les missions suivantes sont rédigées différemment pour le rôle dev et pm donc ajout du "only" mode
+          // ---------------------
+          // #region BUGS FIXING
+          // missions rédigées différemment pour le rôle dev et pm
           {
             only: "dev",
             fr: "Run : correction des bugs",
@@ -197,11 +240,13 @@ export const EXPERIENCES: LocalizedExperience[] = [
             en: "Run: incident management",
           },
           // #endregion BUGS FIXING
+          // ---------------------
           {
             tag: "pm",
             fr: "Proposition et mise en place de normes (git flow, conventional commits, design system, conventions de nommage, etc.)",
             en: "Championed implementation of standards (git flow, conventional commits, design system, naming conventions, etc.)",
           },
+          // ---------------------
           {
             only: "pm",
             fr: "Coordination avec l'UX/UI designer autour des contraintes techniques",
@@ -219,10 +264,12 @@ export const EXPERIENCES: LocalizedExperience[] = [
             fr: "Conception, développement et mise à jour de composants du **Design System** interne",
             en: "Designed, developed, and updated the internal **Design System** components",
           },
+          // ---------------------
           {
             fr: "Développement d'outils internes",
             en: "Developed internal tools",
           },
+          // ---------------------
           {
             fr: "Réalisation **pixel perfect** d'écrans d'après des maquettes Adobe XD",
             en: "Delivered **pixel perfect** screens based on Adobe XD mock-ups",
@@ -267,40 +314,49 @@ export const EXPERIENCES: LocalizedExperience[] = [
         fr: "Refonte intégrale du site vitrine GOOD Vibes en **React**",
         en: "Completely revamped the GOOD Vibes marketing website in **React**",
       },
+      // ---------------------
       {
         fr: "Développement des features **front-end et back-end (React / Node.js)**",
         en: "Developed **front-end and back-end (React / Node.js)** features",
       },
+      // ---------------------
       {
         only: "dev",
         fr: "Standardisation des composants",
         en: "Standardized components",
       },
-      // #region BUGS FIXING les missions suivantes sont rédigées différemment pour le rôle dev et pm donc ajout du "only" mode
+      // #region BUGS FIXING
+      // missions rédigées différemment pour le rôle dev et pm
       { only: "dev", fr: "Correction des bugs", en: "Fixed production bugs" },
       { only: "pm", fr: "Gestion des incidents", en: "Incident management" },
       // #endregion BUGS FIXING
+      // ---------------------
       { only: "dev", fr: "Déploiement (Netlify)", en: "Deployment (Netlify)" },
+      // ---------------------
       {
         tag: "pm",
         fr: "Amélioration continue : gestion des projets techniques de l'agence, documentation approfondie du code et des processus, amélioration des processus internes",
         en: "Drove continuous improvement: technical projects management, in-depth code documentation, internal processes",
       },
+      // ---------------------
       {
         tag: "pm",
         fr: "Définition et application de la stratégie **SEO**",
         en: "Designed and rolled out the **SEO** strategy",
       },
+      // ---------------------
       {
         fr: "Mise en place d'outils digitaux & formation de l'équipe",
         en: "Set up and deployed digital tools, and trained the team to use them",
       },
+      // ---------------------
       {
         only: "pm",
         tag: "pm",
         fr: "Coordination transverse, analyse des besoins, proposition de solutions",
         en: "Transversal coordination, requirements analysis, solution proposals",
       },
+      // ---------------------
       {
         only: "pm",
         fr: "Monitoring de la qualité éditoriale (FR/EN) et applicative",
@@ -343,18 +399,21 @@ export const EXPERIENCES: LocalizedExperience[] = [
         fr: "Événémentiel : organisation de jusqu'à 130 événements/an, pour des centaines de participant·es",
         en: "Events: organized up to 130 events a year with hundreds of participants",
       },
+      // ---------------------
       {
         fr: "Gestion de la communication digitale et webmastering : intranet, site externe, réseaux sociaux, réseau social d'entreprise, etc.",
         en: "Digital communication management and webmastering: intranet, external website, social networks, corporate social network, etc.",
       },
+      // ---------------------
       {
         fr: "Acculturation digitale, mise en place des outils digitaux internes et formation des équipes à leur utilisation, accompagnement au changement",
         en: "Digital acculturation, deployed new internal digital tools and trained the teams to use them, change management",
       },
+      // ---------------------
       {
         only: "pm",
-        fr: "Optimisation des processus : mise en place et amélioration des outils de suivi de projet, création de gabarits/modèles pour fluidifier la gestion des projets et le reporting",
-        en: "Optimized processes: implemented and improved project tracking tools, created templates for better project management and reporting",
+        fr: "**Optimisation des processus** : mise en place et amélioration des outils de suivi de projet, création de gabarits/modèles pour fluidifier la gestion des projets et le reporting",
+        en: "**Optimized processes**: implemented and improved project tracking tools, created templates for better project management and reporting",
       },
     ],
   },

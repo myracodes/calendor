@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
   employer: {
     fontSize: 10, // plus petit que l'intitulé de poste qu'il complète
-    fontWeight: "medium", // demi-gras : se distingue du texte courant sans concurrencer le poste
+    fontWeight: "medium",
     color: CV_VIOLET_SOFT,
   },
   team: {
@@ -48,8 +48,8 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   stack: {
-    fontSize: 8.5, // un cran sous le corps de texte
-    fontWeight: "bold", // comme dans le CV d'origine
+    fontSize: 8.5, // plus petit que le corps de texte
+    fontWeight: "medium",
     color: CV_VIOLET,
     lineHeight: CV_BODY_LINE_HEIGHT,
     marginTop: 2, // avec le marginBottom de la dernière mission : double espacement avant le pied d'expérience

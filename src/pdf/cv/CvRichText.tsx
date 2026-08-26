@@ -3,7 +3,7 @@ import { CV_AMBER, CV_VIOLET } from "./cvTheme"
 
 const styles = StyleSheet.create({
   bold: {
-    fontWeight: "bold",
+    fontWeight: "medium",
     color: CV_VIOLET,
   },
   boldInverse: {

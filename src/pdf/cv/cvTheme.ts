@@ -14,3 +14,7 @@ export const CV_WHITE = "#ffffff" // texte courant sur le fond violet (contraste
 export const CV_FONT = "Quicksand" // sans-serif arrondie du CV (enregistrée dans shared.tsx)
 export const CV_FONT_DISPLAY = "BadScript" // manuscrite réservée au nom et au titre du CV (trop fine pour les titres de section) — une seule graisse disponible
 export const CV_BODY_LINE_HEIGHT = 1.35 // interligne commun à tous les corps de texte du CV
+export const CONTENT_PADDING = 24 //
+export const TITLE_PADDING_TOP = CONTENT_PADDING - 2 // espace au-dessus du titre du CV (nom + rôle) : le titre est le plus gros élément de la page
+export const TITLE_FONTSIZE = 22 // taille du titre du CV (nom + rôle) : le plus gros élément de la page
+// la font manuscrite paraît plus petite qu'une sans-serif à taille égale

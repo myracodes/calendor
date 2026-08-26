@@ -2,7 +2,7 @@ import { Image, Link, StyleSheet, Text, View } from "@react-pdf/renderer"
 import type { CvData, SidebarSection } from "../../cv/types"
 import { CvRichText } from "./CvRichText"
 import { CvSectionTitle } from "./CvSectionTitle"
-import { CV_AMBER, CV_FONT_DISPLAY, CV_WHITE } from "./cvTheme"
+import { CV_AMBER, CV_FONT_DISPLAY, CV_WHITE, TITLE_FONTSIZE } from "./cvTheme"
 
 const PHOTO_SIZE = 84 // diamètre de la photo/du rond en points
 
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
   // Nom en haut de la colonne, au-dessus de la photo.
   name: {
     fontFamily: CV_FONT_DISPLAY,
-    fontSize: 22, // la font manuscrite paraît plus petite qu'une sans-serif à taille égale
+    fontSize: TITLE_FONTSIZE,
     color: CV_WHITE,
     textAlign: "center",
     marginBottom: 8, // espace avant la photo

@@ -100,12 +100,13 @@ export const SIDEBAR: LocalizedSidebarSection[] = [
     page: 2,
     items: [
       {
-        label: { fr: "Maquettage :", en: "Mock-ups/design:" },
-        lines: [{ bothLanguages: "Figma / Photoshop" }],
-      },
-      {
-        label: { fr: "Tests :", en: "Tests:" },
-        lines: [{ bothLanguages: "Cypress / Jest / Jasmine" }],
+        label: { fr: "Gestion de projet :", en: "Project management:" },
+        lines: [
+          {
+            fr: "GitHub Projects, Notion, Trello, Asana, Azure DevOps etc.",
+            en: "GitHub Projects, Notion, Trello, Asana, Azure DevOps etc.",
+          },
+        ],
       },
       {
         label: { fr: "Méthodologie :", en: "Methodology:" },
@@ -114,10 +115,18 @@ export const SIDEBAR: LocalizedSidebarSection[] = [
           { bothLanguages: "code reviews" },
           { bothLanguages: "Scrum / Agile" },
           {
-            fr: "Formation / certification Scrum PSM I : septembre 2026",
-            en: "Scrum PSM I training / certification: September 2026",
+            fr: "Formation / certification Scrum PSM I : octobre 2026",
+            en: "Scrum PSM I training / certification: October 2026",
           },
         ],
+      },
+      {
+        label: { fr: "Maquettage :", en: "Mock-ups/design:" },
+        lines: [{ bothLanguages: "Figma / Photoshop" }],
+      },
+      {
+        label: { fr: "Tests :", en: "Tests:" },
+        lines: [{ bothLanguages: "Cypress / Jest / Jasmine" }],
       },
       {
         label: { fr: "Veille :", en: "Tech watch:" },

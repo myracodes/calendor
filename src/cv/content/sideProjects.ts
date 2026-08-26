@@ -42,8 +42,8 @@ export const SIDE_PROJECTS: LocalizedExperience[] = [
         en: "**Authentication** and **database** (Supabase)",
       },
       {
-        fr: "Qualité : **TypeScript strict**, Biome + oxlint, accessibilité **WCAG AAA**",
-        en: "Quality: **strict TypeScript**, Biome + oxlint, **WCAG AAA** accessibility",
+        fr: "Qualité : TypeScript, Biome + oxlint, accessibilité **WCAG AAA**",
+        en: "Quality: TypeScript, Biome + oxlint, **WCAG AAA** accessibility",
       },
       {
         fr: "Développement **assisté par IA** : règles d'agents centralisées (AGENTS.md), relecture systématique, adaptation du modèle à la tâche",
