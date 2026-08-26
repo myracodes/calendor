@@ -151,7 +151,7 @@ export const EXPERIENCES: LocalizedExperience[] = [
       {
         tag: "pm",
         only: "pm",
-        fr: "Contribution à la vision produit via des propositions d'amélioration UX/UI",
+        fr: "**Contribution à la vision produit** via des propositions d'améliorations UX/UI",
         en: "Contributed to the product vision through UX/UI improvement proposals",
       },
       // ---------------------
@@ -164,7 +164,7 @@ export const EXPERIENCES: LocalizedExperience[] = [
       // ---------------------
       {
         tag: "pm",
-        fr: "Mise en place d'automatisations dans le backlog (GitHub Actions)",
+        fr: "Mise en place **d'automatisations** dans le backlog (GitHub Actions)",
         en: "Implemented automations in backlog (GitHub Actions)",
       },
     ],
