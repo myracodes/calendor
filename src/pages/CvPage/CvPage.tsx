@@ -9,17 +9,21 @@ import { fetchCvContact } from "../../cv/fetchCvContact"
 import type { CvData, CvLanguage, CvPitch } from "../../cv/types"
 import { CvDocument } from "../../pdf/cv/CvDocument"
 import { downloadPdf } from "../../pdf/shared/downloadPdf"
+import { usePersistentState } from "../../shared/usePersistentState"
 
 export function CvPage() {
-  const [language, setLanguage] = useState<CvLanguage>("fr")
+  const [language, setLanguage] = usePersistentState<CvLanguage>(
+    "cv.language",
+    "fr",
+  )
   // Accroche choisie selon le type de poste visé (dev par défaut) : choisit
   // le texte d'accroche et le titre par défaut, et réordonne les missions
   // taguées (voir PitchTaggedText dans ../../cv/types.ts).
-  const [pitch, setPitch] = useState<CvPitch>("dev")
+  const [pitch, setPitch] = usePersistentState<CvPitch>("cv.pitch", "dev")
   // Titre affiché en haut du CV : vide = titre par défaut de l'accroche choisie (voir defaultTitle).
-  const [title, setTitle] = useState("")
+  const [title, setTitle] = usePersistentState("cv.title", "")
   // Texte de l'accroche : vide = texte par défaut de l'accroche choisie (voir defaultPitch).
-  const [pitchText, setPitchText] = useState("")
+  const [pitchText, setPitchText] = usePersistentState("cv.pitchText", "")
   const [generating, setGenerating] = useState(false)
   // true après une génération qui n'a pas pu récupérer les vraies coordonnées
   // depuis Supabase (voir fetchCvContact) : le PDF contient les valeurs de
