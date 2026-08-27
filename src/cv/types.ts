@@ -23,26 +23,32 @@ export type LocalizedText =
   | { bothLanguages: string }
 
 /**
- * Les accroches disponibles : "dev" (par défaut) pour postuler à des postes de
- * développeuse, "pm" pour des postes de cheffe de projet / scrum
- * master. Les textes vivent dans content/profile.ts, le choix se fait sur la
- * page CV à la génération.
+ * Les accroches disponibles : "dev" (par défaut) pour postuler à des postes
+ * de développeuse, "hybrid" pour des postes de cheffe de projet / dev
+ * à double profil technique, "pm" pour des postes de cheffe de projet.
+ * Les textes vivent dans content/profile.ts, le choix se
+ * fait sur la page CV à la génération.
  */
-export type CvPitch = "dev" | "pm"
+export type CvPitch = "dev" | "hybrid" | "pm"
 
 /**
- * Un texte localisé qu'on peut en plus taguer pour une accroche : à la
- * génération, un item tagué `tag: "pm"` remonte en tête de son tableau si
- * l'accroche "pm" est choisie, ou redescend en fin si c'est "dev" (et
- * inversement pour `tag: "dev"`). Sans tag, l'item garde sa position
+ * Un texte localisé qu'on peut en plus taguer pour une ou plusieurs accroches :
+ * à la génération, un item tagué `tag: ["pm"]` remonte en tête de son tableau
+ * si l'accroche "pm" est choisie, ou redescend en fin sinon (et de même pour
+ * les autres accroches). `tag: ["hybrid", "pm"]` le fait remonter en tête pour
+ * ces deux accroches sans dupliquer l'item. Sans tag, l'item garde sa position
  * déclarée — voir sortByPitch dans buildLocale.ts.
  *
- * `only` va plus loin qu'un tag : un item avec `only: "pm"` n'apparaît que
- * si l'accroche "pm" est choisie, et disparaît entièrement sinon (au lieu
- * d'être simplement redescendu en fin de liste) — voir filterByPitch dans
- * buildLocale.ts.
+ * `only` va plus loin qu'un tag : un item avec `only: ["pm"]` n'apparaît que
+ * si l'accroche "pm" est choisie, et disparaît entièrement pour les autres
+ * (au lieu d'être simplement redescendu en fin de liste). `only: ["hybrid", "pm"]`
+ * l'affiche pour ces deux accroches sans dupliquer l'item — voir
+ * filterByPitch dans buildLocale.ts.
  */
-export type PitchTaggedText = LocalizedText & { tag?: CvPitch; only?: CvPitch }
+export type PitchTaggedText = LocalizedText & {
+  tag?: CvPitch[]
+  only?: CvPitch[]
+}
 
 // --- Contenu bilingue, tel qu'écrit dans src/cv/content/ ---
 
@@ -53,20 +59,42 @@ export type LocalizedContactLine = {
 }
 
 /**
+ * Une ligne d'un item de la sidebar, qu'on peut en plus marquer `hiddenFor`
+ * pour la masquer, seule, pour les accroches listées — sans masquer le reste
+ * de l'item — voir resolveSidebar dans buildLocale.ts.
+ */
+export type SidebarLine = LocalizedText & { hiddenFor?: CvPitch[] }
+
+/**
  * Un item d'une section de la colonne de gauche.
  * `label` (optionnel) est mis en avant en gras, `lines` suit en dessous
  * (une ligne affichée par élément du tableau).
+ * `hiddenFor` (optionnel) masque l'item entièrement pour les accroches
+ * listées — voir resolveSidebar dans buildLocale.ts.
  */
 export type LocalizedSidebarItem = {
   label?: LocalizedText
-  lines: LocalizedText[]
+  lines: SidebarLine[]
+  hiddenFor?: CvPitch[]
 }
 
-/** Une section de la colonne de gauche (Formation, Compétences…), affectée à une page. */
+/**
+ * Une section de la colonne de gauche (Formation, Compétences…), affectée à
+ * une page. `hiddenFor` (optionnel) masque la section entière pour les
+ * accroches listées ; `pageFor` (optionnel) bascule la section sur une autre
+ * page pour les accroches qui y figurent, `page` restant la page par défaut
+ * pour les autres ; `titleFor` (optionnel) remplace le titre pour les
+ * accroches qui y figurent (ex. une section "(suite)" qui redevient la seule
+ * section de son thème quand `pageFor` la fait rejoindre la première) — voir
+ * resolveSidebar dans buildLocale.ts.
+ */
 export type LocalizedSidebarSection = {
   title: LocalizedText
   page: CvPageNumber
   items: LocalizedSidebarItem[]
+  hiddenFor?: CvPitch[]
+  pageFor?: Partial<Record<CvPitch, CvPageNumber>>
+  titleFor?: Partial<Record<CvPitch, LocalizedText>>
 }
 
 /**
@@ -105,6 +133,10 @@ export type LocalizedExperience = {
   projects?: LocalizedProject[]
   /** Technologies et outils, affichés en pied d'expérience séparés par des "/". */
   stack?: LocalizedText[]
+  /** Masque l'expérience (ou le side project) entièrement pour les accroches listées — voir resolveExperiences/resolveSideProjects dans buildLocale.ts. */
+  hiddenFor?: CvPitch[]
+  /** Bascule l'expérience sur une autre page pour les accroches qui y figurent, `page` restant la page par défaut pour les autres — voir resolveExperiences dans buildLocale.ts. */
+  pageFor?: Partial<Record<CvPitch, CvPageNumber>>
 }
 
 // --- Contenu résolu dans une langue (voir buildLocale.ts), consommé par src/pdf/ ---

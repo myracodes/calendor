@@ -12,9 +12,10 @@ const styles = StyleSheet.create({
   containerInverse: {
     borderBottomColor: CV_AMBER,
   },
+  // Titre de section du CV, souligné d'un trait décoratif.
   text: {
-    fontSize: 13, // nettement au-dessus du corps de texte
-    fontWeight: "bold", // BadScript, trop fine ici, est réservée au nom et au titre du CV (voir cvTheme.ts)
+    fontSize: 11,
+    fontWeight: "bold",
     color: CV_VIOLET,
   },
   textInverse: {

@@ -6,11 +6,15 @@ import type { LocalizedExperience, LocalizedText } from "../types"
 // - Dans les textes, les segments entre ** sont rendus en gras violet.
 // - Les deux langues s'écrivent côte à côte (fr/en), ou en une fois via
 //   bothLanguages quand le texte est identique — voir LocalizedText dans ../types.ts.
-// - Une mission peut être taguée `tag: "pm"` ou `tag: "dev"` pour remonter en
-//   tête (ou redescendre en fin) de sa liste selon l'accroche choisie. Elle
-//   peut aussi être réservée à une accroche avec `only: "pm"` ou
-//   `only: "dev"` : elle n'apparaît alors que pour cette accroche — voir
+// - Une mission peut être taguée `tag: [...]` (ex. `tag: ["hybrid", "pm"]`)
+//   pour remonter en tête (ou redescendre en fin) de sa liste quand une des
+//   accroches listées est choisie. Elle peut aussi être réservée à un
+//   sous-ensemble d'accroches avec `only: [...]` (ex. `only: ["hybrid", "pm"]`) :
+//   elle n'apparaît alors que pour les accroches listées — voir
 //   PitchTaggedText dans ../types.ts.
+// - Un side project entier peut être marqué `hiddenFor: ["pm"]` (ou toute
+//   autre accroche) pour être masqué entièrement — voir resolveSideProjects
+//   dans ../buildLocale.ts.
 
 /** Titre de la section. */
 export const SIDE_PROJECTS_TITLE: LocalizedText = {
@@ -25,6 +29,7 @@ export const SIDE_PROJECTS: LocalizedExperience[] = [
       fr: "Projet personnel (2026 - aujourd'hui)",
       en: "Personal solo project (2026 - present)",
     },
+    hiddenFor: ["pm"],
     context: [
       {
         fr: "Application web qui génère des documents PDF personnalisés.",
@@ -33,7 +38,7 @@ export const SIDE_PROJECTS: LocalizedExperience[] = [
     ],
     missions: [
       {
-        tag: "pm",
+        tag: ["hybrid"],
         fr: "Pilotage du projet en autonomie complète : cadrage du besoin, priorisation des fonctionnalités, arbitrages scope/délai, de l'idée à la mise en production",
         en: "End-to-end project ownership in full autonomy: scoping requirements, prioritizing features, scope/timeline trade-offs, from idea to production",
       },
@@ -50,12 +55,12 @@ export const SIDE_PROJECTS: LocalizedExperience[] = [
         en: "**AI-assisted development**: centralized agent rules (AGENTS.md), systematic review, model adaptation to the task",
       },
       {
-        tag: "pm",
-        fr: "Roadmap itérative : livraison incrémentale des fonctionnalités ",
-        en: "Iterative roadmap: incremental delivery of features",
+        tag: ["hybrid", "pm"],
+        fr: "Définition de la roadmap",
+        en: "Roadmap definition",
       },
       {
-        tag: "pm",
+        tag: ["hybrid"],
         fr: "Conception des fonctionnalités, de l'UX/UI, et des documents générés",
         en: "Designing features, UX/UI, and the generated documents",
       },
@@ -83,6 +88,7 @@ export const SIDE_PROJECTS: LocalizedExperience[] = [
       fr: "Projet personnel (2025 - aujourd'hui)",
       en: "Personal solo project (2025 - present)",
     },
+    hiddenFor: ["pm"],
     context: [
       {
         fr: "CV en ligne développé en Angular.",
@@ -103,12 +109,12 @@ export const SIDE_PROJECTS: LocalizedExperience[] = [
         en: "Design, UX/UI, architecture, and content structure definition",
       },
       {
-        only: "dev",
+        only: ["dev"],
         fr: "Composants **PrimeNG**",
         en: "**PrimeNG** components",
       },
       {
-        only: "dev",
+        only: ["dev"],
         fr: "Tests unitaires **Jasmine / Karma**",
         en: "**Jasmine / Karma** unit tests",
       },

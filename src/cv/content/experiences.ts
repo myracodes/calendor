@@ -2,15 +2,20 @@ import type { LocalizedExperience, LocalizedText } from "../types"
 
 // Expériences professionnelles du CV.
 // - `page` (1 ou 2) : déplacer une expérience d'une page à l'autre pour rééquilibrer.
+// - Une expérience peut être marquée `pageFor: { pm: 1 }` pour basculer sur
+//   la page 1 uniquement quand l'accroche "pm" est choisie (`page` reste la
+//   page par défaut pour les autres accroches) — utile pour faire tenir un
+//   CV allégé sur une seule page, voir resolveExperiences dans ../buildLocale.ts.
 // - Dans les textes, les segments entre ** sont rendus en gras violet.
 // - Les deux langues s'écrivent côte à côte (fr/en), ou en une fois via
 //   bothLanguages quand le texte est identique — voir LocalizedText dans ../types.ts.
-// - Une mission peut être taguée `tag: "pm"` ou `tag: "dev"` pour remonter en
-//   tête (ou redescendre en fin) de sa liste quand l'accroche correspondante
-//   est choisie sur la page CV. Elle peut aussi être réservée à une accroche
-//   avec `only: "pm"` ou `only: "dev"` : elle n'apparaît alors que pour
-//   cette accroche, et disparaît entièrement pour l'autre — voir
-//   PitchTaggedText dans ../types.ts.
+// - Une mission peut être taguée `tag: [...]` (ex. `tag: ["hybrid", "pm"]`)
+//   pour remonter en tête (ou redescendre en fin) de sa liste quand une des
+//   accroches listées est choisie sur la page CV. Elle peut aussi être
+//   réservée à un sous-ensemble d'accroches avec `only: [...]` (ex.
+//   `only: ["hybrid", "pm"]`) : elle n'apparaît alors que pour les accroches
+//   listées, et disparaît entièrement pour les autres — voir PitchTaggedText
+//   dans ../types.ts.
 
 /** Titres de la section : page 1, puis "(suite)" en page 2. */
 export const EXPERIENCES_TITLES: {
@@ -47,123 +52,147 @@ export const EXPERIENCES: LocalizedExperience[] = [
     ],
     missions: [
       // #region FEATURES
-      // missions rédigées différemment pour le rôle dev et pm
+      // missions rédigées différemment selon le rôle
       {
-        only: "dev",
+        only: ["dev"],
         fr: "Développement de nouvelles features et refontes front-end (**React / Next.js**)",
         en: "Developed new features and front-end redesigns (**React / Next.js**)",
       },
       {
-        only: "pm",
+        only: ["hybrid"],
         fr: "Développement de nouvelles fonctionnalités et refontes",
         en: "Developed new features and front-end redesigns",
       },
       // #endregion FEATURES
       // ---------------------
       // #region TESTS
-      // missions rédigées différemment pour le rôle dev et pm
+      // missions rédigées différemment selon le rôle
       {
-        only: "dev",
+        only: ["dev"],
         fr: "Tests automatisés (**Cypress**)",
         en: "Automated testing (**Cypress**)",
       },
       {
-        only: "pm",
+        only: ["hybrid"],
         fr: "Augmentation de la couverture des tests automatisés",
         en: "Increased automated test coverage",
       },
       // #endregion TESTS
       // ---------------------
       // #region BUGS FIXING
-      // missions rédigées différemment pour le rôle dev et pm
+      // missions rédigées différemment selon le rôle
       {
-        only: "dev",
+        only: ["dev"],
         fr: "Correction de bugs en production",
         en: "Fixed bugs in production",
       },
-      { only: "pm", fr: "Gestion des incidents", en: "Managed incidents" },
+      {
+        only: ["hybrid"],
+        fr: "Gestion des incidents en production",
+        en: "Managed incidents in production",
+      },
       // #endregion BUGS FIXING
+      {
+        only: ["pm"],
+        fr: "Gestion des incidents, des demandes de support, et des commandes clients",
+        en: "Managed incidents, support requests, and client orders",
+      },
       // ---------------------
       {
-        only: "dev",
+        only: ["dev"],
         fr: "Relecture des PR (code reviews)",
         en: "Reviewed pull requests (code reviews)",
       },
       // ---------------------
       {
-        only: "dev",
+        only: ["dev"],
         fr: "Améliorations SEO (Core Web Vitals, TTFB, etc)",
         en: "Enhanced SEO (Core Web Vitals, TTFB, etc)",
       },
       // ---------------------
       {
+        only: ["dev", "hybrid"],
         fr: "Mise à jour du **Design System** (45 composants) : refontes, nouveautés, **accessibilité**",
         en: "Updated the **Design System** (45 components): redesigns, new features, **accessibility**",
       },
       // ---------------------
       {
-        tag: "pm",
+        only: ["dev", "hybrid"],
         fr: "Mise en place des ADR, documentation du code, présentations techniques",
         en: "Implemented ADRs, code documentation, technical presentations",
       },
+      // ---------------------
+      // #region AI
       {
+        only: ["pm"],
+        fr: "Utilisation quotidienne de l'**IA** : automatisations, découpage, etc.",
+        en: "Daily use of **AI**: automations, breaking down tasks, etc.",
+      },
+      {
+        only: ["dev", "hybrid"],
         fr: "Utilisation quotidienne de l'**IA** (**Claude Code** et autres) : débug, refactorisations, **back-end**, accélération des développements, découpage des tâches complexes, etc.",
         en: "Daily use of **AI** (**Claude Code** and others): debugging, refactoring, **back-end development**, faster and better developments, breaking down complex tasks, etc.",
       },
+      // #endregion AI
       // ---------------------
       {
+        only: ["dev", "hybrid"],
         fr: "**Gestion et réduction proactive de la dette technique** : 85% de tests legacy traduits, planification des mises à jour de sécurité, montées de versions des librairies, etc.",
         en: "**Proactively managed and reduced technical debt**: 85% of legacy tests translated, scheduled security updates, upgraded libraries, etc.",
       },
       // ---------------------
       {
-        tag: "pm",
-        fr: "**Pilotage des tâches techniques** : analyse des besoins, recherche de solutions techniques, création des EPIC, découpage, priorisation, et planification des tâches",
-        en: "**Owned technical tasks**: analyzed requirements, researched technical solutions, created EPIC, broke down tasks, prioritized and planned them",
+        only: ["dev", "hybrid", "pm"],
+        tag: ["hybrid", "pm"],
+        fr: "**Pilotage des tâches techniques** : analyse des besoins, recherche de solutions techniques, création des EPIC, découpage, priorisation, et planification",
+        en: "**Owned technical tasks**: analyzed requirements, researched technical solutions, created EPICs, broke down tasks, prioritized and planned them",
       },
       // ---------------------
       // #region DX
-      // missions rédigées différemment pour le rôle dev et pm
+      // missions rédigées différemment selon le rôle
       {
-        only: "dev",
+        only: ["dev"],
         fr: "Amélioration de la DX : **correction de 100% des tests flaky** et des faux diffs Chromatic",
         en: "Improved DX: **100% of flaky tests fixed**, 100% of false diffs fixed on Chromatic builds",
       },
       {
-        only: "pm",
+        only: ["hybrid"],
         fr: "**Correction de 100% des tests instables et des faux positifs** dans les outils de vérification visuelle (CircleCI, Chromatic)",
         en: "**Fixed 100% of unstable tests and false positives** in visual verification tools (CircleCI, Chromatic)",
       },
       // #endregion DX
       // ---------------------
       {
-        tag: "pm",
+        only: ["dev", "hybrid", "pm"],
+        tag: ["hybrid"],
+        fr: "Coordination avec les PO, QA et designer pour aligner besoins, contraintes et priorités.",
+        en: "Coordinated with PO, QA, and design to align priorities.",
+      },
+      // ---------------------
+      {
+        only: ["dev", "hybrid", "pm"],
+        tag: ["hybrid"],
         fr: "Diminution des coûts fixes et variables (40% d'économies sur la CI)",
         en: "Reduced fixed and variable costs (40% savings on CI yearly)",
       },
       // ---------------------
       {
-        tag: "pm",
-        fr: "Coordination avec les PO, QA et designer pour aligner besoins, contraintes et priorités.",
-        en: "Coordination with the PO, QA, and designer to align requirements, constraints, and priorities.",
-      },
-      // ---------------------
-      {
-        tag: "pm",
-        only: "pm",
+        tag: ["hybrid"],
+        only: ["hybrid", "pm"],
         fr: "**Contribution à la vision produit** via des propositions d'améliorations UX/UI",
         en: "Contributed to the product vision through UX/UI improvement proposals",
       },
       // ---------------------
       {
-        tag: "pm",
-        only: "pm",
+        tag: ["hybrid"],
+        only: ["hybrid", "pm"],
         fr: "**Mise en place / amélioration des outils et processus de suivi**.",
         en: "**Implemented / improved tracking tools and processes**.",
       },
       // ---------------------
       {
-        tag: "pm",
+        tag: ["hybrid"],
+        only: ["hybrid", "pm"],
         fr: "Mise en place **d'automatisations** dans le backlog (GitHub Actions)",
         en: "Implemented automations in backlog (GitHub Actions)",
       },
@@ -211,47 +240,70 @@ export const EXPERIENCES: LocalizedExperience[] = [
           },
         ],
         missions: [
+          // ---------------------
           {
+            only: ["dev", "hybrid"],
             fr: "Build : implémentation pixel perfect des écrans d'après les maquettes",
             en: "Build: delivered pixel perfect screens based on the mock-ups",
           },
           // ---------------------
           {
+            only: ["dev", "hybrid"],
             fr: "Intégration du CRUD (API REST) côté front-end",
             en: "Integration of CRUD features (REST API) on the front-end",
           },
           // ---------------------
+          // #region UX/UI COLLABORATION
           {
-            tag: "pm",
+            only: ["dev"],
+            tag: ["hybrid"],
             fr: "Mise en place du **Design System** et des composants réutilisables (**Angular**), en collaboration avec le designer UX/UI",
             en: "Implemented the **Design System** and reusable components (**Angular**) in collaboration with the UX/UI designer",
           },
+          {
+            only: ["hybrid"],
+            fr: "Coordination avec l'UX/UI designer autour des contraintes techniques",
+            en: "Coordinated with the UX/UI regarding technical constraints",
+          },
+          {
+            only: ["pm"],
+            fr: "Collaboration avec le designer UX/UI pour la mise en place du Design System et analyse des contraintes métier et techniques",
+            en: "Collaborated with the UX/UI designer to implement the Design System and analyze business and technical constraints",
+          },
+          // #endregion UX/UI COLLABORATION
           // ---------------------
           // #region BUGS FIXING
-          // missions rédigées différemment pour le rôle dev et pm
+          // missions rédigées différemment selon le rôle
           {
-            only: "dev",
+            only: ["dev"],
             fr: "Run : correction des bugs",
             en: "Run: bug fixes",
           },
           {
-            only: "pm",
+            only: ["hybrid"],
             fr: "Run : gestion des incidents",
             en: "Run: incident management",
           },
+          {
+            only: ["pm"],
+            fr: "Gestion des incidents",
+            en: "Incident management",
+          },
           // #endregion BUGS FIXING
           // ---------------------
+          // #region CONVENTIONS
+          // missions rédigées différemment selon le rôle
           {
-            tag: "pm",
+            only: ["dev", "hybrid"],
             fr: "Proposition et mise en place de normes (git flow, conventional commits, design system, conventions de nommage, etc.)",
             en: "Championed implementation of standards (git flow, conventional commits, design system, naming conventions, etc.)",
           },
-          // ---------------------
           {
-            only: "pm",
-            fr: "Coordination avec l'UX/UI designer autour des contraintes techniques",
-            en: "Coordinated with the UX/UI regarding technical constraints",
+            only: ["pm"],
+            fr: "Proposition et mise en place de normes et bonnes pratiques au sein de l'équipe",
+            en: "Championed implementation of standards and best practices within the team",
           },
+          // #endregion CONVENTIONS
         ],
       },
       {
@@ -261,6 +313,7 @@ export const EXPERIENCES: LocalizedExperience[] = [
         },
         missions: [
           {
+            only: ["dev", "hybrid"],
             fr: "Conception, développement et mise à jour de composants du **Design System** interne",
             en: "Designed, developed, and updated the internal **Design System** components",
           },
@@ -271,6 +324,7 @@ export const EXPERIENCES: LocalizedExperience[] = [
           },
           // ---------------------
           {
+            only: ["dev", "hybrid"],
             fr: "Réalisation **pixel perfect** d'écrans d'après des maquettes Adobe XD",
             en: "Delivered **pixel perfect** screens based on Adobe XD mock-ups",
           },
@@ -293,6 +347,7 @@ export const EXPERIENCES: LocalizedExperience[] = [
   },
   {
     page: 2,
+    pageFor: { pm: 1 },
     role: { fr: "Développeuse full-stack", en: "Full-stack web developer" },
     employer: {
       fr: "Agence Visigo & projet GOOD Vibes (2021 - 2022)",
@@ -310,37 +365,46 @@ export const EXPERIENCES: LocalizedExperience[] = [
     ],
     missions: [
       {
-        only: "dev",
+        only: ["dev"],
         fr: "Refonte intégrale du site vitrine GOOD Vibes en **React**",
         en: "Completely revamped the GOOD Vibes marketing website in **React**",
       },
       // ---------------------
       {
+        only: ["dev", "hybrid"],
         fr: "Développement des features **front-end et back-end (React / Node.js)**",
         en: "Developed **front-end and back-end (React / Node.js)** features",
       },
       // ---------------------
       {
-        only: "dev",
+        only: ["dev"],
         fr: "Standardisation des composants",
         en: "Standardized components",
       },
       // #region BUGS FIXING
-      // missions rédigées différemment pour le rôle dev et pm
-      { only: "dev", fr: "Correction des bugs", en: "Fixed production bugs" },
-      { only: "pm", fr: "Gestion des incidents", en: "Incident management" },
+      // missions rédigées différemment selon le rôle
+      { only: ["dev"], fr: "Correction des bugs", en: "Fixed production bugs" },
+      {
+        only: ["hybrid", "pm"],
+        fr: "Gestion des incidents",
+        en: "Incident management",
+      },
       // #endregion BUGS FIXING
       // ---------------------
-      { only: "dev", fr: "Déploiement (Netlify)", en: "Deployment (Netlify)" },
+      {
+        only: ["dev"],
+        fr: "Déploiement (Netlify)",
+        en: "Deployment (Netlify)",
+      },
       // ---------------------
       {
-        tag: "pm",
+        tag: ["hybrid", "pm"],
         fr: "Amélioration continue : gestion des projets techniques de l'agence, documentation approfondie du code et des processus, amélioration des processus internes",
         en: "Drove continuous improvement: technical projects management, in-depth code documentation, internal processes",
       },
       // ---------------------
       {
-        tag: "pm",
+        only: ["dev", "hybrid"],
         fr: "Définition et application de la stratégie **SEO**",
         en: "Designed and rolled out the **SEO** strategy",
       },
@@ -351,14 +415,7 @@ export const EXPERIENCES: LocalizedExperience[] = [
       },
       // ---------------------
       {
-        only: "pm",
-        tag: "pm",
-        fr: "Coordination transverse, analyse des besoins, proposition de solutions",
-        en: "Transversal coordination, requirements analysis, solution proposals",
-      },
-      // ---------------------
-      {
-        only: "pm",
+        only: ["hybrid", "pm"],
         fr: "Monitoring de la qualité éditoriale (FR/EN) et applicative",
         en: "Monitored editorial quality (FR/EN) and application quality",
       },
@@ -383,37 +440,55 @@ export const EXPERIENCES: LocalizedExperience[] = [
   },
   {
     page: 2,
+    pageFor: { pm: 1 },
     role: {
-      fr: "Chargée de projets digitaux, et événements",
+      fr: "Chargée de projets digitaux et événements",
       en: "Digital projects and events officer",
     },
     employer: { bothLanguages: "BNP Paribas (2015 - 2018)" },
     context: [
       {
-        fr: "BNP Paribas est un grand groupe bancaire au sein duquel j'ai mené des projets dans 3 entités différentes (Mécénat, Legal, Achats), avec une forte coordination et un niveau d'exigence élevé.",
-        en: "BNP Paribas is an international banking group where I led projects in 3 different entities (Philantropy, Legal, Procurement), with strong coordination and a high level of quality.",
+        fr: "Grand groupe bancaire au sein duquel j'ai mené des projets dans 3 entités (Mécénat, Legal, Achats), avec une forte coordination et un niveau d'exigence élevé.",
+        en: "International banking group where I led projects in 3 entities (Philantropy, Legal, Procurement), with strong coordination and a high level of quality.",
       },
     ],
     missions: [
       {
-        fr: "Événémentiel : organisation de jusqu'à 130 événements/an, pour des centaines de participant·es",
-        en: "Events: organized up to 130 events a year with hundreds of participants",
+        fr: "Organisation de jusqu'à 130 événements/an, pour des centaines de participant·es",
+        en: "Organized up to 130 events a year with hundreds of participants",
       },
       // ---------------------
+      // #region DIGITAL COMMUNICATION
       {
+        only: ["dev", "hybrid"],
         fr: "Gestion de la communication digitale et webmastering : intranet, site externe, réseaux sociaux, réseau social d'entreprise, etc.",
         en: "Digital communication management and webmastering: intranet, external website, social networks, corporate social network, etc.",
       },
-      // ---------------------
       {
+        only: ["pm"],
+        fr: "Gestion de la communication digitale et webmastering",
+        en: "Digital communication management and webmastering",
+      },
+      // #endregion DIGITAL COMMUNICATION
+      // ---------------------
+      // #region ACCULTURATION & CHANGE MANAGEMENT
+      {
+        only: ["dev"],
         fr: "Acculturation digitale, mise en place des outils digitaux internes et formation des équipes à leur utilisation, accompagnement au changement",
         en: "Digital acculturation, deployed new internal digital tools and trained the teams to use them, change management",
       },
+      {
+        only: ["hybrid", "pm"],
+        tag: ["hybrid", "pm"],
+        fr: "Mise en place d'outils, formation, et accompagnement au changement",
+        en: "Deployed new tools, trainings, and change management",
+      },
+      // #endregion ACCULTURATION & CHANGE MANAGEMENT
       // ---------------------
       {
-        only: "pm",
-        fr: "**Optimisation des processus** : mise en place et amélioration des outils de suivi de projet, création de gabarits/modèles pour fluidifier la gestion des projets et le reporting",
-        en: "**Optimized processes**: implemented and improved project tracking tools, created templates for better project management and reporting",
+        tag: ["hybrid", "pm"],
+        fr: "Amélioration des outils de suivi de projet, pour fluidifier la gestion et le reporting",
+        en: "Improved project tracking tools, for better project management and reporting",
       },
     ],
   },

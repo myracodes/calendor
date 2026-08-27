@@ -84,7 +84,12 @@ function ExperienceSection({
   )
 }
 
-/** Document PDF "CV" : deux pages A4 portrait au style du CV d'origine (violet/doré). */
+/**
+ * Document PDF "CV" : une ou deux pages A4 portrait au style du CV d'origine
+ * (violet/doré). La page 2 n'est rendue que si un pitch (ex. "pm", allégé
+ * pour tenir sur une page) y laisse effectivement du contenu — sidebar,
+ * expériences ou side projects — une fois résolu (voir CvPage.tsx).
+ */
 export function CvDocument({ cv }: { cv: CvData }) {
   const sidebarSections = (page: CvPageNumber) =>
     cv.sidebar.filter(section => section.page === page)
@@ -92,6 +97,14 @@ export function CvDocument({ cv }: { cv: CvData }) {
     cv.experiences.filter(experience => experience.page === page)
   const sideProjects = (page: CvPageNumber) =>
     cv.sideProjects.filter(project => project.page === page)
+
+  const page2Sidebar = sidebarSections(2)
+  const page2Experiences = experiences(2)
+  const page2SideProjects = sideProjects(2)
+  const hasPage2 =
+    page2Sidebar.length > 0 ||
+    page2Experiences.length > 0 ||
+    page2SideProjects.length > 0
 
   return (
     <Document title={`CV - ${cv.name}`} author={cv.name}>
@@ -112,25 +125,27 @@ export function CvDocument({ cv }: { cv: CvData }) {
             experiences={sideProjects(1)}
           />
         </View>
-        <Text style={styles.pagination}>1/2</Text>
+        {hasPage2 && <Text style={styles.pagination}>1/2</Text>}
       </Page>
 
-      <Page size="A4" style={styles.page}>
-        <View style={styles.sidebar}>
-          <CvSidebarSections sections={sidebarSections(2)} />
-        </View>
-        <View style={styles.main}>
-          <ExperienceSection
-            title={cv.sectionTitles.experiencesSuite}
-            experiences={experiences(2)}
-          />
-          <ExperienceSection
-            title={cv.sectionTitles.sideProjects}
-            experiences={sideProjects(2)}
-          />
-        </View>
-        <Text style={styles.pagination}>2/2</Text>
-      </Page>
+      {hasPage2 && (
+        <Page size="A4" style={styles.page}>
+          <View style={styles.sidebar}>
+            <CvSidebarSections sections={page2Sidebar} />
+          </View>
+          <View style={styles.main}>
+            <ExperienceSection
+              title={cv.sectionTitles.experiencesSuite}
+              experiences={page2Experiences}
+            />
+            <ExperienceSection
+              title={cv.sectionTitles.sideProjects}
+              experiences={page2SideProjects}
+            />
+          </View>
+          <Text style={styles.pagination}>2/2</Text>
+        </Page>
+      )}
     </Document>
   )
 }

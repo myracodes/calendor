@@ -19,22 +19,26 @@ const styles = StyleSheet.create({
   header: {
     marginBottom: 2,
   },
+  // Poste (ex : "Développeuse front-end")
   role: {
-    fontSize: 12.5, // juste sous les titres de section
+    fontSize: 11,
     fontWeight: "bold",
     color: CV_VIOLET,
   },
+  // Nom de l'entreprise
   employer: {
     fontSize: 10, // plus petit que l'intitulé de poste qu'il complète
     fontWeight: "medium",
     color: CV_VIOLET_SOFT,
   },
+  // Composition de l'équipe
   team: {
     fontSize: 8.5,
     color: CV_VIOLET_SOFT,
     lineHeight: CV_BODY_LINE_HEIGHT,
     marginBottom: 2,
   },
+  // Texte descriptif du contexte de l'expérience
   context: {
     fontSize: 9,
     color: CV_TEXT,

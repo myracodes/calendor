@@ -4,7 +4,8 @@ import { CvRichText } from "./CvRichText"
 import { CvSectionTitle } from "./CvSectionTitle"
 import { CV_AMBER, CV_FONT_DISPLAY, CV_WHITE, TITLE_FONTSIZE } from "./cvTheme"
 
-const PHOTO_SIZE = 84 // diamètre de la photo/du rond en points
+const PHOTO_SIZE = 80 // diamètre de la photo/du rond en points
+const CONTACT_LINE_FONTSIZE = 9 // (email, tél, github...)
 
 // Toute cette colonne a un fond violet (CV_VIOLET_BG, voir CvDocument.tsx) : les
 // styles ci-dessous utilisent CV_WHITE / CV_AMBER, pas CV_TEXT / CV_VIOLET, pour rester lisibles dessus.
@@ -15,7 +16,7 @@ const styles = StyleSheet.create({
     fontSize: TITLE_FONTSIZE,
     color: CV_WHITE,
     textAlign: "center",
-    marginBottom: 8, // espace avant la photo
+    marginBottom: 6, // espace avant la photo
   },
   photo: {
     width: PHOTO_SIZE,
@@ -26,17 +27,19 @@ const styles = StyleSheet.create({
   },
   // Une ligne du bloc contact (email, téléphone, GitHub, LinkedIn…), sous la photo.
   contactLine: {
-    fontSize: 10,
+    fontSize: CONTACT_LINE_FONTSIZE,
     color: CV_WHITE,
     textAlign: "center",
     marginBottom: 3,
   },
-  // Variante des lignes de contact cliquables (email, téléphone, GitHub, LinkedIn).
+  // Lignes du bloc contact qui sont des liens
   contactLink: {
     color: CV_AMBER,
-    textDecoration: "underline", // signale que la ligne est cliquable
+    textDecoration: "underline",
+    fontSize: CONTACT_LINE_FONTSIZE,
+    lineHeight: 1,
   },
-  // Ligne d'infos pratiques (lieu, permis, dispo…), sous le bloc contact ; la plus discrète du bloc identité.
+  // Ligne d'infos pratiques (lieu, permis, dispo…)
   personalInfo: {
     fontSize: 9,
     color: CV_WHITE,

@@ -16,6 +16,7 @@ import type {
   LocalizedExperience,
   LocalizedProject,
   LocalizedText,
+  SidebarSection,
 } from "./types"
 
 // Résolution du contenu bilingue de src/cv/content/ vers une langue donnée :
@@ -47,31 +48,35 @@ function optionalTexts(
 // sur les missions des expériences et de leurs projets.
 
 /**
- * Retire les items réservés à l'autre accroche (`only` défini et différent
- * de l'accroche choisie). Les items sans `only` sont toujours conservés.
+ * Retire les items réservés à d'autres accroches (`only` défini et ne
+ * contenant pas l'accroche choisie). Les items sans `only` sont toujours
+ * conservés.
  */
-function filterByPitch<T extends { only?: CvPitch }>(
+function filterByPitch<T extends { only?: CvPitch[] }>(
   items: T[],
   pitch: CvPitch,
 ): T[] {
-  return items.filter(item => item.only === undefined || item.only === pitch)
+  return items.filter(
+    item => item.only === undefined || item.only.includes(pitch),
+  )
 }
 
 /**
  * Trie un tableau tagué pour une accroche donnée : les items tagués pour
  * cette accroche remontent en tête (ordre relatif conservé), les items non
- * tagués gardent leur position déclarée, ceux tagués pour l'autre accroche
+ * tagués gardent leur position déclarée, ceux tagués pour une autre accroche
  * redescendent en fin.
  */
-function sortByPitch<T extends { tag?: CvPitch }>(
+function sortByPitch<T extends { tag?: CvPitch[] }>(
   items: T[],
   pitch: CvPitch,
 ): T[] {
-  const otherPitch: CvPitch = pitch === "dev" ? "pm" : "dev"
   return [
-    ...items.filter(item => item.tag === pitch),
+    ...items.filter(item => item.tag?.includes(pitch)),
     ...items.filter(item => item.tag === undefined),
-    ...items.filter(item => item.tag === otherPitch),
+    ...items.filter(
+      item => item.tag !== undefined && !item.tag.includes(pitch),
+    ),
   ]
 }
 
@@ -104,9 +109,10 @@ function applyPitchToExperience(
 function resolveExperience(
   experience: LocalizedExperience,
   language: CvLanguage,
+  pitch: CvPitch,
 ): Experience {
   return {
-    page: experience.page,
+    page: experience.pageFor?.[pitch] ?? experience.page,
     role: localizedText(experience.role, language),
     employer: localizedText(experience.employer, language),
     team: optionalText(experience.team, language),
@@ -120,7 +126,10 @@ function resolveExperience(
         localizedText(mission, language),
       ),
     })),
-    stack: optionalTexts(experience.stack, language),
+    // Masquée pour l'accroche "pm" : la stack technique n'a pas sa place sur
+    // un CV de cheffe de projet.
+    stack:
+      pitch === "pm" ? undefined : optionalTexts(experience.stack, language),
   }
 }
 
@@ -128,14 +137,21 @@ function resolveExperience(
  * Expériences résolues pour une langue et une accroche données : à appeler à
  * la génération du CV (voir CvPage.tsx) une fois l'accroche choisie, plutôt
  * que d'utiliser CV_LOCALES[language].cv.experiences qui fige l'accroche
- * "dev".
+ * "dev". Les expériences marquées `hiddenFor` cette accroche sont retirées,
+ * celles marquées `pageFor` basculent sur la page indiquée.
  */
 export function resolveExperiences(
   pitch: CvPitch,
   language: CvLanguage,
 ): Experience[] {
-  return EXPERIENCES.map(experience =>
-    resolveExperience(applyPitchToExperience(experience, pitch), language),
+  return EXPERIENCES.filter(
+    experience => !experience.hiddenFor?.includes(pitch),
+  ).map(experience =>
+    resolveExperience(
+      applyPitchToExperience(experience, pitch),
+      language,
+      pitch,
+    ),
   )
 }
 
@@ -144,8 +160,41 @@ export function resolveSideProjects(
   pitch: CvPitch,
   language: CvLanguage,
 ): Experience[] {
-  return SIDE_PROJECTS.map(project =>
-    resolveExperience(applyPitchToExperience(project, pitch), language),
+  return SIDE_PROJECTS.filter(
+    project => !project.hiddenFor?.includes(pitch),
+  ).map(project =>
+    resolveExperience(applyPitchToExperience(project, pitch), language, pitch),
+  )
+}
+
+/**
+ * Sections de la sidebar résolues pour une langue et une accroche données :
+ * les sections, items et lignes marqués `hiddenFor` l'accroche choisie sont
+ * retirés, les sections marquées `pageFor` pour cette accroche basculent sur
+ * la page indiquée, celles marquées `titleFor` prennent ce titre à la place
+ * (voir LocalizedSidebarSection/Item/SidebarLine dans types.ts), avant
+ * résolution de langue.
+ */
+export function resolveSidebar(
+  pitch: CvPitch,
+  language: CvLanguage,
+): SidebarSection[] {
+  return SIDEBAR.filter(section => !section.hiddenFor?.includes(pitch)).map(
+    section => ({
+      title: localizedText(
+        section.titleFor?.[pitch] ?? section.title,
+        language,
+      ),
+      page: section.pageFor?.[pitch] ?? section.page,
+      items: section.items
+        .filter(item => !item.hiddenFor?.includes(pitch))
+        .map(item => ({
+          label: optionalText(item.label, language),
+          lines: item.lines
+            .filter(line => !line.hiddenFor?.includes(pitch))
+            .map(line => localizedText(line, language)),
+        })),
+    }),
   )
 }
 
@@ -166,26 +215,22 @@ function buildLocale(language: CvLanguage): CvLocale {
         url: line.url,
       })),
       personalInfo: localizedText(PERSONAL_INFO_PLACEHOLDER, language),
-      sidebar: SIDEBAR.map(section => ({
-        title: localizedText(section.title, language),
-        page: section.page,
-        items: section.items.map(item => ({
-          label: optionalText(item.label, language),
-          lines: item.lines.map(line => localizedText(line, language)),
-        })),
-      })),
-      // Accroche par défaut "dev" : CvPage.tsx recalcule ces deux tableaux
-      // via resolveExperiences/resolveSideProjects dès qu'une accroche est
-      // choisie, pour appliquer le réordonnancement des missions taguées.
+      // Accroche par défaut "dev" : CvPage.tsx recalcule ces trois tableaux
+      // via resolveSidebar/resolveExperiences/resolveSideProjects dès qu'une
+      // accroche est choisie, pour appliquer le masquage et le
+      // réordonnancement des items tagués.
+      sidebar: resolveSidebar("dev", language),
       experiences: resolveExperiences("dev", language),
       sideProjects: resolveSideProjects("dev", language),
     },
     pitches: {
       dev: localizedText(PITCHES.dev, language),
+      hybrid: localizedText(PITCHES.hybrid, language),
       pm: localizedText(PITCHES.pm, language),
     },
     titles: {
       dev: localizedText(DEFAULT_TITLES.dev, language),
+      hybrid: localizedText(DEFAULT_TITLES.hybrid, language),
       pm: localizedText(DEFAULT_TITLES.pm, language),
     },
   }

@@ -3,6 +3,7 @@ import cvPhoto from "../../assets/images/cv-photo.jpg"
 import {
   CV_LOCALES,
   resolveExperiences,
+  resolveSidebar,
   resolveSideProjects,
 } from "../../cv/buildLocale"
 import { fetchCvContact } from "../../cv/fetchCvContact"
@@ -42,16 +43,16 @@ export function CvPage() {
       const cv: CvData = {
         ...locale.cv,
         ...contact,
+        sidebar: resolveSidebar(pitch, language),
         experiences: resolveExperiences(pitch, language),
         sideProjects: resolveSideProjects(pitch, language),
         title: title.trim() === "" ? defaultTitle : title.trim(),
         pitch: pitchText.trim() === "" ? defaultPitch : pitchText.trim(),
         photo: cvPhoto,
       }
-      const pitchSlug = pitch === "dev" ? "dev" : "pm"
       await downloadPdf(
         <CvDocument cv={cv} />,
-        `cv-myriam-mira-${language}-${pitchSlug}.pdf`,
+        `cv-myriam-mira-${language}-${pitch}.pdf`,
       )
     } finally {
       setGenerating(false)
@@ -60,8 +61,6 @@ export function CvPage() {
 
   return (
     <>
-      <p className="tagline">Mon générateur de CV au format PDF</p>
-
       <section className="card card--sky">
         <h2>Paramétrage</h2>
         <div className="row">
@@ -82,7 +81,10 @@ export function CvPage() {
               onChange={e => setPitch(e.target.value as CvPitch)}
             >
               <option value="dev">Développeuse (défaut)</option>
-              <option value="pm">Cheffe de projet / Scrum master</option>
+              <option value="hybrid">
+                Cheffe de projet IT & développeuse web
+              </option>
+              <option value="pm">Cheffe de projet IT</option>
             </select>
           </label>
           <label>

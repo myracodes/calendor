@@ -1,9 +1,69 @@
-import type { LocalizedSidebarSection } from "../types"
+import type {
+  CvPitch,
+  LocalizedSidebarItem,
+  LocalizedSidebarSection,
+} from "../types"
 
 // Sections de la colonne de gauche du CV (Formation, Compétences…).
 // - `page` (1 ou 2) : déplacer une section d'une page à l'autre pour rééquilibrer.
 // - Les deux langues s'écrivent côte à côte (fr/en), ou en une fois via
 //   bothLanguages quand le texte est identique — voir LocalizedText dans ../types.ts.
+// - Une section, un item, ou une simple ligne d'item peut être marqué
+//   `hiddenFor: ["pm"]` (ou toute autre accroche) pour être masqué
+//   entièrement quand cette accroche est choisie sur la page CV.
+// - Une section peut être marquée `pageFor: { pm: 1 }` pour basculer sur la
+//   page 1 uniquement quand l'accroche "pm" est choisie (`page` reste la
+//   page par défaut pour les autres accroches) — utile pour faire tenir un
+//   CV allégé sur une seule page.
+// - Une section peut aussi être marquée `titleFor: { pm: { fr: "…", en: "…" } }`
+//   pour remplacer son titre quand l'accroche "pm" est choisie — utile par
+//   exemple pour une section "(suite)" qui redevient la seule section de son
+//   thème une fois déplacée en page 1 via `pageFor` — voir resolveSidebar
+//   dans ../buildLocale.ts.
+
+// Items purement techniques de "Compétences (suite)" : regroupés à part pour
+// leur appliquer `hiddenFor: ["pm"]` en un seul point plutôt que sur chacun,
+// mais fusionnés dans la même section/le même titre que le reste — pas une
+// catégorie séparée de la sidebar.
+const TECHNICAL_SKILL_ITEMS: LocalizedSidebarItem[] = [
+  {
+    label: { fr: "Maquettage :", en: "Mock-ups/design:" },
+    lines: [{ bothLanguages: "Figma / Photoshop" }],
+  },
+  {
+    label: { fr: "Tests :", en: "Tests:" },
+    lines: [{ bothLanguages: "Cypress / Jest / Jasmine" }],
+  },
+  {
+    label: { fr: "Veille :", en: "Tech watch:" },
+    lines: [
+      { bothLanguages: "meetups" },
+      {
+        fr: "conférences (React Paris, NewCrafts, Devoxx, Cloud Native Days, etc.)",
+        en: "conferences (React Paris, NewCrafts, Devoxx, Cloud Native Days, etc.)",
+      },
+    ],
+  },
+  {
+    label: { fr: "Partage :", en: "Share:" },
+    lines: [
+      { fr: "oratrice Ladies of Code", en: "speaker for Ladies of Code" },
+    ],
+  },
+  {
+    label: { fr: "Certifications :", en: "Certifications:" },
+    lines: [{ bothLanguages: "Microsoft AZ-900 & PL-900" }],
+  },
+  {
+    label: { fr: "Lectures tech :", en: "Tech reads:" },
+    lines: [
+      {
+        fr: "The Pragmatic Programmer, Software Craft, Clean Code, Programmer avec Java, etc.",
+        en: "The Pragmatic Programmer, Software Craft, Clean Code, Programming with Java, etc.",
+      },
+    ],
+  },
+]
 
 export const SIDEBAR: LocalizedSidebarSection[] = [
   {
@@ -69,6 +129,7 @@ export const SIDEBAR: LocalizedSidebarSection[] = [
   {
     title: { fr: "Compétences", en: "Skills" },
     page: 1,
+    hiddenFor: ["pm"],
     items: [
       {
         label: { fr: "Front-end :", en: "Front-end:" },
@@ -98,6 +159,8 @@ export const SIDEBAR: LocalizedSidebarSection[] = [
   {
     title: { fr: "Compétences (suite)", en: "Skills (cont.)" },
     page: 2,
+    pageFor: { pm: 1 },
+    titleFor: { pm: { fr: "Compétences", en: "Skills" } },
     items: [
       {
         label: { fr: "Gestion de projet :", en: "Project management:" },
@@ -111,68 +174,38 @@ export const SIDEBAR: LocalizedSidebarSection[] = [
       {
         label: { fr: "Méthodologie :", en: "Methodology:" },
         lines: [
-          { bothLanguages: "pair programming" },
-          { bothLanguages: "code reviews" },
-          { bothLanguages: "Scrum / Agile" },
+          { bothLanguages: "pair programming", hiddenFor: ["pm"] },
+          { bothLanguages: "code reviews", hiddenFor: ["pm"] },
+          { bothLanguages: "Agile - Scrum / Kanban" },
           {
-            fr: "Formation / certification Scrum PSM I : octobre 2026",
-            en: "Scrum PSM I training / certification: October 2026",
+            fr: "Scrum PSM I : octobre 2026",
+            en: "Scrum PSM I: October 2026",
           },
         ],
       },
-      {
-        label: { fr: "Maquettage :", en: "Mock-ups/design:" },
-        lines: [{ bothLanguages: "Figma / Photoshop" }],
-      },
-      {
-        label: { fr: "Tests :", en: "Tests:" },
-        lines: [{ bothLanguages: "Cypress / Jest / Jasmine" }],
-      },
-      {
-        label: { fr: "Veille :", en: "Tech watch:" },
-        lines: [
-          { bothLanguages: "meetups" },
-          {
-            fr: "conférences (React Paris, NewCrafts, Devoxx, Cloud Native Days, etc.)",
-            en: "conferences (React Paris, NewCrafts, Devoxx, Cloud Native Days, etc.)",
-          },
-        ],
-      },
-      {
-        label: { fr: "Partage :", en: "Share:" },
-        lines: [
-          { fr: "oratrice Ladies of Code", en: "speaker for Ladies of Code" },
-        ],
-      },
-      {
-        label: { fr: "Certifications :", en: "Certifications:" },
-        lines: [{ bothLanguages: "Microsoft AZ-900 & PL-900" }],
-      },
-      {
-        label: { fr: "Lectures tech :", en: "Tech reads:" },
-        lines: [
-          {
-            fr: "The Pragmatic Programmer, Software Craft, Clean Code, Programmer avec Java, etc.",
-            en: "The Pragmatic Programmer, Software Craft, Clean Code, Programming with Java, etc.",
-          },
-        ],
-      },
+      ...TECHNICAL_SKILL_ITEMS.map(item => ({
+        ...item,
+        hiddenFor: ["pm"] as CvPitch[],
+      })),
     ],
   },
   {
     title: { bothLanguages: "Soft skills" },
     page: 2,
+    pageFor: { pm: 1 },
     items: [
       {
         lines: [
+          { bothLanguages: "Communication" },
+          { bothLanguages: "Leadership" },
+          { fr: "Capacité à fédérer", en: "Ability to unite" },
+          { fr: "Esprit d'équipe", en: "Team spirit" },
+          { fr: "Capacité d'adaptation", en: "Adaptability" },
           { fr: "Amélioration continue", en: "Continuous improvement" },
           { fr: "Vision long terme", en: "Long-term thinking" },
-          { bothLanguages: "Communication" },
-          { fr: "Pensée systémique", en: "Systems thinking" },
           { fr: "Curiosité", en: "Curiosity" },
           { fr: "Sens du détail", en: "Attention to detail" },
-          { fr: "Esprit d'équipe", en: "Team spirit" },
-          { fr: "Grande adaptabilité", en: "High adaptability" },
+          { fr: "Proactivité", en: "Proactivity" },
         ],
       },
     ],
@@ -180,6 +213,7 @@ export const SIDEBAR: LocalizedSidebarSection[] = [
   {
     title: { fr: "Activités", en: "Activities" },
     page: 2,
+    hiddenFor: ["pm"],
     items: [
       {
         lines: [
