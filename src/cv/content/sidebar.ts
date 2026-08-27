@@ -20,6 +20,9 @@ import type {
 //   exemple pour une section "(suite)" qui redevient la seule section de son
 //   thème une fois déplacée en page 1 via `pageFor` — voir resolveSidebar
 //   dans ../buildLocale.ts.
+// - Une section peut porter un `id` stable (indépendant de la langue et de
+//   l'accroche) pour être masquée manuellement depuis la page CV (voir la
+//   section "Activités" ci-dessous, et resolveSidebar/CvPage.tsx).
 
 // Items purement techniques de "Compétences (suite)" : regroupés à part pour
 // leur appliquer `hiddenFor: ["pm"]` en un seul point plutôt que sur chacun,
@@ -211,6 +214,7 @@ export const SIDEBAR: LocalizedSidebarSection[] = [
     ],
   },
   {
+    id: "activities",
     title: { fr: "Activités", en: "Activities" },
     page: 2,
     hiddenFor: ["pm"],

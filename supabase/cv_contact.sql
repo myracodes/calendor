@@ -7,8 +7,11 @@ create table public.cv_contact (
   language text primary key check (language in ('fr', 'en')),
   -- Tableau de lignes { "texte": "...", "url": "..." } — même forme que ContactLine[] (src/cv/types.ts)
   contact jsonb not null,
-  -- Ligne d'informations pratiques affichée sous le bloc contact
-  infos text not null
+  -- Tableau de lignes { "id": "...", "texte": "..." } affichées sous le bloc
+  -- contact — même forme que PersonalInfoLine[] (src/cv/types.ts). Les "id"
+  -- doivent correspondre à ceux de PERSONAL_INFO_PLACEHOLDER (src/cv/content/profile.ts),
+  -- utilisés pour masquer une ligne précise depuis la page CV.
+  infos jsonb not null
 );
 
 alter table public.cv_contact enable row level security;
@@ -34,11 +37,30 @@ grant select on public.cv_contact to authenticated;
 --   { "texte": "github.com/exemple", "url": "https://github.com/exemple" },
 --   { "texte": "linkedin.com/in/exemple", "url": "https://www.linkedin.com/in/exemple/" },
 --   { "texte": "Bilingue anglais / français" }
--- ]', 'Basée en … | Permis B | remote :)'),
+-- ]', '[
+--   { "id": "location", "texte": "Basée en …" },
+--   { "id": "practical", "texte": "Vélo | Permis B | remote :)" }
+-- ]'),
 -- ('en', '[
 --   { "texte": "email@example.com", "url": "mailto:email@example.com" },
 --   { "texte": "+33(0)6.00.00.00.00", "url": "tel:+33600000000" },
 --   { "texte": "github.com/example", "url": "https://github.com/example" },
 --   { "texte": "linkedin.com/in/example", "url": "https://www.linkedin.com/in/example/" },
 --   { "texte": "Fluent English / French" }
--- ]', 'Based in … | driving license | remote :)');
+-- ]', '[
+--   { "id": "location", "texte": "Based in …" },
+--   { "id": "practical", "texte": "Bike | driving license | remote :)" }
+-- ]');
+
+-- Migration d'une table existante (colonne `infos` encore en `text`) :
+-- 1. Convertir la colonne en jsonb (perd la valeur existante, à ressaisir) :
+--    alter table public.cv_contact alter column infos type jsonb using 'null'::jsonb;
+-- 2. Ressaisir les deux lignes avec la forme jsonb ci-dessus, par langue :
+--    update public.cv_contact set infos = '[
+--      { "id": "location", "texte": "Basée en …" },
+--      { "id": "practical", "texte": "Vélo | Permis B | remote :)" }
+--    ]' where language = 'fr';
+--    update public.cv_contact set infos = '[
+--      { "id": "location", "texte": "Based in …" },
+--      { "id": "practical", "texte": "Bike | driving license | remote :)" }
+--    ]' where language = 'en';

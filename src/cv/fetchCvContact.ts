@@ -2,12 +2,15 @@ import { supabase } from "../supabase/client"
 import type { CvContact, CvLanguage } from "./types"
 
 /**
- * Forme d'une ligne de la colonne jsonb `contact` en base. Les clés (`texte`,
- * comme la colonne `infos`) sont restées en français : la table et ses données
- * prédatent l'anglicisation du code, et une migration n'apporterait rien —
- * le mapping vers les types anglais se fait ici, à la frontière.
+ * Forme d'une ligne des colonnes jsonb `contact` et `infos` en base. Les clés
+ * (`texte`) sont restées en français : la table et ses données prédatent
+ * l'anglicisation du code, et une migration n'apporterait rien — le mapping
+ * vers les types anglais se fait ici, à la frontière.
  */
 type ContactRowLine = { texte: string; url?: string }
+
+/** Forme d'une ligne de la colonne jsonb `infos` en base — `id` doit correspondre à celui de PERSONAL_INFO_PLACEHOLDER (voir content/profile.ts). */
+type PersonalInfoRowLine = { id: string; texte: string }
 
 /**
  * Les vraies coordonnées du CV depuis Supabase (table cv_contact, une ligne
@@ -27,12 +30,15 @@ export async function fetchCvContact(
     .maybeSingle()
   if (error !== null || data === null) return null
   return {
-    // Colonne jsonb : Supabase la renvoie non typée, la forme est garantie par
-    // l'insertion (voir le modèle dans supabase/cv_contact.sql).
+    // Colonnes jsonb : Supabase les renvoie non typées, la forme est garantie
+    // par l'insertion (voir le modèle dans supabase/cv_contact.sql).
     contact: (data.contact as ContactRowLine[]).map(line => ({
       text: line.texte,
       url: line.url,
     })),
-    personalInfo: data.infos as string,
+    personalInfo: (data.infos as PersonalInfoRowLine[]).map(line => ({
+      id: line.id,
+      text: line.texte,
+    })),
   }
 }

@@ -39,13 +39,16 @@ const styles = StyleSheet.create({
     fontSize: CONTACT_LINE_FONTSIZE,
     lineHeight: 1,
   },
-  // Ligne d'infos pratiques (lieu, permis, dispo…)
+  // Bloc d'infos pratiques (lieu, permis, dispo…), sous le bloc contact.
   personalInfo: {
+    marginTop: 4, // espace après la dernière ligne de contact
+    marginBottom: 14, // espace avant la première section (Formation, Compétences…)
+  },
+  // Une ligne du bloc d'infos pratiques (une par élément de cv.personalInfo).
+  personalInfoLine: {
     fontSize: 9,
     color: CV_WHITE,
     textAlign: "center",
-    marginTop: 4, // espace après la dernière ligne de contact
-    marginBottom: 14, // espace avant la première section (Formation, Compétences…)
   },
   // Conteneur d'une section de la colonne (Formation, Compétences…).
   section: {
@@ -90,7 +93,13 @@ export function CvIdentity({ cv }: { cv: CvData }) {
           </Link>
         ),
       )}
-      <Text style={styles.personalInfo}>{cv.personalInfo}</Text>
+      <View style={styles.personalInfo}>
+        {cv.personalInfo.map(line => (
+          <Text key={line.id} style={styles.personalInfoLine}>
+            {line.text}
+          </Text>
+        ))}
+      </View>
     </View>
   )
 }

@@ -134,6 +134,16 @@ label {
   margin-top: 1rem;
 }
 
+/* Une case à cocher de paramétrage (ex. inclure les anniversaires, masquer une section du CV...) */
+.checkbox-option {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  color: var(--ink);
+  cursor: pointer;
+}
+
 /* Contrôles alignés sur une même hauteur (--control-h) */
 input:not([type="checkbox"]):not([type="file"]):not([type="color"]),
 select {

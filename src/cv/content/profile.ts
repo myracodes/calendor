@@ -1,4 +1,9 @@
-import type { CvPitch, LocalizedContactLine, LocalizedText } from "../types"
+import type {
+  CvPitch,
+  LocalizedContactLine,
+  LocalizedPersonalInfoLine,
+  LocalizedText,
+} from "../types"
 
 // Identité et en-tête du CV : nom, accroches, titres par type de poste visé,
 // et coordonnées de repli. Les deux langues s'écrivent côte à côte (fr/en),
@@ -87,8 +92,22 @@ export const CONTACT_PLACEHOLDER: LocalizedContactLine[] = [
   },
 ]
 
-/** Ligne d'informations pratiques, de REMPLACEMENT elle aussi (la vraie vit dans Supabase). */
-export const PERSONAL_INFO_PLACEHOLDER: LocalizedText = {
-  fr: "Basée quelque part\nVélo | Permis B | remote :)",
-  en: "Based somewhere\n\nBike | driving license | remote :)",
-}
+/**
+ * Lignes d'informations pratiques, de REMPLACEMENT elles aussi (les vraies
+ * vivent dans Supabase). `id` est utilisé pour masquer une ligne précise
+ * depuis la page CV (voir CvPage.tsx) : ne pas le changer sans mettre à jour
+ * la colonne `infos` de la table cv_contact (voir supabase/cv_contact.sql).
+ */
+export const PERSONAL_INFO_PLACEHOLDER: LocalizedPersonalInfoLine[] = [
+  {
+    id: "location",
+    text: { fr: "Basée quelque part", en: "Based somewhere" },
+  },
+  {
+    id: "practical",
+    text: {
+      fr: "Vélo | Permis B | remote :)",
+      en: "Bike | driving license | remote :)",
+    },
+  },
+]

@@ -25,6 +25,16 @@ export function CvPage() {
   const [title, setTitle] = usePersistentState("cv.title", "")
   // Texte de l'accroche : vide = texte par défaut de l'accroche choisie (voir defaultPitch).
   const [pitchText, setPitchText] = usePersistentState("cv.pitchText", "")
+  // Ids des lignes d'infos pratiques (cv.personalInfo) décochées manuellement.
+  const [hiddenInfoLines, setHiddenInfoLines] = usePersistentState<string[]>(
+    "cv.hiddenInfoLines",
+    [],
+  )
+  // Masque la section "Activités" de la sidebar, décochée manuellement.
+  const [hideActivities, setHideActivities] = usePersistentState(
+    "cv.hideActivities",
+    false,
+  )
   const [generating, setGenerating] = useState(false)
   // true après une génération qui n'a pas pu récupérer les vraies coordonnées
   // depuis Supabase (voir fetchCvContact) : le PDF contient les valeurs de
@@ -35,6 +45,14 @@ export function CvPage() {
   const defaultTitle = locale.titles[pitch]
   const defaultPitch = locale.pitches[pitch]
 
+  function toggleHiddenInfoLine(id: string, hidden: boolean) {
+    setHiddenInfoLines(
+      hidden
+        ? [...hiddenInfoLines, id]
+        : hiddenInfoLines.filter(hiddenId => hiddenId !== id),
+    )
+  }
+
   async function generatePdf() {
     setGenerating(true)
     try {
@@ -43,7 +61,14 @@ export function CvPage() {
       const cv: CvData = {
         ...locale.cv,
         ...contact,
-        sidebar: resolveSidebar(pitch, language),
+        personalInfo: (contact?.personalInfo ?? locale.cv.personalInfo).filter(
+          line => !hiddenInfoLines.includes(line.id),
+        ),
+        sidebar: resolveSidebar(
+          pitch,
+          language,
+          hideActivities ? ["activities"] : [],
+        ),
         experiences: resolveExperiences(pitch, language),
         sideProjects: resolveSideProjects(pitch, language),
         title: title.trim() === "" ? defaultTitle : title.trim(),
@@ -105,6 +130,26 @@ export function CvPage() {
             onChange={e => setPitchText(e.target.value)}
           />
         </label>
+        <div className="row">
+          {locale.cv.personalInfo.map(line => (
+            <label key={line.id} className="checkbox-option">
+              <input
+                type="checkbox"
+                checked={!hiddenInfoLines.includes(line.id)}
+                onChange={e => toggleHiddenInfoLine(line.id, !e.target.checked)}
+              />
+              {line.text}
+            </label>
+          ))}
+          <label className="checkbox-option">
+            <input
+              type="checkbox"
+              checked={!hideActivities}
+              onChange={e => setHideActivities(!e.target.checked)}
+            />
+            Section "Activités"
+          </label>
+        </div>
       </section>
 
       {contactMissing && (

@@ -66,6 +66,17 @@ export type LocalizedContactLine = {
 export type SidebarLine = LocalizedText & { hiddenFor?: CvPitch[] }
 
 /**
+ * Une ligne d'infos pratiques (localisation, permis/vélo/remote…) affichée
+ * sous le bloc contact. `id` est un identifiant stable, indépendant de la
+ * langue, utilisé pour masquer une ligne précise depuis la page CV — voir
+ * CvPage.tsx.
+ */
+export type LocalizedPersonalInfoLine = {
+  id: string
+  text: LocalizedText
+}
+
+/**
  * Un item d'une section de la colonne de gauche.
  * `label` (optionnel) est mis en avant en gras, `lines` suit en dessous
  * (une ligne affichée par élément du tableau).
@@ -95,6 +106,13 @@ export type LocalizedSidebarSection = {
   hiddenFor?: CvPitch[]
   pageFor?: Partial<Record<CvPitch, CvPageNumber>>
   titleFor?: Partial<Record<CvPitch, LocalizedText>>
+  /**
+   * Identifiant stable, indépendant de la langue et de l'accroche, pour une
+   * section qu'on peut masquer manuellement depuis la page CV (ex: la
+   * section "Activités") — voir resolveSidebar dans buildLocale.ts et
+   * CvPage.tsx.
+   */
+  id?: string
 }
 
 /**
@@ -146,6 +164,11 @@ export type ContactLine = {
   url?: string
 }
 
+export type PersonalInfoLine = {
+  id: string
+  text: string
+}
+
 export type SidebarItem = {
   label?: string
   lines: string[]
@@ -191,8 +214,8 @@ export type CvData = {
   /** URL de la photo (src/assets/images/cv-photo.jpg), ou null si aucune photo n'est fournie. */
   photo: string | null
   contact: ContactLine[]
-  /** Ligne d'informations pratiques sous le bloc contact. */
-  personalInfo: string
+  /** Lignes d'informations pratiques sous le bloc contact (localisation, permis/vélo/remote…), chacune masquable individuellement depuis la page CV. */
+  personalInfo: PersonalInfoLine[]
   sidebar: SidebarSection[]
   experiences: Experience[]
   /** Affichés après les expériences de leur page, sous le titre "Side projects". */

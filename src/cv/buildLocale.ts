@@ -173,29 +173,30 @@ export function resolveSideProjects(
  * retirés, les sections marquées `pageFor` pour cette accroche basculent sur
  * la page indiquée, celles marquées `titleFor` prennent ce titre à la place
  * (voir LocalizedSidebarSection/Item/SidebarLine dans types.ts), avant
- * résolution de langue.
+ * résolution de langue. `hiddenSectionIds` retire en plus les sections dont
+ * l'`id` y figure — masquage manuel choisi sur la page CV (voir CvPage.tsx).
  */
 export function resolveSidebar(
   pitch: CvPitch,
   language: CvLanguage,
+  hiddenSectionIds: string[] = [],
 ): SidebarSection[] {
-  return SIDEBAR.filter(section => !section.hiddenFor?.includes(pitch)).map(
-    section => ({
-      title: localizedText(
-        section.titleFor?.[pitch] ?? section.title,
-        language,
-      ),
-      page: section.pageFor?.[pitch] ?? section.page,
-      items: section.items
-        .filter(item => !item.hiddenFor?.includes(pitch))
-        .map(item => ({
-          label: optionalText(item.label, language),
-          lines: item.lines
-            .filter(line => !line.hiddenFor?.includes(pitch))
-            .map(line => localizedText(line, language)),
-        })),
-    }),
-  )
+  return SIDEBAR.filter(
+    section =>
+      !section.hiddenFor?.includes(pitch) &&
+      (section.id === undefined || !hiddenSectionIds.includes(section.id)),
+  ).map(section => ({
+    title: localizedText(section.titleFor?.[pitch] ?? section.title, language),
+    page: section.pageFor?.[pitch] ?? section.page,
+    items: section.items
+      .filter(item => !item.hiddenFor?.includes(pitch))
+      .map(item => ({
+        label: optionalText(item.label, language),
+        lines: item.lines
+          .filter(line => !line.hiddenFor?.includes(pitch))
+          .map(line => localizedText(line, language)),
+      })),
+  }))
 }
 
 function buildLocale(language: CvLanguage): CvLocale {
@@ -214,7 +215,10 @@ function buildLocale(language: CvLanguage): CvLocale {
         text: localizedText(line.text, language),
         url: line.url,
       })),
-      personalInfo: localizedText(PERSONAL_INFO_PLACEHOLDER, language),
+      personalInfo: PERSONAL_INFO_PLACEHOLDER.map(line => ({
+        id: line.id,
+        text: localizedText(line.text, language),
+      })),
       // Accroche par défaut "dev" : CvPage.tsx recalcule ces trois tableaux
       // via resolveSidebar/resolveExperiences/resolveSideProjects dès qu'une
       // accroche est choisie, pour appliquer le masquage et le
