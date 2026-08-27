@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { INK } from "../../../../colors"
 import { weekdayNames } from "../../../../dates"
+import { Card } from "../../../../shared/Card/Card"
 import type {
   CalendarEvent,
   CalendarSettings,
@@ -125,7 +126,7 @@ export function ParametrageSection({
   if (settings.format === "weekly") return null
 
   return (
-    <section className="card card--sky">
+    <Card variantColor="sky">
       <h2>Paramétrage</h2>
       {hideEventsCheckboxes ? null : (
         <div
@@ -324,6 +325,6 @@ export function ParametrageSection({
           )}
         </>
       )}
-    </section>
+    </Card>
   )
 }

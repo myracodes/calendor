@@ -6,10 +6,11 @@ import { selectionKeys } from "../../courses/selection"
 import type { ArticleLibre, SectionListe } from "../../courses/types"
 import { CoursesDocument } from "../../pdf/courses/CoursesDocument"
 import { downloadPdf } from "../../pdf/shared/downloadPdf"
+import { Card, type CardVariantColor } from "../../shared/Card/Card"
 import "./CoursesPage.css"
 
 // Couleurs d'accent des cartes de catégories, en rotation.
-const ACCENTS = ["card--sun", "card--candy", "card--sky"]
+const ACCENTS: CardVariantColor[] = ["sun", "candy", "sky"]
 
 export function CoursesPage() {
   // La sélection est indexée par clé catégorie + article (articleKey) — le même
@@ -97,7 +98,7 @@ export function CoursesPage() {
     <>
       <p className="tagline">Ma liste de courses, dans l'ordre des rayons</p>
 
-      <section className="card">
+      <Card>
         <h2>Ma liste</h2>
         {estVide ? (
           <p className="hint">
@@ -152,9 +153,9 @@ export function CoursesPage() {
         >
           Vider la liste
         </button>
-      </section>
+      </Card>
 
-      <section className="card card--sky">
+      <Card variantColor="sky">
         <h2>Ajout rapide</h2>
         <div className="courses-ajouts-rapides">
           {AJOUTS_RAPIDES.map(ajout => (
@@ -167,13 +168,10 @@ export function CoursesPage() {
             </button>
           ))}
         </div>
-      </section>
+      </Card>
 
       {CATALOGUE.map((categorie, i) => (
-        <section
-          key={categorie.id}
-          className={`card ${ACCENTS[i % ACCENTS.length]}`}
-        >
+        <Card key={categorie.id} variantColor={ACCENTS[i % ACCENTS.length]}>
           <h2>{categorie.nom}</h2>
           <div className="courses-grid">
             {categorie.articles.map(article => (
@@ -187,7 +185,7 @@ export function CoursesPage() {
               </label>
             ))}
           </div>
-        </section>
+        </Card>
       ))}
 
       <button

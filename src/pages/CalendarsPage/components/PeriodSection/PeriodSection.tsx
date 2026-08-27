@@ -1,4 +1,5 @@
 import { monthName } from "../../../../dates"
+import { Card } from "../../../../shared/Card/Card"
 import type {
   CalendarFormat,
   CalendarSettings,
@@ -23,7 +24,7 @@ export function PeriodSection({
   allowWeekly,
 }: PeriodSectionProps) {
   return (
-    <section className="card card--sun">
+    <Card variantColor="sun">
       <h2>Période</h2>
       <div className="row">
         {!lockToMonthly && (
@@ -104,6 +105,6 @@ export function PeriodSection({
           </>
         )}
       </div>
-    </section>
+    </Card>
   )
 }

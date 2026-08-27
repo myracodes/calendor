@@ -1,4 +1,5 @@
 import { type SubmitEvent, useState } from "react"
+import { Card } from "../../shared/Card/Card"
 import { requireSupabase } from "../../supabase/client"
 import { PasswordInput } from "./components/PasswordInput/PasswordInput"
 import "./LoginPage.css"
@@ -34,7 +35,7 @@ export function LoginPage() {
   return (
     <main className="app login">
       <h1>Calendor</h1>
-      <section className="card login-card">
+      <Card className="login-card">
         <h2>Connexion</h2>
         <form className="login-form" onSubmit={signIn}>
           <label>
@@ -56,7 +57,7 @@ export function LoginPage() {
             {submitting ? "Connexion…" : "Se connecter"}
           </button>
         </form>
-      </section>
+      </Card>
     </main>
   )
 }

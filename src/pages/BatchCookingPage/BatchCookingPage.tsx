@@ -10,6 +10,7 @@ import {
   OCCASIONS,
   seasonForMonth,
 } from "../../batchCooking/ingredients"
+import { Card } from "../../shared/Card/Card"
 import "./BatchCookingPage.css"
 
 const CURRENT_SEASON = seasonForMonth(new Date().getMonth() + 1)
@@ -77,7 +78,7 @@ export function BatchCookingPage() {
     <>
       <p className="tagline">Planification de batch cooking</p>
 
-      <section className="card card--sun">
+      <Card variantColor="sun">
         <h2>Semaine</h2>
         <div className="row">
           <label>
@@ -108,22 +109,22 @@ export function BatchCookingPage() {
             />
           </label>
         </div>
-      </section>
+      </Card>
 
       {plan && !hasMeals && (
-        <section className="card card--candy">
+        <Card variantColor="candy">
           <h2>Repas de la semaine</h2>
           <p className="hint">
             Aucune recette n'est compatible avec cette occasion — ajoute des
             recettes dans src/batchCooking/recipes.ts (et vérifie les libellés
             exacts des ingrédients saisonniers).
           </p>
-        </section>
+        </Card>
       )}
 
       {plan && hasMeals && (
         <>
-          <section className="card card--candy">
+          <Card variantColor="candy">
             <h2>Repas de la semaine</h2>
             <div className="session-list">
               {plan.sessions.map((session, i) => (
@@ -134,9 +135,9 @@ export function BatchCookingPage() {
                 />
               ))}
             </div>
-          </section>
+          </Card>
 
-          <section className="card card--sky">
+          <Card variantColor="sky">
             <h2>Liste de courses</h2>
             <div className="shopping-columns">
               <section>
@@ -163,9 +164,9 @@ export function BatchCookingPage() {
                 </section>
               )}
             </div>
-          </section>
+          </Card>
 
-          <section className="card card--candy">
+          <Card variantColor="candy">
             <h2>Petit déj, desserts &amp; snacks</h2>
             <div className="shopping-columns">
               <section>
@@ -193,7 +194,7 @@ export function BatchCookingPage() {
                 </ul>
               </section>
             </div>
-          </section>
+          </Card>
         </>
       )}
 

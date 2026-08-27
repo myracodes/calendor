@@ -10,6 +10,8 @@ import { fetchCvContact } from "../../cv/fetchCvContact"
 import type { CvData, CvLanguage, CvPitch } from "../../cv/types"
 import { CvDocument } from "../../pdf/cv/CvDocument"
 import { downloadPdf } from "../../pdf/shared/downloadPdf"
+import { Alert } from "../../shared/Alert/Alert"
+import { Card } from "../../shared/Card/Card"
 import { usePersistentState } from "../../shared/usePersistentState"
 
 // En dev, le CV généré peut ne pas contenir les vraies données (Supabase non
@@ -93,7 +95,7 @@ export function CvPage() {
 
   return (
     <>
-      <section className="card card--sky">
+      <Card variantColor="sky">
         <h2>Paramétrage</h2>
         <div className="row">
           <label>
@@ -157,7 +159,7 @@ export function CvPage() {
             Section "Activités"
           </label>
         </div>
-      </section>
+      </Card>
 
       {contactMissing && (
         <p className="hint">
@@ -168,12 +170,9 @@ export function CvPage() {
       )}
 
       {isDevEnvironment && (
-        <div className="alert alert--danger">
-          <p className="alert-title">Mode développement</p>
-          <p className="alert-text">
-            Le PDF généré ne contiendra pas les vraies données.
-          </p>
-        </div>
+        <Alert variantColor="danger" title="Mode développement">
+          Le PDF généré ne contiendra pas les vraies données.
+        </Alert>
       )}
 
       <button

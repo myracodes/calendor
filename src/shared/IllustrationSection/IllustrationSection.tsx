@@ -1,4 +1,5 @@
 import { useRef } from "react"
+import { Card } from "../Card/Card"
 import "./IllustrationSection.css"
 
 interface IllustrationSectionProps {
@@ -24,7 +25,7 @@ export function IllustrationSection({
   }
 
   return (
-    <section className="card card--candy">
+    <Card variantColor="candy">
       <h2>Image de fond</h2>
       <div className="illustration-section">
         <label className="file-btn">
@@ -58,6 +59,6 @@ export function IllustrationSection({
           </div>
         )}
       </div>
-    </section>
+    </Card>
   )
 }

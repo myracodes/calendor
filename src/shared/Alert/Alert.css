@@ -1,0 +1,39 @@
+/* ===== Alertes ===== */
+
+/* Bandeau d'alerte générique et réutilisable, sur le modèle de .card/.card--sky :
+   liseré coloré fin piloté par --alert-accent, fond --surface (léger). */
+.alert {
+  position: relative;
+  overflow: hidden;
+  padding: 0.65rem 0.9rem 0.55rem;
+  margin-bottom: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-soft);
+}
+
+.alert::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 3px;
+  background: var(--alert-accent, var(--gradient-rainbow));
+}
+
+.alert--danger {
+  --alert-accent: var(--gradient-danger);
+  --alert-ink: var(--danger);
+}
+
+.alert-title {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--alert-ink, var(--ink));
+}
+
+.alert-text {
+  margin: 0.15rem 0 0;
+  font-size: 0.78rem;
+  color: var(--ink-light);
+}

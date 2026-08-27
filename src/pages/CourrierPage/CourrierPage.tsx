@@ -2,6 +2,7 @@ import { useState } from "react"
 import type { CourrierSettings } from "../../courrier/types"
 import { CourrierDocument } from "../../pdf/courrier/CourrierDocument"
 import { downloadPdf } from "../../pdf/shared/downloadPdf"
+import { Card } from "../../shared/Card/Card"
 import "./CourrierPage.css"
 
 /** Date du jour au format ISO "aaaa-mm-jj", dans le fuseau local. */
@@ -52,7 +53,7 @@ export function CourrierPage() {
     <>
       <p className="tagline">Mon générateur de courriers</p>
 
-      <section className="card card--sun">
+      <Card variantColor="sun">
         <h2>Expéditrice</h2>
         <label className="courrier-field">
           Coordonnées (une information par ligne)
@@ -64,9 +65,9 @@ export function CourrierPage() {
             onChange={e => update("expediteur", e.target.value)}
           />
         </label>
-      </section>
+      </Card>
 
-      <section className="card card--candy">
+      <Card variantColor="candy">
         <h2>Destinataire</h2>
         <label className="courrier-field">
           Coordonnées (une information par ligne)
@@ -78,9 +79,9 @@ export function CourrierPage() {
             onChange={e => update("destinataire", e.target.value)}
           />
         </label>
-      </section>
+      </Card>
 
-      <section className="card card--sky">
+      <Card variantColor="sky">
         <h2>En-tête</h2>
         <div className="row">
           <label>
@@ -111,9 +112,9 @@ export function CourrierPage() {
             onChange={e => update("objet", e.target.value)}
           />
         </label>
-      </section>
+      </Card>
 
-      <section className="card">
+      <Card>
         <h2>Corps du courrier</h2>
         <label className="courrier-field">
           Texte du courrier
@@ -131,7 +132,7 @@ export function CourrierPage() {
             Rédige le corps du courrier pour générer le PDF.
           </p>
         )}
-      </section>
+      </Card>
 
       <button
         type="button"

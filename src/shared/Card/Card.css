@@ -1,0 +1,59 @@
+/* ===== Cartes ===== */
+
+.card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  /* Espacement régulier entre tous les enfants directs d'une carte (titre, rows, textarea, etc.) */
+  gap: 1.25rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-soft);
+}
+
+/* Liseré coloré en haut de chaque carte, personnalisable via --card-accent */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background: var(--card-accent, var(--gradient-rainbow));
+}
+
+.card--sun {
+  --card-accent: var(--gradient-sun);
+}
+
+.card--candy {
+  --card-accent: var(--gradient-candy);
+}
+
+.card--sky {
+  --card-accent: var(--gradient-sky);
+}
+
+.card h2 {
+  /* Rétrécit à la largeur du texte : le ::after (liseré) ne doit pas s'étirer sur toute la carte (flex stretch par défaut) */
+  align-self: flex-start;
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.card h2::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 0.3rem;
+  margin-top: 0.3rem;
+  background: var(--card-accent, var(--gradient-rainbow));
+}
+
+/* Enfant direct d'une carte : l'espacement vient du gap de .card, pas de sa propre marge */
+.card > .hint {
+  margin: 0;
+}

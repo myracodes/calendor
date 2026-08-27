@@ -2,6 +2,7 @@ import { useState } from "react"
 import type { BujoColumn, BujoSettings, DottedWidth } from "../../bujo/types"
 import { BujoDocument } from "../../pdf/bujo/BujoDocument"
 import { downloadPdf } from "../../pdf/shared/downloadPdf"
+import { Card } from "../../shared/Card/Card"
 import { IllustrationSection } from "../../shared/IllustrationSection/IllustrationSection"
 import "./BujoFactoryPage.css"
 
@@ -93,7 +94,7 @@ export function BujoFactoryPage() {
     <>
       <p className="tagline">Ma fabrique de pages façon bullet journal</p>
 
-      <section className="card card--sun">
+      <Card variantColor="sun">
         <h2>Page</h2>
         <div className="row">
           <label>
@@ -136,9 +137,9 @@ export function BujoFactoryPage() {
             />
           </label>
         </div>
-      </section>
+      </Card>
 
-      <section className="card card--candy">
+      <Card variantColor="candy">
         <h2>Colonnes</h2>
         <ul className="bujo-column-list">
           {settings.columns.map(column => (
@@ -204,7 +205,7 @@ export function BujoFactoryPage() {
             Ajoute au moins une colonne pour générer la page.
           </p>
         )}
-      </section>
+      </Card>
 
       <IllustrationSection
         illustration={settings.illustration}
