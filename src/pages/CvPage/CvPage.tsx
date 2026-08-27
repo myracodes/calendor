@@ -12,6 +12,11 @@ import { CvDocument } from "../../pdf/cv/CvDocument"
 import { downloadPdf } from "../../pdf/shared/downloadPdf"
 import { usePersistentState } from "../../shared/usePersistentState"
 
+// En dev, le CV généré peut ne pas contenir les vraies données (Supabase non
+// configuré ou session absente, voir fetchCvContact) : marquer le fichier et
+// l'interface pour éviter de partager un PDF de test par erreur.
+const isDevEnvironment = import.meta.env.DEV
+
 export function CvPage() {
   const [language, setLanguage] = usePersistentState<CvLanguage>(
     "cv.language",
@@ -77,7 +82,9 @@ export function CvPage() {
       }
       await downloadPdf(
         <CvDocument cv={cv} />,
-        `cv-myriam-mira-${language}-${pitch}.pdf`,
+        `cv-myriam-mira-${language}-${pitch}${
+          isDevEnvironment ? "-TEST-DO-NOT-SHARE" : ""
+        }.pdf`,
       )
     } finally {
       setGenerating(false)
@@ -158,6 +165,15 @@ export function CvPage() {
           configuré, session absente, ou langue absente de la table cv_contact).
           Depuis le site déployé, connecte-toi puis régénère.
         </p>
+      )}
+
+      {isDevEnvironment && (
+        <div className="alert alert--danger">
+          <p className="alert-title">Mode développement</p>
+          <p className="alert-text">
+            Le PDF généré ne contiendra pas les vraies données.
+          </p>
+        </div>
       )}
 
       <button

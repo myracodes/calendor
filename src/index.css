@@ -68,6 +68,12 @@
     var(--soft-cyan),
     var(--celadon)
   );
+  /* Alerte (ex. bandeau "mode dev") : dérivé de --danger, jamais en dessous de l'AAA (7:1) pour du texte blanc */
+  --gradient-danger: linear-gradient(
+    135deg,
+    var(--danger),
+    color-mix(in srgb, var(--danger) 60%, black)
+  );
 
   /* --- Dimensions & effets --- */
   --control-h: 2.5rem;

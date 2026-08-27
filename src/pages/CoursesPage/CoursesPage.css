@@ -1,7 +1,7 @@
 /* La liste en cours : une "puce" par article, retirable d'un clic. */
 .courses-liste {
   list-style: none;
-  margin: 0 0 1.25rem;
+  margin: 0;
   padding: 0;
   display: flex;
   flex-wrap: wrap;
@@ -51,11 +51,6 @@
 .courses-ajout-champ {
   flex: 1;
   min-width: 160px;
-}
-
-/* Le bouton de remise à zéro, en retrait sous le formulaire d'ajout. */
-.courses-vider {
-  margin-top: 1rem;
 }
 
 .courses-vider:disabled {
