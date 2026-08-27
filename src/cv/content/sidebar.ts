@@ -217,7 +217,6 @@ export const SIDEBAR: LocalizedSidebarSection[] = [
     id: "activities",
     title: { fr: "Activités", en: "Activities" },
     page: 2,
-    hiddenFor: ["pm"],
     items: [
       {
         lines: [
