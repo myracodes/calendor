@@ -183,6 +183,7 @@ export const CATALOGUE = [
       "algues wakame",
       "algues nori",
       "crème coco",
+      "lait coco",
     ],
   },
   {
