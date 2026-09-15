@@ -137,8 +137,8 @@ export const EXPERIENCES: LocalizedExperience[] = [
       // ---------------------
       {
         only: ["dev", "hybrid"],
-        fr: "**Gestion et réduction proactive de la dette technique** : 85% de tests legacy traduits, planification des mises à jour de sécurité, montées de versions des librairies, etc.",
-        en: "**Proactively managed and reduced technical debt**: 85% of legacy tests translated, scheduled security updates, upgraded libraries, etc.",
+        fr: "**Gestion et réduction proactive de la dette technique** : 100% de tests legacy traduits, planification des mises à jour de sécurité, montées de versions des librairies, etc.",
+        en: "**Proactively managed and reduced technical debt**: 100% of legacy tests translated, scheduled security updates, upgraded libraries, etc.",
       },
       // ---------------------
       {
