@@ -211,6 +211,26 @@ button:focus-visible {
   transform: none;
 }
 
+/* Variante secondaire (ex. réinitialiser) : fond blanc, seul le contour reprend
+   le dégradé. Deux couches : le blanc s'arrête au padding, le dégradé remplit
+   la bordure transparente. */
+.generate-secondary {
+  margin-bottom: 0.75rem;
+  border: 3px solid transparent;
+  background:
+    linear-gradient(var(--surface), var(--surface)) padding-box,
+    var(--gradient-rainbow) border-box;
+  background-size:
+    100% 100%,
+    200% 100%;
+}
+
+.generate-secondary:hover {
+  background-position:
+    0 0,
+    100% 0;
+}
+
 /* ===== Pied de page ===== */
 
 .footer {

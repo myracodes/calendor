@@ -52,6 +52,17 @@ export function CourrierPage() {
     setPersistedSettings({ ...persistedSettings, [key]: value })
   }
 
+  function resetSettings() {
+    if (
+      !window.confirm(
+        "Effacer tout le courrier et remettre les réglages par défaut ?",
+      )
+    )
+      return
+    setPersistedSettings(DEFAULT_SETTINGS)
+    setDate(todayIso())
+  }
+
   async function generatePdf() {
     setGenerating(true)
     try {
@@ -200,6 +211,14 @@ export function CourrierPage() {
           </label>
         </div>
       </Card>
+
+      <button
+        type="button"
+        className="generate generate-secondary"
+        onClick={resetSettings}
+      >
+        Réinitialiser le formulaire
+      </button>
 
       <button
         type="button"
