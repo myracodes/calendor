@@ -71,6 +71,11 @@
   align-items: flex-end;
 }
 
+/* Variante pour une ligne qui mêle case à cocher et champ : centre la case sur le champ plutôt que de l'aligner en bas. */
+.row-centered {
+  align-items: center;
+}
+
 label {
   display: flex;
   flex-direction: column;

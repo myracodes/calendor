@@ -18,9 +18,14 @@ function buildInitialSettings(): CourrierSettings {
     expediteur: "",
     destinataire: "",
     lieu: "",
+    inclureDate: true,
     date: todayIso(),
     objet: "",
     corps: "",
+    margesVerticalesReduites: false,
+    margesHorizontalesReduites: false,
+    ecartsReduits: false,
+    texteJustifie: true,
   }
 }
 
@@ -65,9 +70,7 @@ export function CourrierPage() {
             onChange={e => update("expediteur", e.target.value)}
           />
         </label>
-      </Card>
 
-      <Card variantColor="candy">
         <h2>Destinataire</h2>
         <label className="courrier-field">
           Coordonnées (une information par ligne)
@@ -93,14 +96,25 @@ export function CourrierPage() {
               onChange={e => update("lieu", e.target.value)}
             />
           </label>
-          <label>
-            Date (optionnelle)
+        </div>
+        <div className="row row-centered">
+          <label className="checkbox-option">
+            <input
+              type="checkbox"
+              checked={settings.inclureDate}
+              onChange={e => update("inclureDate", e.target.checked)}
+            />
+            Ajouter la date
+          </label>
+          {/* Pas de libellé visible : c'est la case "Inclure la date" qui l'annonce. */}
+          {settings.inclureDate && (
             <input
               type="date"
+              aria-label="Date du courrier"
               value={settings.date}
               onChange={e => update("date", e.target.value)}
             />
-          </label>
+          )}
         </div>
         <label className="courrier-field courrier-objet">
           Objet (optionnel, ne pas ajouter le préfixe "Objet :", déjà inclus
@@ -132,6 +146,48 @@ export function CourrierPage() {
             Rédige le corps du courrier pour générer le PDF.
           </p>
         )}
+      </Card>
+
+      <Card variantColor="sky">
+        <h2>Mise en page</h2>
+        <div className="row">
+          <label className="checkbox-option">
+            <input
+              type="checkbox"
+              checked={settings.margesVerticalesReduites}
+              onChange={e =>
+                update("margesVerticalesReduites", e.target.checked)
+              }
+            />
+            Réduire les marges verticales
+          </label>
+          <label className="checkbox-option">
+            <input
+              type="checkbox"
+              checked={settings.margesHorizontalesReduites}
+              onChange={e =>
+                update("margesHorizontalesReduites", e.target.checked)
+              }
+            />
+            Réduire les marges horizontales
+          </label>
+          <label className="checkbox-option">
+            <input
+              type="checkbox"
+              checked={settings.ecartsReduits}
+              onChange={e => update("ecartsReduits", e.target.checked)}
+            />
+            Réduire les écarts
+          </label>
+          <label className="checkbox-option">
+            <input
+              type="checkbox"
+              checked={settings.texteJustifie}
+              onChange={e => update("texteJustifie", e.target.checked)}
+            />
+            Justifier le texte
+          </label>
+        </div>
       </Card>
 
       <button
