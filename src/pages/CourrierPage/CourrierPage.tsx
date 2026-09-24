@@ -3,7 +3,24 @@ import type { CourrierSettings } from "../../courrier/types"
 import { CourrierDocument } from "../../pdf/courrier/CourrierDocument"
 import { downloadPdf } from "../../pdf/shared/downloadPdf"
 import { Card } from "../../shared/Card/Card"
+import { usePersistentState } from "../../shared/usePersistentState"
 import "./CourrierPage.css"
+
+// Réglages sauvegardés dans localStorage : tout sauf la date (voir CourrierPage).
+type PersistedSettings = Omit<CourrierSettings, "date">
+
+const DEFAULT_SETTINGS: PersistedSettings = {
+  expediteur: "",
+  destinataire: "",
+  lieu: "",
+  inclureDate: true,
+  objet: "",
+  corps: "",
+  margesVerticalesReduites: false,
+  margesHorizontalesReduites: false,
+  ecartsReduits: false,
+  texteJustifie: true,
+}
 
 /** Date du jour au format ISO "aaaa-mm-jj", dans le fuseau local. */
 function todayIso(): string {
@@ -13,32 +30,26 @@ function todayIso(): string {
   return `${now.getFullYear()}-${mois}-${jour}`
 }
 
-function buildInitialSettings(): CourrierSettings {
-  return {
-    expediteur: "",
-    destinataire: "",
-    lieu: "",
-    inclureDate: true,
-    date: todayIso(),
-    objet: "",
-    corps: "",
-    margesVerticalesReduites: false,
-    margesHorizontalesReduites: false,
-    ecartsReduits: false,
-    texteJustifie: true,
-  }
-}
-
 export function CourrierPage() {
-  const [settings, setSettings] =
-    useState<CourrierSettings>(buildInitialSettings)
+  const [persistedSettings, setPersistedSettings] =
+    usePersistentState<PersistedSettings>("courrier.settings", DEFAULT_SETTINGS)
+  // Pas persistée : un courrier est daté du jour où on le (re)génère.
+  const [date, setDate] = useState(todayIso)
   const [generating, setGenerating] = useState(false)
 
-  function update<K extends keyof CourrierSettings>(
+  // Les valeurs par défaut complètent une sauvegarde antérieure à l'ajout
+  // d'un nouveau réglage.
+  const settings: CourrierSettings = {
+    ...DEFAULT_SETTINGS,
+    ...persistedSettings,
+    date,
+  }
+
+  function update<K extends keyof PersistedSettings>(
     key: K,
-    value: CourrierSettings[K],
+    value: PersistedSettings[K],
   ) {
-    setSettings(prev => ({ ...prev, [key]: value }))
+    setPersistedSettings({ ...persistedSettings, [key]: value })
   }
 
   async function generatePdf() {
@@ -112,7 +123,7 @@ export function CourrierPage() {
               type="date"
               aria-label="Date du courrier"
               value={settings.date}
-              onChange={e => update("date", e.target.value)}
+              onChange={e => setDate(e.target.value)}
             />
           )}
         </div>
