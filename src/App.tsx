@@ -11,16 +11,16 @@ import { CoursesPage } from "./pages/CoursesPage/CoursesPage"
 import { CvPage } from "./pages/CvPage/CvPage"
 import { LoginPage } from "./pages/LoginPage/LoginPage"
 import { Navbar } from "./shared/Navbar/Navbar"
-import { isAuthRequired } from "./supabase/client"
+import { isSupabaseConfigured } from "./supabase/client"
 import { COMMIT_HASH } from "./version"
 
-// Le verrou : l'app ne s'affiche qu'avec une session valide. Il ne joue qu'en
-// build de prod, et seulement si Supabase est configuré (voir isAuthRequired).
+// Le verrou : l'app ne s'affiche qu'avec une session valide, en dev comme en
+// prod, dès que Supabase est configuré (voir isSupabaseConfigured).
 function AppGate() {
   const { session, loading } = useAuth()
   // Évite un flash de l'écran de connexion pendant la relecture de la session.
   if (loading) return null
-  if (isAuthRequired && session === null) return <LoginPage />
+  if (isSupabaseConfigured && session === null) return <LoginPage />
   return <AppContent />
 }
 

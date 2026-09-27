@@ -20,14 +20,6 @@ const anonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
  */
 export const isSupabaseConfigured = Boolean(url) && Boolean(anonKey)
 
-/**
- * Le verrou n'est actif qu'en build de production : en dev (`npm run dev`),
- * l'app s'ouvre sans connexion. C'est sans risque car `import.meta.env.DEV`
- * est remplacé statiquement par Vite au build — dans le bundle de prod la
- * condition vaut `isSupabaseConfigured`, le contournement n'y existe pas.
- */
-export const isAuthRequired = isSupabaseConfigured && !import.meta.env.DEV
-
 /** Le client Supabase, ou null tant que le projet n'est pas configuré. */
 export const supabase: SupabaseClient | null = isSupabaseConfigured
   ? createClient(url as string, anonKey as string)
