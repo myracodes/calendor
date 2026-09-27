@@ -39,7 +39,8 @@ Il complète [AGENTS.md](AGENTS.md) (règles générales, toujours applicables) 
 ### Base de données (Supabase)
 
 - Une table = un fichier `supabase/<table>.sql` versionné, contenant : le `create table` commenté colonne par colonne, `enable row level security`, les policies, les `grant` à `authenticated` (rien pour `anon`), et les éventuelles migrations. Modèle : `supabase/cv_contact.sql`.
-- Myriam exécute ce SQL elle-même dans le SQL editor du dashboard Supabase : lui dire précisément quoi exécuter. Ne jamais écrire de vraies données personnelles dans le fichier versionné.
+- Ajouter la table au tableau « Ce qu'elle verra » de [docs/ADD_USER.md](docs/ADD_USER.md), en précisant si ses données sont propres à chaque compte ou partagées.
+- Myriam exécute ce SQL elle-même dans le SQL editor du dashboard Supabase : lui dire précisément quoi exécuter, en renvoyant vers [docs/DATABASE.md](docs/DATABASE.md). Ajouter le script au tableau « Scripts du repo » de cette doc. Ne jamais écrire de vraies données personnelles dans le fichier versionné.
 - Données personnelles à un compte (tout sauf ce qui est explicitement partagé, comme la liste de courses) : colonne `user_id uuid not null default auth.uid()` et une policy `using (user_id = auth.uid()) with check (user_id = auth.uid())`. Le code n'a alors jamais à envoyer `user_id`. Modèle : `supabase/series.sql`.
 - Accès depuis le code via `supabase` / `requireSupabase()` de `src/supabase/client.ts`, dans une fonction dédiée de `src/<feature>/` qui convertit les lignes de la base vers les types de l'app (modèle : `src/cv/fetchCvContact.ts`). Prévoir le cas `supabase === null` (dev sans variables d'environnement).
 - Lectures et écritures regroupées dans un hook `src/<feature>/use<Feature>.ts` (chargement, erreur, actions qui ne mettent à jour l'état local qu'une fois la base d'accord). Modèle : `src/series/useSeries.ts`.

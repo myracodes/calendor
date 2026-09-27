@@ -19,7 +19,7 @@
 
 ### Authentification
 
-- créer les comptes pour les nouvelles users
+- créer les comptes pour les nouvelles users (procédure : docs/ADD_USER.md)
 - gérer la durée de la session
 
 ### Global
@@ -28,6 +28,8 @@
 - gérer les emoji nativement
 - bg image par défaut pour les différents modules, par ex le bujo
 - améliorer la structure des données en BDD
+- ajouter bouton logout
+- ajouter une durée de session
 
 ### CV
 

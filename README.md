@@ -24,3 +24,9 @@ npm run dev      # serveur de développement
 npm run build    # build de production
 npm run lint     # lint (oxlint)
 ```
+
+## Documentation
+
+- [Ajouter une utilisatrice](docs/ADD_USER.md)
+- [Base de données : créer ou modifier une table](docs/DATABASE.md)
+- [Créer une nouvelle feature](NEW_FEATURE.md) (guide pour les agents IA, voir aussi [AGENTS.md](AGENTS.md))
