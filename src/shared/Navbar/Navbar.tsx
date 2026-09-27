@@ -11,6 +11,7 @@ const LINKS = [
   { to: "/bujo", label: "BuJo factory" },
   { to: "/courrier", label: "Courrier" },
   { to: "/cv", label: "CV" },
+  { to: "/series", label: "Séries" },
 ]
 
 export function Navbar() {

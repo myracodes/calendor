@@ -1,0 +1,44 @@
+.series-picker-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Une série de la liste : ligne cliquable, nom à gauche et résumé à droite */
+.series-picker-option {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 600;
+  text-align: left;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: none;
+}
+
+.series-picker-option:hover {
+  border-color: var(--accent);
+}
+
+.series-picker-option--selected {
+  background: var(--gradient-candy);
+  border-color: transparent;
+}
+
+.series-picker-summary {
+  font-size: 0.85rem;
+  font-weight: 400;
+  color: var(--ink-light);
+}
+
+/* Sur le dégradé candy, --ink-light perd trop en contraste : le résumé repasse en --ink. */
+.series-picker-option--selected .series-picker-summary {
+  color: var(--ink);
+}

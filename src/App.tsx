@@ -10,6 +10,7 @@ import { CourrierPage } from "./pages/CourrierPage/CourrierPage"
 import { CoursesPage } from "./pages/CoursesPage/CoursesPage"
 import { CvPage } from "./pages/CvPage/CvPage"
 import { LoginPage } from "./pages/LoginPage/LoginPage"
+import { SeriesPage } from "./pages/SeriesPage/SeriesPage"
 import { Navbar } from "./shared/Navbar/Navbar"
 import { isSupabaseConfigured } from "./supabase/client"
 import { COMMIT_HASH } from "./version"
@@ -50,6 +51,7 @@ function AppContent() {
           <Route path="/courrier" element={<CourrierPage />} />
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/cv" element={<CvPage />} />
+          <Route path="/series" element={<SeriesPage />} />
         </Routes>
 
         <footer className="footer">

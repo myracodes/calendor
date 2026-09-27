@@ -1,0 +1,14 @@
+.series-editor-seasons {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.series-editor-error {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--danger);
+}
