@@ -25,6 +25,7 @@ Il complète [AGENTS.md](AGENTS.md) (règles générales, toujours applicables) 
   - `Card` : bloc de contenu avec liseré coloré (`variantColor` : `sun`, `candy`, `sky`) et titre `<h2>`.
   - `Tabs` : barre d'onglets (un seul actif). Typer les identifiants d'onglets avec une union (`Tab<"watch" | "settings">`).
   - `ActionButton` : grand bouton pleine largeur de l'action principale d'une page (générer le PDF, enregistrer, créer…). `busy` pendant l'action en cours (désactive le bouton, curseur d'attente) ; `variant="secondary"` pour l'action d'à côté (réinitialiser, annuler, supprimer), placée juste au-dessus.
+  - `ProgressPie` : camembert de progression en pourcentage, avec la valeur en dessous.
   - `Alert`, `IllustrationSection`.
   - `usePersistentState` : état persisté dans `localStorage` (clé préfixée par la feature : `"series.activeTab"`).
 - Si un élément d'une page existante doit servir ailleurs, l'extraire vers `src/shared/` et faire utiliser la version partagée par la page d'origine (ex. `Tabs`, extrait de `TemplateTabs` des calendriers) plutôt que dupliquer le style.
@@ -57,4 +58,5 @@ Il complète [AGENTS.md](AGENTS.md) (règles générales, toujours applicables) 
 
 Ce que chaque feature a apporté au guide, pour savoir d'où vient une convention.
 
-- **Séries** (`/series`) — suivi des épisodes vus. Création de ce guide ; extraction des composants partagés `Tabs`, et `ActionButton` (ex-classes `.generate`) ; verrou de connexion activé aussi en dev ; première table Supabase propre à chaque compte (`series`).
+- **Séries** (`/series`) — suivi des épisodes vus. Création de ce guide ; extraction des composants partagés `Tabs` et `ActionButton` (ex-classes `.generate`) ; verrou de connexion activé aussi en dev ; première table Supabase propre à chaque compte (`series`).
+- **Séries, onglet Suivi** — style commun des boutons désactivés (`button:disabled` dans `App.css`) ; première migration d'une table existante (section « Migration » de `supabase/series.sql`) ; composant partagé `ProgressPie` et exception « variable CSS » à la règle du CSS inline (AGENTS.md).
