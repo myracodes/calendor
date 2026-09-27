@@ -1,0 +1,28 @@
+.progress-pie {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Le disque : part vue en --accent-strong, reste en --surface. --progress est
+   posé par le composant (seule valeur dynamique). */
+.progress-pie-disc {
+  width: 2.75rem;
+  height: 2.75rem;
+  box-sizing: border-box;
+  border-radius: 50%;
+  /* Cercle en --accent-strong : délimite le disque même à 0 %, et garde un
+     contraste ≥ 3:1 avec la part restante (--line n'atteint que 2,8:1). */
+  border: 2px solid var(--accent-strong);
+  background: conic-gradient(
+    var(--accent-strong) var(--progress, 0%),
+    var(--surface) 0
+  );
+}
+
+.progress-pie-value {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--ink);
+}

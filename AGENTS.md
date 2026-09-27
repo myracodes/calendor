@@ -12,6 +12,7 @@ Pour créer une nouvelle feature, suivre aussi [NEW_FEATURE.md](NEW_FEATURE.md).
 ## CSS
 
 - Pas de CSS inline (attribut `style` ou objets de style dans le JSX). Si du style est nécessaire, créer un fichier CSS dédié et l'importer.
+  - Seule exception : une valeur qui dépend des données et ne peut pas s'écrire dans un CSS statique (ex. le pourcentage d'un camembert) peut passer par une **variable CSS** posée en `style` (`style={{ "--progress": "16%" }}`). Tout le reste du dessin reste dans le `.css`, et un commentaire au-dessus du `style` justifie l'exception. Modèle : `src/shared/ProgressPie/`.
 - Les contrôles communs (cases à cocher, inputs, boutons…) gardent tous le même style : réutiliser les classes partagées (ex. `.checkbox-option` de `App.css`) sans ajouter de retouche propre à une page ou à une instance.
 - Les couleurs doivent toujours garantir un score d'accessibilité optimal : viser un contraste WCAG AAA (≥ 7:1 pour le texte) sur les fonds du thème (`--paper`, `--surface`). Utiliser les tokens du thème (`src/index.css`) — notamment `--success`, `--info`, `--warning`, `--danger` — plutôt que des couleurs en dur. Si besoin d'ajouter des couleurs, demander la permission en justifiant le besoin, puis vérifier le ratio. 
 
