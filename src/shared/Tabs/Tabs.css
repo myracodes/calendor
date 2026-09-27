@@ -1,11 +1,11 @@
-.template-tabs {
+.tabs {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
   margin: 0 0 2rem;
 }
 
-.template-tab {
+.tab {
   flex: 1 1 auto;
   min-width: 10rem;
   height: 3rem;
@@ -17,11 +17,11 @@
   box-shadow: none;
 }
 
-.template-tab:hover {
+.tab:hover {
   border-color: var(--accent);
 }
 
-.template-tab--active {
+.tab--active {
   color: var(--ink);
   background: var(--gradient-rainbow);
   border-color: transparent;

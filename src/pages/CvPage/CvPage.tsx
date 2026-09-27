@@ -10,6 +10,7 @@ import { fetchCvContact } from "../../cv/fetchCvContact"
 import type { CvData, CvLanguage, CvPitch } from "../../cv/types"
 import { CvDocument } from "../../pdf/cv/CvDocument"
 import { downloadPdf } from "../../pdf/shared/downloadPdf"
+import { ActionButton } from "../../shared/ActionButton/ActionButton"
 import { Alert } from "../../shared/Alert/Alert"
 import { Card } from "../../shared/Card/Card"
 import { usePersistentState } from "../../shared/usePersistentState"
@@ -175,16 +176,11 @@ export function CvPage() {
         </Alert>
       )}
 
-      <button
-        type="button"
-        className="generate"
-        disabled={generating}
-        onClick={generatePdf}
-      >
+      <ActionButton busy={generating} onClick={generatePdf}>
         {generating
           ? "Génération…"
           : `Générer le PDF (${language === "fr" ? "français" : "anglais"})`}
-      </button>
+      </ActionButton>
     </>
   )
 }

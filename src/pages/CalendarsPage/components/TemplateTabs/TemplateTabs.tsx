@@ -1,6 +1,6 @@
 import { applyPresetToSettings, PRESETS } from "../../../../presets"
 import type { CalendarSettings, SettingsUpdater } from "../../../../types"
-import "./TemplateTabs.css"
+import { Tabs } from "../../../../shared/Tabs/Tabs"
 
 export const BLANK_TEMPLATE = "__blank__"
 
@@ -43,41 +43,20 @@ export function TemplateTabs({
       onUpdate("format", "monthly")
   }
 
+  function select(id: string) {
+    if (id === BLANK_TEMPLATE) selectBlank()
+    else selectPreset(id)
+  }
+
   return (
-    <div
-      className="template-tabs"
-      role="tablist"
-      aria-label="Modèle de calendrier"
-    >
-      <button
-        type="button"
-        role="tab"
-        aria-selected={active === BLANK_TEMPLATE}
-        className={
-          active === BLANK_TEMPLATE
-            ? "template-tab template-tab--active"
-            : "template-tab"
-        }
-        onClick={selectBlank}
-      >
-        Calendrier vierge
-      </button>
-      {PRESETS.map(preset => (
-        <button
-          key={preset.name}
-          type="button"
-          role="tab"
-          aria-selected={active === preset.name}
-          className={
-            active === preset.name
-              ? "template-tab template-tab--active"
-              : "template-tab"
-          }
-          onClick={() => selectPreset(preset.name)}
-        >
-          {preset.name}
-        </button>
-      ))}
-    </div>
+    <Tabs
+      tabs={[
+        { id: BLANK_TEMPLATE, label: "Calendrier vierge" },
+        ...PRESETS.map(preset => ({ id: preset.name, label: preset.name })),
+      ]}
+      active={active}
+      onSelect={select}
+      ariaLabel="Modèle de calendrier"
+    />
   )
 }

@@ -2,6 +2,7 @@ import { useState } from "react"
 import type { BujoColumn, BujoSettings, DottedWidth } from "../../bujo/types"
 import { BujoDocument } from "../../pdf/bujo/BujoDocument"
 import { downloadPdf } from "../../pdf/shared/downloadPdf"
+import { ActionButton } from "../../shared/ActionButton/ActionButton"
 import { Card } from "../../shared/Card/Card"
 import { IllustrationSection } from "../../shared/IllustrationSection/IllustrationSection"
 import "./BujoFactoryPage.css"
@@ -212,14 +213,13 @@ export function BujoFactoryPage() {
         onUpdate={value => update("illustration", value)}
       />
 
-      <button
-        type="button"
-        className="generate"
-        disabled={generating || settings.columns.length === 0}
+      <ActionButton
+        busy={generating}
+        disabled={settings.columns.length === 0}
         onClick={generatePdf}
       >
         {generating ? "Génération…" : "Générer le PDF"}
-      </button>
+      </ActionButton>
     </>
   )
 }

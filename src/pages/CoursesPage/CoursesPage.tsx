@@ -6,6 +6,7 @@ import { selectionKeys } from "../../courses/selection"
 import type { ArticleLibre, SectionListe } from "../../courses/types"
 import { CoursesDocument } from "../../pdf/courses/CoursesDocument"
 import { downloadPdf } from "../../pdf/shared/downloadPdf"
+import { ActionButton } from "../../shared/ActionButton/ActionButton"
 import { Card, type CardVariantColor } from "../../shared/Card/Card"
 import "./CoursesPage.css"
 
@@ -188,14 +189,9 @@ export function CoursesPage() {
         </Card>
       ))}
 
-      <button
-        type="button"
-        className="generate"
-        disabled={generating || estVide}
-        onClick={generatePdf}
-      >
+      <ActionButton busy={generating} disabled={estVide} onClick={generatePdf}>
         {generating ? "Génération…" : "Générer le PDF"}
-      </button>
+      </ActionButton>
     </>
   )
 }

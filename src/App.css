@@ -186,51 +186,6 @@ button:focus-visible {
   color: var(--ink-light);
 }
 
-/* ===== Génération ===== */
-
-.generate {
-  width: 100%;
-  height: 3.25rem;
-  font-size: 1.1rem;
-  font-weight: 700;
-  background: var(--gradient-rainbow);
-  background-size: 200% 100%;
-  transition:
-    background-position 0.4s ease,
-    transform 0.15s ease,
-    box-shadow 0.15s ease;
-}
-
-.generate:hover {
-  background-position: 100% 0;
-}
-
-.generate:disabled {
-  opacity: 0.6;
-  cursor: wait;
-  transform: none;
-}
-
-/* Variante secondaire (ex. réinitialiser) : fond blanc, seul le contour reprend
-   le dégradé. Deux couches : le blanc s'arrête au padding, le dégradé remplit
-   la bordure transparente. */
-.generate-secondary {
-  margin-bottom: 0.75rem;
-  border: 3px solid transparent;
-  background:
-    linear-gradient(var(--surface), var(--surface)) padding-box,
-    var(--gradient-rainbow) border-box;
-  background-size:
-    100% 100%,
-    200% 100%;
-}
-
-.generate-secondary:hover {
-  background-position:
-    0 0,
-    100% 0;
-}
-
 /* ===== Pied de page ===== */
 
 .footer {

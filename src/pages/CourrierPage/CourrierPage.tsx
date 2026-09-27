@@ -2,6 +2,7 @@ import { useState } from "react"
 import type { CourrierSettings } from "../../courrier/types"
 import { CourrierDocument } from "../../pdf/courrier/CourrierDocument"
 import { downloadPdf } from "../../pdf/shared/downloadPdf"
+import { ActionButton } from "../../shared/ActionButton/ActionButton"
 import { Card } from "../../shared/Card/Card"
 import { usePersistentState } from "../../shared/usePersistentState"
 import "./CourrierPage.css"
@@ -212,22 +213,17 @@ export function CourrierPage() {
         </div>
       </Card>
 
-      <button
-        type="button"
-        className="generate generate-secondary"
-        onClick={resetSettings}
-      >
+      <ActionButton variant="secondary" onClick={resetSettings}>
         Réinitialiser le formulaire
-      </button>
+      </ActionButton>
 
-      <button
-        type="button"
-        className="generate"
-        disabled={generating || settings.corps.trim() === ""}
+      <ActionButton
+        busy={generating}
+        disabled={settings.corps.trim() === ""}
         onClick={generatePdf}
       >
         {generating ? "Génération…" : "Générer le PDF"}
-      </button>
+      </ActionButton>
     </>
   )
 }

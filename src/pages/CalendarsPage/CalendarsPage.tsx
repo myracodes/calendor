@@ -2,6 +2,7 @@ import { useState } from "react"
 import { CalendarDocument } from "../../pdf/calendar/CalendarDocument"
 import { downloadPdf } from "../../pdf/shared/downloadPdf"
 import { PRESETS } from "../../presets"
+import { ActionButton } from "../../shared/ActionButton/ActionButton"
 import { IllustrationSection } from "../../shared/IllustrationSection/IllustrationSection"
 import type { CalendarSettings } from "../../types"
 import { ParametrageSection } from "./components/ParametrageSection/ParametrageSection"
@@ -89,14 +90,9 @@ export function CalendarsPage() {
         hideEventsCheckboxes={hideEventsCheckboxes}
       />
 
-      <button
-        type="button"
-        className="generate"
-        disabled={generating}
-        onClick={generatePdf}
-      >
+      <ActionButton busy={generating} onClick={generatePdf}>
         {generating ? "Génération…" : "Générer le PDF"}
-      </button>
+      </ActionButton>
     </>
   )
 }

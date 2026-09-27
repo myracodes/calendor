@@ -10,6 +10,7 @@ import {
   OCCASIONS,
   seasonForMonth,
 } from "../../batchCooking/ingredients"
+import { ActionButton } from "../../shared/ActionButton/ActionButton"
 import { Card } from "../../shared/Card/Card"
 import "./BatchCookingPage.css"
 
@@ -198,13 +199,11 @@ export function BatchCookingPage() {
         </>
       )}
 
-      <button
-        type="button"
-        className="generate"
+      <ActionButton
         onClick={() => setPlan(generateWeekPlan(occasion, mealCount))}
       >
         {plan ? "Regénérer" : "Générer la semaine"}
-      </button>
+      </ActionButton>
     </>
   )
 }
