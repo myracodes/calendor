@@ -9,9 +9,15 @@ create table public.series (
   -- Tableau ordonné des saisons { "episodeCount": 12 } — même forme que Season[]
   -- (src/series/types.ts). Le numéro d'une saison est sa position (1re = saison 1).
   seasons jsonb not null default '[]'::jsonb check (jsonb_typeof(seasons) = 'array'),
+  -- Dernier épisode vu (onglet Suivi) : saison et épisode dans la saison, tous
+  -- deux vides tant que la série n'est pas commencée
+  last_watched_season integer check (last_watched_season >= 1),
+  last_watched_episode integer check (last_watched_episode >= 1),
   created_at timestamptz not null default now(),
   -- Pas deux séries du même nom pour un même compte
-  unique (user_id, name)
+  unique (user_id, name),
+  constraint series_last_watched_complete
+    check ((last_watched_season is null) = (last_watched_episode is null))
 );
 
 alter table public.series enable row level security;
@@ -25,3 +31,12 @@ create policy "séries du compte connecté" on public.series
 -- Privilèges SQL de base, indépendants de la RLS (voir cv_contact.sql).
 -- Rien pour "anon" : les visiteurs non connectés n'ont aucun accès.
 grant select, insert, update, delete on public.series to authenticated;
+
+-- Migration d'une table créée avant l'onglet Suivi (sans les colonnes
+-- last_watched_*) : à exécuter une fois, seule, dans le SQL editor.
+--
+-- alter table public.series
+--   add column last_watched_season integer check (last_watched_season >= 1),
+--   add column last_watched_episode integer check (last_watched_episode >= 1),
+--   add constraint series_last_watched_complete
+--     check ((last_watched_season is null) = (last_watched_episode is null));

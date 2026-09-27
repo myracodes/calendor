@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react"
-import { deleteSeries, fetchSeries, saveSeries } from "./seriesRepository"
+import { nextEpisode } from "./progress"
+import {
+  deleteSeries,
+  fetchSeries,
+  saveLastWatched,
+  saveSeries,
+} from "./seriesRepository"
 import type { Series, SeriesDraft } from "./types"
 
 function byName(first: Series, second: Series): number {
@@ -20,7 +26,9 @@ export function useSeries() {
     let cancelled = false
     fetchSeries()
       .then(list => {
-        if (!cancelled) setSeries(list)
+        // Tri refait ici : l'ordre de PostgreSQL ne suit pas forcément les
+        // règles du français (accents, majuscules).
+        if (!cancelled) setSeries([...list].sort(byName))
       })
       .catch((error: Error) => {
         if (!cancelled) setLoadError(error.message)
@@ -33,12 +41,23 @@ export function useSeries() {
     }
   }, [])
 
-  async function save(draft: SeriesDraft): Promise<Series> {
-    const saved = await saveSeries(draft)
+  function replace(saved: Series) {
     setSeries(previous =>
       [...previous.filter(item => item.id !== saved.id), saved].sort(byName),
     )
+  }
+
+  async function save(draft: SeriesDraft): Promise<Series> {
+    const saved = await saveSeries(draft)
+    replace(saved)
     return saved
+  }
+
+  /** Marque comme vu l'épisode qui suit le dernier vu (rien s'il n'y en a pas). */
+  async function markNextWatched(item: Series): Promise<void> {
+    const next = nextEpisode(item)
+    if (next === null) return
+    replace(await saveLastWatched(item.id, next))
   }
 
   async function remove(id: string): Promise<void> {
@@ -46,5 +65,5 @@ export function useSeries() {
     setSeries(previous => previous.filter(item => item.id !== id))
   }
 
-  return { series, loading, loadError, save, remove }
+  return { series, loading, loadError, save, remove, markNextWatched }
 }

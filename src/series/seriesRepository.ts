@@ -1,12 +1,18 @@
 // Lecture et écriture des séries dans Supabase (table `series`, voir supabase/series.sql).
 
 import { requireSupabase } from "../supabase/client"
-import type { Season, Series, SeriesDraft } from "./types"
+import type { EpisodeRef, Season, Series, SeriesDraft } from "./types"
 
 /** Colonnes lues en base ; `seasons` est un jsonb, renvoyé non typé par Supabase. */
-const COLUMNS = "id, name, seasons"
+const COLUMNS = "id, name, seasons, last_watched_season, last_watched_episode"
 
-type SeriesRow = { id: string; name: string; seasons: Season[] }
+type SeriesRow = {
+  id: string
+  name: string
+  seasons: Season[]
+  last_watched_season: number | null
+  last_watched_episode: number | null
+}
 
 /** Code PostgreSQL d'une violation de contrainte unique (ici : nom déjà pris). */
 const UNIQUE_VIOLATION = "23505"
@@ -16,6 +22,14 @@ function toSeries(row: SeriesRow): Series {
     id: row.id,
     name: row.name,
     seasons: row.seasons.map(season => ({ episodeCount: season.episodeCount })),
+    // Les deux colonnes sont vides ou remplies ensemble (contrainte en base).
+    lastWatched:
+      row.last_watched_season === null || row.last_watched_episode === null
+        ? null
+        : {
+            season: row.last_watched_season,
+            episode: row.last_watched_episode,
+          },
   }
 }
 
@@ -44,6 +58,24 @@ export async function saveSeries(draft: SeriesDraft): Promise<Series> {
     draft.id === null
       ? await table.insert(values).select(COLUMNS).single()
       : await table.update(values).eq("id", draft.id).select(COLUMNS).single()
+  if (error !== null) throw toError(error)
+  return toSeries(data as SeriesRow)
+}
+
+/** Enregistre le dernier épisode vu de la série. */
+export async function saveLastWatched(
+  id: string,
+  lastWatched: EpisodeRef,
+): Promise<Series> {
+  const { data, error } = await requireSupabase()
+    .from("series")
+    .update({
+      last_watched_season: lastWatched.season,
+      last_watched_episode: lastWatched.episode,
+    })
+    .eq("id", id)
+    .select(COLUMNS)
+    .single()
   if (error !== null) throw toError(error)
   return toSeries(data as SeriesRow)
 }

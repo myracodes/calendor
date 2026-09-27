@@ -1,0 +1,53 @@
+.watch-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Une série : camembert, infos, puis bouton — sous les infos sur mobile,
+   à droite sur écran large */
+.watch-item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.watch-item:first-child {
+  padding-top: 0;
+}
+
+.watch-item:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.watch-item-button {
+  grid-column: 1 / -1;
+}
+
+@media (min-width: 640px) {
+  .watch-item {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .watch-item-button {
+    grid-column: auto;
+  }
+}
+
+.watch-item-name {
+  margin: 0;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.watch-item-detail {
+  margin: 0.15rem 0 0;
+  font-size: 0.9rem;
+  color: var(--ink-light);
+}
