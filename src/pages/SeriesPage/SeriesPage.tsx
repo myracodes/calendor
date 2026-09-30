@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { Alert } from "../../shared/Alert/Alert"
 import { type Tab, Tabs } from "../../shared/Tabs/Tabs"
 import { usePersistentState } from "../../shared/usePersistentState"
@@ -19,6 +20,20 @@ export function SeriesPage() {
     "watch",
   )
 
+  // Nom tapé dans la recherche du suivi, à reprendre dans le formulaire de
+  // création de série du paramétrage.
+  const [newSeriesName, setNewSeriesName] = useState<string | null>(null)
+
+  function selectTab(tab: SeriesTab) {
+    setNewSeriesName(null)
+    setActiveTab(tab)
+  }
+
+  function createSeries(name: string) {
+    setNewSeriesName(name)
+    setActiveTab("settings")
+  }
+
   // Les séries sont en base : sans Supabase, pas de verrou ni de session,
   // donc rien à afficher.
   if (!isSupabaseConfigured) {
@@ -38,12 +53,16 @@ export function SeriesPage() {
       <Tabs
         tabs={TABS}
         active={activeTab}
-        onSelect={setActiveTab}
+        onSelect={selectTab}
         ariaLabel="Onglets des séries"
       />
 
       <div role="tabpanel">
-        {activeTab === "watch" ? <WatchTab /> : <SettingsTab />}
+        {activeTab === "watch" ? (
+          <WatchTab onCreateSeries={createSeries} />
+        ) : (
+          <SettingsTab initialNewSeriesName={newSeriesName} />
+        )}
       </div>
     </>
   )

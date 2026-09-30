@@ -16,7 +16,11 @@ import { EpisodeCorrection } from "../EpisodeCorrection/EpisodeCorrection"
 import "./WatchTab.css"
 
 // Onglet d'utilisation : où j'en suis de chaque série, et marquer l'épisode suivant.
-export function WatchTab() {
+export function WatchTab({
+  onCreateSeries,
+}: {
+  onCreateSeries: (name: string) => void
+}) {
   const { series, loading, loadError, markNextWatched, setLastWatched } =
     useSeries()
   const [search, setSearch] = useState("")
@@ -24,6 +28,7 @@ export function WatchTab() {
   const [pendingId, setPendingId] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const matches = filterSeries(series, search)
+  const canCreateFromSearch = search.trim() !== "" && matches.length === 0
 
   // Enregistre une modification de la progression d'une série, en gardant
   // l'erreur éventuelle à afficher.
@@ -72,12 +77,17 @@ export function WatchTab() {
         </Alert>
       )}
 
-      {series.length === 0 ? (
+      {canCreateFromSearch ? (
+        <>
+          <p className="hint">Aucune série ne correspond à « {search} ».</p>
+          <ActionButton onClick={() => onCreateSeries(search.trim())}>
+            Créer « {search.trim()} »
+          </ActionButton>
+        </>
+      ) : series.length === 0 ? (
         <p className="hint">
           Aucune série pour l'instant : ajoute-en une dans l'onglet Paramétrage.
         </p>
-      ) : matches.length === 0 ? (
-        <p className="hint">Aucune série ne correspond à « {search} ».</p>
       ) : (
         <ul className="watch-list">
           {matches.map(item => {

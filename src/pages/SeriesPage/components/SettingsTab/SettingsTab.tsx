@@ -10,10 +10,19 @@ function toDraft(series: Series): SeriesDraft {
 }
 
 // Onglet de paramétrage : choisir, créer et modifier les séries et leurs saisons.
-export function SettingsTab() {
+export function SettingsTab({
+  initialNewSeriesName,
+}: {
+  // Renseigné quand on arrive depuis la recherche du suivi : ouvre directement la création.
+  initialNewSeriesName: string | null
+}) {
   const { series, loading, loadError, save, remove } = useSeries()
   const [search, setSearch] = useState("")
-  const [draft, setDraft] = useState<SeriesDraft | null>(null)
+  const [draft, setDraft] = useState<SeriesDraft | null>(
+    initialNewSeriesName === null
+      ? null
+      : { id: null, name: initialNewSeriesName, seasons: [] },
+  )
 
   // Protège les modifications en cours avant d'ouvrir une autre série.
   function canLeaveDraft(): boolean {
