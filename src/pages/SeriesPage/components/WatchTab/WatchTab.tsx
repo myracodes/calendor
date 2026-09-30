@@ -1,34 +1,47 @@
 import { useState } from "react"
 import { describeSeasons, formatEpisode } from "../../../../series/format"
-import { nextEpisode, watchedPercent } from "../../../../series/progress"
+import {
+  nextEpisode,
+  previousEpisode,
+  watchedPercent,
+} from "../../../../series/progress"
 import { filterSeries } from "../../../../series/search"
-import type { Series } from "../../../../series/types"
+import type { EpisodeRef, Series } from "../../../../series/types"
 import { useSeries } from "../../../../series/useSeries"
 import { Alert } from "../../../../shared/Alert/Alert"
+import { ActionButton } from "../../../../shared/ActionButton/ActionButton"
 import { Card } from "../../../../shared/Card/Card"
 import { ProgressPie } from "../../../../shared/ProgressPie/ProgressPie"
+import { EpisodeCorrection } from "../EpisodeCorrection/EpisodeCorrection"
 import "./WatchTab.css"
 
 // Onglet d'utilisation : où j'en suis de chaque série, et marquer l'épisode suivant.
 export function WatchTab() {
-  const { series, loading, loadError, markNextWatched } = useSeries()
+  const { series, loading, loadError, markNextWatched, setLastWatched } =
+    useSeries()
   const [search, setSearch] = useState("")
   // Série dont l'enregistrement est en cours, pour ne désactiver que son bouton.
   const [pendingId, setPendingId] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const matches = filterSeries(series, search)
 
-  async function markNext(item: Series) {
+  // Enregistre une modification de la progression d'une série, en gardant
+  // l'erreur éventuelle à afficher.
+  async function save(item: Series, action: () => Promise<void>) {
     setPendingId(item.id)
     setError(null)
     try {
-      await markNextWatched(item)
+      await action()
     } catch (caught) {
       setError((caught as Error).message)
     } finally {
       setPendingId(null)
     }
   }
+
+  const markNext = (item: Series) => save(item, () => markNextWatched(item))
+  const correct = (item: Series, lastWatched: EpisodeRef | null) =>
+    save(item, () => setLastWatched(item, lastWatched))
 
   if (loading) return <p className="hint">Chargement des séries…</p>
   if (loadError !== null) {
@@ -54,7 +67,7 @@ export function WatchTab() {
       </label>
 
       {error !== null && (
-        <Alert variantColor="danger" title="Épisode non enregistré">
+        <Alert variantColor="danger" title="Modification non enregistrée">
           {error}
         </Alert>
       )}
@@ -87,16 +100,30 @@ export function WatchTab() {
                     {item.lastWatched !== null && next === null && " — à jour"}
                   </p>
                 </div>
-                <button
-                  type="button"
-                  className="watch-item-button"
-                  disabled={next === null || pendingId === item.id}
-                  onClick={() => markNext(item)}
-                >
-                  {next === null
-                    ? "Marquer l'épisode suivant comme vu"
-                    : `Marquer ${formatEpisode(next)} comme vu`}
-                </button>
+                <div className="watch-item-buttons">
+                  <ActionButton
+                    variant="secondary"
+                    disabled={item.lastWatched === null}
+                    busy={pendingId === item.id}
+                    onClick={() => correct(item, previousEpisode(item))}
+                  >
+                    Annuler l'épisode
+                  </ActionButton>
+                  <ActionButton
+                    disabled={next === null}
+                    busy={pendingId === item.id}
+                    onClick={() => markNext(item)}
+                  >
+                    {next === null
+                      ? "Épisode suivant vu"
+                      : `${formatEpisode(next)} vu`}
+                  </ActionButton>
+                </div>
+                <EpisodeCorrection
+                  series={item}
+                  disabled={pendingId === item.id}
+                  onChange={lastWatched => correct(item, lastWatched)}
+                />
               </li>
             )
           })}

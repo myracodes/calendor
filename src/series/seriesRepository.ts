@@ -21,7 +21,9 @@ function toSeries(row: SeriesRow): Series {
   return {
     id: row.id,
     name: row.name,
-    seasons: row.seasons.map(season => ({ episodeCount: season.episodeCount })),
+    seasons: row.seasons.map(season => ({
+      episodeCount: season.episodeCount,
+    })),
     // Les deux colonnes sont vides ou remplies ensemble (contrainte en base).
     lastWatched:
       row.last_watched_season === null || row.last_watched_episode === null
@@ -62,16 +64,16 @@ export async function saveSeries(draft: SeriesDraft): Promise<Series> {
   return toSeries(data as SeriesRow)
 }
 
-/** Enregistre le dernier épisode vu de la série. */
+/** Enregistre le dernier épisode vu de la série (null : pas commencée). */
 export async function saveLastWatched(
   id: string,
-  lastWatched: EpisodeRef,
+  lastWatched: EpisodeRef | null,
 ): Promise<Series> {
   const { data, error } = await requireSupabase()
     .from("series")
     .update({
-      last_watched_season: lastWatched.season,
-      last_watched_episode: lastWatched.episode,
+      last_watched_season: lastWatched?.season ?? null,
+      last_watched_episode: lastWatched?.episode ?? null,
     })
     .eq("id", id)
     .select(COLUMNS)

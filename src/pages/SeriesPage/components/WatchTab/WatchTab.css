@@ -6,11 +6,10 @@
   list-style: none;
 }
 
-/* Une série : camembert, infos, puis bouton — sous les infos sur mobile,
-   à droite sur écran large */
+/* Une série : camembert, infos et boutons sur une ligne, puis la correction */
 .watch-item {
   display: grid;
-  grid-template-columns: auto 1fr;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 0.75rem 1rem;
   padding: 0.9rem 0;
@@ -26,20 +25,6 @@
   border-bottom: none;
 }
 
-.watch-item-button {
-  grid-column: 1 / -1;
-}
-
-@media (min-width: 640px) {
-  .watch-item {
-    grid-template-columns: auto 1fr auto;
-  }
-
-  .watch-item-button {
-    grid-column: auto;
-  }
-}
-
 .watch-item-name {
   margin: 0;
   font-weight: 700;
@@ -50,4 +35,25 @@
   margin: 0.15rem 0 0;
   font-size: 0.9rem;
   color: var(--ink-light);
+}
+
+/* Les deux boutons d'action, sur la ligne du camembert et des infos ; le
+   margin-bottom du secondaire (prévu pour l'empiler au-dessus d'un autre) n'a
+   pas lieu d'être ici. */
+.watch-item-buttons {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr; /* colonnes égales : les deux boutons prennent la largeur du plus large */
+  gap: 0.75rem;
+}
+
+.watch-item-buttons .action-button {
+  width: auto;
+  margin-bottom: 0;
+  white-space: nowrap;
+}
+
+/* La correction manuelle prend toute la largeur, sous la ligne principale */
+.watch-item .episode-correction {
+  grid-column: 1 / -1;
 }

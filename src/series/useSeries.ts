@@ -6,7 +6,7 @@ import {
   saveLastWatched,
   saveSeries,
 } from "./seriesRepository"
-import type { Series, SeriesDraft } from "./types"
+import type { EpisodeRef, Series, SeriesDraft } from "./types"
 
 function byName(first: Series, second: Series): number {
   return first.name.localeCompare(second.name, "fr")
@@ -60,10 +60,26 @@ export function useSeries() {
     replace(await saveLastWatched(item.id, next))
   }
 
+  /** Corrige le dernier épisode vu (null : la série redevient non commencée). */
+  async function setLastWatched(
+    item: Series,
+    lastWatched: EpisodeRef | null,
+  ): Promise<void> {
+    replace(await saveLastWatched(item.id, lastWatched))
+  }
+
   async function remove(id: string): Promise<void> {
     await deleteSeries(id)
     setSeries(previous => previous.filter(item => item.id !== id))
   }
 
-  return { series, loading, loadError, save, remove, markNextWatched }
+  return {
+    series,
+    loading,
+    loadError,
+    save,
+    remove,
+    markNextWatched,
+    setLastWatched,
+  }
 }

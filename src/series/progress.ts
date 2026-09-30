@@ -21,6 +21,26 @@ export function nextEpisode(series: Series): EpisodeRef | null {
   return null
 }
 
+/**
+ * L'épisode qui précède le dernier vu (pour annuler un clic par erreur) : le
+ * précédent dans la saison, sinon le dernier de la saison précédente. null
+ * quand il n'y en a pas : le dernier vu était le 1er épisode, la série
+ * redevient « pas commencée ».
+ */
+export function previousEpisode(series: Series): EpisodeRef | null {
+  const { seasons, lastWatched } = series
+  if (lastWatched === null) return null
+  if (lastWatched.episode > 1) {
+    return { season: lastWatched.season, episode: lastWatched.episode - 1 }
+  }
+  const previousSeason = seasons[lastWatched.season - 2]
+  if (previousSeason === undefined) return null
+  return {
+    season: lastWatched.season - 1,
+    episode: previousSeason.episodeCount,
+  }
+}
+
 /** Nombre total d'épisodes, toutes saisons confondues. */
 export function countEpisodes(seasons: Season[]): number {
   return seasons.reduce((total, season) => total + season.episodeCount, 0)
