@@ -79,8 +79,6 @@ export function CourrierPage() {
 
   return (
     <>
-      <p className="tagline">Mon générateur de courriers</p>
-
       <Card variantColor="sun">
         <h2>Expéditrice</h2>
         <label className="courrier-field">

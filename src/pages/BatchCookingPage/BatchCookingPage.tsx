@@ -77,8 +77,6 @@ export function BatchCookingPage() {
 
   return (
     <>
-      <p className="tagline">Planification de batch cooking</p>
-
       <Card variantColor="sun">
         <h2>Semaine</h2>
         <div className="row">

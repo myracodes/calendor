@@ -97,8 +97,6 @@ export function CoursesPage() {
 
   return (
     <>
-      <p className="tagline">Ma liste de courses, dans l'ordre des rayons</p>
-
       <Card>
         <h2>Ma liste</h2>
         {estVide ? (

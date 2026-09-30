@@ -65,8 +65,6 @@ export function CalendarsPage() {
 
   return (
     <>
-      <p className="tagline">Mon générateur de calendriers personnalisés</p>
-
       <TemplateTabs
         settings={settings}
         onUpdate={update}

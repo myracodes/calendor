@@ -93,8 +93,6 @@ export function BujoFactoryPage() {
 
   return (
     <>
-      <p className="tagline">Ma fabrique de pages façon bullet journal</p>
-
       <Card variantColor="sun">
         <h2>Page</h2>
         <div className="row">

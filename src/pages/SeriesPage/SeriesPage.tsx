@@ -19,14 +19,11 @@ export function SeriesPage() {
     "watch",
   )
 
-  const tagline = <p className="tagline">Suivi des séries que je regarde</p>
-
   // Les séries sont en base : sans Supabase, pas de verrou ni de session,
   // donc rien à afficher.
   if (!isSupabaseConfigured) {
     return (
       <>
-        {tagline}
         <Alert variantColor="danger" title="Base de données non configurée">
           Renseigner VITE_SUPABASE_URL et VITE_SUPABASE_ANON_KEY (voir
           .env.example).
@@ -37,7 +34,6 @@ export function SeriesPage() {
 
   return (
     <>
-      {tagline}
 
       <Tabs
         tabs={TABS}
