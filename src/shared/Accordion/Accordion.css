@@ -1,0 +1,10 @@
+/* Pas de cadre ni de fond, juste un titre cliquable qui révèle le contenu. */
+.accordion-title {
+  cursor: pointer;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.accordion-content {
+  margin-top: 0.75rem;
+}

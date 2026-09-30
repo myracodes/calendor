@@ -1,13 +1,15 @@
-import { useState } from "react"
+import { Fragment, useState } from "react"
 import { describeSeasons, formatEpisode } from "../../../../series/format"
 import {
   nextEpisode,
   previousEpisode,
   watchedPercent,
 } from "../../../../series/progress"
+import { groupSeriesByLetter } from "../../../../series/group"
 import { filterSeries } from "../../../../series/search"
 import type { EpisodeRef, Series } from "../../../../series/types"
 import { useSeries } from "../../../../series/useSeries"
+import { Accordion } from "../../../../shared/Accordion/Accordion"
 import { Alert } from "../../../../shared/Alert/Alert"
 import { ActionButton } from "../../../../shared/ActionButton/ActionButton"
 import { Card } from "../../../../shared/Card/Card"
@@ -28,7 +30,8 @@ export function WatchTab({
   const [pendingId, setPendingId] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const matches = filterSeries(series, search)
-  const canCreateFromSearch = search.trim() !== "" && matches.length === 0
+  const isSearching = search.trim() !== ""
+  const canCreateFromSearch = isSearching && matches.length === 0
 
   // Enregistre une modification de la progression d'une série, en gardant
   // l'erreur éventuelle à afficher.
@@ -89,55 +92,67 @@ export function WatchTab({
           Aucune série pour l'instant : ajoute-en une dans l'onglet Paramétrage.
         </p>
       ) : (
-        <ul className="watch-list">
-          {matches.map(item => {
-            const next = nextEpisode(item)
-            return (
-              <li key={item.id} className="watch-item">
-                <ProgressPie
-                  percent={watchedPercent(item)}
-                  label="des épisodes vus"
-                />
-                <div className="watch-item-info">
-                  <p className="watch-item-name">{item.name}</p>
-                  <p className="watch-item-detail">
-                    {describeSeasons(item.seasons)}
-                  </p>
-                  <p className="watch-item-detail">
-                    {item.lastWatched === null
-                      ? "Pas encore commencée"
-                      : `Dernier vu : ${formatEpisode(item.lastWatched)}`}
-                    {item.lastWatched !== null && next === null && " — à jour"}
-                  </p>
-                </div>
-                <div className="watch-item-buttons">
-                  <ActionButton
-                    variant="secondary"
-                    disabled={item.lastWatched === null}
-                    busy={pendingId === item.id}
-                    onClick={() => correct(item, previousEpisode(item))}
-                  >
-                    Annuler l'épisode
-                  </ActionButton>
-                  <ActionButton
-                    disabled={next === null}
-                    busy={pendingId === item.id}
-                    onClick={() => markNext(item)}
-                  >
-                    {next === null
-                      ? "Épisode suivant vu"
-                      : `${formatEpisode(next)} vu`}
-                  </ActionButton>
-                </div>
-                <EpisodeCorrection
-                  series={item}
-                  disabled={pendingId === item.id}
-                  onChange={lastWatched => correct(item, lastWatched)}
-                />
-              </li>
-            )
-          })}
-        </ul>
+        <div className="watch-groups">
+          {groupSeriesByLetter(matches).map((group, index) => (
+            // Pendant une recherche, tout est ouvert ; la clé remonte l'accordéon quand ça change.
+            <Fragment key={`${group.letter}-${isSearching}`}>
+              {index > 0 && <hr />}
+              <Accordion title={group.letter} defaultOpen={isSearching}>
+                <ul className="watch-list">
+                  {group.series.map(item => {
+                    const next = nextEpisode(item)
+                    return (
+                      <li key={item.id} className="watch-item">
+                        <ProgressPie
+                          percent={watchedPercent(item)}
+                          label="des épisodes vus"
+                        />
+                        <div className="watch-item-info">
+                          <p className="watch-item-name">{item.name}</p>
+                          <p className="watch-item-detail">
+                            {describeSeasons(item.seasons)}
+                          </p>
+                          <p className="watch-item-detail">
+                            {item.lastWatched === null
+                              ? "Pas encore commencée"
+                              : `Dernier vu : ${formatEpisode(item.lastWatched)}`}
+                            {item.lastWatched !== null &&
+                              next === null &&
+                              " — à jour"}
+                          </p>
+                        </div>
+                        <div className="watch-item-buttons">
+                          <ActionButton
+                            variant="secondary"
+                            disabled={item.lastWatched === null}
+                            busy={pendingId === item.id}
+                            onClick={() => correct(item, previousEpisode(item))}
+                          >
+                            Annuler l'épisode
+                          </ActionButton>
+                          <ActionButton
+                            disabled={next === null}
+                            busy={pendingId === item.id}
+                            onClick={() => markNext(item)}
+                          >
+                            {next === null
+                              ? "Épisode suivant vu"
+                              : `${formatEpisode(next)} vu`}
+                          </ActionButton>
+                        </div>
+                        <EpisodeCorrection
+                          series={item}
+                          disabled={pendingId === item.id}
+                          onChange={lastWatched => correct(item, lastWatched)}
+                        />
+                      </li>
+                    )
+                  })}
+                </ul>
+              </Accordion>
+            </Fragment>
+          ))}
+        </div>
       )}
     </Card>
   )

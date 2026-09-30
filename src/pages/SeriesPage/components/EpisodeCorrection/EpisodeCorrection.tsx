@@ -36,7 +36,7 @@ export function EpisodeCorrection({
 
   return (
     <details className="episode-correction">
-      <summary>Modifier l'épisode vu</summary>
+      <summary>Modifier le dernier épisode vu</summary>
       <div className="row">
         <label>
           Saison

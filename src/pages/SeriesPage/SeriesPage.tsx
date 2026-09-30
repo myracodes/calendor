@@ -49,7 +49,6 @@ export function SeriesPage() {
 
   return (
     <>
-
       <Tabs
         tabs={TABS}
         active={activeTab}
