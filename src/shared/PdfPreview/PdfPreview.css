@@ -1,0 +1,25 @@
+/* Masqué sur petit écran : les visualiseurs PDF s'y affichent mal en iframe
+   (iOS n'en montre que la première page). 1100px = même seuil que la mise en
+   page en colonnes des pages qui l'affichent (voir CvPage.css). */
+.pdf-preview {
+  display: none;
+}
+
+@media (min-width: 1100px) {
+  /* Colonne d'aperçu qui reste visible pendant le défilement de la page. */
+  .pdf-preview {
+    position: sticky;
+    top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 3rem);
+  }
+}
+
+.pdf-preview-frame {
+  flex: 1;
+  width: 100%;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
