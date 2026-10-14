@@ -181,8 +181,8 @@ export const SIDEBAR: LocalizedSidebarSection[] = [
           { bothLanguages: "code reviews", hiddenFor: ["pm"] },
           { bothLanguages: "Agile - Scrum / Kanban" },
           {
-            fr: "Scrum PSM I : octobre 2026",
-            en: "Scrum PSM I: October 2026",
+            fr: "Certifiée Scrum PSM I (Scrum.org)",
+            en: "Scrum.org PSM I certified",
           },
         ],
       },
