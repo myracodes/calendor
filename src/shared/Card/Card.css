@@ -9,9 +9,15 @@
   gap: 1.25rem;
   background: var(--surface);
   border: 1px solid var(--line);
-  padding: 1.5rem;
+  padding: 1.25rem 1rem;
   margin-bottom: 1.5rem;
   box-shadow: var(--shadow-soft);
+}
+
+@media (min-width: 640px) {
+  .card {
+    padding: 1.5rem;
+  }
 }
 
 /* Liseré coloré en haut de chaque carte, personnalisable via --card-accent */

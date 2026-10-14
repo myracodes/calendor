@@ -1,16 +1,19 @@
+/* Sur petit écran : 3 colonnes égales (9 entrées = 3 lignes régulières),
+   plutôt qu'un flex-wrap aux largeurs disparates. */
 .navbar {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.5rem;
 }
 
 .navbar-link {
   height: var(--control-h);
   display: inline-flex;
-  flex: 1 1 auto;
   align-items: center;
   justify-content: center;
-  padding: 0 1.2rem;
+  padding: 0 0.25rem;
+  font-size: 0.9rem;
+  text-align: center;
   color: var(--ink-light);
   font-weight: 600;
   text-decoration: none;
@@ -20,12 +23,6 @@
     background 0.15s ease,
     color 0.15s ease,
     border-color 0.15s ease;
-}
-
-@media (min-width: 640px) {
-  .navbar-link {
-    flex: 0 0 auto;
-  }
 }
 
 .navbar-link:hover {
@@ -45,7 +42,8 @@
 
 /* Bouton de déconnexion : même gabarit que les liens, en plus discret. */
 .navbar-logout {
-  padding: 0 1.2rem;
+  padding: 0 0.25rem;
+  font-size: 0.9rem;
   font-weight: 600;
   color: var(--ink-light);
   border: 1px solid var(--line);
@@ -58,4 +56,18 @@
   box-shadow: none;
   border-color: var(--accent);
   filter: none;
+}
+
+/* Placé en dernier : doit l'emporter sur le gabarit compact de .navbar-logout. */
+@media (min-width: 640px) {
+  .navbar {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .navbar-link,
+  .navbar-logout {
+    padding: 0 1.2rem;
+    font-size: 1rem;
+  }
 }

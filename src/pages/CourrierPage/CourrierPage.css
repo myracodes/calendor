@@ -10,6 +10,8 @@
 /* Les textareas reprennent le style des inputs de l'app (App.css ne cible que input/select). */
 .courrier-field textarea {
   font: inherit;
+  /* Voir les inputs (App.css) : évite le zoom d'iOS au focus. */
+  font-size: 1rem;
   color: var(--ink);
   padding: 0.6rem 0.75rem;
   border: 1px solid var(--line);

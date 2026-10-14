@@ -17,8 +17,10 @@
 .app {
   max-width: 760px;
   margin: 0 auto;
-  padding: 2.5rem 1.25rem 0rem;
+  padding: 1.5rem 1rem 0;
   min-height: 100vh;
+  /* Sur iOS, 100vh compte la barre d'adresse : dvh suit la hauteur réellement visible. */
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -30,11 +32,16 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 @media (min-width: 640px) {
+  .app {
+    padding: 2.5rem 1.25rem 0;
+  }
+
   .app-header {
+    margin-bottom: 2rem;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
@@ -92,8 +99,11 @@ label {
 /* Contrôles alignés sur une même hauteur (--control-h) */
 input:not([type="checkbox"]):not([type="file"]):not([type="color"]),
 select {
+  max-width: 100%;
   height: var(--control-h);
   font: inherit;
+  /* 16px minimum : en dessous, iOS zoome sur le champ au focus (les labels sont en 0.9rem). */
+  font-size: 1rem;
   color: var(--ink);
   padding: 0 0.75rem;
   border: 1px solid var(--line);
@@ -118,6 +128,8 @@ textarea {
   width: 100%;
   min-height: 15rem;
   font: inherit;
+  /* Voir les inputs : évite le zoom d'iOS au focus. */
+  font-size: 1rem;
   color: var(--ink);
   padding: 0.6rem 0.75rem;
   border: 1px solid var(--line);

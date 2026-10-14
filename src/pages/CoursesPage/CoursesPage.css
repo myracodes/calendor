@@ -44,13 +44,14 @@
 /* Formulaire d'ajout d'un achat ponctuel. */
 .courses-ajout {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   align-items: flex-end;
 }
 
 .courses-ajout-champ {
   flex: 1;
-  min-width: 160px;
+  min-width: min(160px, 100%);
 }
 
 .courses-vider:disabled {
@@ -69,7 +70,7 @@
 /* Grille des cases à cocher d'une catégorie. */
 .courses-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr));
   gap: 0.4rem 1rem;
 }
 
