@@ -1,0 +1,27 @@
+name: Supabase keepalive
+
+# Le plan gratuit de Supabase met le projet en pause après 7 jours sans
+# activité : on le pingue deux fois par semaine pour garder de la marge (les
+# crons GitHub peuvent partir avec du retard).
+on:
+  schedule:
+    # Lundi et jeudi à 8h UTC
+    - cron: "0 8 * * 1,4"
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      # Appelle la fonction keepalive() (supabase/keepalive.sql) : une vraie
+      # requête Postgres, qui compte comme de l'activité. Mêmes variables que
+      # deploy.yml. --fail fait échouer le job si la réponse n'est pas un 2xx.
+      - run: |
+          curl --fail --silent --show-error \
+            "$SUPABASE_URL/rest/v1/rpc/keepalive" \
+            -H "apikey: $SUPABASE_ANON_KEY"
+        env:
+          SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY }}
