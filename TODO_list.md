@@ -4,7 +4,6 @@
 
 ### Calendrier
 
-- possibilité d'ajouter les rdv médicaux
 - possibilité de choisir l'emoji parmi une sélection : médecin / rdv / deadline / anniversaire / plantes...
 - ajouter les vacances scolaires ? avec un booléen pour choisir de les afficher ou non ?
 - possibilité d'ajouter les congés
@@ -13,7 +12,6 @@
 - pouvoir paramétrer tous les x mois / x jours / x années
 - horaires piscine en fonction des vacances etc
 - anchor dans presets devrait être optionnel si l'intervalle n'est pas plus de 1
-- ajouter le nom du jour férié
 - gérer le cas où on a beaucoup de choses dans une case, ça crée une deuxième page vide, ou bien ça agrandit les cases
 - invitation anniversaire
 
@@ -28,17 +26,13 @@
 - gérer les emoji nativement
 - bg image par défaut pour les différents modules, par ex le bujo
 - améliorer la structure des données en BDD
-- ajouter bouton logout
 - ajouter une durée de session
-- ajouter un toast pour valider l'enregistrement (surtout séries)
 
 ### CV
 
-- séparer infos: "Basée quelque part\n\n Vélo | Permis B | remote :)" en 2 morceaux
 
 ## Idées d'évolutions futures
 
-- ajouter la prévisualisation ?
 - pages imprimables : portée (musique)
 - accords piano / guitare / ukulele (charts)
 - pouvoir ajouter une photo différente par mois

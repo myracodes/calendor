@@ -4,12 +4,12 @@ import { AuthProvider } from "./auth/AuthProvider"
 import { useAuth } from "./auth/useAuth"
 import { BatchCookingPage } from "./pages/BatchCookingPage/BatchCookingPage"
 import { BudgetPage } from "./pages/BudgetPage/BudgetPage"
-import { BujoFactoryPage } from "./pages/BujoFactoryPage/BujoFactoryPage"
 import { CalendarsPage } from "./pages/CalendarsPage/CalendarsPage"
 import { CourrierPage } from "./pages/CourrierPage/CourrierPage"
 import { CoursesPage } from "./pages/CoursesPage/CoursesPage"
 import { CvPage } from "./pages/CvPage/CvPage"
 import { LoginPage } from "./pages/LoginPage/LoginPage"
+import { PaperFactoryPage } from "./pages/PaperFactoryPage/PaperFactoryPage"
 import { SeriesPage } from "./pages/SeriesPage/SeriesPage"
 import { LastPageRedirect, LastPageTracker } from "./shared/LastPage/LastPage"
 import { Navbar } from "./shared/Navbar/Navbar"
@@ -49,7 +49,7 @@ function AppContent() {
           <Route path="/calendars" element={<CalendarsPage />} />
           <Route path="/budget" element={<BudgetPage />} />
           <Route path="/batch-cooking" element={<BatchCookingPage />} />
-          <Route path="/bujo" element={<BujoFactoryPage />} />
+          <Route path="/paper-factory" element={<PaperFactoryPage />} />
           <Route path="/courrier" element={<CourrierPage />} />
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/cv" element={<CvPage />} />

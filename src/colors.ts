@@ -4,6 +4,8 @@
 export const INK = "#3b3554"
 export const INK_LIGHT = "#767093"
 export const PAPER = "#ffffff"
+// Noir pur, pour les documents sobres (papier à musique)
+export const BLACK = "#000000"
 export const LINE = "#e9e5f4"
 export const BIRTHDAY = "#b565a8" // pink-orchid foncé, lisible sur fond clair
 // Fond des cases week-end / jour férié du calendrier mensuel : cotton-rose en transparence légère

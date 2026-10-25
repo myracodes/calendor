@@ -8,7 +8,7 @@ export const NAV_LINKS = [
   { to: "/budget", label: "Budget" },
   { to: "/batch-cooking", label: "Batch cooking" },
   { to: "/courses", label: "Courses" },
-  { to: "/bujo", label: "BuJo factory" },
+  { to: "/paper-factory", label: "Paper factory" },
   { to: "/courrier", label: "Courrier" },
   { to: "/cv", label: "CV" },
   { to: "/series", label: "Séries" },
