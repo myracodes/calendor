@@ -1,4 +1,4 @@
-import { HashRouter, Navigate, Route, Routes } from "react-router-dom"
+import { HashRouter, Route, Routes } from "react-router-dom"
 import "./App.css"
 import { AuthProvider } from "./auth/AuthProvider"
 import { useAuth } from "./auth/useAuth"
@@ -11,6 +11,10 @@ import { CoursesPage } from "./pages/CoursesPage/CoursesPage"
 import { CvPage } from "./pages/CvPage/CvPage"
 import { LoginPage } from "./pages/LoginPage/LoginPage"
 import { SeriesPage } from "./pages/SeriesPage/SeriesPage"
+import {
+  LastPageRedirect,
+  LastPageTracker,
+} from "./shared/LastPage/LastPage"
 import { Navbar } from "./shared/Navbar/Navbar"
 import { isSupabaseConfigured } from "./supabase/client"
 import { COMMIT_HASH } from "./version"
@@ -36,6 +40,7 @@ export default function App() {
 function AppContent() {
   return (
     <HashRouter>
+      <LastPageTracker />
       <main className="app">
         <div className="app-header">
           <h1>Calendor</h1>
@@ -43,7 +48,7 @@ function AppContent() {
         </div>
 
         <Routes>
-          <Route path="/" element={<Navigate to="/calendars" replace />} />
+          <Route path="/" element={<LastPageRedirect />} />
           <Route path="/calendars" element={<CalendarsPage />} />
           <Route path="/budget" element={<BudgetPage />} />
           <Route path="/batch-cooking" element={<BatchCookingPage />} />
