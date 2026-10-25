@@ -15,18 +15,9 @@ const STAFF_HEIGHTS = Object.fromEntries(
 
 const styles = StyleSheet.create({
   page: {
-    padding: 57, // 2 cm, comme les marges du courrier
+    padding: 57, // 2 cm
   },
-  // Ligne pointillée où écrire le titre du morceau, centrée en haut de la page.
-  titleLine: {
-    alignSelf: "center",
-    width: "60%", // assez long pour un titre, sans aller d'une marge à l'autre comme les portées
-    borderBottomWidth: 1,
-    borderBottomStyle: "dotted",
-    borderBottomColor: BLACK,
-    marginBottom: 28,
-  },
-  // Colonne des portées, qui occupe toute la hauteur restante de la page.
+  // Colonne des portées, qui occupe toute la hauteur utile de la page.
   staves: {
     flexGrow: 1,
     justifyContent: "space-between", // portées réparties régulièrement jusqu'au bas de la page
@@ -53,7 +44,6 @@ export function StaffPaperDocument({
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        <View style={styles.titleLine} />
         <View style={styles.staves}>
           {Array.from({ length: kind.staffCount }, (_, staffIndex) => (
             <View
