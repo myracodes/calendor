@@ -14,6 +14,7 @@ import { Alert } from "../../../../shared/Alert/Alert"
 import { ActionButton } from "../../../../shared/ActionButton/ActionButton"
 import { Card } from "../../../../shared/Card/Card"
 import { ProgressPie } from "../../../../shared/ProgressPie/ProgressPie"
+import { useToast } from "../../../../shared/Toast/useToast"
 import { EpisodeCorrection } from "../EpisodeCorrection/EpisodeCorrection"
 import "./WatchTab.css"
 
@@ -28,20 +29,22 @@ export function WatchTab({
   const [search, setSearch] = useState("")
   // Série dont l'enregistrement est en cours, pour ne désactiver que son bouton.
   const [pendingId, setPendingId] = useState<string | null>(null)
-  const [error, setError] = useState<string | null>(null)
+  const { toast, showToast } = useToast()
   const matches = filterSeries(series, search)
   const isSearching = search.trim() !== ""
   const canCreateFromSearch = isSearching && matches.length === 0
 
   // Enregistre une modification de la progression d'une série, en gardant
-  // l'erreur éventuelle à afficher.
+  // l'erreur éventuelle en toast.
   async function save(item: Series, action: () => Promise<void>) {
     setPendingId(item.id)
-    setError(null)
     try {
       await action()
     } catch (caught) {
-      setError((caught as Error).message)
+      showToast(
+        "error",
+        `Modification non enregistrée : ${(caught as Error).message}`,
+      )
     } finally {
       setPendingId(null)
     }
@@ -73,12 +76,6 @@ export function WatchTab({
           onChange={e => setSearch(e.target.value)}
         />
       </label>
-
-      {error !== null && (
-        <Alert variantColor="danger" title="Modification non enregistrée">
-          {error}
-        </Alert>
-      )}
 
       {canCreateFromSearch ? (
         <>
@@ -154,6 +151,7 @@ export function WatchTab({
           ))}
         </div>
       )}
+      {toast}
     </Card>
   )
 }

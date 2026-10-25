@@ -1,9 +1,10 @@
 import { useState } from "react"
 import { CalendarDocument } from "../../pdf/calendar/CalendarDocument"
-import { downloadPdf } from "../../pdf/shared/downloadPdf"
+import { downloadPdf, PDF_ERROR_MESSAGE } from "../../pdf/shared/downloadPdf"
 import { PRESETS } from "../../presets"
 import { ActionButton } from "../../shared/ActionButton/ActionButton"
 import { IllustrationSection } from "../../shared/IllustrationSection/IllustrationSection"
+import { useToast } from "../../shared/Toast/useToast"
 import type { CalendarSettings } from "../../types"
 import { ParametrageSection } from "./components/ParametrageSection/ParametrageSection"
 import { PeriodSection } from "./components/PeriodSection/PeriodSection"
@@ -35,6 +36,7 @@ export function CalendarsPage() {
   const [settings, setSettings] =
     useState<CalendarSettings>(buildInitialSettings)
   const [generating, setGenerating] = useState(false)
+  const { toast, showToast } = useToast()
   const [activeTemplate, setActiveTemplate] = useState<string>(BLANK_TEMPLATE)
   const activePreset = PRESETS.find(preset => preset.name === activeTemplate)
   const lockToMonthly = activePreset?.requiresMonthly ?? false
@@ -58,6 +60,9 @@ export function CalendarsPage() {
           ? "calendrier-hebdomadaire.pdf"
           : `calendrier-${settings.year}.pdf`,
       )
+    } catch (error) {
+      console.error(error)
+      showToast("error", PDF_ERROR_MESSAGE)
     } finally {
       setGenerating(false)
     }
@@ -91,6 +96,7 @@ export function CalendarsPage() {
       <ActionButton busy={generating} onClick={generatePdf}>
         {generating ? "Génération…" : "Générer le PDF"}
       </ActionButton>
+      {toast}
     </>
   )
 }

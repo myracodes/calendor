@@ -5,9 +5,10 @@ import { PRESET_KEYS } from "../../courses/preset"
 import { selectionKeys } from "../../courses/selection"
 import type { ArticleLibre, SectionListe } from "../../courses/types"
 import { CoursesDocument } from "../../pdf/courses/CoursesDocument"
-import { downloadPdf } from "../../pdf/shared/downloadPdf"
+import { downloadPdf, PDF_ERROR_MESSAGE } from "../../pdf/shared/downloadPdf"
 import { ActionButton } from "../../shared/ActionButton/ActionButton"
 import { Card, type CardVariantColor } from "../../shared/Card/Card"
+import { useToast } from "../../shared/Toast/useToast"
 import "./CoursesPage.css"
 
 // Couleurs d'accent des cartes de catégories, en rotation.
@@ -22,6 +23,7 @@ export function CoursesPage() {
   const [libres, setLibres] = useState<ArticleLibre[]>([])
   const [saisie, setSaisie] = useState("")
   const [generating, setGenerating] = useState(false)
+  const { toast, showToast } = useToast()
 
   function toggle(key: string) {
     setSelection(prev => {
@@ -90,6 +92,9 @@ export function CoursesPage() {
         <CoursesDocument sections={sections} />,
         "liste-de-courses.pdf",
       )
+    } catch (error) {
+      console.error(error)
+      showToast("error", PDF_ERROR_MESSAGE)
     } finally {
       setGenerating(false)
     }
@@ -190,6 +195,7 @@ export function CoursesPage() {
       <ActionButton busy={generating} disabled={estVide} onClick={generatePdf}>
         {generating ? "Génération…" : "Générer le PDF"}
       </ActionButton>
+      {toast}
     </>
   )
 }

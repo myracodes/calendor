@@ -30,6 +30,7 @@
 - améliorer la structure des données en BDD
 - ajouter bouton logout
 - ajouter une durée de session
+- ajouter un toast pour valider l'enregistrement (surtout séries)
 
 ### CV
 

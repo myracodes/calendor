@@ -26,7 +26,9 @@ Il complète [AGENTS.md](AGENTS.md) (règles générales, toujours applicables) 
   - `Tabs` : barre d'onglets (un seul actif). Typer les identifiants d'onglets avec une union (`Tab<"watch" | "settings">`).
   - `ActionButton` : grand bouton pleine largeur de l'action principale d'une page (générer le PDF, enregistrer, créer…). `busy` pendant l'action en cours (désactive le bouton, curseur d'attente) ; `variant="secondary"` pour l'action d'à côté (réinitialiser, annuler, supprimer), placée juste au-dessus.
   - `ProgressPie` : camembert de progression en pourcentage, avec la valeur en dessous.
-  - `Alert`, `IllustrationSection`.
+  - `Alert` : bandeau fixe dans la page, pour un état qui dure (base non configurée, échec de chargement, mode dev).
+  - `Toast` : notification flottante en bas de l'écran, en retour d'une action ponctuelle (`variant` : `success`, `info`, `error`). Fermée par la croix ou au bout de `duration` ms (5 s par défaut, `null` pour la garder). S'utilise via le hook `useToast` (`const { toast, showToast } = useToast()`, puis `{toast}` n'importe où dans le rendu). Pas de toast de succès quand le résultat se voit déjà (téléchargement d'un PDF, case cochée…) ; un échec de génération de PDF s'affiche avec `PDF_ERROR_MESSAGE` de `downloadPdf.ts`.
+  - `IllustrationSection`.
   - `usePersistentState` : état persisté dans `localStorage` (clé préfixée par la feature : `"series.activeTab"`).
 - Si un élément d'une page existante doit servir ailleurs, l'extraire vers `src/shared/` et faire utiliser la version partagée par la page d'origine (ex. `Tabs`, extrait de `TemplateTabs` des calendriers) plutôt que dupliquer le style.
 

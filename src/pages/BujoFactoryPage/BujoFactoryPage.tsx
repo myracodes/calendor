@@ -1,10 +1,11 @@
 import { useState } from "react"
 import type { BujoColumn, BujoSettings, DottedWidth } from "../../bujo/types"
 import { BujoDocument } from "../../pdf/bujo/BujoDocument"
-import { downloadPdf } from "../../pdf/shared/downloadPdf"
+import { downloadPdf, PDF_ERROR_MESSAGE } from "../../pdf/shared/downloadPdf"
 import { ActionButton } from "../../shared/ActionButton/ActionButton"
 import { Card } from "../../shared/Card/Card"
 import { IllustrationSection } from "../../shared/IllustrationSection/IllustrationSection"
+import { useToast } from "../../shared/Toast/useToast"
 import "./BujoFactoryPage.css"
 
 const WIDTH_OPTIONS: { value: DottedWidth; label: string }[] = [
@@ -50,6 +51,7 @@ function buildInitialSettings(): BujoSettings {
 export function BujoFactoryPage() {
   const [settings, setSettings] = useState<BujoSettings>(buildInitialSettings)
   const [generating, setGenerating] = useState(false)
+  const { toast, showToast } = useToast()
 
   function update<K extends keyof BujoSettings>(
     key: K,
@@ -86,6 +88,9 @@ export function BujoFactoryPage() {
         <BujoDocument settings={settings} />,
         slug === "" ? "bujo.pdf" : `bujo-${slug}.pdf`,
       )
+    } catch (error) {
+      console.error(error)
+      showToast("error", PDF_ERROR_MESSAGE)
     } finally {
       setGenerating(false)
     }
@@ -218,6 +223,7 @@ export function BujoFactoryPage() {
       >
         {generating ? "Génération…" : "Générer le PDF"}
       </ActionButton>
+      {toast}
     </>
   )
 }

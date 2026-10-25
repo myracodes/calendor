@@ -1,6 +1,8 @@
 import { type DocumentProps, pdf } from "@react-pdf/renderer"
 import type { ReactElement } from "react"
 
+export const PDF_ERROR_MESSAGE = "Le PDF n'a pas pu être généré."
+
 /**
  * Génère côté client le PDF du document react-pdf donné, puis déclenche son
  * téléchargement par le navigateur sous le nom de fichier fourni.

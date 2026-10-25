@@ -9,12 +9,13 @@ import {
 import { fetchCvContact } from "../../cv/fetchCvContact"
 import type { CvContact, CvData, CvLanguage, CvPitch } from "../../cv/types"
 import { CvDocument } from "../../pdf/cv/CvDocument"
-import { downloadPdf } from "../../pdf/shared/downloadPdf"
+import { downloadPdf, PDF_ERROR_MESSAGE } from "../../pdf/shared/downloadPdf"
 import { ActionButton } from "../../shared/ActionButton/ActionButton"
 import { Alert } from "../../shared/Alert/Alert"
 import { Card } from "../../shared/Card/Card"
 import { PdfPreview } from "../../shared/PdfPreview/PdfPreview"
 import { usePersistentState } from "../../shared/usePersistentState"
+import { useToast } from "../../shared/Toast/useToast"
 import "./CvPage.css"
 
 // En dev, le CV généré peut ne pas contenir les vraies données (Supabase non
@@ -46,6 +47,7 @@ export function CvPage() {
     false,
   )
   const [generating, setGenerating] = useState(false)
+  const { toast, showToast } = useToast()
   // Vraies coordonnées depuis Supabase (voir fetchCvContact), rechargées à
   // chaque changement de langue : undefined pendant le chargement, null si
   // indisponibles — le PDF contient alors les valeurs de remplacement de
@@ -124,6 +126,9 @@ export function CvPage() {
           isDevEnvironment ? "-TEST-DO-NOT-SHARE" : ""
         }.pdf`,
       )
+    } catch (error) {
+      console.error(error)
+      showToast("error", PDF_ERROR_MESSAGE)
     } finally {
       setGenerating(false)
     }
@@ -226,6 +231,7 @@ export function CvPage() {
       </div>
 
       <PdfPreview pdfDocument={cvDocument} title="Aperçu du CV" />
+      {toast}
     </div>
   )
 }

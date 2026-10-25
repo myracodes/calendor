@@ -1,10 +1,11 @@
 import { useState } from "react"
 import type { CourrierSettings } from "../../courrier/types"
 import { CourrierDocument } from "../../pdf/courrier/CourrierDocument"
-import { downloadPdf } from "../../pdf/shared/downloadPdf"
+import { downloadPdf, PDF_ERROR_MESSAGE } from "../../pdf/shared/downloadPdf"
 import { ActionButton } from "../../shared/ActionButton/ActionButton"
 import { Card } from "../../shared/Card/Card"
 import { usePersistentState } from "../../shared/usePersistentState"
+import { useToast } from "../../shared/Toast/useToast"
 import "./CourrierPage.css"
 
 // Réglages sauvegardés dans localStorage : tout sauf la date (voir CourrierPage).
@@ -37,6 +38,7 @@ export function CourrierPage() {
   // Pas persistée : un courrier est daté du jour où on le (re)génère.
   const [date, setDate] = useState(todayIso)
   const [generating, setGenerating] = useState(false)
+  const { toast, showToast } = useToast()
 
   // Les valeurs par défaut complètent une sauvegarde antérieure à l'ajout
   // d'un nouveau réglage.
@@ -72,6 +74,9 @@ export function CourrierPage() {
         <CourrierDocument settings={settings} />,
         slug === "" ? "courrier.pdf" : `courrier-${slug}.pdf`,
       )
+    } catch (error) {
+      console.error(error)
+      showToast("error", PDF_ERROR_MESSAGE)
     } finally {
       setGenerating(false)
     }
@@ -222,6 +227,7 @@ export function CourrierPage() {
       >
         {generating ? "Génération…" : "Générer le PDF"}
       </ActionButton>
+      {toast}
     </>
   )
 }

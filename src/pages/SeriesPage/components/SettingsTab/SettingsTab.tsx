@@ -2,6 +2,7 @@ import { useState } from "react"
 import type { Series, SeriesDraft } from "../../../../series/types"
 import { useSeries } from "../../../../series/useSeries"
 import { Alert } from "../../../../shared/Alert/Alert"
+import { useToast } from "../../../../shared/Toast/useToast"
 import { SeriesEditor } from "../SeriesEditor/SeriesEditor"
 import { SeriesPicker } from "../SeriesPicker/SeriesPicker"
 
@@ -18,6 +19,7 @@ export function SettingsTab({
 }) {
   const { series, loading, loadError, save, remove } = useSeries()
   const [search, setSearch] = useState("")
+  const { toast, showToast } = useToast()
   const [draft, setDraft] = useState<SeriesDraft | null>(
     initialNewSeriesName === null
       ? null
@@ -53,12 +55,15 @@ export function SettingsTab({
 
   async function saveDraft() {
     if (draft === null) return
-    setDraft(toDraft(await save(draft)))
+    const saved = await save(draft)
+    setDraft(toDraft(saved))
+    showToast("success", `« ${saved.name} » enregistrée.`)
   }
 
   async function removeDraft() {
     if (draft === null || draft.id === null) return
     await remove(draft.id)
+    showToast("success", `« ${draft.name} » supprimée.`)
     setDraft(null)
   }
 
@@ -90,6 +95,7 @@ export function SettingsTab({
           onCancel={() => setDraft(null)}
         />
       )}
+      {toast}
     </>
   )
 }
