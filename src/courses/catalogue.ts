@@ -108,7 +108,8 @@ export const CATALOGUE = [
       "tofu",
       "tofu soyeux",
       "yaourts",
-      "crème de soja",
+      "crème fluide",
+      "crème épaisse",
       "margarine",
       "houmous",
       "pâte feuilletée",
@@ -162,7 +163,6 @@ export const CATALOGUE = [
       "huile de colza",
       "vinaigre balsamique",
       "vinaigre de cidre",
-      "sauce soja",
       "moutarde",
       "mayonnaise végane",
       "crac-crac",
@@ -177,6 +177,7 @@ export const CATALOGUE = [
     id: "monde",
     nom: "Produits du monde",
     articles: [
+      "sauce soja",
       "galettes tortillas",
       "galettes de riz",
       "gingembre mariné",
@@ -184,6 +185,7 @@ export const CATALOGUE = [
       "algues nori",
       "crème coco",
       "lait coco",
+      "konjac",
     ],
   },
   {
