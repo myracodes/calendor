@@ -9,5 +9,12 @@ export function validateDraft(draft: SeriesDraft): string | null {
   if (invalidIndex !== -1) {
     return `La saison ${invalidIndex + 1} doit avoir au moins un épisode.`
   }
+  const { lastWatched } = draft
+  if (lastWatched !== null) {
+    const season = draft.seasons[lastWatched.season - 1]
+    if (season === undefined || lastWatched.episode > season.episodeCount) {
+      return "Le dernier épisode vu n'existe plus : corrige-le ou remets la saison."
+    }
+  }
   return null
 }

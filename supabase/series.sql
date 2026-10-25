@@ -9,10 +9,13 @@ create table public.series (
   -- Tableau ordonné des saisons { "episodeCount": 12 } — même forme que Season[]
   -- (src/series/types.ts). Le numéro d'une saison est sa position (1re = saison 1).
   seasons jsonb not null default '[]'::jsonb check (jsonb_typeof(seasons) = 'array'),
-  -- Dernier épisode vu (onglet Suivi) : saison et épisode dans la saison, tous
+  -- Dernier épisode vu : saison et épisode dans la saison, tous
   -- deux vides tant que la série n'est pas commencée
   last_watched_season integer check (last_watched_season >= 1),
   last_watched_episode integer check (last_watched_episode >= 1),
+  -- Série terminée pour de bon (aucune suite prévue) ; false = une suite peut
+  -- encore sortir, la série est seulement « à jour » une fois tout vu
+  finished boolean not null default false,
   created_at timestamptz not null default now(),
   -- Pas deux séries du même nom pour un même compte
   unique (user_id, name),
@@ -40,3 +43,9 @@ grant select, insert, update, delete on public.series to authenticated;
 --   add column last_watched_episode integer check (last_watched_episode >= 1),
 --   add constraint series_last_watched_complete
 --     check ((last_watched_season is null) = (last_watched_episode is null));
+
+-- Migration d'une table créée avant la case « Série terminée » (sans la
+-- colonne finished) : à exécuter une fois, seule, dans le SQL editor.
+--
+-- alter table public.series
+--   add column finished boolean not null default false;

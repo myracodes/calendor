@@ -1,0 +1,75 @@
+/* Une série : camembert, infos et boutons sur une ligne, puis le formulaire de saison */
+.series-item {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  /* Largeur minimale des boutons d'action sur grand écran, partagée avec le
+     formulaire de saison : assez large pour un long « S10E24 vu », pour que les
+     boutons de toutes les séries s'alignent. */
+  --series-action-min-width: 12rem;
+}
+
+.series-item-name {
+  margin: 0;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.series-item-detail {
+  margin: 0.15rem 0 0;
+  font-size: 0.9rem;
+  color: var(--ink-light);
+}
+
+/* Boutons de la série : l'action du moment puis le crayon d'édition, sous la
+   ligne principale sur petit écran. Calés à droite : le crayon reste aligné
+   d'une série à l'autre même quand il est seul (série terminée). */
+.series-item-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.series-item-actions .action-button {
+  margin-bottom: 0;
+}
+
+/* Action du moment (épisode suivant vu, nouvelle saison) */
+.series-item-action {
+  flex: 1;
+  white-space: nowrap;
+}
+
+/* Crayon : carré, de la hauteur de .action-button */
+.series-item-edit {
+  flex: none;
+  width: 3.25rem;
+  padding: 0;
+}
+
+.series-item-edit img {
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin: auto;
+}
+
+/* Dès que la place le permet, les boutons passent sur la ligne du camembert et des infos. */
+@media (min-width: 640px) {
+  .series-item-actions {
+    grid-column: auto;
+  }
+
+  .series-item-action {
+    flex: none;
+    width: auto;
+    min-width: var(--series-action-min-width);
+  }
+}
+
+/* Le formulaire d'ajout de saison prend toute la largeur, sous la ligne principale */
+.series-item-new-season {
+  grid-column: 1 / -1;
+}

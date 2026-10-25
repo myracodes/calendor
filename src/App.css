@@ -195,6 +195,25 @@ button:disabled {
   box-shadow: none;
 }
 
+/* Croix de fermeture discrète (panneau, éditeur…) : juste le « × », sans fond
+   ni ombre ni translation au survol, pour ne pas peser plus que le contenu. */
+.btn-close {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  font-size: 1.4rem;
+  line-height: 1;
+  background: none;
+  box-shadow: none;
+}
+
+.btn-close:hover,
+.btn-close:active {
+  transform: none;
+  box-shadow: none;
+  background: var(--line);
+}
+
 .hint {
   margin: 0.75rem 0 0.5rem;
   font-size: 0.85rem;

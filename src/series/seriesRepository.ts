@@ -4,7 +4,8 @@ import { requireSupabase } from "../supabase/client"
 import type { EpisodeRef, Season, Series, SeriesDraft } from "./types"
 
 /** Colonnes lues en base ; `seasons` est un jsonb, renvoyé non typé par Supabase. */
-const COLUMNS = "id, name, seasons, last_watched_season, last_watched_episode"
+const COLUMNS =
+  "id, name, seasons, last_watched_season, last_watched_episode, finished"
 
 type SeriesRow = {
   id: string
@@ -12,6 +13,7 @@ type SeriesRow = {
   seasons: Season[]
   last_watched_season: number | null
   last_watched_episode: number | null
+  finished: boolean
 }
 
 /** Code PostgreSQL d'une violation de contrainte unique (ici : nom déjà pris). */
@@ -32,6 +34,14 @@ function toSeries(row: SeriesRow): Series {
             season: row.last_watched_season,
             episode: row.last_watched_episode,
           },
+    finished: row.finished,
+  }
+}
+
+function toLastWatchedColumns(lastWatched: EpisodeRef | null) {
+  return {
+    last_watched_season: lastWatched?.season ?? null,
+    last_watched_episode: lastWatched?.episode ?? null,
   }
 }
 
@@ -54,7 +64,12 @@ export async function fetchSeries(): Promise<Series[]> {
 
 /** Crée la série si elle est nouvelle (id null), sinon la met à jour. */
 export async function saveSeries(draft: SeriesDraft): Promise<Series> {
-  const values = { name: draft.name.trim(), seasons: draft.seasons }
+  const values = {
+    name: draft.name.trim(),
+    seasons: draft.seasons,
+    finished: draft.finished,
+    ...toLastWatchedColumns(draft.lastWatched),
+  }
   const table = requireSupabase().from("series")
   const { data, error } =
     draft.id === null
@@ -71,10 +86,7 @@ export async function saveLastWatched(
 ): Promise<Series> {
   const { data, error } = await requireSupabase()
     .from("series")
-    .update({
-      last_watched_season: lastWatched?.season ?? null,
-      last_watched_episode: lastWatched?.episode ?? null,
-    })
+    .update(toLastWatchedColumns(lastWatched))
     .eq("id", id)
     .select(COLUMNS)
     .single()

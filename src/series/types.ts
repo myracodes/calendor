@@ -15,11 +15,9 @@ export interface Series {
   seasons: Season[]
   /** Dernier épisode vu, null si la série n'est pas commencée. */
   lastWatched: EpisodeRef | null
+  /** Aucune suite prévue : une fois tout vu, la série est terminée et pas seulement à jour. */
+  finished: boolean
 }
 
-/** Série en cours d'édition dans le paramétrage ; id null = pas encore enregistrée. */
-export interface SeriesDraft {
-  id: string | null
-  name: string
-  seasons: Season[]
-}
+/** Série en cours d'édition ; id null = pas encore enregistrée. */
+export type SeriesDraft = Omit<Series, "id"> & { id: string | null }

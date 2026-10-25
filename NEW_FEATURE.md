@@ -23,13 +23,13 @@ Il complète [AGENTS.md](AGENTS.md) (règles générales, toujours applicables) 
 - Composant propre à la page → `src/pages/<Nom>Page/components/<Composant>/<Composant>.tsx` (+ son `.css` à côté si besoin).
 - Composant utilisé par plusieurs pages → `src/shared/<Composant>/`. Avant d'en créer un, vérifier ce qui existe déjà :
   - `Card` : bloc de contenu avec liseré coloré (`variantColor` : `sun`, `candy`, `sky`) et titre `<h2>`.
-  - `Tabs` : barre d'onglets (un seul actif). Typer les identifiants d'onglets avec une union (`Tab<"watch" | "settings">`).
+  - `Tabs` : barre d'onglets (un seul actif). Typer les identifiants d'onglets avec une union (`Tab<"day" | "week">`).
   - `ActionButton` : grand bouton pleine largeur de l'action principale d'une page (générer le PDF, enregistrer, créer…). `busy` pendant l'action en cours (désactive le bouton, curseur d'attente) ; `variant="secondary"` pour l'action d'à côté (réinitialiser, annuler, supprimer), placée juste au-dessus.
   - `ProgressPie` : camembert de progression en pourcentage, avec la valeur en dessous.
   - `Alert` : bandeau fixe dans la page, pour un état qui dure (base non configurée, échec de chargement, mode dev).
-  - `Toast` : notification flottante en bas de l'écran, en retour d'une action ponctuelle (`variant` : `success`, `info`, `error`). Fermée par la croix ou au bout de `duration` ms (5 s par défaut, `null` pour la garder). S'utilise via le hook `useToast` (`const { toast, showToast } = useToast()`, puis `{toast}` n'importe où dans le rendu). Pas de toast de succès quand le résultat se voit déjà (téléchargement d'un PDF, case cochée…) ; un échec de génération de PDF s'affiche avec `PDF_ERROR_MESSAGE` de `downloadPdf.ts`.
+  - `Toast` : notification flottante en bas de l'écran, en retour d'une action ponctuelle (`variant` : `success`, `info`, `error`). Fermée par la croix ou au bout de `duration` ms (5 s par défaut, `null` pour la garder). S'utilise via le hook `useToast` (`const { toast, showToast } = useToast()`, puis `{toast}` n'importe où dans le rendu) ; un 3e argument optionnel ajoute un bouton d'action, typiquement `{ label: "Annuler", onClick }` pour défaire l'action. Ne pas hésiter à confirmer les actions par un toast, Myriam apprécie le retour (enregistrement, ajout, épisode marqué vu…) ; et proposer « Annuler » dans le toast plutôt qu'un bouton d'annulation permanent quand l'action se défait facilement. Seule exception : pas de toast quand le résultat s'impose de lui-même (téléchargement d'un PDF, case cochée). Un échec de génération de PDF s'affiche avec `PDF_ERROR_MESSAGE` de `downloadPdf.ts`.
   - `IllustrationSection`.
-  - `usePersistentState` : état persisté dans `localStorage` (clé préfixée par la feature : `"series.activeTab"`).
+  - `usePersistentState` : état persisté dans `localStorage` (clé préfixée par la feature : `"cv.title"`).
 - Si un élément d'une page existante doit servir ailleurs, l'extraire vers `src/shared/` et faire utiliser la version partagée par la page d'origine (ex. `Tabs`, extrait de `TemplateTabs` des calendriers) plutôt que dupliquer le style.
 
 ## 3. Données
@@ -62,3 +62,5 @@ Ce que chaque feature a apporté au guide, pour savoir d'où vient une conventio
 
 - **Séries** (`/series`) — suivi des épisodes vus. Création de ce guide ; extraction des composants partagés `Tabs` et `ActionButton` (ex-classes `.generate`) ; verrou de connexion activé aussi en dev ; première table Supabase propre à chaque compte (`series`).
 - **Séries, onglet Suivi** — style commun des boutons désactivés (`button:disabled` dans `App.css`) ; première migration d'une table existante (section « Migration » de `supabase/series.sql`) ; composant partagé `ProgressPie` et exception « variable CSS » à la règle du CSS inline (AGENTS.md).
+- **Séries, fusion des onglets** — Suivi et Paramétrage réunis en une seule liste : création au-dessus de la liste, édition ouverte en place via un bouton-icône crayon (`src/assets/icons/pencil.svg`) sur chaque série.
+- **Séries, statuts** — liste groupée par statut (En cours, À jour, Pas commencées, Terminées) avec la colonne `finished` (2e migration de `supabase/series.sql`) ; bouton d'action dans `Toast` (« Annuler ») ; consigne de toasts plus généreux.

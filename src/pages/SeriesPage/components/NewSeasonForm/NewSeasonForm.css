@@ -1,0 +1,26 @@
+.new-season-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* Annuler et Ajouter côte à côte, à la taille du bouton « S1E1 vu » de la série (.series-item-action) */
+.new-season-form-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.new-season-form-buttons .action-button {
+  flex: 1;
+  margin-bottom: 0;
+  white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+  .new-season-form-buttons .action-button {
+    flex: none;
+    width: auto;
+    min-width: var(--series-action-min-width);
+  }
+}

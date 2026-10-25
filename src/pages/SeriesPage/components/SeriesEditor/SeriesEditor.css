@@ -1,3 +1,48 @@
+/* Cadre de l'éditeur, posé dans la liste à la place de la série (ou au-dessus pour une création) :
+   même espacement que les enfants d'une .card, fond --paper pour le détacher de la carte --surface. */
+.series-editor {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1rem;
+  background: var(--paper);
+  border: 1px solid var(--line);
+}
+
+/* Croix dans le coin du cadre, au-dessus de la ligne du libellé « Nom » :
+   détachée des champs pour ne pas passer pour une action sur le nom. */
+.series-editor-close {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+}
+
+/* Série (nom, saisons) à gauche, progression (dernier vu, terminée) à droite,
+   pour raccourcir l'éditeur ; les deux s'empilent sur petit écran. */
+.series-editor-columns {
+  display: grid;
+  gap: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .series-editor-columns {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}
+
+.series-editor-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* Le gap du cadre espace déjà les enfants */
+.series-editor > .hint {
+  margin: 0;
+}
+
 .series-editor-seasons {
   display: flex;
   flex-direction: column;

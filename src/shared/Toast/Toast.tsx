@@ -3,9 +3,17 @@ import "./Toast.css"
 
 export type ToastVariant = "success" | "info" | "error"
 
+/** Bouton proposé dans le toast, typiquement « Annuler » pour défaire l'action. */
+export interface ToastAction {
+  label: string
+  onClick: () => void
+}
+
 interface ToastProps {
   variant: ToastVariant
   message: string
+  /** Action proposée à côté du message ; le toast se ferme après le clic. */
+  action?: ToastAction
   /** Appelé au clic sur la croix, ou à la fin de `duration`. */
   onClose: () => void
   /** Durée d'affichage en millisecondes avant fermeture automatique ; `null` pour la désactiver. */
@@ -18,6 +26,7 @@ const DEFAULT_DURATION_MS = 5000
 export function Toast({
   variant,
   message,
+  action,
   onClose,
   duration = DEFAULT_DURATION_MS,
 }: ToastProps) {
@@ -41,6 +50,18 @@ export function Toast({
       role={variant === "error" ? "alert" : "status"}
     >
       <p className="toast-message">{message}</p>
+      {action !== undefined && (
+        <button
+          type="button"
+          className="btn-remove"
+          onClick={() => {
+            action.onClick()
+            onClose()
+          }}
+        >
+          {action.label}
+        </button>
+      )}
       <button
         type="button"
         className="btn-remove toast-close"

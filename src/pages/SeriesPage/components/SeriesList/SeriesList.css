@@ -1,0 +1,28 @@
+.series-list-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.series-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Une ligne de la liste : la série, ou son éditeur quand elle est en cours de modification */
+.series-list-entry {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.series-list-entry:first-child {
+  padding-top: 0;
+}
+
+.series-list-entry:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}

@@ -1,8 +1,0 @@
-.episode-correction summary {
-  cursor: pointer;
-  color: var(--ink-light);
-}
-
-.episode-correction .row {
-  margin-top: 0.75rem;
-}
