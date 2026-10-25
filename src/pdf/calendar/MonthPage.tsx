@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
     textTransform: "capitalize",
     marginLeft: 40,
   },
-  // Équivalent du liseré sous le titre de l'app (h1::after)
+  // Équivalent du liseré sous le titre de l'app (.app-title-row)
   titleUnderline: {
     flexDirection: "row",
     width: 170,

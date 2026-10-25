@@ -1,6 +1,4 @@
 import { NavLink } from "react-router-dom"
-import { useAuth } from "../../auth/useAuth"
-import { requireSupabase } from "../../supabase/client"
 import "./Navbar.css"
 
 export const NAV_LINKS = [
@@ -15,10 +13,6 @@ export const NAV_LINKS = [
 ]
 
 export function Navbar() {
-  // Session absente = Supabase non configuré ou personne de connectée :
-  // dans les deux cas, pas de bouton de déconnexion.
-  const { session } = useAuth()
-
   return (
     <nav className="navbar">
       {NAV_LINKS.map(link => (
@@ -32,15 +26,6 @@ export function Navbar() {
           {link.label}
         </NavLink>
       ))}
-      {session !== null && (
-        <button
-          type="button"
-          className="navbar-logout"
-          onClick={() => requireSupabase().auth.signOut()}
-        >
-          Déconnexion
-        </button>
-      )}
     </nav>
   )
 }

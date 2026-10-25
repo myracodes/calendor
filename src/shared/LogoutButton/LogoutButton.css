@@ -1,0 +1,18 @@
+/* Même gabarit que les onglets de la navbar, en plus discret. */
+.logout-button {
+  height: var(--control-h);
+  padding: 0 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--ink-light);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: none;
+}
+
+.logout-button:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: var(--accent);
+  filter: none;
+}

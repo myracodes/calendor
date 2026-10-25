@@ -12,6 +12,7 @@ import { LoginPage } from "./pages/LoginPage/LoginPage"
 import { PaperFactoryPage } from "./pages/PaperFactoryPage/PaperFactoryPage"
 import { SeriesPage } from "./pages/SeriesPage/SeriesPage"
 import { LastPageRedirect, LastPageTracker } from "./shared/LastPage/LastPage"
+import { LogoutButton } from "./shared/LogoutButton/LogoutButton"
 import { Navbar } from "./shared/Navbar/Navbar"
 import { isSupabaseConfigured } from "./supabase/client"
 import { COMMIT_HASH } from "./version"
@@ -40,7 +41,10 @@ function AppContent() {
       <LastPageTracker />
       <main className="app">
         <div className="app-header">
-          <h1>Calendor</h1>
+          <div className="app-title-row">
+            <h1>Calendor</h1>
+            <LogoutButton />
+          </div>
           <Navbar />
         </div>
 

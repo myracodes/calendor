@@ -1,18 +1,21 @@
-/* Sur petit écran : 3 colonnes égales (9 entrées = 3 lignes régulières),
+/* Sur petit écran : 4 colonnes égales (8 pages = 2 lignes régulières),
    plutôt qu'un flex-wrap aux largeurs disparates. */
 .navbar {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.5rem;
 }
 
+/* min-height plutôt que height : sur petit écran, un libellé en deux mots
+   ("Batch cooking") peut passer sur deux lignes dans sa colonne étroite. */
 .navbar-link {
-  height: var(--control-h);
+  min-height: var(--control-h);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0 0.25rem;
-  font-size: 0.9rem;
+  padding: 0.25rem;
+  font-size: 0.85rem;
+  line-height: 1.15;
   text-align: center;
   color: var(--ink-light);
   font-weight: 600;
@@ -40,33 +43,14 @@
   color: var(--ink);
 }
 
-/* Bouton de déconnexion : même gabarit que les liens, en plus discret. */
-.navbar-logout {
-  padding: 0 0.25rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: var(--ink-light);
-  border: 1px solid var(--line);
-  background: var(--surface);
-  box-shadow: none;
-}
-
-.navbar-logout:hover {
-  transform: none;
-  box-shadow: none;
-  border-color: var(--accent);
-  filter: none;
-}
-
-/* Placé en dernier : doit l'emporter sur le gabarit compact de .navbar-logout. */
+/* Placé en dernier : doit l'emporter sur le gabarit compact de .navbar-link. */
 @media (min-width: 640px) {
   .navbar {
     display: flex;
     flex-wrap: wrap;
   }
 
-  .navbar-link,
-  .navbar-logout {
+  .navbar-link {
     padding: 0 1.2rem;
     font-size: 1rem;
   }
