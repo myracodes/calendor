@@ -17,11 +17,27 @@ create table public.series (
   -- encore sortir, la série est seulement « à jour » une fois tout vu
   finished boolean not null default false,
   created_at timestamptz not null default now(),
+  -- Dernière modification (progression, saisons, nom…) : tient l'ordre de la
+  -- liste, la plus récente en premier. Mise à jour par le trigger ci-dessous.
+  updated_at timestamptz not null default now(),
   -- Pas deux séries du même nom pour un même compte
   unique (user_id, name),
   constraint series_last_watched_complete
     check ((last_watched_season is null) = (last_watched_episode is null))
 );
+
+-- Remet updated_at à l'heure à chaque modification d'une ligne.
+create function public.set_series_updated_at() returns trigger
+  language plpgsql as $$
+begin
+  new.updated_at := now();
+  return new;
+end;
+$$;
+
+create trigger series_set_updated_at
+  before update on public.series
+  for each row execute function public.set_series_updated_at();
 
 alter table public.series enable row level security;
 
@@ -49,3 +65,22 @@ grant select, insert, update, delete on public.series to authenticated;
 --
 -- alter table public.series
 --   add column finished boolean not null default false;
+
+-- Migration d'une table créée avant le tri par dernière modification (sans la
+-- colonne updated_at) : à exécuter une fois, seule, dans le SQL editor. Les
+-- séries existantes partent de leur date de création, avant que le trigger ne
+-- prenne le relais.
+--
+-- alter table public.series
+--   add column updated_at timestamptz not null default now();
+-- update public.series set updated_at = created_at;
+-- create function public.set_series_updated_at() returns trigger
+--   language plpgsql as $$
+-- begin
+--   new.updated_at := now();
+--   return new;
+-- end;
+-- $$;
+-- create trigger series_set_updated_at
+--   before update on public.series
+--   for each row execute function public.set_series_updated_at();

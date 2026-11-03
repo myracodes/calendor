@@ -8,10 +8,6 @@ import {
 } from "./seriesRepository"
 import type { EpisodeRef, Series, SeriesDraft } from "./types"
 
-function byName(first: Series, second: Series): number {
-  return first.name.localeCompare(second.name, "fr")
-}
-
 /**
  * Les séries du compte connecté, chargées au montage, et les actions pour les
  * modifier : la liste locale n'est mise à jour qu'une fois la base d'accord.
@@ -26,9 +22,7 @@ export function useSeries() {
     let cancelled = false
     fetchSeries()
       .then(list => {
-        // Tri refait ici : l'ordre de PostgreSQL ne suit pas forcément les
-        // règles du français (accents, majuscules).
-        if (!cancelled) setSeries([...list].sort(byName))
+        if (!cancelled) setSeries(list)
       })
       .catch((error: Error) => {
         if (!cancelled) setLoadError(error.message)
@@ -41,10 +35,12 @@ export function useSeries() {
     }
   }, [])
 
+  // L'ordre d'affichage est refait au regroupement (groupSeriesByStatus).
   function replace(saved: Series) {
-    setSeries(previous =>
-      [...previous.filter(item => item.id !== saved.id), saved].sort(byName),
-    )
+    setSeries(previous => [
+      ...previous.filter(item => item.id !== saved.id),
+      saved,
+    ])
   }
 
   async function save(draft: SeriesDraft): Promise<Series> {

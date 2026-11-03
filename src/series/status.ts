@@ -7,17 +7,21 @@ import type { Series } from "./types"
  */
 export type SeriesStatus = "watching" | "upToDate" | "notStarted" | "finished"
 
+/**
+ * Groupes de la liste : les séries terminées (tout vu et case « Série
+ * terminée » cochée) à part, toutes les autres ensemble.
+ */
+export type SeriesGroupKey = "ongoing" | "finished"
+
 export interface SeriesStatusGroup {
-  status: SeriesStatus
+  status: SeriesGroupKey
   label: string
   series: Series[]
 }
 
-/** Ordre d'affichage des groupes : ce qu'on regarde en ce moment d'abord. */
-const STATUS_LABELS: Record<SeriesStatus, string> = {
-  watching: "En cours",
-  upToDate: "À jour, suite prévue",
-  notStarted: "Pas commencées",
+/** Ordre d'affichage des groupes : ce qu'on suit encore d'abord. */
+const GROUP_LABELS: Record<SeriesGroupKey, string> = {
+  ongoing: "En cours",
   finished: "Terminées",
 }
 
@@ -27,16 +31,21 @@ export function seriesStatus(series: Series): SeriesStatus {
   return series.finished ? "finished" : "upToDate"
 }
 
-/** Les séries regroupées par statut, triées par nom dans chaque groupe ; les groupes vides sont omis. */
+function groupKey(series: Series): SeriesGroupKey {
+  return seriesStatus(series) === "finished" ? "finished" : "ongoing"
+}
+
+/** Les séries regroupées, la dernière modifiée en premier dans chaque groupe ; les groupes vides sont omis. */
 export function groupSeriesByStatus(series: Series[]): SeriesStatusGroup[] {
-  const sorted = [...series].sort((first, second) =>
-    first.name.localeCompare(second.name, "fr", { sensitivity: "base" }),
+  const sorted = [...series].sort(
+    (first, second) =>
+      Date.parse(second.updatedAt) - Date.parse(first.updatedAt),
   )
-  return (Object.keys(STATUS_LABELS) as SeriesStatus[])
+  return (Object.keys(GROUP_LABELS) as SeriesGroupKey[])
     .map(status => ({
       status,
-      label: STATUS_LABELS[status],
-      series: sorted.filter(item => seriesStatus(item) === status),
+      label: GROUP_LABELS[status],
+      series: sorted.filter(item => groupKey(item) === status),
     }))
     .filter(group => group.series.length > 0)
 }

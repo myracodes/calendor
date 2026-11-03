@@ -5,7 +5,7 @@ import type { EpisodeRef, Season, Series, SeriesDraft } from "./types"
 
 /** Colonnes lues en base ; `seasons` est un jsonb, renvoyé non typé par Supabase. */
 const COLUMNS =
-  "id, name, seasons, last_watched_season, last_watched_episode, finished"
+  "id, name, seasons, last_watched_season, last_watched_episode, finished, updated_at"
 
 type SeriesRow = {
   id: string
@@ -14,6 +14,7 @@ type SeriesRow = {
   last_watched_season: number | null
   last_watched_episode: number | null
   finished: boolean
+  updated_at: string
 }
 
 /** Code PostgreSQL d'une violation de contrainte unique (ici : nom déjà pris). */
@@ -35,6 +36,7 @@ function toSeries(row: SeriesRow): Series {
             episode: row.last_watched_episode,
           },
     finished: row.finished,
+    updatedAt: row.updated_at,
   }
 }
 
@@ -52,12 +54,12 @@ function toError(error: { code: string; message: string }): Error {
   return new Error(`Erreur de la base de données : ${error.message}`)
 }
 
-/** Toutes les séries du compte connecté, triées par nom. */
+/** Toutes les séries du compte connecté, la dernière modifiée en premier. */
 export async function fetchSeries(): Promise<Series[]> {
   const { data, error } = await requireSupabase()
     .from("series")
     .select(COLUMNS)
-    .order("name")
+    .order("updated_at", { ascending: false })
   if (error !== null) throw toError(error)
   return (data as SeriesRow[]).map(toSeries)
 }

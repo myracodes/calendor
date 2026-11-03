@@ -17,7 +17,11 @@ export interface Series {
   lastWatched: EpisodeRef | null
   /** Aucune suite prévue : une fois tout vu, la série est terminée et pas seulement à jour. */
   finished: boolean
+  /** Date de dernière modification (ISO 8601), tenue par la base. */
+  updatedAt: string
 }
 
 /** Série en cours d'édition ; id null = pas encore enregistrée. */
-export type SeriesDraft = Omit<Series, "id"> & { id: string | null }
+export type SeriesDraft = Omit<Series, "id" | "updatedAt"> & {
+  id: string | null
+}
