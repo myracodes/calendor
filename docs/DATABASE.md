@@ -38,5 +38,6 @@ Ne pas ré-exécuter le script de création : il échoue (`already exists`). Les
 | --- | --- | --- |
 | `supabase/cv_contact.sql` | `cv_contact` | CV |
 | `supabase/series.sql` | `series` | Séries |
+| `supabase/books.sql` | `books` | Livres |
 
 Chaque nouveau script doit être ajouté ici (voir [NEW_FEATURE.md](../NEW_FEATURE.md)).

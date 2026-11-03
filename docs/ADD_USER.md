@@ -23,6 +23,7 @@ Chaque table choisit, par ses règles RLS (`supabase/*.sql`), si ses données so
 | Table | Données | Accès |
 | --- | --- | --- |
 | `series` | Séries suivies | Propres à chaque compte : elle démarre avec une liste vide et ne voit pas les séries des autres. |
+| `books` | Livres lus | Propres à chaque compte : elle démarre avec une liste vide et ne voit pas les lectures des autres. |
 | `cv_contact` | Coordonnées du CV de Myriam | **Partagées** : tout compte connecté peut les lire (en générant le CV). À restreindre si le compte n'est pas pour une personne de confiance. |
 
 Le reste de l'app (calendriers, courses, courrier…) n'utilise pas encore la base : les réglages sont gardés dans le navigateur de chacune (`localStorage`), donc séparés.

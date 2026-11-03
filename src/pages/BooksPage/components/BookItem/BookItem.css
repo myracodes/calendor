@@ -1,0 +1,37 @@
+/* Un livre : titre et autrices à gauche, crayon d'édition calé à droite */
+.book-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 1rem;
+}
+
+.book-item-title {
+  margin: 0;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.book-item-authors {
+  margin: 0.15rem 0 0;
+  font-size: 0.9rem;
+  color: var(--ink-light);
+}
+
+/* Seul bouton de la ligne : pas d'espace à réserver en dessous */
+.book-item .action-button {
+  margin-bottom: 0;
+}
+
+/* Crayon : carré, de la hauteur de .action-button */
+.book-item-edit {
+  width: 3.25rem;
+  padding: 0;
+}
+
+.book-item-edit img {
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin: auto;
+}

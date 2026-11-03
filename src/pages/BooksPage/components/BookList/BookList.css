@@ -1,0 +1,28 @@
+.book-list-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.book-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Une ligne de la liste : le livre, ou son éditeur quand il est en cours de modification */
+.book-list-entry {
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.book-list-entry:first-child {
+  padding-top: 0;
+}
+
+.book-list-entry:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}

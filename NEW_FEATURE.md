@@ -16,7 +16,6 @@ Il complète [AGENTS.md](AGENTS.md) (règles générales, toujours applicables) 
 1. Créer la page dans `src/pages/<Nom>Page/<Nom>Page.tsx` (composant exporté nommé `<Nom>Page`).
 2. Déclarer la route dans `src/App.tsx` (`<Route path="/<slug>" … />`), slug en anglais et en kebab-case (`/batch-cooking`, `/series`).
 3. Ajouter le lien dans le tableau `LINKS` de `src/shared/Navbar/Navbar.tsx` — libellé en français, tel qu'affiché.
-4. Commencer la page par une `<p className="tagline">…</p>` qui dit à quoi elle sert, comme les autres pages.
 
 ## 2. Composants
 
@@ -51,7 +50,7 @@ Il complète [AGENTS.md](AGENTS.md) (règles générales, toujours applicables) 
 
 ## 4. Vérifications avant de rendre la main
 
-- `npx tsc -b`, `npm run lint`, `npm run format:check` passent.
+- `npx tsc -b`, `npm run lint`, `npm run format:check` passent. Le formatage est fait par Biome (`npm run format`), pas par Prettier : ne pas lancer `npx prettier`, dont les réglages diffèrent.
 - Pas de vérification visuelle automatique (captures, curl…) : Myriam vérifie elle-même.
 - Proposer un titre de commit (voir la section Git d'AGENTS.md), périmètre = nom de la feature (`feat(series): …`).
 - Mettre à jour ce fichier.
@@ -64,4 +63,5 @@ Ce que chaque feature a apporté au guide, pour savoir d'où vient une conventio
 - **Séries, onglet Suivi** — style commun des boutons désactivés (`button:disabled` dans `App.css`) ; première migration d'une table existante (section « Migration » de `supabase/series.sql`) ; composant partagé `ProgressPie` et exception « variable CSS » à la règle du CSS inline (AGENTS.md).
 - **Séries, fusion des onglets** — Suivi et Paramétrage réunis en une seule liste : création au-dessus de la liste, édition ouverte en place via un bouton-icône crayon (`src/assets/icons/pencil.svg`) sur chaque série.
 - **Séries, statuts** — liste groupée par statut (En cours, À jour, Pas commencées, Terminées) avec la colonne `finished` (2e migration de `supabase/series.sql`) ; bouton d'action dans `Toast` (« Annuler ») ; consigne de toasts plus généreux.
+- **Livres** (`/books`) — livres lus, regroupés par année de lecture (table `books`, autrices en `text[]`) ; « Annuler » d'une suppression via un toast qui recrée la ligne. Retrait de la consigne `tagline`, qu'aucune page n'utilisait.
 - **Papier à musique** (onglet de `/paper-factory`) — la page « BuJo factory » devient « Paper factory », à onglets (BuJo, Papier à musique) ; onglets masqués via `hidden` plutôt que démontés, pour garder les réglages non persistés d'un onglet ; variantes de style d'un PDF déclarées dans des `StyleSheet.create` indexés par réglage (`STAFF_HEIGHTS[settings.kind]`) plutôt qu'en objets de style dans le JSX.

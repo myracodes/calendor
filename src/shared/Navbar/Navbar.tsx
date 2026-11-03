@@ -10,6 +10,7 @@ export const NAV_LINKS = [
   { to: "/courrier", label: "Courrier" },
   { to: "/cv", label: "CV" },
   { to: "/series", label: "Séries" },
+  { to: "/books", label: "Livres" },
 ]
 
 export function Navbar() {

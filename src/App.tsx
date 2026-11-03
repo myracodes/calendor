@@ -2,6 +2,7 @@ import { HashRouter, Route, Routes } from "react-router-dom"
 import "./App.css"
 import { AuthProvider } from "./auth/AuthProvider"
 import { useAuth } from "./auth/useAuth"
+import { BooksPage } from "./pages/BooksPage/BooksPage"
 import { BatchCookingPage } from "./pages/BatchCookingPage/BatchCookingPage"
 import { BudgetPage } from "./pages/BudgetPage/BudgetPage"
 import { CalendarsPage } from "./pages/CalendarsPage/CalendarsPage"
@@ -58,6 +59,7 @@ function AppContent() {
           <Route path="/courses" element={<CoursesPage />} />
           <Route path="/cv" element={<CvPage />} />
           <Route path="/series" element={<SeriesPage />} />
+          <Route path="/books" element={<BooksPage />} />
         </Routes>
 
         <footer className="footer">
