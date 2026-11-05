@@ -4,6 +4,7 @@ import {
   nextVolume,
   volumeInProgress,
   volumesOf,
+  volumesReadIn,
 } from "../../../../books/bookSeries"
 import { BOOK_FORMAT_WORDING } from "../../../../books/bookFormats"
 import { plural } from "../../../../books/format"
@@ -64,10 +65,19 @@ function emptyForm(): NewBookForm {
   }
 }
 
-/** Ce qui est ouvert dans un éditeur (un seul à la fois) : un livre seul ou une série. */
+/**
+ * Ce qui est ouvert dans un éditeur (un seul à la fois) : un livre seul ou une
+ * série. Une série apparaît dans chaque année où un tome a été lu : l'éditeur
+ * s'ouvre dans l'année cliquée, dont il modifie le nombre de tomes lus.
+ */
 type Editing =
   | { kind: "book"; draft: BookDraft }
-  | { kind: "series"; draft: BookSeriesDraft }
+  | {
+      kind: "series"
+      draft: BookSeriesDraft
+      year: number
+      yearReadCount: number
+    }
 
 interface BookListProps {
   /** Format de la card : seuls ses livres sont listés, et ceux ajoutés le prennent. */
@@ -97,6 +107,7 @@ export function BookList({
     saveSeries,
     removeSeries,
     addVolume,
+    setVolumesReadIn,
     addFromForm,
   } = library
   const wording = BOOK_FORMAT_WORDING[format]
@@ -111,8 +122,23 @@ export function BookList({
   )
   const thisYear = currentYear()
 
+  function yearReadCount(series: BookSeries, year: number): number {
+    return volumesReadIn(volumesOf(books, series.id), year, format).length
+  }
+
   function hasUnsavedChanges(): boolean {
     if (editing === null) return false
+    if (
+      editing.kind === "series" &&
+      editing.draft.id !== null &&
+      editing.yearReadCount !==
+        yearReadCount(
+          seriesList.find(series => series.id === editing.draft.id)!,
+          editing.year,
+        )
+    ) {
+      return true
+    }
     const saved =
       editing.kind === "book"
         ? books.find(book => book.id === editing.draft.id)
@@ -138,9 +164,18 @@ export function BookList({
     setEditing({ kind: "book", draft: toDraft(book) })
   }
 
-  function editSeries(series: BookSeries) {
-    if (series.id === editing?.draft.id || !canLeaveEditing()) return
-    setEditing({ kind: "series", draft: toSeriesDraft(series) })
+  function editSeries(series: BookSeries, year: number) {
+    const alreadyOpen =
+      editing?.kind === "series" &&
+      editing.draft.id === series.id &&
+      editing.year === year
+    if (alreadyOpen || !canLeaveEditing()) return
+    setEditing({
+      kind: "series",
+      draft: toSeriesDraft(series),
+      year,
+      yearReadCount: yearReadCount(series, year),
+    })
   }
 
   function cancelEditing() {
@@ -258,6 +293,7 @@ export function BookList({
       showToast("success", `« ${saved.title} » enregistré.`)
     } else {
       const saved = await saveSeries(editing.draft)
+      await setVolumesReadIn(saved, editing.year, format, editing.yearReadCount)
       showToast("success", `Série « ${saved.name} » enregistrée.`)
     }
     setEditing(null)
@@ -353,7 +389,8 @@ export function BookList({
                     return (
                       <li key={series.id} className="book-list-entry">
                         {editing?.kind === "series" &&
-                        editing.draft.id === series.id ? (
+                        editing.draft.id === series.id &&
+                        editing.year === group.year ? (
                           <BookSeriesEditor
                             draft={editing.draft}
                             highestVolume={Math.max(
@@ -362,7 +399,12 @@ export function BookList({
                             )}
                             volumeCount={allVolumes.length}
                             onChange={draft =>
-                              setEditing({ kind: "series", draft })
+                              setEditing({ ...editing, draft })
+                            }
+                            yearReadLabel={`Tomes ${wording.donePlural} en ${group.year}`}
+                            yearReadCount={editing.yearReadCount}
+                            onYearReadCountChange={count =>
+                              setEditing({ ...editing, yearReadCount: count })
                             }
                             onSave={saveEditing}
                             onDelete={removeEditedSeries}
@@ -380,7 +422,7 @@ export function BookList({
                             onNewVolumePublished={() =>
                               publishNewVolume(series)
                             }
-                            onEdit={() => editSeries(series)}
+                            onEdit={() => editSeries(series, group.year)}
                           />
                         )}
                       </li>

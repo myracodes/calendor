@@ -1,4 +1,4 @@
-import type { Book, BookSeries } from "./types"
+import type { Book, BookFormat, BookSeries } from "./types"
 
 /**
  * Où en est la lecture d'une série : en cours, à jour (tout le paru est lu,
@@ -85,4 +85,20 @@ export function readPercent(
 export function bookLabel(book: Book, series: BookSeries | undefined): string {
   if (book.seriesId === null || series === undefined) return book.title
   return `${series.name}, tome ${book.volume}`
+}
+
+/** Les tomes terminés une année donnée, dans un format, du plus petit numéro au plus grand. */
+export function volumesReadIn(
+  volumes: Book[],
+  year: number,
+  format: BookFormat,
+): Book[] {
+  return volumes
+    .filter(
+      volume =>
+        !volume.inProgress &&
+        volume.readYear === year &&
+        volume.format === format,
+    )
+    .sort((first, second) => (first.volume ?? 0) - (second.volume ?? 0))
 }

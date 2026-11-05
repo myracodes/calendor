@@ -74,3 +74,9 @@ export function publishedVolumesError(
   }
   return null
 }
+
+/** Ce qui ne va pas dans le nombre de tomes lus d'une année, ou null : un entier, 0 compris. */
+export function yearReadCountError(count: number): string | null {
+  if (Number.isInteger(count) && count >= 0) return null
+  return "Le nombre de tomes doit être un entier positif ou nul."
+}

@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react"
-import { findSeriesByName } from "./bookSeries"
+import {
+  findSeriesByName,
+  followingVolume,
+  volumesOf,
+  volumesReadIn,
+} from "./bookSeries"
 import {
   deleteBookSeries,
   fetchBookSeries,
@@ -100,6 +105,42 @@ export function useBooks() {
   }
 
   /**
+   * Ajuste le nombre de tomes terminés une année donnée, dans un format : les
+   * tomes ajoutés suivent le plus grand enregistré, les tomes retirés sont les
+   * plus grands numéros de l'année. Comme pour addVolume, les tomes parus
+   * suivent si les tomes ajoutés les dépassent.
+   */
+  async function setVolumesReadIn(
+    series: BookSeries,
+    year: number,
+    format: BookFormat,
+    count: number,
+  ): Promise<void> {
+    const volumes = volumesOf(books, series.id)
+    const read = volumesReadIn(volumes, year, format)
+    for (const extra of read.slice(count).reverse()) {
+      await remove(extra.id)
+    }
+    const first = followingVolume(volumes)
+    const last = first + count - read.length - 1
+    for (let volume = first; volume <= last; volume++) {
+      await save({
+        id: null,
+        title: "",
+        authors: [],
+        readYear: year,
+        inProgress: false,
+        format,
+        seriesId: series.id,
+        volume,
+      })
+    }
+    if (series.publishedVolumes !== null && last > series.publishedVolumes) {
+      await saveSeries({ ...series, publishedVolumes: last })
+    }
+  }
+
+  /**
    * Enregistre le formulaire d'ajout : un livre seul, ou un tome de la série
    * nommée, créée au passage si elle n'existe pas encore.
    */
@@ -149,6 +190,7 @@ export function useBooks() {
     saveSeries,
     removeSeries,
     addVolume,
+    setVolumesReadIn,
     addFromForm,
   }
 }

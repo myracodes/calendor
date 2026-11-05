@@ -3,6 +3,7 @@ import type { BookSeriesDraft } from "../../../../books/types"
 import {
   isSeriesDraftComplete,
   publishedVolumesError,
+  yearReadCountError,
 } from "../../../../books/validation"
 import { AuthorsField } from "../AuthorsField/AuthorsField"
 import { BookForm } from "../BookForm/BookForm"
@@ -14,6 +15,10 @@ interface BookSeriesEditorProps {
   /** Tomes enregistrés, supprimés avec la série. */
   volumeCount: number
   onChange: (draft: BookSeriesDraft) => void
+  /** « Tomes lus en 2025 » : l'année de la ligne où l'éditeur est ouvert, dans le format de la card. */
+  yearReadLabel: string
+  yearReadCount: number
+  onYearReadCountChange: (count: number) => void
   onSave: () => Promise<void>
   onDelete: () => Promise<void>
   /** Ferme l'éditeur sans enregistrer. */
@@ -26,16 +31,24 @@ export function BookSeriesEditor({
   highestVolume,
   volumeCount,
   onChange,
+  yearReadLabel,
+  yearReadCount,
+  onYearReadCountChange,
   onSave,
   onDelete,
   onCancel,
 }: BookSeriesEditorProps) {
   const volumesError = publishedVolumesError(draft, highestVolume)
+  const countError = yearReadCountError(yearReadCount)
 
   return (
     <BookForm
       submitLabel="Enregistrer"
-      canSubmit={isSeriesDraftComplete(draft) && volumesError === null}
+      canSubmit={
+        isSeriesDraftComplete(draft) &&
+        volumesError === null &&
+        countError === null
+      }
       onSubmit={onSave}
       onClose={onCancel}
       deletion={{
@@ -58,24 +71,43 @@ export function BookSeriesEditor({
         onChange={authors => onChange({ ...draft, authors })}
       />
 
-      <label>
-        Tomes parus
-        <input
-          type="number"
-          min={Math.max(1, highestVolume)}
-          step={1}
-          // Champ vide = nombre inconnu (null) : la série reste « en cours ».
-          value={draft.publishedVolumes ?? ""}
-          onChange={e =>
-            onChange({
-              ...draft,
-              publishedVolumes:
-                e.target.value === "" ? null : Number(e.target.value),
-            })
-          }
-        />
-      </label>
+      <div className="row">
+        <label>
+          Tomes parus
+          <input
+            type="number"
+            min={Math.max(1, highestVolume)}
+            step={1}
+            // Champ vide = nombre inconnu (null) : la série reste « en cours ».
+            value={draft.publishedVolumes ?? ""}
+            onChange={e =>
+              onChange({
+                ...draft,
+                publishedVolumes:
+                  e.target.value === "" ? null : Number(e.target.value),
+              })
+            }
+          />
+        </label>
+
+        <label>
+          {yearReadLabel}
+          <input
+            type="number"
+            min={0}
+            step={1}
+            // Champ vidé = NaN, refusé par yearReadCountError tant qu'il n'est pas rempli.
+            value={Number.isNaN(yearReadCount) ? "" : yearReadCount}
+            onChange={e =>
+              onYearReadCountChange(
+                e.target.value === "" ? Number.NaN : Number(e.target.value),
+              )
+            }
+          />
+        </label>
+      </div>
       {volumesError !== null && <p className="hint">{volumesError}</p>}
+      {countError !== null && <p className="hint">{countError}</p>}
 
       <label className="checkbox-option">
         <input
