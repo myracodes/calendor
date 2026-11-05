@@ -17,11 +17,19 @@ function toDraft(book: Book): BookDraft {
     title: book.title,
     authors: book.authors,
     readYear: book.readYear,
+    inProgress: book.inProgress,
   }
 }
 
 function emptyDraft(): BookDraft {
-  return { id: null, title: "", authors: [""], readYear: currentYear() }
+  // En cours par défaut : un livre s'ajoute souvent dès qu'on le commence.
+  return {
+    id: null,
+    title: "",
+    authors: [""],
+    readYear: currentYear(),
+    inProgress: true,
+  }
 }
 
 function plural(count: number, singular: string, pluralForm: string): string {
@@ -33,6 +41,8 @@ export function BookList() {
   const { books, loading, loadError, save, remove } = useBooks()
   // Formulaire d'ajout, toujours affiché en haut de la liste.
   const [newBook, setNewBook] = useState<BookDraft>(emptyDraft)
+  // Livre dont la fin de lecture est en cours d'enregistrement, pour ne désactiver que sa coche.
+  const [pendingId, setPendingId] = useState<string | null>(null)
   // Livre enregistré ouvert dans l'éditeur (un seul à la fois).
   const [draft, setDraft] = useState<BookDraft | null>(null)
   const { toast, showToast } = useToast()
@@ -66,12 +76,52 @@ export function BookList() {
     setNewBook(emptyDraft())
     showToast(
       "success",
-      `« ${saved.title} » ajouté à tes lectures de ${saved.readYear}.`,
+      saved.inProgress
+        ? `« ${saved.title} » ajouté à tes lectures en cours.`
+        : `« ${saved.title} » ajouté à tes lectures de ${saved.readYear}.`,
     )
   }
 
   function cancelDraft() {
     if (canLeaveDraft()) setDraft(null)
+  }
+
+  // Enregistre la lecture d'un livre ; l'erreur éventuelle part en toast.
+  async function saveReading(reading: BookDraft): Promise<boolean> {
+    setPendingId(reading.id)
+    try {
+      await save(reading)
+      return true
+    } catch (caught) {
+      showToast(
+        "error",
+        `Modification non enregistrée : ${(caught as Error).message}`,
+      )
+      return false
+    } finally {
+      setPendingId(null)
+    }
+  }
+
+  async function undoFinish(book: Book) {
+    // book = le livre avant le clic : on remet sa lecture en cours et son année d'alors.
+    if (await saveReading(toDraft(book))) {
+      showToast("info", `« ${book.title} » est de nouveau en cours.`)
+    }
+  }
+
+  // Un livre compte dans l'année où il est terminé, même commencé l'année d'avant.
+  async function finish(book: Book) {
+    const finished = {
+      ...toDraft(book),
+      inProgress: false,
+      readYear: currentYear(),
+    }
+    if (!(await saveReading(finished))) return
+    showToast("success", `« ${book.title} » terminé.`, {
+      label: "Annuler",
+      onClick: () => undoFinish(book),
+    })
   }
 
   async function saveDraft() {
@@ -144,7 +194,12 @@ export function BookList() {
                           onCancel={cancelDraft}
                         />
                       ) : (
-                        <BookItem book={book} onEdit={() => edit(book)} />
+                        <BookItem
+                          book={book}
+                          pending={pendingId === book.id}
+                          onFinish={() => finish(book)}
+                          onEdit={() => edit(book)}
+                        />
                       )}
                     </li>
                   ))}

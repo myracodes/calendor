@@ -3,13 +3,14 @@
 import { requireSupabase } from "../supabase/client"
 import type { Book, BookDraft } from "./types"
 
-const COLUMNS = "id, title, authors, read_year, created_at"
+const COLUMNS = "id, title, authors, read_year, in_progress, created_at"
 
 type BookRow = {
   id: string
   title: string
   authors: string[]
   read_year: number
+  in_progress: boolean
   created_at: string
 }
 
@@ -19,6 +20,7 @@ function toBook(row: BookRow): Book {
     title: row.title,
     authors: row.authors,
     readYear: row.read_year,
+    inProgress: row.in_progress,
     createdAt: row.created_at,
   }
 }
@@ -43,6 +45,7 @@ export async function saveBook(draft: BookDraft): Promise<Book> {
       .map(author => author.trim())
       .filter(author => author !== ""),
     read_year: draft.readYear,
+    in_progress: draft.inProgress,
   }
   const table = requireSupabase().from("books")
   const { data, error } =

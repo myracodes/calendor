@@ -5,6 +5,8 @@ export interface Book {
   authors: string[]
   /** Année de lecture (la date complète viendra peut-être plus tard). */
   readYear: number
+  /** Lecture pas encore terminée. */
+  inProgress: boolean
   /** Date d'ajout (ISO 8601), tenue par la base : ordonne les livres d'une même année, dans l'ordre d'ajout. */
   createdAt: string
 }

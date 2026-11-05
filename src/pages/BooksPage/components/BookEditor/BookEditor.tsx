@@ -17,7 +17,7 @@ interface BookEditorProps {
 }
 
 /**
- * Formulaire d'un livre : titre, autrices et année de lecture. Toujours affiché
+ * Formulaire d'un livre : titre, autrices, année de lecture et lecture en cours. Toujours affiché
  * en haut de la liste pour un ajout ; encadré, à la place du livre, pour une
  * modification.
  */
@@ -90,23 +90,34 @@ export function BookEditor({
         onChange={authors => onChange({ ...draft, authors })}
       />
 
-      <label>
-        Lu en
-        <input
-          type="number"
-          min={FIRST_READ_YEAR}
-          max={currentYear()}
-          step={1}
-          // Champ vidé = 0, refusé par readYearError tant qu'il n'est pas rempli.
-          value={draft.readYear === 0 ? "" : draft.readYear}
-          onChange={e =>
-            onChange({
-              ...draft,
-              readYear: e.target.value === "" ? 0 : Number(e.target.value),
-            })
-          }
-        />
-      </label>
+      <div className="row row-field-aligned">
+        <label>
+          Lu en
+          <input
+            type="number"
+            min={FIRST_READ_YEAR}
+            max={currentYear()}
+            step={1}
+            // Champ vidé = 0, refusé par readYearError tant qu'il n'est pas rempli.
+            value={draft.readYear === 0 ? "" : draft.readYear}
+            onChange={e =>
+              onChange({
+                ...draft,
+                readYear: e.target.value === "" ? 0 : Number(e.target.value),
+              })
+            }
+          />
+        </label>
+
+        <label className="checkbox-option">
+          <input
+            type="checkbox"
+            checked={draft.inProgress}
+            onChange={e => onChange({ ...draft, inProgress: e.target.checked })}
+          />
+          En cours
+        </label>
+      </div>
 
       {yearError !== null && <p className="hint">{yearError}</p>}
       {error !== null && <p className="book-editor-error">{error}</p>}

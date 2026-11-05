@@ -78,6 +78,12 @@
   align-items: center;
 }
 
+/* Variante pour une case à cocher à côté d'un champ qui a son libellé au-dessus : la ligne reste
+   alignée en bas, et la case prend la hauteur du champ pour se centrer sur lui, pas sur le libellé. */
+.row-field-aligned > .checkbox-option {
+  height: var(--control-h);
+}
+
 label {
   display: flex;
   flex-direction: column;
