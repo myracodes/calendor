@@ -9,6 +9,7 @@ import { deleteBook, fetchBooks, saveBook } from "./booksRepository"
 import type {
   Book,
   BookDraft,
+  BookFormat,
   BookSeries,
   BookSeriesDraft,
   NewBookForm,
@@ -82,7 +83,7 @@ export function useBooks() {
   async function addVolume(
     series: BookSeries,
     volume: number,
-    reading: Pick<Book, "readYear" | "inProgress">,
+    reading: Pick<Book, "readYear" | "inProgress" | "format">,
   ): Promise<Book> {
     const added = await save({
       id: null,
@@ -104,8 +105,13 @@ export function useBooks() {
    */
   async function addFromForm(
     form: NewBookForm,
+    format: BookFormat,
   ): Promise<{ book: Book; series: BookSeries | undefined }> {
-    const reading = { readYear: form.readYear, inProgress: form.inProgress }
+    const reading = {
+      readYear: form.readYear,
+      inProgress: form.inProgress,
+      format,
+    }
     if (form.seriesName.trim() === "") {
       const book = await save({
         id: null,
@@ -146,3 +152,6 @@ export function useBooks() {
     addFromForm,
   }
 }
+
+/** Les livres, les séries et leurs actions, partagés par les cards de la page. */
+export type BookLibrary = ReturnType<typeof useBooks>

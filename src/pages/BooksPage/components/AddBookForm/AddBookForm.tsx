@@ -1,15 +1,23 @@
+import { useId } from "react"
 import {
   findSeriesByName,
   followingVolume,
   volumesOf,
 } from "../../../../books/bookSeries"
-import type { Book, BookSeries, NewBookForm } from "../../../../books/types"
+import { BOOK_FORMAT_WORDING } from "../../../../books/bookFormats"
+import type {
+  Book,
+  BookFormat,
+  BookSeries,
+  NewBookForm,
+} from "../../../../books/types"
 import { isNewBookComplete, readYearError } from "../../../../books/validation"
 import { AuthorsField } from "../AuthorsField/AuthorsField"
 import { BookForm } from "../BookForm/BookForm"
 import { ReadingFields } from "../ReadingFields/ReadingFields"
 
 interface AddBookFormProps {
+  format: BookFormat
   form: NewBookForm
   books: Book[]
   seriesList: BookSeries[]
@@ -24,12 +32,15 @@ interface AddBookFormProps {
  * nouveau nom, la série est créée avec ce premier tome.
  */
 export function AddBookForm({
+  format,
   form,
   books,
   seriesList,
   onChange,
   onAdd,
 }: AddBookFormProps) {
+  // Une card par format, donc un formulaire par format : l'id de la liste de séries doit être unique.
+  const seriesListId = useId()
   const isVolume = form.seriesName.trim() !== ""
   const existingSeries = findSeriesByName(seriesList, form.seriesName)
 
@@ -60,11 +71,11 @@ export function AddBookForm({
           Série (optionnel)
           <input
             type="text"
-            list="book-series-names"
+            list={seriesListId}
             value={form.seriesName}
             onChange={e => setSeriesName(e.target.value)}
           />
-          <datalist id="book-series-names">
+          <datalist id={seriesListId}>
             {seriesList.map(series => (
               <option key={series.id} value={series.name} />
             ))}
@@ -115,6 +126,7 @@ export function AddBookForm({
       )}
 
       <ReadingFields
+        yearLabel={BOOK_FORMAT_WORDING[format].yearLabel}
         reading={form}
         onChange={reading => onChange({ ...form, ...reading })}
       />

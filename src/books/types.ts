@@ -1,3 +1,6 @@
+/** Livre papier ou livre audio : même suivi, une card chacun sur la page. */
+export type BookFormat = "print" | "audio"
+
 export interface Book {
   id: string
   /** Titre d'un livre seul ; vide pour un tome, qui prend le nom de sa série. */
@@ -8,6 +11,7 @@ export interface Book {
   readYear: number
   /** Lecture pas encore terminée. */
   inProgress: boolean
+  format: BookFormat
   /** Série dont le livre est un tome, null pour un livre seul. */
   seriesId: string | null
   /** Numéro du tome (à partir de 1), null pour un livre seul. */

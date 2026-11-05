@@ -17,6 +17,8 @@ create table public.books (
   read_year integer not null check (read_year >= 1900),
   -- Lecture pas encore terminée
   in_progress boolean not null default false,
+  -- Livre papier ('print') ou livre audio ('audio') : chacun a sa card sur la page
+  format text not null default 'print' check (format in ('print', 'audio')),
   -- Série dont le livre est un tome ; supprimer la série supprime ses tomes
   series_id uuid references public.book_series on delete cascade,
   -- Numéro du tome dans sa série
@@ -81,3 +83,11 @@ grant select, insert, update, delete on public.books to authenticated;
 --       where book_series.id = series_id and book_series.user_id = auth.uid()
 --     ))
 --   );
+
+-- Migration d'une table créée avant les livres audio (sans la colonne format) :
+-- à exécuter une fois, seule, dans le SQL editor. Les livres déjà enregistrés
+-- deviennent des livres papier.
+--
+-- alter table public.books
+--   add column format text not null default 'print'
+--     check (format in ('print', 'audio'));

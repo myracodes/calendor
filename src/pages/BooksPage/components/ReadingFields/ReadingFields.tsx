@@ -7,19 +7,25 @@ export interface Reading {
 }
 
 interface ReadingFieldsProps {
+  /** « Lu en », « Écouté en ». */
+  yearLabel: string
   reading: Reading
   onChange: (reading: Reading) => void
 }
 
 /** Année de lecture et case « En cours », sur une ligne, avec l'erreur d'année en dessous. */
-export function ReadingFields({ reading, onChange }: ReadingFieldsProps) {
+export function ReadingFields({
+  yearLabel,
+  reading,
+  onChange,
+}: ReadingFieldsProps) {
   const yearError = readYearError(reading.readYear)
 
   return (
     <>
       <div className="row row-field-aligned">
         <label>
-          Lu en
+          {yearLabel}
           <input
             type="number"
             min={FIRST_READ_YEAR}

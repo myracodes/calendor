@@ -1,3 +1,4 @@
+import { BOOK_FORMAT_WORDING } from "../../../../books/bookFormats"
 import type { BookDraft } from "../../../../books/types"
 import { isDraftComplete, readYearError } from "../../../../books/validation"
 import { AuthorsField } from "../AuthorsField/AuthorsField"
@@ -50,6 +51,7 @@ export function BookEditor({
       />
 
       <ReadingFields
+        yearLabel={BOOK_FORMAT_WORDING[draft.format].yearLabel}
         reading={draft}
         onChange={reading => onChange({ ...draft, ...reading })}
       />

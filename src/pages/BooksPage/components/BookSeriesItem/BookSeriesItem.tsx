@@ -9,6 +9,7 @@ import {
   volumeInProgress,
 } from "../../../../books/bookSeries"
 import { formatAuthors, formatVolumes, plural } from "../../../../books/format"
+import type { BookFormatWording } from "../../../../books/bookFormats"
 import type { Book, BookSeries } from "../../../../books/types"
 import { ActionButton } from "../../../../shared/ActionButton/ActionButton"
 import { ProgressPie } from "../../../../shared/ProgressPie/ProgressPie"
@@ -30,7 +31,9 @@ interface BookSeriesItemProps {
   series: BookSeries
   /** Tous les tomes enregistrés de la série, pour son état. */
   allVolumes: Book[]
-  /** Les tomes lus l'année de la ligne. */
+  /** Mots du format de la card (« lu », « écouté »…). */
+  wording: BookFormatWording
+  /** Les tomes lus l'année de la ligne, dans le format de la card. */
   yearVolumes: Book[]
   year: number
   /** Enregistrement d'une action de la série en cours : désactive son bouton. */
@@ -50,6 +53,7 @@ interface BookSeriesItemProps {
 export function BookSeriesItem({
   series,
   allVolumes,
+  wording,
   yearVolumes,
   year,
   pending,
@@ -66,13 +70,13 @@ export function BookSeriesItem({
     .filter(volume => !volume.inProgress)
     .map(volume => volume.volume ?? 0)
   const inProgressThisYear = yearVolumes.find(volume => volume.inProgress)
-  const readNextLabel = `Tome ${toRead} de « ${series.name} » lu`
+  const readNextLabel = `Tome ${toRead} de « ${series.name} » ${wording.doneSingular}`
   const newVolumeLabel = `Nouveau tome de « ${series.name} » paru`
   const editLabel = `Modifier la série « ${series.name} »`
 
   const yearDetail = [
     finishedThisYear.length > 0 &&
-      `${formatVolumes(finishedThisYear)} lu${finishedThisYear.length > 1 ? "s" : ""} en ${year}`,
+      `${formatVolumes(finishedThisYear)} ${finishedThisYear.length > 1 ? wording.donePlural : wording.doneSingular} en ${year}`,
     inProgressThisYear !== undefined &&
       `tome ${inProgressThisYear.volume} en cours`,
   ]

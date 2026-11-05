@@ -1,10 +1,10 @@
 // Lecture et écriture des livres lus dans Supabase (table `books`, voir supabase/books.sql).
 
 import { requireSupabase } from "../supabase/client"
-import type { Book, BookDraft } from "./types"
+import type { Book, BookDraft, BookFormat } from "./types"
 
 const COLUMNS =
-  "id, title, authors, read_year, in_progress, series_id, volume, created_at"
+  "id, title, authors, read_year, in_progress, format, series_id, volume, created_at"
 
 type BookRow = {
   id: string
@@ -12,6 +12,7 @@ type BookRow = {
   authors: string[]
   read_year: number
   in_progress: boolean
+  format: BookFormat
   series_id: string | null
   volume: number | null
   created_at: string
@@ -27,6 +28,7 @@ function toBook(row: BookRow): Book {
     authors: row.authors,
     readYear: row.read_year,
     inProgress: row.in_progress,
+    format: row.format,
     seriesId: row.series_id,
     volume: row.volume,
     createdAt: row.created_at,
@@ -61,6 +63,7 @@ export async function saveBook(draft: BookDraft): Promise<Book> {
           .filter(author => author !== ""),
     read_year: draft.readYear,
     in_progress: draft.inProgress,
+    format: draft.format,
     series_id: draft.seriesId,
     volume: draft.volume,
   }

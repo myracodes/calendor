@@ -5,21 +5,22 @@ import {
   volumeInProgress,
   volumesOf,
 } from "../../../../books/bookSeries"
+import { BOOK_FORMAT_WORDING } from "../../../../books/bookFormats"
 import { plural } from "../../../../books/format"
 import { currentYear } from "../../../../books/readYear"
 import type {
   Book,
   BookDraft,
+  BookFormat,
   BookSeries,
   BookSeriesDraft,
   NewBookForm,
 } from "../../../../books/types"
-import { useBooks } from "../../../../books/useBooks"
+import type { BookLibrary } from "../../../../books/useBooks"
 import { groupBooksByYear } from "../../../../books/years"
 import { Accordion } from "../../../../shared/Accordion/Accordion"
-import { Alert } from "../../../../shared/Alert/Alert"
-import { Card } from "../../../../shared/Card/Card"
-import { useToast } from "../../../../shared/Toast/useToast"
+import { Card, type CardVariantColor } from "../../../../shared/Card/Card"
+import type { useToast } from "../../../../shared/Toast/useToast"
 import { AddBookForm } from "../AddBookForm/AddBookForm"
 import { BookEditor } from "../BookEditor/BookEditor"
 import { BookItem } from "../BookItem/BookItem"
@@ -34,6 +35,7 @@ function toDraft(book: Book): BookDraft {
     authors: book.authors,
     readYear: book.readYear,
     inProgress: book.inProgress,
+    format: book.format,
     seriesId: book.seriesId,
     volume: book.volume,
   }
@@ -67,28 +69,46 @@ type Editing =
   | { kind: "book"; draft: BookDraft }
   | { kind: "series"; draft: BookSeriesDraft }
 
-// Les livres lus, regroupés par année (tomes d'une même série réunis), l'ajout
-// et la modification d'un livre ou d'une série.
-export function BookList() {
+interface BookListProps {
+  /** Format de la card : seuls ses livres sont listés, et ceux ajoutés le prennent. */
+  format: BookFormat
+  variantColor: CardVariantColor
+  /** Livres et séries de tous les formats, chargés une fois pour la page. */
+  library: BookLibrary
+  /** Toast de la page, partagé par les cards : un seul affiché à la fois. */
+  showToast: ReturnType<typeof useToast>["showToast"]
+}
+
+// Une card de la page : les livres d'un format, regroupés par année (tomes
+// d'une même série réunis), l'ajout et la modification d'un livre ou d'une
+// série. Les séries sont communes aux formats : leur état tient compte de tous
+// leurs tomes.
+export function BookList({
+  format,
+  variantColor,
+  library,
+  showToast,
+}: BookListProps) {
   const {
     books,
     seriesList,
-    loading,
-    loadError,
     save,
     remove,
     saveSeries,
     removeSeries,
     addVolume,
     addFromForm,
-  } = useBooks()
+  } = library
+  const wording = BOOK_FORMAT_WORDING[format]
   // Formulaire d'ajout, toujours affiché en haut de la liste.
   const [newBook, setNewBook] = useState<NewBookForm>(emptyForm)
   // Livre ou série dont une action est en cours d'enregistrement, pour ne désactiver que ses boutons.
   const [pendingId, setPendingId] = useState<string | null>(null)
   const [editing, setEditing] = useState<Editing | null>(null)
-  const { toast, showToast } = useToast()
-  const yearGroups = groupBooksByYear(books, seriesList)
+  const yearGroups = groupBooksByYear(
+    books.filter(book => book.format === format),
+    seriesList,
+  )
   const thisYear = currentYear()
 
   function hasUnsavedChanges(): boolean {
@@ -128,14 +148,14 @@ export function BookList() {
   }
 
   async function addBook() {
-    const { book, series } = await addFromForm(newBook)
+    const { book, series } = await addFromForm(newBook, format)
     setNewBook(emptyForm())
     const label = bookLabel(book, series)
     showToast(
       "success",
       book.inProgress
-        ? `« ${label} » ajouté à tes lectures en cours.`
-        : `« ${label} » ajouté à tes lectures de ${book.readYear}.`,
+        ? `« ${label} » ajouté à ${wording.collection} en cours.`
+        : `« ${label} » ajouté à ${wording.collection} de ${book.readYear}.`,
     )
   }
 
@@ -194,20 +214,25 @@ export function BookList() {
         const added = await addVolume(series, volume, {
           readYear: currentYear(),
           inProgress: false,
+          format,
         })
         undo = () => remove(added.id)
         undoMessage = `tome ${volume} retiré`
       }
     })
     if (!ok) return
-    showToast("success", `« ${series.name} » : tome ${volume} lu.`, {
-      label: "Annuler",
-      onClick: async () => {
-        if (await runPending(series.id, undo)) {
-          showToast("info", `« ${series.name} » : ${undoMessage}.`)
-        }
+    showToast(
+      "success",
+      `« ${series.name} » : tome ${volume} ${wording.doneSingular}.`,
+      {
+        label: "Annuler",
+        onClick: async () => {
+          if (await runPending(series.id, undo)) {
+            showToast("info", `« ${series.name} » : ${undoMessage}.`)
+          }
+        },
       },
-    })
+    )
   }
 
   async function publishNewVolume(series: BookSeries) {
@@ -272,20 +297,12 @@ export function BookList() {
     showToast("success", `Série « ${editing.draft.name} » supprimée.`)
   }
 
-  if (loading) return <p className="hint">Chargement des livres…</p>
-  if (loadError !== null) {
-    return (
-      <Alert variantColor="danger" title="Impossible de charger les livres">
-        {loadError}
-      </Alert>
-    )
-  }
-
   return (
-    <Card variantColor="sun">
-      <h2>Mes lectures</h2>
+    <Card variantColor={variantColor}>
+      <h2>{wording.cardTitle}</h2>
 
       <AddBookForm
+        format={format}
         form={newBook}
         books={books}
         seriesList={seriesList}
@@ -355,6 +372,7 @@ export function BookList() {
                           <BookSeriesItem
                             series={series}
                             allVolumes={allVolumes}
+                            wording={wording}
                             yearVolumes={volumes}
                             year={group.year}
                             pending={pendingId === series.id}
@@ -374,7 +392,6 @@ export function BookList() {
           ))}
         </div>
       )}
-      {toast}
     </Card>
   )
 }
