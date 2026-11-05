@@ -8,7 +8,7 @@ interface ProgressPieProps {
   label: string
 }
 
-/** Camembert de progression, avec le pourcentage en dessous. */
+/** Anneau de progression, avec le pourcentage au centre. */
 export function ProgressPie({ percent, label }: ProgressPieProps) {
   // Exception à la règle "pas de CSS inline" (voir AGENTS.md) : seule la
   // valeur dynamique passe par style, tout le dessin reste dans le .css.
@@ -18,13 +18,14 @@ export function ProgressPie({ percent, label }: ProgressPieProps) {
   return (
     <span className="progress-pie">
       <span
-        className="progress-pie-disc"
+        className="progress-pie-ring"
         style={progressStyle}
         role="img"
         aria-label={`${percent} % ${label}`}
       />
       <span className="progress-pie-value" aria-hidden="true">
-        {percent} %
+        {/* Espace fine insécable, typographie française. */}
+        {percent}{" "}%
       </span>
     </span>
   )

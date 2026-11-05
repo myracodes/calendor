@@ -1,28 +1,43 @@
+/* Anneau de progression, pourcentage au centre : l'anneau et le texte sont
+   empilés dans la même cellule de grille. */
 .progress-pie {
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-/* Le disque : part vue en --accent-strong, reste en --surface. --progress est
-   posé par le composant (seule valeur dynamique). */
-.progress-pie-disc {
+  display: inline-grid;
+  place-items: center;
   width: 2.75rem;
   height: 2.75rem;
-  box-sizing: border-box;
+}
+
+.progress-pie-ring,
+.progress-pie-value {
+  grid-area: 1 / 1;
+}
+
+/* L'anneau : part vue en dégradé, reste en --line. --progress est posé par le
+   composant (seule valeur dynamique). */
+.progress-pie-ring {
+  width: 100%;
+  height: 100%;
   border-radius: 50%;
-  /* Cercle en --accent-strong : délimite le disque même à 0 %, et garde un
-     contraste ≥ 3:1 avec la part restante (--line n'atteint que 2,8:1). */
-  border: 2px solid var(--accent-strong);
+  /* Le dégradé s'étire sur la seule part vue, du rose au violet. Le départ
+     pastel est peu contrasté avec le reste de l'anneau, mais c'est la fin de
+     la part vue qui indique la progression : elle finit sur --accent-strong
+     teinté de 15 % d'--ink, qui atteint 3,3:1 sur --line (--accent-strong
+     seul n'atteint que 2,85:1). */
   background: conic-gradient(
-    var(--accent-strong) var(--progress, 0%),
-    var(--surface) 0
+    var(--pink-orchid) 0,
+    color-mix(in srgb, var(--accent-strong) 85%, var(--ink)) var(--progress, 0%),
+    var(--line) 0
+  );
+  /* Évide le disque pour n'en garder qu'un anneau de 4px. */
+  mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 4px),
+    #000 calc(100% - 3.5px)
   );
 }
 
 .progress-pie-value {
-  font-size: 0.8rem;
+  font-size: 0.65rem;
   font-weight: 700;
   color: var(--ink);
 }
