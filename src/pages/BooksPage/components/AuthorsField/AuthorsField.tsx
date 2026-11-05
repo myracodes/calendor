@@ -1,3 +1,4 @@
+import plusIcon from "../../../../assets/icons/plus.svg"
 import "./AuthorsField.css"
 
 interface AuthorsFieldProps {
@@ -42,8 +43,15 @@ export function AuthorsField({ authors, onChange }: AuthorsFieldProps) {
             </button>
           )}
           {i === lastIndex && (
-            <button type="button" onClick={() => onChange([...authors, ""])}>
-              Ajouter une autrice
+            <button
+              type="button"
+              className="authors-field-add"
+              aria-label="Ajouter une autrice"
+              title="Ajouter une autrice"
+              onClick={() => onChange([...authors, ""])}
+            >
+              {/* alt vide : le bouton porte déjà le libellé (aria-label). */}
+              <img src={plusIcon} alt="" />
             </button>
           )}
         </li>
