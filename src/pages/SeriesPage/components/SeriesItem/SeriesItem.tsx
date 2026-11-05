@@ -5,7 +5,7 @@ import { nextEpisode, watchedPercent } from "../../../../series/progress"
 import { seriesStatus } from "../../../../series/status"
 import type { Series } from "../../../../series/types"
 import { ActionButton } from "../../../../shared/ActionButton/ActionButton"
-import { ProgressPie } from "../../../../shared/ProgressPie/ProgressPie"
+import { ProgressRing } from "../../../../shared/ProgressRing/ProgressRing"
 import { NewSeasonForm } from "../NewSeasonForm/NewSeasonForm"
 import "./SeriesItem.css"
 
@@ -39,7 +39,7 @@ export function SeriesItem({
 
   return (
     <div className="series-item">
-      <ProgressPie percent={watchedPercent(series)} label="des épisodes vus" />
+      <ProgressRing percent={watchedPercent(series)} label="des épisodes vus" />
       <div>
         <p className="series-item-name">{series.name}</p>
         <p className="series-item-detail">{describeSeasons(series.seasons)}</p>

@@ -12,7 +12,7 @@ import { formatAuthors, formatVolumes, plural } from "../../../../books/format"
 import type { BookFormatWording } from "../../../../books/bookFormats"
 import type { Book, BookSeries } from "../../../../books/types"
 import { ActionButton } from "../../../../shared/ActionButton/ActionButton"
-import { ProgressPie } from "../../../../shared/ProgressPie/ProgressPie"
+import { ProgressRing } from "../../../../shared/ProgressRing/ProgressRing"
 import { Tag, type TagVariantColor } from "../../../../shared/Tag/Tag"
 import "./BookSeriesItem.css"
 
@@ -96,7 +96,7 @@ export function BookSeriesItem({
       className={`book-series-item${percent === null ? "" : " book-series-item--with-pie"}`}
     >
       {percent !== null && (
-        <ProgressPie percent={percent} label="des tomes parus lus" />
+        <ProgressRing percent={percent} label="des tomes parus lus" />
       )}
       <div>
         <p className="book-series-item-name">

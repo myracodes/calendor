@@ -6,7 +6,7 @@
   gap: 0.75rem 1rem;
 }
 
-/* Avec le camembert (tomes parus connus), il prend la première colonne */
+/* Avec l'anneau de progression (tomes parus connus), il prend la première colonne */
 .book-series-item--with-pie {
   grid-template-columns: auto 1fr;
 }
