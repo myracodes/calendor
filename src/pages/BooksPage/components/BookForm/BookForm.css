@@ -1,33 +1,33 @@
 /* Le formulaire : même espacement que les enfants d'une .card */
-.book-editor {
+.book-form {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
 }
 
-/* Modification d'un livre, posée dans la liste à sa place : fond --paper
-   pour la détacher de la carte --surface. */
-.book-editor--framed {
+/* Modification d'un livre ou d'une série, posée dans la liste à sa place :
+   fond --paper pour la détacher de la carte --surface. */
+.book-form--framed {
   position: relative;
   padding: 1rem;
   background: var(--paper);
   border: 1px solid var(--line);
 }
 
-/* Croix dans le coin du cadre, au-dessus de la ligne du libellé « Titre » :
-   détachée des champs pour ne pas passer pour une action sur le titre. */
-.book-editor-close {
+/* Croix dans le coin du cadre, au-dessus de la ligne du premier libellé :
+   détachée des champs pour ne pas passer pour une action sur l'un d'eux. */
+.book-form-close {
   position: absolute;
   top: 0.25rem;
   right: 0.25rem;
 }
 
 /* Le gap du formulaire espace déjà les enfants */
-.book-editor > .hint {
+.book-form .hint {
   margin: 0;
 }
 
-.book-editor-error {
+.book-form-error {
   margin: 0;
   font-size: 0.9rem;
   color: var(--danger);

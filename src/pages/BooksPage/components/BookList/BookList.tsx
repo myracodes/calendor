@@ -1,14 +1,30 @@
 import { Fragment, useState } from "react"
+import {
+  bookLabel,
+  nextVolume,
+  volumeInProgress,
+  volumesOf,
+} from "../../../../books/bookSeries"
+import { plural } from "../../../../books/format"
 import { currentYear } from "../../../../books/readYear"
-import type { Book, BookDraft } from "../../../../books/types"
+import type {
+  Book,
+  BookDraft,
+  BookSeries,
+  BookSeriesDraft,
+  NewBookForm,
+} from "../../../../books/types"
 import { useBooks } from "../../../../books/useBooks"
 import { groupBooksByYear } from "../../../../books/years"
 import { Accordion } from "../../../../shared/Accordion/Accordion"
 import { Alert } from "../../../../shared/Alert/Alert"
 import { Card } from "../../../../shared/Card/Card"
 import { useToast } from "../../../../shared/Toast/useToast"
+import { AddBookForm } from "../AddBookForm/AddBookForm"
 import { BookEditor } from "../BookEditor/BookEditor"
 import { BookItem } from "../BookItem/BookItem"
+import { BookSeriesEditor } from "../BookSeriesEditor/BookSeriesEditor"
+import { BookSeriesItem } from "../BookSeriesItem/BookSeriesItem"
 import "./BookList.css"
 
 function toDraft(book: Book): BookDraft {
@@ -18,13 +34,27 @@ function toDraft(book: Book): BookDraft {
     authors: book.authors,
     readYear: book.readYear,
     inProgress: book.inProgress,
+    seriesId: book.seriesId,
+    volume: book.volume,
   }
 }
 
-function emptyDraft(): BookDraft {
+function toSeriesDraft(series: BookSeries): BookSeriesDraft {
+  return {
+    id: series.id,
+    name: series.name,
+    authors: series.authors,
+    publishedVolumes: series.publishedVolumes,
+    complete: series.complete,
+    abandoned: series.abandoned,
+  }
+}
+
+function emptyForm(): NewBookForm {
   // En cours par défaut : un livre s'ajoute souvent dès qu'on le commence.
   return {
-    id: null,
+    seriesName: "",
+    volume: 1,
     title: "",
     authors: [""],
     readYear: currentYear(),
@@ -32,65 +62,91 @@ function emptyDraft(): BookDraft {
   }
 }
 
-function plural(count: number, singular: string, pluralForm: string): string {
-  return `${count} ${count > 1 ? pluralForm : singular}`
-}
+/** Ce qui est ouvert dans un éditeur (un seul à la fois) : un livre seul ou une série. */
+type Editing =
+  | { kind: "book"; draft: BookDraft }
+  | { kind: "series"; draft: BookSeriesDraft }
 
-// Les livres lus, regroupés par année, et l'ajout ou la modification d'un livre.
+// Les livres lus, regroupés par année (tomes d'une même série réunis), l'ajout
+// et la modification d'un livre ou d'une série.
 export function BookList() {
-  const { books, loading, loadError, save, remove } = useBooks()
+  const {
+    books,
+    seriesList,
+    loading,
+    loadError,
+    save,
+    remove,
+    saveSeries,
+    removeSeries,
+    addVolume,
+    addFromForm,
+  } = useBooks()
   // Formulaire d'ajout, toujours affiché en haut de la liste.
-  const [newBook, setNewBook] = useState<BookDraft>(emptyDraft)
-  // Livre dont la fin de lecture est en cours d'enregistrement, pour ne désactiver que sa coche.
+  const [newBook, setNewBook] = useState<NewBookForm>(emptyForm)
+  // Livre ou série dont une action est en cours d'enregistrement, pour ne désactiver que ses boutons.
   const [pendingId, setPendingId] = useState<string | null>(null)
-  // Livre enregistré ouvert dans l'éditeur (un seul à la fois).
-  const [draft, setDraft] = useState<BookDraft | null>(null)
+  const [editing, setEditing] = useState<Editing | null>(null)
   const { toast, showToast } = useToast()
-  const yearGroups = groupBooksByYear(books)
+  const yearGroups = groupBooksByYear(books, seriesList)
   const thisYear = currentYear()
 
   function hasUnsavedChanges(): boolean {
-    if (draft === null) return false
-    const saved = books.find(book => book.id === draft.id)
-    return (
-      saved !== undefined &&
-      JSON.stringify(draft) !== JSON.stringify(toDraft(saved))
-    )
+    if (editing === null) return false
+    const saved =
+      editing.kind === "book"
+        ? books.find(book => book.id === editing.draft.id)
+        : seriesList.find(series => series.id === editing.draft.id)
+    if (saved === undefined) return false
+    const savedDraft =
+      editing.kind === "book"
+        ? toDraft(saved as Book)
+        : toSeriesDraft(saved as BookSeries)
+    return JSON.stringify(editing.draft) !== JSON.stringify(savedDraft)
   }
 
   // Protège les modifications en cours avant de fermer l'éditeur ou d'en ouvrir un autre.
-  function canLeaveDraft(): boolean {
+  function canLeaveEditing(): boolean {
     return (
       !hasUnsavedChanges() ||
       window.confirm("Abandonner les modifications en cours ?")
     )
   }
 
-  function edit(book: Book) {
-    if (book.id === draft?.id || !canLeaveDraft()) return
-    setDraft(toDraft(book))
+  function editBook(book: Book) {
+    if (book.id === editing?.draft.id || !canLeaveEditing()) return
+    setEditing({ kind: "book", draft: toDraft(book) })
+  }
+
+  function editSeries(series: BookSeries) {
+    if (series.id === editing?.draft.id || !canLeaveEditing()) return
+    setEditing({ kind: "series", draft: toSeriesDraft(series) })
+  }
+
+  function cancelEditing() {
+    if (canLeaveEditing()) setEditing(null)
   }
 
   async function addBook() {
-    const saved = await save(newBook)
-    setNewBook(emptyDraft())
+    const { book, series } = await addFromForm(newBook)
+    setNewBook(emptyForm())
+    const label = bookLabel(book, series)
     showToast(
       "success",
-      saved.inProgress
-        ? `« ${saved.title} » ajouté à tes lectures en cours.`
-        : `« ${saved.title} » ajouté à tes lectures de ${saved.readYear}.`,
+      book.inProgress
+        ? `« ${label} » ajouté à tes lectures en cours.`
+        : `« ${label} » ajouté à tes lectures de ${book.readYear}.`,
     )
   }
 
-  function cancelDraft() {
-    if (canLeaveDraft()) setDraft(null)
-  }
-
-  // Enregistre la lecture d'un livre ; l'erreur éventuelle part en toast.
-  async function saveReading(reading: BookDraft): Promise<boolean> {
-    setPendingId(reading.id)
+  // Enregistre une action d'un livre ou d'une série ; l'erreur éventuelle part en toast.
+  async function runPending(
+    id: string,
+    action: () => Promise<unknown>,
+  ): Promise<boolean> {
+    setPendingId(id)
     try {
-      await save(reading)
+      await action()
       return true
     } catch (caught) {
       showToast(
@@ -103,32 +159,83 @@ export function BookList() {
     }
   }
 
-  async function undoFinish(book: Book) {
-    // book = le livre avant le clic : on remet sa lecture en cours et son année d'alors.
-    if (await saveReading(toDraft(book))) {
-      showToast("info", `« ${book.title} » est de nouveau en cours.`)
-    }
+  /** Un livre compte dans l'année où il est terminé, même commencé l'année d'avant. */
+  function finishedDraft(book: Book): BookDraft {
+    return { ...toDraft(book), inProgress: false, readYear: currentYear() }
   }
 
-  // Un livre compte dans l'année où il est terminé, même commencé l'année d'avant.
   async function finish(book: Book) {
-    const finished = {
-      ...toDraft(book),
-      inProgress: false,
-      readYear: currentYear(),
-    }
-    if (!(await saveReading(finished))) return
+    if (!(await runPending(book.id, () => save(finishedDraft(book))))) return
     showToast("success", `« ${book.title} » terminé.`, {
       label: "Annuler",
-      onClick: () => undoFinish(book),
+      // book = le livre avant le clic : on remet sa lecture en cours et son année d'alors.
+      onClick: async () => {
+        if (await runPending(book.id, () => save(toDraft(book)))) {
+          showToast("info", `« ${book.title} » est de nouveau en cours.`)
+        }
+      },
     })
   }
 
-  async function saveDraft() {
-    if (draft === null) return
-    const saved = await save(draft)
-    setDraft(null)
-    showToast("success", `« ${saved.title} » enregistré.`)
+  // Le tome en cours est terminé ; sinon le tome suivant est ajouté, lu cette année.
+  async function readNextVolume(series: BookSeries) {
+    const volumes = volumesOf(books, series.id)
+    const current = volumeInProgress(volumes)
+    const volume = current?.volume ?? nextVolume(series, volumes)
+    if (volume === null) return
+    let undo: () => Promise<unknown> = async () => {}
+    let undoMessage = ""
+    const ok = await runPending(series.id, async () => {
+      if (current !== undefined) {
+        await save(finishedDraft(current))
+        undo = () => save(toDraft(current))
+        undoMessage = `tome ${volume} de nouveau en cours`
+      } else {
+        const added = await addVolume(series, volume, {
+          readYear: currentYear(),
+          inProgress: false,
+        })
+        undo = () => remove(added.id)
+        undoMessage = `tome ${volume} retiré`
+      }
+    })
+    if (!ok) return
+    showToast("success", `« ${series.name} » : tome ${volume} lu.`, {
+      label: "Annuler",
+      onClick: async () => {
+        if (await runPending(series.id, undo)) {
+          showToast("info", `« ${series.name} » : ${undoMessage}.`)
+        }
+      },
+    })
+  }
+
+  async function publishNewVolume(series: BookSeries) {
+    const published = (series.publishedVolumes ?? 0) + 1
+    const ok = await runPending(series.id, () =>
+      saveSeries({ ...toSeriesDraft(series), publishedVolumes: published }),
+    )
+    if (!ok) return
+    showToast("success", `« ${series.name} » : tome ${published} paru.`, {
+      label: "Annuler",
+      onClick: async () => {
+        if (await runPending(series.id, () => saveSeries(series))) {
+          showToast("info", `« ${series.name} » : tome ${published} retiré.`)
+        }
+      },
+    })
+  }
+
+  async function saveEditing() {
+    if (editing === null) return
+    if (editing.kind === "book") {
+      const saved = await save(editing.draft)
+      showToast("success", `« ${saved.title} » enregistré.`)
+    } else {
+      const saved = await saveSeries(editing.draft)
+      showToast("success", `Série « ${saved.name} » enregistrée.`)
+    }
+    setEditing(null)
   }
 
   async function restore(book: Book) {
@@ -144,17 +251,25 @@ export function BookList() {
     showToast("info", `« ${book.title} » restauré.`)
   }
 
-  async function removeDraft() {
-    if (draft === null || draft.id === null) return
-    const deleted = books.find(book => book.id === draft.id)
-    await remove(draft.id)
-    setDraft(null)
+  async function removeEditedBook() {
+    if (editing?.kind !== "book" || editing.draft.id === null) return
+    const deleted = books.find(book => book.id === editing.draft.id)
+    await remove(editing.draft.id)
+    setEditing(null)
     // Annuler recrée le livre tel qu'il était enregistré (nouvel id, nouvelle date d'ajout).
     showToast(
       "success",
-      `« ${draft.title} » supprimé.`,
+      `« ${editing.draft.title} » supprimé.`,
       deleted && { label: "Annuler", onClick: () => restore(deleted) },
     )
+  }
+
+  // Pas d'« Annuler » : il faudrait recréer la série et tous ses tomes.
+  async function removeEditedSeries() {
+    if (editing?.kind !== "series" || editing.draft.id === null) return
+    await removeSeries(editing.draft.id)
+    setEditing(null)
+    showToast("success", `Série « ${editing.draft.name} » supprimée.`)
   }
 
   if (loading) return <p className="hint">Chargement des livres…</p>
@@ -170,39 +285,89 @@ export function BookList() {
     <Card variantColor="sun">
       <h2>Mes lectures</h2>
 
-      <BookEditor draft={newBook} onChange={setNewBook} onSave={addBook} />
+      <AddBookForm
+        form={newBook}
+        books={books}
+        seriesList={seriesList}
+        onChange={setNewBook}
+        onAdd={addBook}
+      />
 
-      {books.length > 0 && (
+      {yearGroups.length > 0 && (
         <div className="book-list-groups">
           {yearGroups.map((group, index) => (
             <Fragment key={group.year}>
               {index > 0 && <hr />}
               <Accordion
-                title={`${group.year} (${plural(group.books.length, "livre", "livres")})`}
+                title={`${group.year} (${plural(group.bookCount, "livre", "livres")})`}
                 // Seule l'année en cours s'ouvre : c'est là que s'ajoutent les livres.
                 defaultOpen={group.year === thisYear}
               >
                 <ul className="book-list">
-                  {group.books.map(book => (
-                    <li key={book.id} className="book-list-entry">
-                      {draft !== null && draft.id === book.id ? (
-                        <BookEditor
-                          draft={draft}
-                          onChange={setDraft}
-                          onSave={saveDraft}
-                          onDelete={removeDraft}
-                          onCancel={cancelDraft}
-                        />
-                      ) : (
-                        <BookItem
-                          book={book}
-                          pending={pendingId === book.id}
-                          onFinish={() => finish(book)}
-                          onEdit={() => edit(book)}
-                        />
-                      )}
-                    </li>
-                  ))}
+                  {group.entries.map(entry => {
+                    if (entry.kind === "book") {
+                      const { book } = entry
+                      return (
+                        <li key={book.id} className="book-list-entry">
+                          {editing?.kind === "book" &&
+                          editing.draft.id === book.id ? (
+                            <BookEditor
+                              draft={editing.draft}
+                              onChange={draft =>
+                                setEditing({ kind: "book", draft })
+                              }
+                              onSave={saveEditing}
+                              onDelete={removeEditedBook}
+                              onCancel={cancelEditing}
+                            />
+                          ) : (
+                            <BookItem
+                              book={book}
+                              pending={pendingId === book.id}
+                              onFinish={() => finish(book)}
+                              onEdit={() => editBook(book)}
+                            />
+                          )}
+                        </li>
+                      )
+                    }
+                    const { series, volumes } = entry
+                    const allVolumes = volumesOf(books, series.id)
+                    return (
+                      <li key={series.id} className="book-list-entry">
+                        {editing?.kind === "series" &&
+                        editing.draft.id === series.id ? (
+                          <BookSeriesEditor
+                            draft={editing.draft}
+                            highestVolume={Math.max(
+                              0,
+                              ...allVolumes.map(volume => volume.volume ?? 0),
+                            )}
+                            volumeCount={allVolumes.length}
+                            onChange={draft =>
+                              setEditing({ kind: "series", draft })
+                            }
+                            onSave={saveEditing}
+                            onDelete={removeEditedSeries}
+                            onCancel={cancelEditing}
+                          />
+                        ) : (
+                          <BookSeriesItem
+                            series={series}
+                            allVolumes={allVolumes}
+                            yearVolumes={volumes}
+                            year={group.year}
+                            pending={pendingId === series.id}
+                            onReadNext={() => readNextVolume(series)}
+                            onNewVolumePublished={() =>
+                              publishNewVolume(series)
+                            }
+                            onEdit={() => editSeries(series)}
+                          />
+                        )}
+                      </li>
+                    )
+                  })}
                 </ul>
               </Accordion>
             </Fragment>

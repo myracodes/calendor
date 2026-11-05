@@ -1,0 +1,97 @@
+/* Une série : infos, puis boutons sur une ligne à part sur petit écran */
+.book-series-item {
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: 0.75rem 1rem;
+}
+
+/* Avec le camembert (tomes parus connus), il prend la première colonne */
+.book-series-item--with-pie {
+  grid-template-columns: auto 1fr;
+}
+
+/* Nom suivi de la pastille d'état, qui passe à la ligne si le nom est long */
+.book-series-item-name {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem 0.5rem;
+  margin: 0;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.book-series-item-detail {
+  margin: 0.15rem 0 0;
+  font-size: 0.9rem;
+  color: var(--ink-light);
+}
+
+.book-series-item-year::first-letter {
+  text-transform: uppercase;
+}
+
+/* Bouton du moment (tome suivant lu, nouveau tome paru) puis crayon, calés à droite : le crayon reste aligné
+   d'une ligne à l'autre même quand il est seul. */
+.book-series-item-actions {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+.book-series-item-actions .action-button {
+  margin-bottom: 0;
+}
+
+/* Tome suivant lu : coche puis « t. 13 », centrés */
+.book-series-item-action {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+
+.book-series-item-action img {
+  width: 20px;
+  height: 20px;
+}
+
+/* Boutons-icônes (nouveau tome paru, crayon) : carrés, de la hauteur de .action-button */
+.book-series-item-icon-button {
+  flex: none;
+  width: 3.25rem;
+  padding: 0;
+}
+
+.book-series-item-icon-button img {
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin: auto;
+}
+
+/* Dès que la place le permet, les boutons passent sur la ligne des infos. */
+@media (min-width: 640px) {
+  .book-series-item {
+    grid-template-columns: 1fr auto;
+  }
+
+  .book-series-item--with-pie {
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .book-series-item-actions {
+    grid-column: auto;
+  }
+
+  .book-series-item-action {
+    flex: none;
+    width: auto;
+    /* Assez large pour « t. 108 » : les boutons s'alignent d'une série à l'autre */
+    min-width: 7rem;
+  }
+}

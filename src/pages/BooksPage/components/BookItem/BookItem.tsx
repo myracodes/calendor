@@ -27,7 +27,7 @@ export function BookItem({ book, pending, onFinish, onEdit }: BookItemProps) {
       <div>
         <p className="book-item-title">
           {book.title}
-          {book.inProgress && <Tag>En cours</Tag>}
+          {book.inProgress && <Tag variantColor="mint">En cours</Tag>}
         </p>
         <p className="book-item-authors">{formatAuthors(book.authors)}</p>
       </div>

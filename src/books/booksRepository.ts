@@ -3,7 +3,8 @@
 import { requireSupabase } from "../supabase/client"
 import type { Book, BookDraft } from "./types"
 
-const COLUMNS = "id, title, authors, read_year, in_progress, created_at"
+const COLUMNS =
+  "id, title, authors, read_year, in_progress, series_id, volume, created_at"
 
 type BookRow = {
   id: string
@@ -11,8 +12,13 @@ type BookRow = {
   authors: string[]
   read_year: number
   in_progress: boolean
+  series_id: string | null
+  volume: number | null
   created_at: string
 }
+
+/** Code PostgreSQL d'une violation de contrainte unique (ici : tome déjà enregistré). */
+const UNIQUE_VIOLATION = "23505"
 
 function toBook(row: BookRow): Book {
   return {
@@ -21,11 +27,16 @@ function toBook(row: BookRow): Book {
     authors: row.authors,
     readYear: row.read_year,
     inProgress: row.in_progress,
+    seriesId: row.series_id,
+    volume: row.volume,
     createdAt: row.created_at,
   }
 }
 
-function toError(error: { message: string }): Error {
+function toError(error: { code: string; message: string }): Error {
+  if (error.code === UNIQUE_VIOLATION) {
+    return new Error("Ce tome est déjà enregistré.")
+  }
   return new Error(`Erreur de la base de données : ${error.message}`)
 }
 
@@ -38,14 +49,20 @@ export async function fetchBooks(): Promise<Book[]> {
 
 /** Crée le livre s'il est nouveau (id null), sinon le met à jour. */
 export async function saveBook(draft: BookDraft): Promise<Book> {
+  const isVolume = draft.seriesId !== null
   const values = {
-    title: draft.title.trim(),
+    // Un tome prend le titre et les autrices de sa série.
+    title: isVolume ? "" : draft.title.trim(),
     // Les champs d'autrice laissés vides sont ignorés.
-    authors: draft.authors
-      .map(author => author.trim())
-      .filter(author => author !== ""),
+    authors: isVolume
+      ? []
+      : draft.authors
+          .map(author => author.trim())
+          .filter(author => author !== ""),
     read_year: draft.readYear,
     in_progress: draft.inProgress,
+    series_id: draft.seriesId,
+    volume: draft.volume,
   }
   const table = requireSupabase().from("books")
   const { data, error } =

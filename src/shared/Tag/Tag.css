@@ -1,12 +1,28 @@
-/* Pastilles pastel : le texte --ink reste au-dessus de 8:1 sur la couleur la
-   plus foncée du dégradé (--electric-aqua), donc AAA. */
+/* Pastille d'état : texte --ink sur un fond clair, piloté par la variante */
 .tag {
   display: inline-block;
   padding: 0.1rem 0.6rem;
   font-size: 0.8rem;
   font-weight: 600;
   color: var(--ink);
-  background: var(--gradient-mint);
   border-radius: var(--radius-pill);
   white-space: nowrap;
+}
+
+/* Contrastes du texte --ink, mesurés sur la couleur la plus foncée de chaque
+   fond : tous AAA (≥ 7:1). */
+
+/* 8,5:1 sur --electric-aqua */
+.tag--mint {
+  background: var(--gradient-mint);
+}
+
+/* 8,3:1 sur --cotton-rose */
+.tag--sun {
+  background: var(--gradient-sun);
+}
+
+/* 9,3:1 sur --line */
+.tag--neutral {
+  background: var(--line);
 }
