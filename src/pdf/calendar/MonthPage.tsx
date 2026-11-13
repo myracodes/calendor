@@ -11,13 +11,14 @@ import {
 } from "../../colors"
 import { WEEKDAY } from "../../constants/weekdays"
 import { monthGrid, monthName, weekdayNames } from "../../dates"
-import { publicHolidaysForYear } from "../../events/publicHolidays"
+import { EDITION_LOCALE } from "../../calendar/edition"
 import type { CalendarSettings } from "../../types"
 import {
   eventsForDay,
   LIFE_EVENT_KINDS,
   lifeEventLabel,
   lifeEventsForDay,
+  publicHolidaysFor,
 } from "./calendarData"
 import { backgroundForMonth } from "./monthBackgrounds"
 import { PageBackground } from "../shared/PageBackground"
@@ -167,8 +168,9 @@ interface MonthPageProps {
 
 export function MonthPage({ settings, year, month }: MonthPageProps) {
   const weeks = monthGrid(year, month)
-  const weekdays = weekdayNames()
-  const publicHolidays = publicHolidaysForYear(year)
+  const locale = EDITION_LOCALE[settings.edition]
+  const weekdays = weekdayNames(locale)
+  const publicHolidays = publicHolidaysFor(settings, year)
 
   // L'image envoyée par l'utilisateur remplace l'image par défaut ;
   // sans upload, l'image par défaut du mois est utilisée en fond de page.
@@ -176,12 +178,12 @@ export function MonthPage({ settings, year, month }: MonthPageProps) {
 
   return (
     <Page size="A4" orientation="landscape" style={styles.page}>
-      <PageBackground src={backgroundImage} />
+      {settings.showBackground && <PageBackground src={backgroundImage} />}
 
       <View style={styles.pageContent}>
         <View style={styles.header}>
           <Text style={styles.monthTitle}>
-            {monthName(month)} {year}
+            {monthName(month, locale)} {year}
           </Text>
           <RainbowBar style={styles.titleUnderline} />
         </View>

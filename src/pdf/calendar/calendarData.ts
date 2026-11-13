@@ -3,6 +3,7 @@ import { BIRTHDAYS } from "../../events/birthdays"
 import { DEATHS } from "../../events/deaths"
 import type { LifeEvent } from "../../events/lifeEvents.type"
 import { OTHER_EVENTS } from "../../events/otherEvents"
+import { publicHolidaysForYear } from "../../events/publicHolidays"
 import type { CalendarEvent, CalendarSettings } from "../../types"
 
 // Anniversaires, décès et jours festifs partagent le même mode de filtrage
@@ -15,14 +16,16 @@ export const LIFE_EVENT_KINDS = [
     emoji: "🎂",
     events: BIRTHDAYS,
     showAge: true,
-    isEnabled: (settings: CalendarSettings) => settings.includeBirthdays,
+    isEnabled: (settings: CalendarSettings) =>
+      settings.includeBirthdays && settings.edition === "french",
   },
   {
     key: "death" as const,
     emoji: "🕯️",
     events: DEATHS,
     showAge: false,
-    isEnabled: (settings: CalendarSettings) => settings.includeDeaths,
+    isEnabled: (settings: CalendarSettings) =>
+      settings.includeDeaths && settings.edition === "french",
   },
   {
     key: "festive" as const,
@@ -31,6 +34,14 @@ export const LIFE_EVENT_KINDS = [
     isEnabled: (settings: CalendarSettings) => settings.includeOtherEvents,
   },
 ]
+
+/** Jours fériés teintés sur la grille : les français, aucun dans l'édition internationale. */
+export function publicHolidaysFor(
+  settings: CalendarSettings,
+  year: number,
+): LifeEvent[] {
+  return settings.edition === "french" ? publicHolidaysForYear(year) : []
+}
 
 export function lifeEventsForDay(
   events: LifeEvent[],

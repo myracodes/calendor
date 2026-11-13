@@ -6,11 +6,16 @@ interface IllustrationSectionProps {
   /** data URL de l'image importée, ou null si aucune */
   illustration: string | null
   onUpdate: (illustration: string | null) => void
+  /** Case « Afficher une image de fond » : affichée seulement si la page fournit ces deux props. */
+  showBackground?: boolean
+  onShowBackgroundChange?: (showBackground: boolean) => void
 }
 
 export function IllustrationSection({
   illustration,
   onUpdate,
+  showBackground = true,
+  onShowBackgroundChange,
 }: IllustrationSectionProps) {
   const illustrationInputRef = useRef<HTMLInputElement>(null)
 
@@ -28,17 +33,29 @@ export function IllustrationSection({
     <Card variantColor="candy">
       <h2>Image de fond</h2>
       <div className="illustration-section">
-        <label className="file-btn">
-          Importer (JPEG ou PNG)
-          <input
-            ref={illustrationInputRef}
-            type="file"
-            accept="image/png,image/jpeg"
-            className="sr-only"
-            onChange={e => onIllustrationChange(e.target.files?.[0])}
-          />
-        </label>
-        {illustration && (
+        {onShowBackgroundChange && (
+          <label className="checkbox-option">
+            <input
+              type="checkbox"
+              checked={showBackground}
+              onChange={e => onShowBackgroundChange(e.target.checked)}
+            />
+            Afficher une image de fond
+          </label>
+        )}
+        {showBackground && (
+          <label className="file-btn">
+            Importer (JPEG ou PNG)
+            <input
+              ref={illustrationInputRef}
+              type="file"
+              accept="image/png,image/jpeg"
+              className="sr-only"
+              onChange={e => onIllustrationChange(e.target.files?.[0])}
+            />
+          </label>
+        )}
+        {showBackground && illustration && (
           <div className="illustration-preview-wrap">
             <img
               className="illustration-preview"

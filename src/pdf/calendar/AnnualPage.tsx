@@ -2,32 +2,17 @@ import { Line, Page, StyleSheet, Svg, Text, View } from "@react-pdf/renderer"
 import { INK, INK_LIGHT, LINE, PAPER } from "../../colors"
 import { WEEKDAY } from "../../constants/weekdays"
 import { daysInMonth, weekdayOf } from "../../dates"
-import { publicHolidaysForYear } from "../../events/publicHolidays"
+import { EDITION_TEXTS } from "../../calendar/edition"
 import type { CalendarSettings } from "../../types"
-import { LIFE_EVENT_KINDS, lifeEventsForDay } from "./calendarData"
+import {
+  LIFE_EVENT_KINDS,
+  lifeEventsForDay,
+  publicHolidaysFor,
+} from "./calendarData"
 import { RainbowBar } from "../shared/shared"
 
 const MONTHS = Array.from({ length: 12 }, (_, i) => i + 1)
 const DAYS = Array.from({ length: 31 }, (_, i) => i + 1)
-
-// Abréviations françaises usuelles ; la casse est gérée par textTransform (voir monthHeaderText).
-const MONTH_LABELS = [
-  "janv.",
-  "févr.",
-  "mars",
-  "avr.",
-  "mai",
-  "juin",
-  "juil.",
-  "août",
-  "sept.",
-  "oct.",
-  "nov.",
-  "déc.",
-]
-
-// Initiale du jour de la semaine ; index 0 = lundi, 6 = dimanche (même convention que weekdayOf).
-const WEEKDAY_LETTERS = ["L", "M", "M", "J", "V", "S", "D"]
 
 // Hachures obliques d'une cellule "hors mois" : chaque ligne va du haut-droite vers le
 // bas-gauche, sur toute la hauteur (0 → 100). Elles débordent volontairement du cadre
@@ -197,7 +182,9 @@ interface AnnualPageProps {
 }
 
 export function AnnualPage({ settings, year }: AnnualPageProps) {
-  const publicHolidays = publicHolidaysForYear(year)
+  const publicHolidays = publicHolidaysFor(settings, year)
+  const monthLabels = EDITION_TEXTS.monthAbbreviations[settings.edition]
+  const weekdayInitials = EDITION_TEXTS.weekdayInitials[settings.edition]
   const birthdayKind = LIFE_EVENT_KINDS.find(kind => kind.key === "birthday")
   const birthdayEvents =
     birthdayKind && birthdayKind.isEnabled(settings)
@@ -228,7 +215,7 @@ export function AnnualPage({ settings, year }: AnnualPageProps) {
                 }
               >
                 <Text style={styles.monthHeaderText}>
-                  {MONTH_LABELS[month - 1]}
+                  {monthLabels[month - 1]}
                 </Text>
               </View>
             ))}
@@ -299,7 +286,7 @@ export function AnnualPage({ settings, year }: AnnualPageProps) {
                     <View style={styles.cellMarkRow}>
                       <Text style={styles.cellDayNumber}>{day}</Text>
                       <Text style={styles.cellWeekdayLetter}>
-                        {WEEKDAY_LETTERS[weekday]}
+                        {weekdayInitials[weekday]}
                       </Text>
                       {isHoliday ? (
                         <Text style={styles.holidayMark}>F</Text>

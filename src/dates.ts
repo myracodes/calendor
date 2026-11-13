@@ -10,26 +10,30 @@ export interface DayCell {
   weekday: number
 }
 
-const MONTH_FORMAT = new Intl.DateTimeFormat("fr-FR", {
-  month: "long",
-  timeZone: "UTC",
-})
-
-const WEEKDAY_FORMAT = new Intl.DateTimeFormat("fr-FR", {
-  weekday: "long",
-  timeZone: "UTC",
-})
-
-/** @param month 1-12 */
-export function monthName(month: number): string {
-  return MONTH_FORMAT.format(new Date(Date.UTC(2026, month - 1, 1)))
+/**
+ * @param month 1-12
+ * @param locale locale Intl (français par défaut, celle de l'interface)
+ */
+export function monthName(month: number, locale = "fr-FR"): string {
+  const format = new Intl.DateTimeFormat(locale, {
+    month: "long",
+    timeZone: "UTC",
+  })
+  return format.format(new Date(Date.UTC(2026, month - 1, 1)))
 }
 
-/** Monday-first weekday names. */
-export function weekdayNames(): string[] {
+/**
+ * Monday-first weekday names.
+ * @param locale locale Intl (français par défaut, celle de l'interface)
+ */
+export function weekdayNames(locale = "fr-FR"): string[] {
+  const format = new Intl.DateTimeFormat(locale, {
+    weekday: "long",
+    timeZone: "UTC",
+  })
   // 2026-01-05 is a Monday.
   return Array.from({ length: 7 }, (_, i) =>
-    WEEKDAY_FORMAT.format(new Date(Date.UTC(2026, 0, 5 + i))),
+    format.format(new Date(Date.UTC(2026, 0, 5 + i))),
   )
 }
 

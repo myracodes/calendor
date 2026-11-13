@@ -1,5 +1,6 @@
 import { Canvas, Page, StyleSheet, Text, View } from "@react-pdf/renderer"
 import { INK, LINE, PAPER } from "../../colors"
+import { type CalendarEdition, EDITION_LOCALE } from "../../calendar/edition"
 import { weekdayNames } from "../../dates"
 import {
   CHECKBOX_SIZE,
@@ -100,23 +101,26 @@ const styles = StyleSheet.create({
   },
 })
 
-const [MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY] =
-  weekdayNames()
-
 // Modèle générique et sans date : chaque page de "Calendrier vierge" hebdomadaire est identique.
-const ROWS: string[][] = [
-  [MONDAY, TUESDAY, WEDNESDAY, THURSDAY],
-  [FRIDAY, SATURDAY, SUNDAY, "Notes"],
-]
+// "Notes" s'écrit pareil en français et en anglais.
+function weekRows(edition: CalendarEdition): string[][] {
+  const [MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY] =
+    weekdayNames(EDITION_LOCALE[edition])
+  return [
+    [MONDAY, TUESDAY, WEDNESDAY, THURSDAY],
+    [FRIDAY, SATURDAY, SUNDAY, "Notes"],
+  ]
+}
 
 /** Page hebdomadaire vierge (grille pointillée type bullet journal), sans date associée. */
-export function WeekPage() {
+export function WeekPage({ edition }: { edition: CalendarEdition }) {
+  const rows = weekRows(edition)
   return (
     <Page size="A4" orientation="landscape" style={styles.page}>
       <View style={styles.pageContent}>
         <View style={styles.grid}>
           <RainbowBar style={styles.gridAccent} />
-          {ROWS.map((row, rowIndex) => (
+          {rows.map((row, rowIndex) => (
             <View
               key={rowIndex}
               style={

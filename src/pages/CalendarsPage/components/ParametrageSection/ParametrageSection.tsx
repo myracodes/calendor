@@ -132,22 +132,27 @@ export function ParametrageSection({
         <div
           className={settings.format === "monthly" ? "row row-divider" : "row"}
         >
-          <label className="checkbox-option">
-            <input
-              type="checkbox"
-              checked={settings.includeBirthdays}
-              onChange={e => onUpdate("includeBirthdays", e.target.checked)}
-            />
-            Anniversaires
-          </label>
-          <label className="checkbox-option">
-            <input
-              type="checkbox"
-              checked={settings.includeDeaths}
-              onChange={e => onUpdate("includeDeaths", e.target.checked)}
-            />
-            Décès
-          </label>
+          {/* événements personnels, jamais affichés dans la version internationale */}
+          {settings.edition === "french" && (
+            <>
+              <label className="checkbox-option">
+                <input
+                  type="checkbox"
+                  checked={settings.includeBirthdays}
+                  onChange={e => onUpdate("includeBirthdays", e.target.checked)}
+                />
+                Anniversaires
+              </label>
+              <label className="checkbox-option">
+                <input
+                  type="checkbox"
+                  checked={settings.includeDeaths}
+                  onChange={e => onUpdate("includeDeaths", e.target.checked)}
+                />
+                Décès
+              </label>
+            </>
+          )}
           {settings.format === "monthly" && (
             <label className="checkbox-option">
               <input

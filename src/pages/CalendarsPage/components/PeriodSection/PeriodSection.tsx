@@ -1,3 +1,4 @@
+import type { CalendarEdition } from "../../../../calendar/edition"
 import { monthName } from "../../../../dates"
 import { Card } from "../../../../shared/Card/Card"
 import type {
@@ -27,6 +28,18 @@ export function PeriodSection({
     <Card variantColor="sun">
       <h2>Période</h2>
       <div className="row">
+        <label>
+          Version
+          <select
+            value={settings.edition}
+            onChange={e =>
+              onUpdate("edition", e.target.value as CalendarEdition)
+            }
+          >
+            <option value="french">Française</option>
+            <option value="international">Internationale (anglais)</option>
+          </select>
+        </label>
         {!lockToMonthly && (
           <label>
             Format

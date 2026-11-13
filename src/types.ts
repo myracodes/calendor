@@ -1,3 +1,5 @@
+import type { CalendarEdition } from "./calendar/edition"
+
 export type EventRule =
   | { kind: "daily" }
   | {
@@ -24,6 +26,8 @@ export type CalendarFormat = "monthly" | "annual" | "weekly"
 
 export interface CalendarSettings {
   format: CalendarFormat
+  /** langue du PDF et contenus propres à la France (voir src/calendar/edition.ts) */
+  edition: CalendarEdition
   year: number
   /** 1-12 */
   startMonth: number
@@ -33,6 +37,8 @@ export interface CalendarSettings {
   weekCount: number
   /** data URL of the uploaded background image, if any (falls back to a default) */
   illustration: string | null
+  /** false = pas d'image de fond du tout (ni importée, ni celle par défaut du mois) */
+  showBackground: boolean
   /** show the birthdays from src/events/birthdays.ts on the calendar */
   includeBirthdays: boolean
   /** show the deaths from src/events/deaths.ts on the calendar */

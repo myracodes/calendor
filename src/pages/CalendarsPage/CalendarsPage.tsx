@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { EDITION_TEXTS } from "../../calendar/edition"
 import { CalendarDocument } from "../../pdf/calendar/CalendarDocument"
 import { downloadPdf, PDF_ERROR_MESSAGE } from "../../pdf/shared/downloadPdf"
 import { PRESETS } from "../../presets"
@@ -19,17 +20,28 @@ const CURRENT_MONTH = new Date().getMonth() + 1
 function buildInitialSettings(): CalendarSettings {
   return {
     format: "monthly",
+    edition: "french",
     year: CURRENT_YEAR,
     startMonth: CURRENT_MONTH,
     monthCount: 12,
     weekCount: 1,
     illustration: null,
+    showBackground: true,
     includeBirthdays: false,
     includeDeaths: false,
     includeOtherEvents: false,
     includeSchedules: false,
     events: [],
   }
+}
+
+// ex. "calendar-months-2026-en.pdf", "calendrier-année-2026-fr.pdf", "weekly-calendar-en.pdf"
+function pdfFileName(settings: CalendarSettings): string {
+  const name = EDITION_TEXTS.fileName[settings.edition][settings.format]
+  const language = EDITION_TEXTS.fileLanguage[settings.edition]
+  return settings.format === "weekly"
+    ? `${name}-${language}.pdf`
+    : `${name}-${settings.year}-${language}.pdf`
 }
 
 export function CalendarsPage() {
@@ -56,9 +68,7 @@ export function CalendarsPage() {
     try {
       await downloadPdf(
         <CalendarDocument settings={settings} />,
-        settings.format === "weekly"
-          ? "calendrier-hebdomadaire.pdf"
-          : `calendrier-${settings.year}.pdf`,
+        pdfFileName(settings),
       )
     } catch (error) {
       console.error(error)
@@ -86,6 +96,8 @@ export function CalendarsPage() {
       <IllustrationSection
         illustration={settings.illustration}
         onUpdate={value => update("illustration", value)}
+        showBackground={settings.showBackground}
+        onShowBackgroundChange={value => update("showBackground", value)}
       />
       <ParametrageSection
         settings={settings}
