@@ -24,8 +24,9 @@ export function ProgressRing({ percent, label }: ProgressRingProps) {
         aria-label={`${percent} % ${label}`}
       />
       <span className="progress-ring-value" aria-hidden="true">
-        {/* Espace fine insécable, typographie française. */}
-        {percent}{" "}%
+        {/* Espace fine insécable. */}
+        {percent}
+        {" "}%
       </span>
     </span>
   )
