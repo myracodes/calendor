@@ -1,4 +1,4 @@
-import type { CalendarEdition } from "./calendar/edition"
+import type { CalendarLanguage } from "./calendar/languages"
 
 export type EventRule =
   | { kind: "daily" }
@@ -26,8 +26,8 @@ export type CalendarFormat = "monthly" | "annual" | "weekly"
 
 export interface CalendarSettings {
   format: CalendarFormat
-  /** langue du PDF et contenus propres à la France (voir src/calendar/edition.ts) */
-  edition: CalendarEdition
+  /** langue du PDF ; seul le français affiche jours fériés, anniversaires et décès */
+  language: CalendarLanguage
   year: number
   /** 1-12 */
   startMonth: number

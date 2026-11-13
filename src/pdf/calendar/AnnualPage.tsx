@@ -1,8 +1,13 @@
 import { Line, Page, StyleSheet, Svg, Text, View } from "@react-pdf/renderer"
 import { INK, INK_LIGHT, LINE, PAPER } from "../../colors"
 import { WEEKDAY } from "../../constants/weekdays"
-import { daysInMonth, weekdayOf } from "../../dates"
-import { EDITION_TEXTS } from "../../calendar/edition"
+import {
+  daysInMonth,
+  monthShortName,
+  weekdayInitials,
+  weekdayOf,
+} from "../../dates"
+import { CALENDAR_LANGUAGES } from "../../calendar/languages"
 import type { CalendarSettings } from "../../types"
 import {
   LIFE_EVENT_KINDS,
@@ -10,6 +15,7 @@ import {
   publicHolidaysFor,
 } from "./calendarData"
 import { RainbowBar } from "../shared/shared"
+import { languageFont } from "./languageFont"
 
 const MONTHS = Array.from({ length: 12 }, (_, i) => i + 1)
 const DAYS = Array.from({ length: 31 }, (_, i) => i + 1)
@@ -183,8 +189,9 @@ interface AnnualPageProps {
 
 export function AnnualPage({ settings, year }: AnnualPageProps) {
   const publicHolidays = publicHolidaysFor(settings, year)
-  const monthLabels = EDITION_TEXTS.monthAbbreviations[settings.edition]
-  const weekdayInitials = EDITION_TEXTS.weekdayInitials[settings.edition]
+  const { locale } = CALENDAR_LANGUAGES[settings.language]
+  const initials = weekdayInitials(locale)
+  const translatedFont = languageFont(settings.language)
   const birthdayKind = LIFE_EVENT_KINDS.find(kind => kind.key === "birthday")
   const birthdayEvents =
     birthdayKind && birthdayKind.isEnabled(settings)
@@ -214,8 +221,8 @@ export function AnnualPage({ settings, year }: AnnualPageProps) {
                     : styles.monthHeaderCell
                 }
               >
-                <Text style={styles.monthHeaderText}>
-                  {monthLabels[month - 1]}
+                <Text style={[styles.monthHeaderText, ...translatedFont]}>
+                  {monthShortName(month, locale)}
                 </Text>
               </View>
             ))}
@@ -285,8 +292,10 @@ export function AnnualPage({ settings, year }: AnnualPageProps) {
                   >
                     <View style={styles.cellMarkRow}>
                       <Text style={styles.cellDayNumber}>{day}</Text>
-                      <Text style={styles.cellWeekdayLetter}>
-                        {weekdayInitials[weekday]}
+                      <Text
+                        style={[styles.cellWeekdayLetter, ...translatedFont]}
+                      >
+                        {initials[weekday]}
                       </Text>
                       {isHoliday ? (
                         <Text style={styles.holidayMark}>F</Text>

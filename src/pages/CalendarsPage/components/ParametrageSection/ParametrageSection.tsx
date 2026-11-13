@@ -1,3 +1,4 @@
+import { showsFrenchContent } from "../../../../calendar/languages"
 import { useState } from "react"
 import { INK } from "../../../../colors"
 import { weekdayNames } from "../../../../dates"
@@ -132,8 +133,8 @@ export function ParametrageSection({
         <div
           className={settings.format === "monthly" ? "row row-divider" : "row"}
         >
-          {/* événements personnels, jamais affichés dans la version internationale */}
-          {settings.edition === "french" && (
+          {/* événements personnels, réservés au calendrier en français */}
+          {showsFrenchContent(settings.language) && (
             <>
               <label className="checkbox-option">
                 <input

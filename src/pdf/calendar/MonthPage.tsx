@@ -11,7 +11,7 @@ import {
 } from "../../colors"
 import { WEEKDAY } from "../../constants/weekdays"
 import { monthGrid, monthName, weekdayNames } from "../../dates"
-import { EDITION_LOCALE } from "../../calendar/edition"
+import { CALENDAR_LANGUAGES } from "../../calendar/languages"
 import type { CalendarSettings } from "../../types"
 import {
   eventsForDay,
@@ -23,6 +23,7 @@ import {
 import { backgroundForMonth } from "./monthBackgrounds"
 import { PageBackground } from "../shared/PageBackground"
 import { RainbowBar, SURFACE } from "../shared/shared"
+import { languageFont } from "./languageFont"
 import { WeekdayHeaderCell } from "./WeekdayHeaderCell"
 
 const styles = StyleSheet.create({
@@ -168,7 +169,7 @@ interface MonthPageProps {
 
 export function MonthPage({ settings, year, month }: MonthPageProps) {
   const weeks = monthGrid(year, month)
-  const locale = EDITION_LOCALE[settings.edition]
+  const { locale } = CALENDAR_LANGUAGES[settings.language]
   const weekdays = weekdayNames(locale)
   const publicHolidays = publicHolidaysFor(settings, year)
 
@@ -182,7 +183,7 @@ export function MonthPage({ settings, year, month }: MonthPageProps) {
 
       <View style={styles.pageContent}>
         <View style={styles.header}>
-          <Text style={styles.monthTitle}>
+          <Text style={[styles.monthTitle, ...languageFont(settings.language)]}>
             {monthName(month, locale)} {year}
           </Text>
           <RainbowBar style={styles.titleUnderline} />
@@ -196,6 +197,7 @@ export function MonthPage({ settings, year, month }: MonthPageProps) {
                 key={name}
                 name={name}
                 weekday={weekday}
+                language={settings.language}
                 showSchedules={settings.includeSchedules}
               />
             ))}

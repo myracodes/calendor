@@ -1,4 +1,7 @@
-import type { CalendarEdition } from "../../../../calendar/edition"
+import {
+  CALENDAR_LANGUAGES,
+  type CalendarLanguage,
+} from "../../../../calendar/languages"
 import { monthName } from "../../../../dates"
 import { Card } from "../../../../shared/Card/Card"
 import type {
@@ -29,15 +32,18 @@ export function PeriodSection({
       <h2>Période</h2>
       <div className="row">
         <label>
-          Version
+          Langue
           <select
-            value={settings.edition}
+            value={settings.language}
             onChange={e =>
-              onUpdate("edition", e.target.value as CalendarEdition)
+              onUpdate("language", e.target.value as CalendarLanguage)
             }
           >
-            <option value="french">Française</option>
-            <option value="international">Internationale (anglais)</option>
+            {Object.entries(CALENDAR_LANGUAGES).map(([language, { label }]) => (
+              <option key={language} value={language}>
+                {label}
+              </option>
+            ))}
           </select>
         </label>
         {!lockToMonthly && (

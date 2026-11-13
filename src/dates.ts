@@ -23,6 +23,30 @@ export function monthName(month: number, locale = "fr-FR"): string {
 }
 
 /**
+ * Nom de mois abrégé ("janv.", "Jan", "1月"…), pour les en-têtes étroits.
+ * @param month 1-12
+ */
+export function monthShortName(month: number, locale = "fr-FR"): string {
+  const format = new Intl.DateTimeFormat(locale, {
+    month: "short",
+    timeZone: "UTC",
+  })
+  return format.format(new Date(Date.UTC(2026, month - 1, 1)))
+}
+
+/** Monday-first weekday initials ("L M M J V S D" en français). */
+export function weekdayInitials(locale = "fr-FR"): string[] {
+  const format = new Intl.DateTimeFormat(locale, {
+    weekday: "narrow",
+    timeZone: "UTC",
+  })
+  // 2026-01-05 is a Monday.
+  return Array.from({ length: 7 }, (_, i) =>
+    format.format(new Date(Date.UTC(2026, 0, 5 + i))),
+  )
+}
+
+/**
  * Monday-first weekday names.
  * @param locale locale Intl (français par défaut, celle de l'interface)
  */

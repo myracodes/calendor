@@ -2,6 +2,7 @@ import { weekIndex } from "../../dates"
 import { BIRTHDAYS } from "../../events/birthdays"
 import { DEATHS } from "../../events/deaths"
 import type { LifeEvent } from "../../events/lifeEvents.type"
+import { showsFrenchContent } from "../../calendar/languages"
 import { OTHER_EVENTS } from "../../events/otherEvents"
 import { publicHolidaysForYear } from "../../events/publicHolidays"
 import type { CalendarEvent, CalendarSettings } from "../../types"
@@ -17,7 +18,7 @@ export const LIFE_EVENT_KINDS = [
     events: BIRTHDAYS,
     showAge: true,
     isEnabled: (settings: CalendarSettings) =>
-      settings.includeBirthdays && settings.edition === "french",
+      settings.includeBirthdays && showsFrenchContent(settings.language),
   },
   {
     key: "death" as const,
@@ -25,7 +26,7 @@ export const LIFE_EVENT_KINDS = [
     events: DEATHS,
     showAge: false,
     isEnabled: (settings: CalendarSettings) =>
-      settings.includeDeaths && settings.edition === "french",
+      settings.includeDeaths && showsFrenchContent(settings.language),
   },
   {
     key: "festive" as const,
@@ -35,12 +36,14 @@ export const LIFE_EVENT_KINDS = [
   },
 ]
 
-/** Jours fériés teintés sur la grille : les français, aucun dans l'édition internationale. */
+/** Jours fériés teintés sur la grille : les français, aucun dans les autres langues. */
 export function publicHolidaysFor(
   settings: CalendarSettings,
   year: number,
 ): LifeEvent[] {
-  return settings.edition === "french" ? publicHolidaysForYear(year) : []
+  return showsFrenchContent(settings.language)
+    ? publicHolidaysForYear(year)
+    : []
 }
 
 export function lifeEventsForDay(

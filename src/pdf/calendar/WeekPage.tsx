@@ -1,6 +1,10 @@
 import { Canvas, Page, StyleSheet, Text, View } from "@react-pdf/renderer"
 import { INK, LINE, PAPER } from "../../colors"
-import { type CalendarEdition, EDITION_LOCALE } from "../../calendar/edition"
+import {
+  CALENDAR_LANGUAGES,
+  CALENDAR_TEXTS,
+  type CalendarLanguage,
+} from "../../calendar/languages"
 import { weekdayNames } from "../../dates"
 import {
   CHECKBOX_SIZE,
@@ -12,14 +16,19 @@ import {
   ROW_HEIGHT,
 } from "../shared/paint"
 import { RainbowBar } from "../shared/shared"
+import { languageFont } from "./languageFont"
 
 // Liste de cases à cocher dans la case "Notes" : une case par ligne, suivie d'une ligne pointillée à écrire.
 const CHECKBOX_TO_LINE_GAP = 8
 
 function paintChecklist(painter: Painter, width: number, height: number) {
   const lineStartX = CHECKBOX_SIZE + CHECKBOX_TO_LINE_GAP
+  // Haut de chaque case à cocher : son bas tombe sur les pointillés des jours de la même ligne
+  // (un tous les ROW_HEIGHT, voir paintDottedLines).
   const rowYs: number[] = []
-  for (let y = 4; y + CHECKBOX_SIZE <= height; y += ROW_HEIGHT) rowYs.push(y)
+  for (let y = ROW_HEIGHT; y <= height; y += ROW_HEIGHT) {
+    rowYs.push(y - CHECKBOX_SIZE)
+  }
 
   // Cases à cocher (traits pleins) d'abord, pour ne pas hériter du pointillé des lignes ci-dessous.
   painter.strokeColor(INK).lineWidth(CHECKBOX_STROKE)
@@ -102,19 +111,19 @@ const styles = StyleSheet.create({
 })
 
 // Modèle générique et sans date : chaque page de "Calendrier vierge" hebdomadaire est identique.
-// "Notes" s'écrit pareil en français et en anglais.
-function weekRows(edition: CalendarEdition): string[][] {
+function weekRows(language: CalendarLanguage): string[][] {
   const [MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY] =
-    weekdayNames(EDITION_LOCALE[edition])
+    weekdayNames(CALENDAR_LANGUAGES[language].locale)
   return [
     [MONDAY, TUESDAY, WEDNESDAY, THURSDAY],
-    [FRIDAY, SATURDAY, SUNDAY, "Notes"],
+    [FRIDAY, SATURDAY, SUNDAY, CALENDAR_TEXTS.notes[language]],
   ]
 }
 
 /** Page hebdomadaire vierge (grille pointillée type bullet journal), sans date associée. */
-export function WeekPage({ edition }: { edition: CalendarEdition }) {
-  const rows = weekRows(edition)
+export function WeekPage({ language }: { language: CalendarLanguage }) {
+  const rows = weekRows(language)
+  const notes = CALENDAR_TEXTS.notes[language]
   return (
     <Page size="A4" orientation="landscape" style={styles.page}>
       <View style={styles.pageContent}>
@@ -136,12 +145,12 @@ export function WeekPage({ edition }: { edition: CalendarEdition }) {
                       : styles.cell
                   }
                 >
-                  <Text style={styles.cellLabel}>{label}</Text>
+                  <Text style={[styles.cellLabel, ...languageFont(language)]}>
+                    {label}
+                  </Text>
                   <Canvas
                     style={styles.cellFill}
-                    paint={
-                      label === "Notes" ? paintChecklist : paintDottedLines
-                    }
+                    paint={label === notes ? paintChecklist : paintDottedLines}
                   />
                 </View>
               ))}

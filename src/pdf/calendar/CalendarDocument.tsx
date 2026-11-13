@@ -1,5 +1,5 @@
 import { Document } from "@react-pdf/renderer"
-import { EDITION_TEXTS } from "../../calendar/edition"
+import { CALENDAR_TEXTS } from "../../calendar/languages"
 import { addMonths } from "../../dates"
 import type { CalendarSettings } from "../../types"
 import { AnnualPage } from "./AnnualPage"
@@ -7,7 +7,7 @@ import { MonthPage } from "./MonthPage"
 import { WeekPage } from "./WeekPage"
 
 export function CalendarDocument({ settings }: { settings: CalendarSettings }) {
-  const title = EDITION_TEXTS.documentTitle[settings.edition]
+  const title = CALENDAR_TEXTS.documentTitle[settings.language]
 
   if (settings.format === "annual") {
     return (
@@ -21,7 +21,7 @@ export function CalendarDocument({ settings }: { settings: CalendarSettings }) {
     return (
       <Document title={title}>
         {Array.from({ length: settings.weekCount }, (_, i) => (
-          <WeekPage key={i} edition={settings.edition} />
+          <WeekPage key={i} language={settings.language} />
         ))}
       </Document>
     )

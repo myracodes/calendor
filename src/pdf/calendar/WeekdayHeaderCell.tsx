@@ -1,7 +1,9 @@
 import { StyleSheet, Text, View } from "@react-pdf/renderer"
+import type { CalendarLanguage } from "../../calendar/languages"
 import { INK, SCHEDULE } from "../../colors"
 import { schedulesForWeekday } from "../../events/schedules"
 import type { Schedule } from "../../events/schedules.type"
+import { languageFont } from "./languageFont"
 
 const styles = StyleSheet.create({
   // Cellule d'en-tête d'une colonne jour, en haut de la grille du mois (une par jour de la semaine).
@@ -48,6 +50,7 @@ interface WeekdayHeaderCellProps {
   name: string
   /** 0 = lundi … 6 = dimanche */
   weekday: number
+  language: CalendarLanguage
   showSchedules: boolean
 }
 
@@ -55,13 +58,14 @@ interface WeekdayHeaderCellProps {
 export function WeekdayHeaderCell({
   name,
   weekday,
+  language,
   showSchedules,
 }: WeekdayHeaderCellProps) {
   const schedules = showSchedules ? schedulesForWeekday(weekday) : []
 
   return (
     <View style={styles.cell}>
-      <Text style={styles.name}>{name}</Text>
+      <Text style={[styles.name, ...languageFont(language)]}>{name}</Text>
       {schedules.map(schedule => (
         <Text
           key={`${schedule.name}-${schedule.hours ?? ""}`}

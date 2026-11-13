@@ -21,6 +21,20 @@ Font.register({
   family: "BadScript",
   src: `${BASE}fonts/BadScript-Regular.ttf`,
 })
+// Amiri : textes en arabe du calendrier (voir src/pdf/calendar/languageFont.ts). Police complète :
+// la réduire aux seuls caractères utiles casse ses ligatures.
+Font.register({
+  family: "Amiri",
+  src: `${BASE}fonts/Amiri-Regular.ttf`,
+})
+// ZCOOL KuaiLe : textes en chinois du calendrier, réduite aux caractères utilisés (la police
+// complète pèse 1,5 Mo). Si un texte chinois change (CALENDAR_TEXTS de src/calendar/languages.ts),
+// regénérer depuis la police complète (Google Fonts) avec fonttools :
+// pyftsubset ZCOOLKuaiLe-Regular.ttf --text="0123456789一七三九二五八六十历四日星月期笔记" --unicodes=U+0020 --output-file=public/fonts/ZCOOLKuaiLe-subset.ttf
+Font.register({
+  family: "ZCOOLKuaiLe",
+  src: `${BASE}fonts/ZCOOLKuaiLe-subset.ttf`,
+})
 // Carlito : clone libre de Calibri, pour les documents "sérieux" (courriers).
 Font.register({
   family: "Carlito",
