@@ -60,10 +60,10 @@
   height: 20px;
 }
 
-/* Boutons-icônes (nouveau tome paru, crayon) : carrés, de la hauteur de .action-button */
+/* Boutons-icônes (nouveau tome paru, crayon) : carrés, de la hauteur de .action-button--small */
 .book-series-item-icon-button {
   flex: none;
-  width: 3.25rem;
+  width: 2.5rem;
   padding: 0;
 }
 

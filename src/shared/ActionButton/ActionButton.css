@@ -23,6 +23,12 @@
   transform: none;
 }
 
+/* Petite taille : boutons d'une ligne de liste (livres, séries…) */
+.action-button--small {
+  height: 2.5rem;
+  font-size: 1rem;
+}
+
 /* Action en cours (génération, enregistrement…) */
 .action-button[aria-busy="true"] {
   cursor: wait;

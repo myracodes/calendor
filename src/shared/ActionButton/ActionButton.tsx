@@ -3,8 +3,12 @@ import "./ActionButton.css"
 
 export type ActionButtonVariant = "primary" | "secondary"
 
+/** « small » : pour les boutons posés sur chaque ligne d'une liste, où la grande taille étire les lignes. */
+export type ActionButtonSize = "default" | "small"
+
 interface ActionButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ActionButtonVariant
+  size?: ActionButtonSize
   /** Action en cours : désactive le bouton et affiche un curseur d'attente. */
   busy?: boolean
 }
@@ -16,6 +20,7 @@ interface ActionButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
  */
 export function ActionButton({
   variant = "primary",
+  size = "default",
   busy = false,
   className,
   disabled,
@@ -25,6 +30,7 @@ export function ActionButton({
   const classes = [
     "action-button",
     variant === "secondary" && "action-button--secondary",
+    size === "small" && "action-button--small",
     className,
   ]
     .filter(Boolean)

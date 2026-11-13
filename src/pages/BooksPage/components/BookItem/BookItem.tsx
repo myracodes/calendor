@@ -34,6 +34,7 @@ export function BookItem({ book, pending, onFinish, onEdit }: BookItemProps) {
       <div className="book-item-actions">
         {book.inProgress && (
           <ActionButton
+            size="small"
             className="book-item-icon-button"
             busy={pending}
             aria-label={finishLabel}
@@ -45,6 +46,7 @@ export function BookItem({ book, pending, onFinish, onEdit }: BookItemProps) {
           </ActionButton>
         )}
         <ActionButton
+          size="small"
           variant="secondary"
           className="book-item-icon-button"
           aria-label={editLabel}

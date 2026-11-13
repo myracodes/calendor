@@ -74,17 +74,14 @@ export function BookSeriesItem({
   const newVolumeLabel = `Nouveau tome de « ${series.name} » paru`
   const editLabel = `Modifier la série « ${series.name} »`
 
-  const yearDetail = [
+  // Une seule ligne : l'année de la liste, puis la parution (« 12 parus »).
+  const detail = [
     finishedThisYear.length > 0 &&
       `${formatVolumes(finishedThisYear)} ${finishedThisYear.length > 1 ? wording.donePlural : wording.doneSingular} en ${year}`,
     inProgressThisYear !== undefined &&
       `tome ${inProgressThisYear.volume} en cours`,
-  ]
-    .filter(Boolean)
-    .join(" · ")
-  const publicationDetail = [
     series.publishedVolumes !== null &&
-      plural(series.publishedVolumes, "tome paru", "tomes parus"),
+      plural(series.publishedVolumes, "paru", "parus"),
     // Une fois la série terminée, la pastille le dit déjà.
     series.complete && status !== "finished" && "série complète",
   ]
@@ -108,15 +105,13 @@ export function BookSeriesItem({
         </p>
         {/* Majuscule : la ligne peut commencer par « tome N en cours ». */}
         <p className="book-series-item-detail book-series-item-year">
-          {yearDetail}
+          {detail}
         </p>
-        {publicationDetail !== "" && (
-          <p className="book-series-item-detail">{publicationDetail}</p>
-        )}
       </div>
       <div className="book-series-item-actions">
         {status === "reading" && toRead !== null && (
           <ActionButton
+            size="small"
             className="book-series-item-action"
             busy={pending}
             aria-label={readNextLabel}
@@ -130,6 +125,7 @@ export function BookSeriesItem({
         )}
         {status === "upToDate" && (
           <ActionButton
+            size="small"
             variant="secondary"
             className="book-series-item-icon-button"
             busy={pending}
@@ -142,6 +138,7 @@ export function BookSeriesItem({
           </ActionButton>
         )}
         <ActionButton
+          size="small"
           variant="secondary"
           className="book-series-item-icon-button"
           aria-label={editLabel}

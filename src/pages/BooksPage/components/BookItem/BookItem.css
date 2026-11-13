@@ -34,9 +34,9 @@
   margin-bottom: 0;
 }
 
-/* Bouton-icône : carré, de la hauteur de .action-button */
+/* Bouton-icône : carré, de la hauteur de .action-button--small */
 .book-item-icon-button {
-  width: 3.25rem;
+  width: 2.5rem;
   padding: 0;
 }
 

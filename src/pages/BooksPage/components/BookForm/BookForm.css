@@ -1,8 +1,8 @@
-/* Le formulaire : même espacement que les enfants d'une .card */
+/* Le formulaire : champs resserrés pour rester compact dans la liste */
 .book-form {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 0.75rem;
 }
 
 /* Modification d'un livre ou d'une série, posée dans la liste à sa place :
