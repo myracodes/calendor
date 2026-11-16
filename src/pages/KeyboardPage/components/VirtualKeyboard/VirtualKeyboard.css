@@ -1,0 +1,59 @@
+/* Le clavier : rangées de touches empilées */
+.virtual-keyboard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* Une rangée de touches, centrée : les rangées plus courtes que les autres
+   restent au milieu, comme sur un clavier physique. */
+.virtual-keyboard-row {
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+/* Une touche, au style des onglets (Tabs) : fond blanc et bordure fine plutôt
+   que le dégradé des boutons, trop chargé répété sur tout un clavier. */
+.virtual-keyboard-key {
+  /* Base nulle : toutes les touches d'une rangée ont la même largeur et
+     rétrécissent ensemble pour tenir sur une ligne (17 touches au plus). */
+  flex: 1 1 0;
+  min-width: 0;
+  /* Sans plafond, les rangées de 10 lettres s'étireraient sur toute la carte. */
+  max-width: 3.5rem;
+  height: 3rem;
+  padding: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 1.15rem;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: none;
+}
+
+.virtual-keyboard-key:hover {
+  border-color: var(--accent);
+}
+
+/* Touche de fonction (Maj, Verr. maj, ⌫, Entrée, changement de page) :
+   fond teinté pour la distinguer des caractères. */
+.virtual-keyboard-key--function {
+  flex-grow: 2;
+  max-width: 7rem;
+  font-size: 0.9rem;
+  background: var(--line);
+}
+
+/* La barre d'espace prend toute la place libre de sa rangée. */
+.virtual-keyboard-key--space {
+  flex-grow: 8;
+  max-width: none;
+  font-size: 0.9rem;
+}
+
+/* Maj ou Verr. maj enclenchée, au style de l'onglet actif (Tabs) */
+.virtual-keyboard-key[aria-pressed="true"] {
+  background: var(--gradient-rainbow);
+  border-color: transparent;
+}

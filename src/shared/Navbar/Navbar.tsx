@@ -11,6 +11,7 @@ export const NAV_LINKS = [
   { to: "/cv", label: "CV" },
   { to: "/series", label: "Séries" },
   { to: "/books", label: "Livres" },
+  { to: "/keyboard", label: "Clavier" },
 ]
 
 export function Navbar() {

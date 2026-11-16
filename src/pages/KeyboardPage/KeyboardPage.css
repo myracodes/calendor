@@ -1,0 +1,16 @@
+/* Zone de texte tapée au clavier virtuel, moins haute que celles des autres
+   pages pour que le clavier reste visible sans défiler. */
+.keyboard-page-text {
+  min-height: 8rem;
+}
+
+/* Effacer et Copier côte à côte, de même largeur */
+.keyboard-page-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.keyboard-page-actions .action-button {
+  flex: 1;
+  margin-bottom: 0;
+}

@@ -9,6 +9,7 @@ import { CalendarsPage } from "./pages/CalendarsPage/CalendarsPage"
 import { CourrierPage } from "./pages/CourrierPage/CourrierPage"
 import { CoursesPage } from "./pages/CoursesPage/CoursesPage"
 import { CvPage } from "./pages/CvPage/CvPage"
+import { KeyboardPage } from "./pages/KeyboardPage/KeyboardPage"
 import { LoginPage } from "./pages/LoginPage/LoginPage"
 import { PaperFactoryPage } from "./pages/PaperFactoryPage/PaperFactoryPage"
 import { SeriesPage } from "./pages/SeriesPage/SeriesPage"
@@ -60,6 +61,7 @@ function AppContent() {
           <Route path="/cv" element={<CvPage />} />
           <Route path="/series" element={<SeriesPage />} />
           <Route path="/books" element={<BooksPage />} />
+          <Route path="/keyboard" element={<KeyboardPage />} />
         </Routes>
 
         <footer className="footer">
