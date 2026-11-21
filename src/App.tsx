@@ -12,6 +12,7 @@ import { CvPage } from "./pages/CvPage/CvPage"
 import { KeyboardPage } from "./pages/KeyboardPage/KeyboardPage"
 import { LoginPage } from "./pages/LoginPage/LoginPage"
 import { PaperFactoryPage } from "./pages/PaperFactoryPage/PaperFactoryPage"
+import { RecommendationsPage } from "./pages/RecommendationsPage/RecommendationsPage"
 import { SeriesPage } from "./pages/SeriesPage/SeriesPage"
 import { LastPageRedirect, LastPageTracker } from "./shared/LastPage/LastPage"
 import { LogoutButton } from "./shared/LogoutButton/LogoutButton"
@@ -61,6 +62,7 @@ function AppContent() {
           <Route path="/cv" element={<CvPage />} />
           <Route path="/series" element={<SeriesPage />} />
           <Route path="/books" element={<BooksPage />} />
+          <Route path="/recommendations" element={<RecommendationsPage />} />
           <Route path="/keyboard" element={<KeyboardPage />} />
         </Routes>
 

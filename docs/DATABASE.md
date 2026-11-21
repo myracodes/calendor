@@ -40,5 +40,6 @@ Ne pas ré-exécuter le script de création : il échoue (`already exists`). Les
 | `supabase/series.sql` | `series` | Séries |
 | `supabase/book_series.sql` | `book_series` | Livres (à exécuter avant `books.sql`) |
 | `supabase/books.sql` | `books` | Livres |
+| `supabase/recommendations.sql` | `recommendations` | Reco culturelles |
 
 Chaque nouveau script doit être ajouté ici (voir [NEW_FEATURE.md](../NEW_FEATURE.md)).

@@ -1,0 +1,22 @@
+.recommendation-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Une ligne de la liste : la reco, ou son éditeur quand elle est en cours de modification */
+.recommendation-list-entry {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.recommendation-list-entry:first-child {
+  padding-top: 0;
+}
+
+.recommendation-list-entry:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}

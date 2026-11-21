@@ -1,0 +1,19 @@
+/* Une reco : titre et « De la part de » à gauche, crayon calé à droite */
+.recommendation-item {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 1rem;
+}
+
+.recommendation-item-title {
+  margin: 0;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.recommendation-item-from {
+  margin: 0.15rem 0 0;
+  font-size: 0.9rem;
+  color: var(--ink-light);
+}
