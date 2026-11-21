@@ -3,12 +3,12 @@ import DEFAULT_BACKGROUND from "../../assets/images/default-background.jpg"
 /**
  * Images de fond par mois, découvertes automatiquement dans
  * src/assets/images/ — nul besoin de toucher au code pour en ajouter :
- * dépose un fichier nommé "MM-nom-du-mois-default-background.jpg"
+ * dépose un fichier nommé "MM-nom-du-mois-default-background.jpg" (ou .png)
  * (ex. "05-may-default-background.jpg") et il sera repris pour ce mois.
  * Les mois sans image dédiée retombent sur default-background.jpg.
  */
 const monthImageModules = import.meta.glob<string>(
-  "../assets/images/[0-9][0-9]-*-default-background.jpg",
+  "../../assets/images/[0-9][0-9]-*-default-background.{jpg,png}",
   {
     eager: true,
     import: "default",
@@ -17,7 +17,7 @@ const monthImageModules = import.meta.glob<string>(
 
 const MONTH_BACKGROUNDS: Partial<Record<number, string>> = {}
 for (const [path, url] of Object.entries(monthImageModules)) {
-  const match = /\/(\d{2})-[a-z]+-default-background\.jpg$/.exec(path)
+  const match = /\/(\d{2})-[a-z]+-default-background\.(jpg|png)$/.exec(path)
   if (match) MONTH_BACKGROUNDS[Number(match[1])] = url
 }
 

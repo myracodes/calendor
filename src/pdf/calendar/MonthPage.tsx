@@ -20,7 +20,7 @@ import {
   lifeEventsForDay,
   publicHolidaysFor,
 } from "./calendarData"
-import { backgroundForMonth } from "./monthBackgrounds"
+import { backgroundForMonth } from "../shared/monthBackgrounds"
 import { PageBackground } from "../shared/PageBackground"
 import { RainbowBar, SURFACE } from "../shared/shared"
 import { languageFont } from "./languageFont"

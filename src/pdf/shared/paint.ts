@@ -13,21 +13,52 @@ export const CHECKBOX_STROKE = 0.75
 // biome-ignore lint/suspicious/noExplicitAny: type non exporté par @react-pdf/renderer
 export type Painter = any
 
+/** Diamètre des points d'une ligne pointillée et écart entre deux points, en points. */
+export interface DotStyle {
+  size: number
+  space: number
+}
+
+const DEFAULT_DOTS: DotStyle = { size: DOT_LINE_WIDTH, space: DOT_SPACE }
+
+function setDottedStroke(painter: Painter, dots: DotStyle = DEFAULT_DOTS) {
+  painter
+    .strokeColor(INK)
+    .lineCap("round")
+    .lineWidth(dots.size)
+    .dash(0.01, { space: dots.space })
+}
+
 /** Lignes pointillées horizontales façon bullet journal, une toutes les ROW_HEIGHT. */
 export function paintDottedLines(
   painter: Painter,
   width: number,
   height: number,
 ) {
-  painter
-    .strokeColor(INK)
-    .lineCap("round")
-    .lineWidth(DOT_LINE_WIDTH)
-    .dash(0.01, { space: DOT_SPACE })
+  setDottedStroke(painter)
   for (let y = ROW_HEIGHT; y <= height; y += ROW_HEIGHT) {
     painter.moveTo(0, y).lineTo(width, y).stroke()
   }
   return null
+}
+
+/**
+ * Exactement `lineCount` lignes pointillées, réparties régulièrement sur la hauteur
+ * (la dernière tout en bas) : l'écart s'adapte à la place disponible, au lieu du
+ * ROW_HEIGHT fixe de paintDottedLines.
+ */
+export function paintDottedLineCount(
+  lineCount: number,
+  dots: DotStyle = DEFAULT_DOTS,
+) {
+  return (painter: Painter, width: number, height: number) => {
+    setDottedStroke(painter, dots)
+    for (let line = 1; line <= lineCount; line++) {
+      const y = (height * line) / lineCount
+      painter.moveTo(0, y).lineTo(width, y).stroke()
+    }
+    return null
+  }
 }
 
 /** Cases à cocher centrées, une par ligne, le bas aligné sur les pointillés des colonnes voisines. */
