@@ -12,6 +12,7 @@ export const NAV_LINKS = [
   { to: "/series", label: "Séries" },
   { to: "/books", label: "Livres" },
   { to: "/recommendations", label: "Reco culturelles" },
+  { to: "/gift-ideas", label: "Idées cadeaux" },
   { to: "/keyboard", label: "Clavier" },
 ]
 

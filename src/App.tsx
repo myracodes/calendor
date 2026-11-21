@@ -10,6 +10,7 @@ import { CalendarsPage } from "./pages/CalendarsPage/CalendarsPage"
 import { CourrierPage } from "./pages/CourrierPage/CourrierPage"
 import { CoursesPage } from "./pages/CoursesPage/CoursesPage"
 import { CvPage } from "./pages/CvPage/CvPage"
+import { GiftIdeasPage } from "./pages/GiftIdeasPage/GiftIdeasPage"
 import { HomePage } from "./pages/HomePage/HomePage"
 import { KeyboardPage } from "./pages/KeyboardPage/KeyboardPage"
 import { LoginPage } from "./pages/LoginPage/LoginPage"
@@ -70,6 +71,7 @@ function AppContent() {
           <Route path="/series" element={<SeriesPage />} />
           <Route path="/books" element={<BooksPage />} />
           <Route path="/recommendations" element={<RecommendationsPage />} />
+          <Route path="/gift-ideas" element={<GiftIdeasPage />} />
           <Route path="/keyboard" element={<KeyboardPage />} />
         </Routes>
 

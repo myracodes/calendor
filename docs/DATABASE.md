@@ -41,5 +41,7 @@ Ne pas ré-exécuter le script de création : il échoue (`already exists`). Les
 | `supabase/book_series.sql` | `book_series` | Livres (à exécuter avant `books.sql`) |
 | `supabase/books.sql` | `books` | Livres |
 | `supabase/recommendations.sql` | `recommendations` | Reco culturelles |
+| `supabase/gift_recipients.sql` | `gift_recipients` | Idées cadeaux (à exécuter avant `gift_ideas.sql`) |
+| `supabase/gift_ideas.sql` | `gift_ideas` | Idées cadeaux |
 
 Chaque nouveau script doit être ajouté ici (voir [NEW_FEATURE.md](../NEW_FEATURE.md)).

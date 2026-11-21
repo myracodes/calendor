@@ -1,7 +1,8 @@
-/** « De la part de Maman », « De la part d'Alice » : élision devant une voyelle. */
+import { prefixWithDe } from "../french"
+
+/** « De la part de Maman », « De la part d'Alice ». */
 export function fromWhom(recommendedBy: string): string {
-  const elided = /^[aeiouyàâäéèêëîïôöùûü]/i.test(recommendedBy)
-  return `De la part ${elided ? "d'" : "de "}${recommendedBy}`
+  return `De la part ${prefixWithDe(recommendedBy)}`
 }
 
 /** Les personnes déjà citées dans les recos, pour les proposer à la saisie. */

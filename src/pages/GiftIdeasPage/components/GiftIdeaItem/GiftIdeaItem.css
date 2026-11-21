@@ -1,0 +1,15 @@
+/* Une idée : son titre à gauche, crayon calé à droite */
+.gift-idea-item {
+  display: grid;
+  /* minmax(0, …) : un titre sans espace (un lien collé) passe à la ligne au
+     lieu d'élargir la colonne et de pousser le crayon hors de la card */
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 1rem;
+}
+
+.gift-idea-item-title {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: var(--ink);
+}
