@@ -1,8 +1,8 @@
 import { BOOK_FORMAT_WORDING } from "../../../../books/bookFormats"
 import type { BookDraft } from "../../../../books/types"
 import { isDraftComplete, readYearError } from "../../../../books/validation"
+import { EntryForm } from "../../../../shared/EntryForm/EntryForm"
 import { AuthorsField } from "../AuthorsField/AuthorsField"
-import { BookForm } from "../BookForm/BookForm"
 import { ReadingFields } from "../ReadingFields/ReadingFields"
 
 interface BookEditorProps {
@@ -23,7 +23,7 @@ export function BookEditor({
   onCancel,
 }: BookEditorProps) {
   return (
-    <BookForm
+    <EntryForm
       submitLabel="Enregistrer"
       canSubmit={
         isDraftComplete(draft) && readYearError(draft.readYear) === null
@@ -55,6 +55,6 @@ export function BookEditor({
         reading={draft}
         onChange={reading => onChange({ ...draft, ...reading })}
       />
-    </BookForm>
+    </EntryForm>
   )
 }

@@ -23,6 +23,8 @@ Il complète [AGENTS.md](AGENTS.md) (règles générales, toujours applicables) 
 - Composant utilisé par plusieurs pages → `src/shared/<Composant>/`. Avant d'en créer un, vérifier ce qui existe déjà :
   - `Card` : bloc de contenu avec liseré coloré (`variantColor` : `sun`, `candy`, `sky`) et titre `<h2>`.
   - `Tabs` : barre d'onglets (un seul actif). Typer les identifiants d'onglets avec une union (`Tab<"day" | "week">`).
+  - `EntryForm` : cadre des formulaires d'une liste enregistrée en base — ajout en haut de la liste, ou modification ouverte à la place d'une entrée (`onClose` l'encadre et ajoute la croix, `deletion` le bouton de suppression avec confirmation). Erreur d'enregistrement affichée sous les champs, Entrée enregistre.
+  - `IconButton` : petit bouton carré à icône posé sur une ligne de liste (crayon d'édition, coche, +) ; `label` sert à la fois d'`aria-label` et d'infobulle.
   - `ActionButton` : grand bouton pleine largeur de l'action principale d'une page (générer le PDF, enregistrer, créer…). `busy` pendant l'action en cours (désactive le bouton, curseur d'attente) ; `variant="secondary"` pour l'action d'à côté (réinitialiser, annuler, supprimer), placée juste au-dessus.
   - `ProgressPie` : camembert de progression en pourcentage, avec la valeur en dessous.
   - `Tag` : petite étiquette d'état à côté d'un libellé (« En cours »), `variantColor` obligatoire : `mint` (en cours), `sun` (en attente), `neutral` (fini).

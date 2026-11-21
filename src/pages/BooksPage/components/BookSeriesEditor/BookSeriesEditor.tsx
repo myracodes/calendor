@@ -5,8 +5,8 @@ import {
   publishedVolumesError,
   yearReadCountError,
 } from "../../../../books/validation"
+import { EntryForm } from "../../../../shared/EntryForm/EntryForm"
 import { AuthorsField } from "../AuthorsField/AuthorsField"
-import { BookForm } from "../BookForm/BookForm"
 
 interface BookSeriesEditorProps {
   draft: BookSeriesDraft
@@ -42,7 +42,7 @@ export function BookSeriesEditor({
   const countError = yearReadCountError(yearReadCount)
 
   return (
-    <BookForm
+    <EntryForm
       submitLabel="Enregistrer"
       canSubmit={
         isSeriesDraftComplete(draft) &&
@@ -126,6 +126,6 @@ export function BookSeriesEditor({
         />
         Abandonnée
       </label>
-    </BookForm>
+    </EntryForm>
   )
 }

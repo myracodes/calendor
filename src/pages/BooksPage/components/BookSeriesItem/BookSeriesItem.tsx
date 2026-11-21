@@ -12,6 +12,7 @@ import { formatAuthors, formatVolumes, plural } from "../../../../books/format"
 import type { BookFormatWording } from "../../../../books/bookFormats"
 import type { Book, BookSeries } from "../../../../books/types"
 import { ActionButton } from "../../../../shared/ActionButton/ActionButton"
+import { IconButton } from "../../../../shared/IconButton/IconButton"
 import { ProgressRing } from "../../../../shared/ProgressRing/ProgressRing"
 import { Tag, type TagVariantColor } from "../../../../shared/Tag/Tag"
 import "./BookSeriesItem.css"
@@ -71,8 +72,6 @@ export function BookSeriesItem({
     .map(volume => volume.volume ?? 0)
   const inProgressThisYear = yearVolumes.find(volume => volume.inProgress)
   const readNextLabel = `Tome ${toRead} de « ${series.name} » ${wording.doneSingular}`
-  const newVolumeLabel = `Nouveau tome de « ${series.name} » paru`
-  const editLabel = `Modifier la série « ${series.name} »`
 
   // Une seule ligne : l'année de la liste, puis la parution (« 12 parus »).
   const detail = [
@@ -124,29 +123,20 @@ export function BookSeriesItem({
           </ActionButton>
         )}
         {status === "upToDate" && (
-          <ActionButton
-            size="small"
+          <IconButton
+            icon={plusIcon}
+            label={`Nouveau tome de « ${series.name} » paru`}
             variant="secondary"
-            className="book-series-item-icon-button"
             busy={pending}
-            aria-label={newVolumeLabel}
-            title={newVolumeLabel}
             onClick={onNewVolumePublished}
-          >
-            {/* alt vide : le bouton porte déjà le libellé (aria-label). */}
-            <img src={plusIcon} alt="" />
-          </ActionButton>
+          />
         )}
-        <ActionButton
-          size="small"
+        <IconButton
+          icon={pencilIcon}
+          label={`Modifier la série « ${series.name} »`}
           variant="secondary"
-          className="book-series-item-icon-button"
-          aria-label={editLabel}
-          title={editLabel}
           onClick={onEdit}
-        >
-          <img src={pencilIcon} alt="" />
-        </ActionButton>
+        />
       </div>
     </div>
   )

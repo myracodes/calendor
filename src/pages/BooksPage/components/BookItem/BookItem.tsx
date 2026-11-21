@@ -2,7 +2,7 @@ import checkIcon from "../../../../assets/icons/check.svg"
 import pencilIcon from "../../../../assets/icons/pencil.svg"
 import { formatAuthors } from "../../../../books/format"
 import type { Book } from "../../../../books/types"
-import { ActionButton } from "../../../../shared/ActionButton/ActionButton"
+import { IconButton } from "../../../../shared/IconButton/IconButton"
 import { Tag } from "../../../../shared/Tag/Tag"
 import "./BookItem.css"
 
@@ -19,9 +19,6 @@ interface BookItemProps {
  * finie), autrices, coche pour terminer la lecture et accès à l'édition.
  */
 export function BookItem({ book, pending, onFinish, onEdit }: BookItemProps) {
-  const finishLabel = `J'ai terminé « ${book.title} »`
-  const editLabel = `Modifier « ${book.title} »`
-
   return (
     <div className="book-item">
       <div>
@@ -33,28 +30,19 @@ export function BookItem({ book, pending, onFinish, onEdit }: BookItemProps) {
       </div>
       <div className="book-item-actions">
         {book.inProgress && (
-          <ActionButton
-            size="small"
-            className="book-item-icon-button"
+          <IconButton
+            icon={checkIcon}
+            label={`J'ai terminé « ${book.title} »`}
             busy={pending}
-            aria-label={finishLabel}
-            title={finishLabel}
             onClick={onFinish}
-          >
-            {/* alt vide : le bouton porte déjà le libellé (aria-label). */}
-            <img src={checkIcon} alt="" />
-          </ActionButton>
+          />
         )}
-        <ActionButton
-          size="small"
+        <IconButton
+          icon={pencilIcon}
+          label={`Modifier « ${book.title} »`}
           variant="secondary"
-          className="book-item-icon-button"
-          aria-label={editLabel}
-          title={editLabel}
           onClick={onEdit}
-        >
-          <img src={pencilIcon} alt="" />
-        </ActionButton>
+        />
       </div>
     </div>
   )

@@ -28,21 +28,3 @@
   display: flex;
   gap: 0.75rem;
 }
-
-/* Boutons en ligne : pas d'espace à réserver en dessous */
-.book-item .action-button {
-  margin-bottom: 0;
-}
-
-/* Bouton-icône : carré, de la hauteur de .action-button--small */
-.book-item-icon-button {
-  width: 2.5rem;
-  padding: 0;
-}
-
-.book-item-icon-button img {
-  display: block;
-  width: 20px;
-  height: 20px;
-  margin: auto;
-}

@@ -60,20 +60,6 @@
   height: 20px;
 }
 
-/* Boutons-icônes (nouveau tome paru, crayon) : carrés, de la hauteur de .action-button--small */
-.book-series-item-icon-button {
-  flex: none;
-  width: 2.5rem;
-  padding: 0;
-}
-
-.book-series-item-icon-button img {
-  display: block;
-  width: 20px;
-  height: 20px;
-  margin: auto;
-}
-
 /* Dès que la place le permet, les boutons passent sur la ligne des infos. */
 @media (min-width: 640px) {
   .book-series-item {

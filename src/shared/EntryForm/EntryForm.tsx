@@ -1,8 +1,8 @@
 import { type FormEvent, type ReactNode, useState } from "react"
-import { ActionButton } from "../../../../shared/ActionButton/ActionButton"
-import "./BookForm.css"
+import { ActionButton } from "../ActionButton/ActionButton"
+import "./EntryForm.css"
 
-interface BookFormProps {
+interface EntryFormProps {
   /** Libellé du bouton d'enregistrement (« Ajouter », « Enregistrer »). */
   submitLabel: string
   canSubmit: boolean
@@ -20,17 +20,19 @@ interface BookFormProps {
 }
 
 /**
- * Cadre commun des formulaires de la page (ajout, livre, série) : champs, erreur
- * d'enregistrement, suppression et enregistrement. Entrée dans un champ enregistre.
+ * Cadre commun des formulaires d'une liste enregistrée en base (livres, recos…) :
+ * ajout en haut de la liste, ou modification ouverte à la place d'une entrée.
+ * Champs, erreur d'enregistrement, suppression et enregistrement ; Entrée dans
+ * un champ enregistre.
  */
-export function BookForm({
+export function EntryForm({
   submitLabel,
   canSubmit,
   onSubmit,
   onClose,
   deletion,
   children,
-}: BookFormProps) {
+}: EntryFormProps) {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -58,13 +60,13 @@ export function BookForm({
 
   return (
     <form
-      className={`book-form${onClose === undefined ? "" : " book-form--framed"}`}
+      className={`entry-form${onClose === undefined ? "" : " entry-form--framed"}`}
       onSubmit={submit}
     >
       {onClose !== undefined && (
         <button
           type="button"
-          className="btn-close book-form-close"
+          className="btn-close entry-form-close"
           disabled={busy}
           onClick={onClose}
           aria-label="Fermer sans enregistrer"
@@ -76,7 +78,7 @@ export function BookForm({
 
       {children}
 
-      {error !== null && <p className="book-form-error">{error}</p>}
+      {error !== null && <p className="entry-form-error">{error}</p>}
 
       <div>
         {deletion !== undefined && (

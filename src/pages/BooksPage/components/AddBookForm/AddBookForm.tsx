@@ -12,8 +12,8 @@ import type {
   NewBookForm,
 } from "../../../../books/types"
 import { isNewBookComplete, readYearError } from "../../../../books/validation"
+import { EntryForm } from "../../../../shared/EntryForm/EntryForm"
 import { AuthorsField } from "../AuthorsField/AuthorsField"
-import { BookForm } from "../BookForm/BookForm"
 import { ReadingFields } from "../ReadingFields/ReadingFields"
 
 interface AddBookFormProps {
@@ -58,7 +58,7 @@ export function AddBookForm({
   }
 
   return (
-    <BookForm
+    <EntryForm
       submitLabel="Ajouter"
       canSubmit={
         isNewBookComplete(form, seriesList) &&
@@ -130,6 +130,6 @@ export function AddBookForm({
         reading={form}
         onChange={reading => onChange({ ...form, ...reading })}
       />
-    </BookForm>
+    </EntryForm>
   )
 }

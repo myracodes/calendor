@@ -1,13 +1,13 @@
 /* Le formulaire : champs resserrés pour rester compact dans la liste */
-.book-form {
+.entry-form {
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
-/* Modification d'un livre ou d'une série, posée dans la liste à sa place :
+/* Modification d'une entrée, posée dans la liste à sa place :
    fond --paper pour la détacher de la carte --surface. */
-.book-form--framed {
+.entry-form--framed {
   position: relative;
   padding: 1rem;
   background: var(--paper);
@@ -16,18 +16,18 @@
 
 /* Croix dans le coin du cadre, au-dessus de la ligne du premier libellé :
    détachée des champs pour ne pas passer pour une action sur l'un d'eux. */
-.book-form-close {
+.entry-form-close {
   position: absolute;
   top: 0.25rem;
   right: 0.25rem;
 }
 
 /* Le gap du formulaire espace déjà les enfants */
-.book-form .hint {
+.entry-form .hint {
   margin: 0;
 }
 
-.book-form-error {
+.entry-form-error {
   margin: 0;
   font-size: 0.9rem;
   color: var(--danger);

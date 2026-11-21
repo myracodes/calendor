@@ -1,0 +1,15 @@
+/* Bouton-icône : carré, de la hauteur de .action-button--small. Posé en ligne,
+   il ne garde pas l'espace que la variante secondaire réserve en dessous. */
+.action-button.icon-button {
+  flex: none;
+  width: 2.5rem;
+  margin-bottom: 0;
+  padding: 0;
+}
+
+.icon-button img {
+  display: block;
+  width: 20px;
+  height: 20px;
+  margin: auto;
+}
