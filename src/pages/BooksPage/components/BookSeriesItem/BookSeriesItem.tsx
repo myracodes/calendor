@@ -8,7 +8,8 @@ import {
   readPercent,
   volumeInProgress,
 } from "../../../../books/bookSeries"
-import { formatAuthors, formatVolumes, plural } from "../../../../books/format"
+import { formatAuthors, formatVolumes } from "../../../../books/format"
+import { plural } from "../../../../french"
 import type { BookFormatWording } from "../../../../books/bookFormats"
 import type { Book, BookSeries } from "../../../../books/types"
 import { ActionButton } from "../../../../shared/ActionButton/ActionButton"

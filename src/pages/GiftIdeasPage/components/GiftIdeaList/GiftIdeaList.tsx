@@ -103,9 +103,9 @@ export function GiftIdeaList({
   }
 
   return (
-    <>
+    <div className="gift-idea-list">
       <EntryForm
-        submitLabel="Ajouter"
+        submitLabel="Ajouter l'idée"
         canSubmit={isIdeaComplete(newDraft)}
         onSubmit={add}
       >
@@ -113,7 +113,7 @@ export function GiftIdeaList({
       </EntryForm>
 
       {ideas.length > 0 && (
-        <ul className="gift-idea-list">
+        <ul className="gift-idea-list-items">
           {ideas.map(idea => (
             <li key={idea.id} className="gift-idea-list-entry">
               {editing?.id === idea.id ? (
@@ -137,6 +137,6 @@ export function GiftIdeaList({
           ))}
         </ul>
       )}
-    </>
+    </div>
   )
 }

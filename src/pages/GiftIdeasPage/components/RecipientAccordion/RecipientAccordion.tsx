@@ -11,28 +11,33 @@ import {
   listOf,
   recipientDeletionConfirmation,
 } from "../../../../giftIdeas/wording"
+import { Accordion } from "../../../../shared/Accordion/Accordion"
 import { EntryForm } from "../../../../shared/EntryForm/EntryForm"
 import { IconButton } from "../../../../shared/IconButton/IconButton"
 import type { useToast } from "../../../../shared/Toast/useToast"
+import { GiftIdeaList } from "../GiftIdeaList/GiftIdeaList"
 import { RecipientFields } from "../RecipientFields/RecipientFields"
-import "./RecipientHeader.css"
 
-interface RecipientHeaderProps {
+interface RecipientAccordionProps {
   recipient: GiftRecipient
-  /** Ses idées : comptées avant de la supprimer, et remises avec elle si on annule. */
+  /** Ses idées, la plus récente en premier ; comptées avant de la supprimer, et remises avec elle si on annule. */
   ideas: GiftIdea[]
+  /** Ouvert au premier affichage : la personne qu'on vient d'ajouter, pour y noter tout de suite ses idées. */
+  defaultOpen: boolean
   library: GiftIdeasLibrary
   showToast: ReturnType<typeof useToast>["showToast"]
 }
 
-// Le titre de la card d'une personne (son nom), ou à sa place le formulaire
-// pour la renommer ou la supprimer.
-export function RecipientHeader({
+// Une personne : son nom, qui ouvre la liste de ses idées, et un crayon pour
+// la renommer ou la supprimer (le formulaire prend alors la place de
+// l'accordéon).
+export function RecipientAccordion({
   recipient,
   ideas,
+  defaultOpen,
   library,
   showToast,
-}: RecipientHeaderProps) {
+}: RecipientAccordionProps) {
   const [editing, setEditing] = useState<GiftRecipientDraft | null>(null)
 
   // Protège un nom en cours de modification avant de fermer l'éditeur.
@@ -63,7 +68,7 @@ export function RecipientHeader({
     showToast("info", `${listOf(recipient.name)} restaurée.`)
   }
 
-  // Pas d'éditeur à fermer : la card disparaît avec la personne.
+  // Pas d'éditeur à fermer : il disparaît avec la personne.
   async function remove() {
     await library.removeRecipient(recipient.id)
     showToast("success", `${listOf(recipient.name)} supprimée.`, {
@@ -80,7 +85,7 @@ export function RecipientHeader({
         onSubmit={saveEditing}
         onClose={cancelEditing}
         deletion={{
-          label: "Supprimer la liste",
+          label: "Supprimer la personne",
           confirmation: recipientDeletionConfirmation(
             recipient.name,
             ideas.length,
@@ -94,14 +99,25 @@ export function RecipientHeader({
   }
 
   return (
-    <div className="recipient-header">
-      <h2>{recipient.name}</h2>
-      <IconButton
-        icon={pencilIcon}
-        label={`Modifier « ${recipient.name} »`}
-        variant="secondary"
-        onClick={() => setEditing({ id: recipient.id, name: recipient.name })}
+    <Accordion
+      title={recipient.name}
+      titleWeight="regular"
+      defaultOpen={defaultOpen}
+      action={
+        <IconButton
+          icon={pencilIcon}
+          label={`Modifier « ${recipient.name} »`}
+          variant="secondary"
+          onClick={() => setEditing({ id: recipient.id, name: recipient.name })}
+        />
+      }
+    >
+      <GiftIdeaList
+        recipient={recipient}
+        ideas={ideas}
+        library={library}
+        showToast={showToast}
       />
-    </div>
+    </Accordion>
   )
 }

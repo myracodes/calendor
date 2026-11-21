@@ -5,6 +5,29 @@
   color: var(--ink);
 }
 
+.accordion-title--regular {
+  font-weight: 400;
+}
+
 .accordion-content {
   margin-top: 0.75rem;
+}
+
+/* Section avec un bouton-icône à droite du titre : le bouton est posé
+   par-dessus la marge que le titre lui réserve, et le contenu garde toute la
+   largeur. */
+.accordion-with-action {
+  position: relative;
+}
+
+/* Hauteur d'un IconButton (2.5rem = une ligne de 1.5rem + 2 × 0.5rem), pour
+   centrer le titre sur le bouton ; à droite, sa largeur plus 1rem d'écart. */
+.accordion-with-action .accordion-title {
+  padding: 0.5rem 3.5rem 0.5rem 0;
+}
+
+.accordion-action {
+  position: absolute;
+  top: 0;
+  right: 0;
 }

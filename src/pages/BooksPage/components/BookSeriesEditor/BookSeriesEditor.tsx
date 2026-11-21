@@ -1,4 +1,4 @@
-import { plural } from "../../../../books/format"
+import { plural } from "../../../../french"
 import type { BookSeriesDraft } from "../../../../books/types"
 import {
   isSeriesDraftComplete,

@@ -3,43 +3,41 @@ import type { GiftRecipientDraft } from "../../../../giftIdeas/types"
 import type { GiftIdeasLibrary } from "../../../../giftIdeas/useGiftIdeas"
 import { isRecipientComplete } from "../../../../giftIdeas/validation"
 import { listOf } from "../../../../giftIdeas/wording"
-import { Card } from "../../../../shared/Card/Card"
 import { EntryForm } from "../../../../shared/EntryForm/EntryForm"
 import type { useToast } from "../../../../shared/Toast/useToast"
 import { RecipientFields } from "../RecipientFields/RecipientFields"
 
 const EMPTY_DRAFT: GiftRecipientDraft = { id: null, name: "" }
 
-interface AddRecipientCardProps {
+interface AddRecipientFormProps {
   library: GiftIdeasLibrary
-  /** Toast de la page, partagé par les cards : un seul affiché à la fois. */
   showToast: ReturnType<typeof useToast>["showToast"]
+  /** Appelé avec la personne enregistrée, pour ouvrir son accordéon. */
+  onAdded: (recipientId: string) => void
 }
 
-// La card d'ajout d'une personne, en tête de page : sa card apparaît ensuite
-// parmi les autres, par ordre alphabétique.
-export function AddRecipientCard({
+/** Formulaire d'ajout d'une personne, en haut de la liste. */
+export function AddRecipientForm({
   library,
   showToast,
-}: AddRecipientCardProps) {
+  onAdded,
+}: AddRecipientFormProps) {
   const [draft, setDraft] = useState(EMPTY_DRAFT)
 
   async function add() {
     const saved = await library.saveRecipient(draft)
     setDraft(EMPTY_DRAFT)
+    onAdded(saved.id)
     showToast("success", `${listOf(saved.name)} créée.`)
   }
 
   return (
-    <Card>
-      <h2>Ajouter une personne</h2>
-      <EntryForm
-        submitLabel="Ajouter"
-        canSubmit={isRecipientComplete(draft)}
-        onSubmit={add}
-      >
-        <RecipientFields draft={draft} onChange={setDraft} />
-      </EntryForm>
-    </Card>
+    <EntryForm
+      submitLabel="Ajouter la personne"
+      canSubmit={isRecipientComplete(draft)}
+      onSubmit={add}
+    >
+      <RecipientFields draft={draft} onChange={setDraft} />
+    </EntryForm>
   )
 }

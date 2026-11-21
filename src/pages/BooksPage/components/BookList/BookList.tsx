@@ -7,7 +7,7 @@ import {
   volumesReadIn,
 } from "../../../../books/bookSeries"
 import { BOOK_FORMAT_WORDING } from "../../../../books/bookFormats"
-import { plural } from "../../../../books/format"
+import { plural } from "../../../../french"
 import { currentYear } from "../../../../books/readYear"
 import type {
   Book,

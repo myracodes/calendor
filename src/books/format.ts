@@ -26,12 +26,3 @@ export function formatVolumes(volumes: number[]): string {
   }
   return `${sorted.length > 1 ? "Tomes" : "Tome"} ${LIST_FORMAT.format(ranges)}`
 }
-
-/** Un nombre et son nom accordé, ex. "1 livre", "3 livres". */
-export function plural(
-  count: number,
-  singular: string,
-  pluralForm: string,
-): string {
-  return `${count} ${count > 1 ? pluralForm : singular}`
-}

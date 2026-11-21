@@ -1,0 +1,6 @@
+/* Les accordéons des personnes, séparés par un <hr /> */
+.recipient-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
