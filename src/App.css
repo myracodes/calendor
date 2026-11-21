@@ -64,6 +64,17 @@
   letter-spacing: -0.02em;
 }
 
+/* Le titre ramène à l'accueil : il garde l'allure d'un titre, pas d'un lien */
+.app-title-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.app-title-link:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
 /* ===== Formulaires ===== */
 
 .row {

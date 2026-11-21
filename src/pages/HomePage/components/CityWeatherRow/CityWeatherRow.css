@@ -1,0 +1,38 @@
+/* Pictogramme, ville et détail, température du moment calée à droite */
+.city-weather {
+  display: grid;
+  grid-template-columns: 2.5rem 1fr auto;
+  align-items: center;
+  gap: 1rem;
+}
+
+.city-weather-emoji {
+  font-size: 2rem;
+  line-height: 1;
+  text-align: center;
+}
+
+.city-weather-name {
+  margin: 0;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.city-weather-detail {
+  margin: 0.15rem 0 0;
+  font-size: 0.9rem;
+  color: var(--ink-light);
+}
+
+.city-weather-error {
+  margin: 0.15rem 0 0;
+  font-size: 0.9rem;
+  color: var(--danger);
+}
+
+.city-weather-temperature {
+  margin: 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--ink);
+}

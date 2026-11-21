@@ -1,0 +1,20 @@
+/* Intl écrit le jour en minuscule (« samedi 21 novembre 2026 ») */
+.today-card-date::first-letter {
+  text-transform: uppercase;
+}
+
+.today-card-time {
+  margin: 0;
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1;
+  color: var(--ink);
+  /* Chiffres de même largeur : l'heure ne bouge pas quand les minutes changent */
+  font-variant-numeric: tabular-nums;
+}
+
+.today-card-holiday {
+  margin: 0;
+  font-weight: 700;
+  color: var(--ink);
+}

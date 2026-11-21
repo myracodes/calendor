@@ -1,7 +1,8 @@
-import { HashRouter, Route, Routes } from "react-router-dom"
+import { HashRouter, Link, Route, Routes } from "react-router-dom"
 import "./App.css"
 import { AuthProvider } from "./auth/AuthProvider"
 import { useAuth } from "./auth/useAuth"
+import { HOME_PATH } from "./home/homePath"
 import { BooksPage } from "./pages/BooksPage/BooksPage"
 import { BatchCookingPage } from "./pages/BatchCookingPage/BatchCookingPage"
 import { BudgetPage } from "./pages/BudgetPage/BudgetPage"
@@ -9,6 +10,7 @@ import { CalendarsPage } from "./pages/CalendarsPage/CalendarsPage"
 import { CourrierPage } from "./pages/CourrierPage/CourrierPage"
 import { CoursesPage } from "./pages/CoursesPage/CoursesPage"
 import { CvPage } from "./pages/CvPage/CvPage"
+import { HomePage } from "./pages/HomePage/HomePage"
 import { KeyboardPage } from "./pages/KeyboardPage/KeyboardPage"
 import { LoginPage } from "./pages/LoginPage/LoginPage"
 import { PaperFactoryPage } from "./pages/PaperFactoryPage/PaperFactoryPage"
@@ -45,7 +47,11 @@ function AppContent() {
       <main className="app">
         <div className="app-header">
           <div className="app-title-row">
-            <h1>Calendor</h1>
+            <h1>
+              <Link to={HOME_PATH} className="app-title-link">
+                Calendor
+              </Link>
+            </h1>
             <LogoutButton />
           </div>
           <Navbar />
@@ -53,6 +59,7 @@ function AppContent() {
 
         <Routes>
           <Route path="/" element={<LastPageRedirect />} />
+          <Route path={HOME_PATH} element={<HomePage />} />
           <Route path="/calendars" element={<CalendarsPage />} />
           <Route path="/budget" element={<BudgetPage />} />
           <Route path="/batch-cooking" element={<BatchCookingPage />} />

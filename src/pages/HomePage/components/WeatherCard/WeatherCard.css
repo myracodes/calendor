@@ -1,0 +1,22 @@
+.weather-card-list {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Une ville par ligne, séparées d'un trait */
+.weather-card-entry {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.weather-card-entry:first-child {
+  padding-top: 0;
+}
+
+.weather-card-entry:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}

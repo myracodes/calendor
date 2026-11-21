@@ -1,0 +1,15 @@
+/* Liste simple d'une card de l'accueil (anniversaires, horaires) */
+.home-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--ink);
+}
+
+/* Lieu ou activité (« Piscine », « Marché »…), devant ses horaires */
+.home-list-label {
+  font-weight: 700;
+}
