@@ -1,3 +1,44 @@
+/* Les deux colonnes de la carte : empilées sur mobile, côte à côte dès 640px */
+.today-card-columns {
+  display: grid;
+  gap: 1.25rem;
+}
+
+@media (min-width: 640px) {
+  .today-card-columns {
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+}
+
+/* Une colonne : date/heure/anniversaires à gauche, horaires à droite */
+.today-card-column {
+  display: flex;
+  flex-direction: column;
+  /* Même espacement entre les blocs que le gap de .card */
+  gap: 1.25rem;
+}
+
+/* Le gap de la colonne espace déjà le message « Rien de prévu » */
+.today-card-column > .hint {
+  margin: 0;
+}
+
+/* Colonne des horaires, séparée de la première d'un trait */
+.today-card-schedules {
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--line);
+}
+
+@media (min-width: 640px) {
+  .today-card-schedules {
+    padding-top: 0;
+    padding-left: 1.5rem;
+    border-top: none;
+    border-left: 1px solid var(--line);
+  }
+}
+
 /* Intl écrit le jour en minuscule (« samedi 21 novembre 2026 ») */
 .today-card-date::first-letter {
   text-transform: uppercase;
@@ -17,4 +58,20 @@
   margin: 0;
   font-weight: 700;
   color: var(--ink);
+}
+
+/* Liste des anniversaires ou des horaires */
+.today-card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: var(--ink);
+}
+
+/* Lieu ou activité (« Piscine », « Marché »…), devant ses horaires */
+.today-card-list-label {
+  font-weight: 700;
 }

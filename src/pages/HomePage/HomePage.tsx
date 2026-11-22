@@ -1,9 +1,6 @@
 import { useNow } from "../../home/useNow"
-import { BirthdaysCard } from "./components/BirthdaysCard/BirthdaysCard"
-import { SchedulesCard } from "./components/SchedulesCard/SchedulesCard"
 import { TodayCard } from "./components/TodayCard/TodayCard"
 import { WeatherCard } from "./components/WeatherCard/WeatherCard"
-import "./HomePage.css"
 
 // Page d'accueil, ouverte par le titre de l'app : la journée en un coup d'œil.
 export function HomePage() {
@@ -14,8 +11,6 @@ export function HomePage() {
     <>
       <TodayCard now={now} />
       <WeatherCard />
-      <BirthdaysCard date={now} />
-      <SchedulesCard date={now} />
     </>
   )
 }
