@@ -15,6 +15,16 @@ export function formatWithUnit(value: number, unit: string): string {
   return `${formatDecimal(value)} ${unit}`
 }
 
+const SIGNED_DECIMAL_FORMAT = new Intl.NumberFormat("fr-FR", {
+  maximumFractionDigits: 1,
+  signDisplay: "exceptZero",
+})
+
+/** « -2,9 kg », « +1 cm », « 0 cm » : un écart signé suivi de son unité. */
+export function formatDifference(difference: number, unit: string): string {
+  return `${SIGNED_DECIMAL_FORMAT.format(difference)} ${unit}`
+}
+
 /** « 65,2 kg » */
 export function formatKg(weightKg: number): string {
   return formatWithUnit(weightKg, "kg")

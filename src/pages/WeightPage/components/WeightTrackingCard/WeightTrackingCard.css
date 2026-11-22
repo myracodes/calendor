@@ -1,0 +1,10 @@
+/* Le bilan sous l'objectif (kilos perdus, kilos restants, date prévue) : des lignes qui se lisent d'un bloc, plus serrées que le gap de .card */
+.weight-tracking-summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.weight-tracking-summary > .hint {
+  margin: 0;
+}

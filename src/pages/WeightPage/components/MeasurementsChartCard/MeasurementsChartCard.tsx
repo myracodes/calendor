@@ -32,7 +32,7 @@ interface MeasurementsChartCardProps {
 /**
  * Une courbe par mesure (taille, ventre, hanche, cuisse) sur la période
  * choisie, jusqu'à aujourd'hui. Une mesure jamais prise sur la période n'a
- * pas de courbe.
+ * pas de courbe. L'infobulle donne l'écart avec la toute première mesure.
  */
 export function MeasurementsChartCard({ entries }: MeasurementsChartCardProps) {
   const [period, setPeriodId] = usePeriod("weight.measurementsPeriod")
@@ -46,6 +46,7 @@ export function MeasurementsChartCard({ entries }: MeasurementsChartCardProps) {
     label: measurement.label,
     tone: MEASUREMENT_TONES[measurement.id],
     points: measurementPoints(periodEntries, measurement.id),
+    firstValue: measurementPoints(measuredEntries, measurement.id)[0],
   })).filter(line => line.points.length > 0)
 
   function renderChart() {

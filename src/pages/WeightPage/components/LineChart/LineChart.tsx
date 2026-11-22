@@ -6,7 +6,11 @@ import {
 } from "react"
 import type { ChartPoint } from "../../../../weight/chartPoints"
 import { dayNumber } from "../../../../weight/days"
-import { formatFullDay, formatWithUnit } from "../../../../weight/format"
+import {
+  formatDifference,
+  formatFullDay,
+  formatWithUnit,
+} from "../../../../weight/format"
 import { timeTicks } from "../../../../weight/timeTicks"
 import { valueAxis } from "../../../../weight/valueAxis"
 import { spreadEndLabels } from "./endLabels"
@@ -27,6 +31,11 @@ export interface ChartSeries {
   tone: ChartTone
   /** Les points, le plus ancien en premier (au moins un). */
   points: ChartPoint[]
+  /**
+   * La toute première valeur, même hors de la période affichée : l'infobulle
+   * donne entre parenthèses l'écart avec elle (« -2,9 kg »). Absente = pas d'écart.
+   */
+  firstValue?: ChartPoint
 }
 
 const CHART_HEIGHT = 260
@@ -83,7 +92,8 @@ interface LineChartProps {
  * largeur de la card (mesurée au montage) : grille des valeurs et des dates,
  * valeur de référence en pointillés. Au survol, ou au clavier avec les
  * flèches, un repère vertical se cale sur le jour le plus proche et une
- * infobulle donne la valeur de chaque courbe ce jour-là.
+ * infobulle donne la valeur de chaque courbe ce jour-là, et son écart avec
+ * la première valeur de la courbe.
  */
 export function LineChart({
   series,
@@ -344,6 +354,17 @@ export function LineChart({
                       className={`line-chart-key line-chart-series--${line.tone}`}
                     />
                     <strong>{formatValue(value)}</strong>
+                    {line.firstValue !== undefined &&
+                      line.firstValue.day !== shownDay && (
+                        <span>
+                          (
+                          {formatDifference(
+                            value - line.firstValue.value,
+                            unit,
+                          )}
+                          )
+                        </span>
+                      )}
                     <span>{line.label}</span>
                   </li>
                 )

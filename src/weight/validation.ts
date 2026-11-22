@@ -1,4 +1,5 @@
 import { MEASUREMENTS } from "./measurements"
+import { roundToTenth } from "./rounding"
 import type { WeightEntryDraft } from "./types"
 
 /** Plus grande valeur enregistrable, poids en kg comme tour en cm : les colonnes sont en numeric(4, 1). */
@@ -12,7 +13,7 @@ export function parseDecimal(text: string): number | null {
   if (!Number.isFinite(value) || value <= 0 || value > MAX_DECIMAL_VALUE) {
     return null
   }
-  return Math.round(value * 10) / 10
+  return roundToTenth(value)
 }
 
 /** Une mesure se laisse vide (pas mesurée) ; remplie, ce doit être une valeur possible. */
