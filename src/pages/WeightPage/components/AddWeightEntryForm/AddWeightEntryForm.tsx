@@ -7,7 +7,7 @@ import type { WeightTracking } from "../../../../weight/useWeightTracking"
 import { isEntryComplete } from "../../../../weight/validation"
 import { DuplicateDayError } from "../../../../weight/weightEntriesRepository"
 import { entryLabel } from "../../../../weight/wording"
-import { InlineEntryForm } from "../InlineEntryForm/InlineEntryForm"
+import { InlineEntryForm } from "../../../../shared/InlineEntryForm/InlineEntryForm"
 import { MeasurementFields } from "../MeasurementFields/MeasurementFields"
 import { WeightEntryFields } from "../WeightEntryFields/WeightEntryFields"
 

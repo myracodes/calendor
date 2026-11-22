@@ -3,7 +3,7 @@ import type { GiftRecipientDraft } from "../../../../giftIdeas/types"
 import type { GiftIdeasLibrary } from "../../../../giftIdeas/useGiftIdeas"
 import { isRecipientComplete } from "../../../../giftIdeas/validation"
 import { listOf } from "../../../../giftIdeas/wording"
-import { EntryForm } from "../../../../shared/EntryForm/EntryForm"
+import { InlineEntryForm } from "../../../../shared/InlineEntryForm/InlineEntryForm"
 import type { useToast } from "../../../../shared/Toast/useToast"
 import { RecipientFields } from "../RecipientFields/RecipientFields"
 
@@ -16,7 +16,7 @@ interface AddRecipientFormProps {
   onAdded: (recipientId: string) => void
 }
 
-/** Formulaire d'ajout d'une personne, en haut de la liste. */
+/** Ajout d'une personne en une ligne, en haut de la liste : son nom, puis la coche. */
 export function AddRecipientForm({
   library,
   showToast,
@@ -32,12 +32,14 @@ export function AddRecipientForm({
   }
 
   return (
-    <EntryForm
-      submitLabel="Ajouter la personne"
-      canSubmit={isRecipientComplete(draft)}
-      onSubmit={add}
+    <InlineEntryForm
+      saveLabel="Ajouter la personne"
+      canSave={isRecipientComplete(draft)}
+      onSave={add}
+      showToast={showToast}
+      fullWidthField
     >
       <RecipientFields draft={draft} onChange={setDraft} />
-    </EntryForm>
+    </InlineEntryForm>
   )
 }

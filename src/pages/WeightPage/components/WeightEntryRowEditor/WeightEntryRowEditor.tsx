@@ -8,7 +8,7 @@ import { formatFullDay } from "../../../../weight/format"
 import { MEASUREMENTS } from "../../../../weight/measurements"
 import type { WeightEntry, WeightEntryDraft } from "../../../../weight/types"
 import { isEntryComplete } from "../../../../weight/validation"
-import { useInlineAction } from "../../useInlineAction"
+import { useInlineAction } from "../../../../shared/useInlineAction"
 import { DecimalInput } from "../DecimalInput/DecimalInput"
 
 interface WeightEntryRowEditorProps {

@@ -1,9 +1,9 @@
 import type { FormEvent, ReactNode } from "react"
-import checkIcon from "../../../../assets/icons/check.svg"
-import trashIcon from "../../../../assets/icons/trash.svg"
-import { IconButton } from "../../../../shared/IconButton/IconButton"
-import type { useToast } from "../../../../shared/Toast/useToast"
-import { useInlineAction } from "../../useInlineAction"
+import checkIcon from "../../assets/icons/check.svg"
+import trashIcon from "../../assets/icons/trash.svg"
+import { IconButton } from "../IconButton/IconButton"
+import type { useToast } from "../Toast/useToast"
+import { useInlineAction } from "../useInlineAction"
 import "./InlineEntryForm.css"
 
 interface InlineEntryFormProps {
@@ -27,6 +27,8 @@ interface InlineEntryFormProps {
   children: ReactNode
   /** Beaucoup de champs courts (une pesée et ses mesures) : ligne resserrée (.row-compact) pour tenir sur ordinateur. */
   compact?: boolean
+  /** Un seul champ (le nom d'une personne) : il prend toute la largeur libre, la coche collée à sa droite. */
+  fullWidthField?: boolean
 }
 
 /**
@@ -42,6 +44,7 @@ export function InlineEntryForm({
   showToast,
   children,
   compact = false,
+  fullWidthField = false,
 }: InlineEntryFormProps) {
   const { busy, run } = useInlineAction(showToast)
 
@@ -56,7 +59,9 @@ export function InlineEntryForm({
 
   return (
     <form onSubmit={submit}>
-      <div className={compact ? "row row-compact" : "row"}>
+      <div
+        className={`row${compact ? " row-compact" : ""}${fullWidthField ? " inline-entry-form-full-width" : ""}`}
+      >
         {children}
         <div className="inline-entry-form-actions">
           <IconButton

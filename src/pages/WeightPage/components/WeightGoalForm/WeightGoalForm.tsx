@@ -4,7 +4,7 @@ import { formatKg } from "../../../../weight/format"
 import type { WeightTracking } from "../../../../weight/useWeightTracking"
 import { parseDecimal } from "../../../../weight/validation"
 import { DecimalInput } from "../DecimalInput/DecimalInput"
-import { InlineEntryForm } from "../InlineEntryForm/InlineEntryForm"
+import { InlineEntryForm } from "../../../../shared/InlineEntryForm/InlineEntryForm"
 
 /** Le texte du champ pour un objectif : vide quand il n'y en a pas. */
 function toFieldValue(goalKg: number | null): string {

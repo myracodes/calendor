@@ -1,5 +1,5 @@
 import { useState } from "react"
-import type { useToast } from "../../shared/Toast/useToast"
+import type { useToast } from "./Toast/useToast"
 
 /**
  * Une action d'un formulaire en une ligne (ajout, enregistrement,
