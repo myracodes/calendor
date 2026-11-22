@@ -87,7 +87,10 @@
   );
 
   /* --- Dimensions & effets --- */
-  --control-h: 2.5rem;
+  /* Hauteurs des contrôles (boutons, champs), en tailles de t-shirt (voir src/shared/controlSize.ts) */
+  --control-h-small: 1.75rem;
+  --control-h-medium: 2.5rem;
+  --control-h-large: 3.25rem;
   --radius-none: 0;
   --radius-s: 8px;
   --radius-none: 12px;

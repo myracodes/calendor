@@ -1,7 +1,7 @@
 import type { FormEvent, ReactNode } from "react"
 import checkIcon from "../../assets/icons/check.svg"
 import trashIcon from "../../assets/icons/trash.svg"
-import { IconButton } from "../IconButton/IconButton"
+import { IconButton, type IconButtonSize } from "../IconButton/IconButton"
 import type { useToast } from "../Toast/useToast"
 import { useInlineAction } from "../useInlineAction"
 import "./InlineEntryForm.css"
@@ -9,6 +9,10 @@ import "./InlineEntryForm.css"
 interface InlineEntryFormProps {
   /** Ce que fait la coche (« Ajouter la pesée », « Enregistrer l'objectif ») : lu par les lecteurs d'écran et affiché en infobulle. */
   saveLabel: string
+  /** Icône du bouton d'enregistrement : la coche par défaut, le + pour un ajout rapide à une liste (une idée cadeau). */
+  saveIcon?: string
+  /** Taille des boutons, à caler sur celle des champs (même nom de taille = même hauteur) et des autres boutons-icônes de la page. */
+  size?: IconButtonSize
   /** Faux quand il n'y a rien à enregistrer : la coche reste à sa place, grisée. */
   canSave: boolean
   /** Rejetée en cas d'échec : le message s'affiche dans un toast, la ligne n'ayant pas la place d'un message. */
@@ -23,7 +27,7 @@ interface InlineEntryFormProps {
     onDelete: () => Promise<void>
   }
   showToast: ReturnType<typeof useToast>["showToast"]
-  /** Les champs (leurs labels), posés en ligne avant les boutons. */
+  /** Les champs (avec ou sans label), posés en ligne avant les boutons. */
   children: ReactNode
   /** Beaucoup de champs courts (une pesée et ses mesures) : ligne resserrée (.row-compact) pour tenir sur ordinateur. */
   compact?: boolean
@@ -38,6 +42,8 @@ interface InlineEntryFormProps {
  */
 export function InlineEntryForm({
   saveLabel,
+  saveIcon = checkIcon,
+  size,
   canSave,
   onSave,
   deletion,
@@ -66,8 +72,9 @@ export function InlineEntryForm({
         <div className="inline-entry-form-actions">
           <IconButton
             type="submit"
-            icon={checkIcon}
+            icon={saveIcon}
             label={saveLabel}
+            size={size}
             busy={busy}
             disabled={!canSave}
           />
@@ -76,6 +83,7 @@ export function InlineEntryForm({
               icon={trashIcon}
               label={deletion.label}
               variant="secondary"
+              size={size}
               busy={busy}
               disabled={!deletion.enabled}
               onClick={remove}

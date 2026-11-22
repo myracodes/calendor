@@ -2,7 +2,10 @@ import {
   ActionButton,
   type ActionButtonVariant,
 } from "../ActionButton/ActionButton"
+import type { ControlSize } from "../controlSize"
 import "./IconButton.css"
+
+export type IconButtonSize = Extract<ControlSize, "small" | "medium">
 
 interface IconButtonProps {
   /** Icône de src/assets/icons/, importée comme URL. */
@@ -10,6 +13,8 @@ interface IconButtonProps {
   /** Ce que fait le bouton : lu par les lecteurs d'écran et affiché en infobulle. */
   label: string
   variant?: ActionButtonVariant
+  /** « small » : pour une liste serrée où le bouton ne doit pas espacer les lignes (les idées cadeaux). */
+  size?: IconButtonSize
   /** Action en cours : désactive le bouton et affiche un curseur d'attente. */
   busy?: boolean
   /** Action impossible pour l'instant (rien à enregistrer…) : le bouton reste à sa place, grisé. */
@@ -28,6 +33,7 @@ export function IconButton({
   icon,
   label,
   variant,
+  size = "medium",
   busy,
   disabled,
   type,
@@ -35,9 +41,9 @@ export function IconButton({
 }: IconButtonProps) {
   return (
     <ActionButton
-      size="small"
+      size="medium"
       variant={variant}
-      className="icon-button"
+      className={`icon-button${size === "small" ? " icon-button--small" : ""}`}
       busy={busy}
       disabled={disabled}
       type={type}

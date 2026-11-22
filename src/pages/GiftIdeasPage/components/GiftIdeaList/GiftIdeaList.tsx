@@ -1,4 +1,5 @@
 import { useState } from "react"
+import plusIcon from "../../../../assets/icons/plus.svg"
 import type {
   GiftIdea,
   GiftIdeaDraft,
@@ -7,6 +8,7 @@ import type {
 import type { GiftIdeasLibrary } from "../../../../giftIdeas/useGiftIdeas"
 import { isIdeaComplete } from "../../../../giftIdeas/validation"
 import { EntryForm } from "../../../../shared/EntryForm/EntryForm"
+import { InlineEntryForm } from "../../../../shared/InlineEntryForm/InlineEntryForm"
 import type { useToast } from "../../../../shared/Toast/useToast"
 import { GiftIdeaFields } from "../GiftIdeaFields/GiftIdeaFields"
 import { GiftIdeaItem } from "../GiftIdeaItem/GiftIdeaItem"
@@ -28,7 +30,7 @@ interface GiftIdeaListProps {
   showToast: ReturnType<typeof useToast>["showToast"]
 }
 
-// L'ajout d'une idée pour la personne, puis ses idées, chacune modifiable à
+// L'ajout d'une idée pour la personne (champ + bouton +, en une ligne), puis ses idées, chacune modifiable à
 // sa place.
 export function GiftIdeaList({
   recipient,
@@ -91,11 +93,10 @@ export function GiftIdeaList({
     showToast("info", `« ${idea.title} » restauré.`)
   }
 
-  async function removeEditing() {
-    const deleted = ideas.find(idea => idea.id === editing?.id)
-    if (deleted === undefined) return
+  // Depuis la corbeille d'une idée, ou depuis son éditeur.
+  async function remove(deleted: GiftIdea) {
     await library.removeIdea(deleted.id)
-    setEditing(null)
+    if (editing?.id === deleted.id) setEditing(null)
     showToast("success", `« ${deleted.title} » retiré des ${ideasFor}.`, {
       label: "Annuler",
       onClick: () => undoRemove(deleted),
@@ -104,18 +105,22 @@ export function GiftIdeaList({
 
   return (
     <div className="gift-idea-list">
-      <EntryForm
-        submitLabel="Ajouter l'idée"
-        canSubmit={isIdeaComplete(newDraft)}
-        onSubmit={add}
+      <InlineEntryForm
+        saveLabel="Ajouter l'idée"
+        saveIcon={plusIcon}
+        size="small"
+        canSave={isIdeaComplete(newDraft)}
+        onSave={add}
+        showToast={showToast}
+        fullWidthField
       >
-        <GiftIdeaFields draft={newDraft} onChange={setNewDraft} />
-      </EntryForm>
+        <GiftIdeaFields draft={newDraft} onChange={setNewDraft} size="small" />
+      </InlineEntryForm>
 
       {ideas.length > 0 && (
         <ul className="gift-idea-list-items">
           {ideas.map(idea => (
-            <li key={idea.id} className="gift-idea-list-entry">
+            <li key={idea.id}>
               {editing?.id === idea.id ? (
                 <EntryForm
                   submitLabel="Enregistrer"
@@ -125,13 +130,18 @@ export function GiftIdeaList({
                   deletion={{
                     label: "Supprimer l'idée",
                     confirmation: `Supprimer « ${idea.title} » des ${ideasFor} ?`,
-                    onDelete: removeEditing,
+                    onDelete: () => remove(idea),
                   }}
                 >
                   <GiftIdeaFields draft={editing} onChange={setEditing} />
                 </EntryForm>
               ) : (
-                <GiftIdeaItem idea={idea} onEdit={() => edit(idea)} />
+                <GiftIdeaItem
+                  idea={idea}
+                  onEdit={() => edit(idea)}
+                  onRemove={() => remove(idea)}
+                  showToast={showToast}
+                />
               )}
             </li>
           ))}

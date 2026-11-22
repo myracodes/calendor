@@ -108,6 +108,7 @@ export function RecipientAccordion({
           icon={pencilIcon}
           label={`Modifier « ${recipient.name} »`}
           variant="secondary"
+          size="small"
           onClick={() => setEditing({ id: recipient.id, name: recipient.name })}
         />
       }

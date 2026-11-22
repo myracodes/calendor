@@ -1,10 +1,11 @@
 import type { ButtonHTMLAttributes } from "react"
+import type { ControlSize } from "../controlSize"
 import "./ActionButton.css"
 
 export type ActionButtonVariant = "primary" | "secondary"
 
-/** « small » : pour les boutons posés sur chaque ligne d'une liste, où la grande taille étire les lignes. */
-export type ActionButtonSize = "default" | "small"
+/** « medium » : pour les boutons posés sur chaque ligne d'une liste, où la taille large étire les lignes. */
+export type ActionButtonSize = Extract<ControlSize, "medium" | "large">
 
 interface ActionButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ActionButtonVariant
@@ -20,7 +21,7 @@ interface ActionButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
  */
 export function ActionButton({
   variant = "primary",
-  size = "default",
+  size = "large",
   busy = false,
   className,
   disabled,
@@ -30,7 +31,7 @@ export function ActionButton({
   const classes = [
     "action-button",
     variant === "secondary" && "action-button--secondary",
-    size === "small" && "action-button--small",
+    size === "medium" && "action-button--medium",
     className,
   ]
     .filter(Boolean)

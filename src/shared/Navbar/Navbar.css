@@ -9,7 +9,7 @@
 /* min-height plutôt que height : sur petit écran, un libellé en deux mots
    ("Batch cooking") peut passer sur deux lignes dans sa colonne étroite. */
 .navbar-link {
-  min-height: var(--control-h);
+  min-height: var(--control-h-medium);
   display: inline-flex;
   align-items: center;
   justify-content: center;

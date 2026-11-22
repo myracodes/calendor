@@ -26,8 +26,13 @@
   padding: 0.5rem 3.5rem 0.5rem 0;
 }
 
+/* Hauteur du titre (2.5rem, voir ci-dessus) : un bouton-icône plus petit
+   (taille small) reste centré sur le titre. */
 .accordion-action {
   position: absolute;
   top: 0;
   right: 0;
+  display: flex;
+  align-items: center;
+  height: 2.5rem;
 }

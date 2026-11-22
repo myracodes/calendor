@@ -1,4 +1,4 @@
-/* Une idée : son titre à gauche, crayon calé à droite */
+/* Une idée : son titre à gauche, crayon et corbeille calés à droite */
 .gift-idea-item {
   display: grid;
   /* minmax(0, …) : un titre sans espace (un lien collé) passe à la ligne au
@@ -12,4 +12,10 @@
   margin: 0;
   overflow-wrap: anywhere;
   color: var(--ink);
+}
+
+/* Crayon et corbeille, plus resserrés entre eux que le titre et les boutons */
+.gift-idea-item-actions {
+  display: flex;
+  gap: 0.25rem;
 }

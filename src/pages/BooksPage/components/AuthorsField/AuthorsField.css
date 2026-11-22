@@ -16,7 +16,7 @@
 
 /* Bouton + : carré, de la hauteur du champ */
 .authors-field-add {
-  width: var(--control-h);
+  width: var(--control-h-medium);
   padding: 0;
 }
 

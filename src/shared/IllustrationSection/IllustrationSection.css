@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: center;
   width: fit-content;
-  height: var(--control-h);
+  height: var(--control-h-medium);
   font: inherit;
   font-weight: 600;
   color: var(--ink);

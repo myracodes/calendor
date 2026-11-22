@@ -1,8 +1,8 @@
-/* Bouton-icône : carré, de la hauteur de .action-button--small. Posé en ligne,
+/* Bouton-icône : carré, de la hauteur de .action-button--medium. Posé en ligne,
    il ne garde pas l'espace que la variante secondaire réserve en dessous. */
 .action-button.icon-button {
   flex: none;
-  width: 2.5rem;
+  width: var(--control-h-medium);
   margin-bottom: 0;
   padding: 0;
 }
@@ -12,4 +12,15 @@
   width: 20px;
   height: 20px;
   margin: auto;
+}
+
+/* Taille small : ligne d'une liste serrée (idées cadeaux) */
+.action-button.icon-button--small {
+  width: var(--control-h-small);
+  height: var(--control-h-small);
+}
+
+.icon-button--small img {
+  width: 14px;
+  height: 14px;
 }

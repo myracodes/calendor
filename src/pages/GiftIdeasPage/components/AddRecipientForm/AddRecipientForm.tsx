@@ -1,4 +1,5 @@
 import { useState } from "react"
+import plusIcon from "../../../../assets/icons/plus.svg"
 import type { GiftRecipientDraft } from "../../../../giftIdeas/types"
 import type { GiftIdeasLibrary } from "../../../../giftIdeas/useGiftIdeas"
 import { isRecipientComplete } from "../../../../giftIdeas/validation"
@@ -16,7 +17,7 @@ interface AddRecipientFormProps {
   onAdded: (recipientId: string) => void
 }
 
-/** Ajout d'une personne en une ligne, en haut de la liste : son nom, puis la coche. */
+/** Ajout d'une personne en une ligne, en haut de la liste : son nom, puis le +. */
 export function AddRecipientForm({
   library,
   showToast,
@@ -34,12 +35,14 @@ export function AddRecipientForm({
   return (
     <InlineEntryForm
       saveLabel="Ajouter la personne"
+      saveIcon={plusIcon}
+      size="small"
       canSave={isRecipientComplete(draft)}
       onSave={add}
       showToast={showToast}
       fullWidthField
     >
-      <RecipientFields draft={draft} onChange={setDraft} />
+      <RecipientFields draft={draft} onChange={setDraft} size="small" />
     </InlineEntryForm>
   )
 }

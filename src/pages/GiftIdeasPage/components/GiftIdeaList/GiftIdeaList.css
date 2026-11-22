@@ -5,25 +5,13 @@
   gap: 1rem;
 }
 
+/* Les idées en liste à puces, sans séparateur */
 .gift-idea-list-items {
   display: flex;
   flex-direction: column;
+  gap: 0.125rem;
   margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-/* Une ligne de la liste : l'idée, ou son éditeur quand elle est en cours de modification */
-.gift-idea-list-entry {
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--line);
-}
-
-.gift-idea-list-entry:first-child {
-  padding-top: 0;
-}
-
-.gift-idea-list-entry:last-child {
-  padding-bottom: 0;
-  border-bottom: none;
+  /* Place des puces, qui sortent à gauche du contenu */
+  padding-left: 1.25rem;
+  list-style: disc;
 }

@@ -1,6 +1,6 @@
 /* Même gabarit que les onglets de la navbar, en plus discret. */
 .logout-button {
-  height: var(--control-h);
+  height: var(--control-h-medium);
   padding: 0 1rem;
   font-size: 0.9rem;
   font-weight: 600;

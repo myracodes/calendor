@@ -92,7 +92,7 @@
 /* Variante pour une case à cocher à côté d'un champ qui a son libellé au-dessus : la ligne reste
    alignée en bas, et la case prend la hauteur du champ pour se centrer sur lui, pas sur le libellé. */
 .row-field-aligned > .checkbox-option {
-  height: var(--control-h);
+  height: var(--control-h-medium);
 }
 
 /* Variante pour une ligne de nombreux champs courts :
@@ -124,11 +124,11 @@ label {
   cursor: pointer;
 }
 
-/* Contrôles alignés sur une même hauteur (--control-h) */
+/* Contrôles alignés sur une même hauteur (--control-h-medium) */
 input:not([type="checkbox"]):not([type="file"]):not([type="color"]),
 select {
   max-width: 100%;
-  height: var(--control-h);
+  height: var(--control-h-medium);
   font: inherit;
   /* 16px minimum : en dessous, iOS zoome sur le champ au focus (les labels sont en 0.9rem). */
   font-size: 1rem;
@@ -139,6 +139,21 @@ select {
   transition:
     border-color 0.15s ease,
     box-shadow 0.15s ease;
+}
+
+/* Champ de taille small : même hauteur qu'un bouton-icône small, à côté duquel il
+   se pose. Sélecteur repris de la règle ci-dessus pour l'emporter sur elle. */
+input:not([type="checkbox"]):not([type="file"]):not(
+  [type="color"]
+).input--small {
+  height: var(--control-h-small);
+  padding: 0 0.5rem;
+}
+
+/* Exemple d'un champ sans libellé visible : même couleur que les libellés */
+input::placeholder {
+  color: var(--ink-light);
+  opacity: 1;
 }
 
 input:focus-visible,
@@ -177,7 +192,7 @@ textarea:focus-visible {
 /* ===== Boutons ===== */
 
 button {
-  height: var(--control-h);
+  height: var(--control-h-medium);
   font: inherit;
   font-weight: 600;
   padding: 0 1.2rem;

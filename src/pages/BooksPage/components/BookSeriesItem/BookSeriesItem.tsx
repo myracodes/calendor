@@ -111,7 +111,7 @@ export function BookSeriesItem({
       <div className="book-series-item-actions">
         {status === "reading" && toRead !== null && (
           <ActionButton
-            size="small"
+            size="medium"
             className="book-series-item-action"
             busy={pending}
             aria-label={readNextLabel}

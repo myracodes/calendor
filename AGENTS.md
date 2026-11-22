@@ -16,6 +16,10 @@ Pour créer une nouvelle feature, suivre aussi [NEW_FEATURE.md](NEW_FEATURE.md).
 - Les contrôles communs (cases à cocher, inputs, boutons…) gardent tous le même style : réutiliser les classes partagées (ex. `.checkbox-option` de `App.css`) sans ajouter de retouche propre à une page ou à une instance.
 - Les couleurs doivent toujours garantir un score d'accessibilité optimal : viser un contraste WCAG AAA (≥ 7:1 pour le texte) sur les fonds du thème (`--paper`, `--surface`). Utiliser les tokens du thème (`src/index.css`) — notamment `--success`, `--info`, `--warning`, `--danger` — plutôt que des couleurs en dur. Si besoin d'ajouter des couleurs, demander la permission en justifiant le besoin, puis vérifier le ratio. 
 
+## Interface
+
+- Préférer, quand c'est possible, le layout le plus léger. Pour un ajout rapide à une liste (un seul champ ou quelques champs courts), mettre le champ et un bouton quick action à côté (`InlineEntryForm` : un `IconButton` + ou coche) plutôt qu'un formulaire avec un grand bouton pleine largeur (`EntryForm` / `ActionButton`), réservé aux formulaires plus riches ou à l'action principale d'une page.
+
 ## Icônes (SVG)
 
 - Pas de SVG inline dans le JSX : chaque icône vit dans un fichier `.svg` de `src/assets/icons/`, importé comme URL (`import eyeIcon from "…/assets/icons/eye.svg"`) et affiché via `<img>`. Avant de créer une icône, vérifier si elle n'existe pas déjà dans ce dossier.

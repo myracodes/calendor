@@ -2,7 +2,7 @@
 
 .action-button {
   width: 100%;
-  height: 3.25rem;
+  height: var(--control-h-large);
   font-size: 1.1rem;
   font-weight: 700;
   background: var(--gradient-rainbow);
@@ -23,9 +23,9 @@
   transform: none;
 }
 
-/* Petite taille : boutons d'une ligne de liste (livres, séries…) */
-.action-button--small {
-  height: 2.5rem;
+/* Taille medium : boutons d'une ligne de liste (livres, séries…) */
+.action-button--medium {
+  height: var(--control-h-medium);
   font-size: 1rem;
 }
 
