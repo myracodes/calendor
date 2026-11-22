@@ -67,8 +67,21 @@ export function daysInMonth(year: number, month: number): number {
   return new Date(Date.UTC(year, month, 0)).getUTCDate()
 }
 
-function toIso(year: number, month: number, day: number): string {
+/** @param month 1-12 */
+export function toIso(year: number, month: number, day: number): string {
   return new Date(Date.UTC(year, month - 1, day)).toISOString().slice(0, 10)
+}
+
+/**
+ * Date du jour au format ISO "aaaa-mm-jj", dans le fuseau local (et non en
+ * UTC comme le reste du fichier) : c'est le jour que voit l'utilisatrice, même
+ * peu après minuit.
+ */
+export function todayIso(): string {
+  const now = new Date()
+  const month = String(now.getMonth() + 1).padStart(2, "0")
+  const day = String(now.getDate()).padStart(2, "0")
+  return `${now.getFullYear()}-${month}-${day}`
 }
 
 /**

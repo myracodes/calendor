@@ -12,7 +12,15 @@ interface IconButtonProps {
   variant?: ActionButtonVariant
   /** Action en cours : désactive le bouton et affiche un curseur d'attente. */
   busy?: boolean
-  onClick: () => void
+  /** Action impossible pour l'instant (rien à enregistrer…) : le bouton reste à sa place, grisé. */
+  disabled?: boolean
+  /**
+   * « submit » : bouton d'enregistrement d'un formulaire, qui l'envoie aussi
+   * par Entrée. Sans onClick : l'enregistrement passe par le onSubmit du
+   * formulaire, qui serait sinon appelé deux fois.
+   */
+  type?: "button" | "submit"
+  onClick?: () => void
 }
 
 /** Petit bouton carré à icône, posé sur une ligne de liste (crayon d'édition, coche…). */
@@ -21,6 +29,8 @@ export function IconButton({
   label,
   variant,
   busy,
+  disabled,
+  type,
   onClick,
 }: IconButtonProps) {
   return (
@@ -29,6 +39,8 @@ export function IconButton({
       variant={variant}
       className="icon-button"
       busy={busy}
+      disabled={disabled}
+      type={type}
       aria-label={label}
       title={label}
       onClick={onClick}

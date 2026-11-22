@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom"
+import { WEIGHT_PATH } from "../../weight/weightPath"
 import "./Navbar.css"
 
 export const NAV_LINKS = [
@@ -16,10 +17,25 @@ export const NAV_LINKS = [
   { to: "/keyboard", label: "Clavier" },
 ]
 
-export function Navbar() {
+/**
+ * Onglets des pages cachées, ajoutés en fin de navbar une fois affichées
+ * (voir App.tsx). Hors de NAV_LINKS, ils ne sont jamais retenus comme dernière page
+ * (LastPage) : un rechargement ne peut pas les rouvrir.
+ */
+const SECRET_NAV_LINKS = [{ to: WEIGHT_PATH, label: "Poids" }]
+
+interface NavbarProps {
+  /** Affiche les onglets des pages cachées. */
+  showSecretLinks: boolean
+}
+
+export function Navbar({ showSecretLinks }: NavbarProps) {
+  const links = showSecretLinks
+    ? [...NAV_LINKS, ...SECRET_NAV_LINKS]
+    : NAV_LINKS
   return (
     <nav className="navbar">
-      {NAV_LINKS.map(link => (
+      {links.map(link => (
         <NavLink
           key={link.to}
           to={link.to}

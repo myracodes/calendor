@@ -1,5 +1,6 @@
 import { useState } from "react"
 import type { CourrierSettings } from "../../courrier/types"
+import { todayIso } from "../../dates"
 import { CourrierDocument } from "../../pdf/courrier/CourrierDocument"
 import { downloadPdf, PDF_ERROR_MESSAGE } from "../../pdf/shared/downloadPdf"
 import { ActionButton } from "../../shared/ActionButton/ActionButton"
@@ -22,14 +23,6 @@ const DEFAULT_SETTINGS: PersistedSettings = {
   margesHorizontalesReduites: false,
   ecartsReduits: false,
   texteJustifie: true,
-}
-
-/** Date du jour au format ISO "aaaa-mm-jj", dans le fuseau local. */
-function todayIso(): string {
-  const now = new Date()
-  const mois = String(now.getMonth() + 1).padStart(2, "0")
-  const jour = String(now.getDate()).padStart(2, "0")
-  return `${now.getFullYear()}-${mois}-${jour}`
 }
 
 export function CourrierPage() {

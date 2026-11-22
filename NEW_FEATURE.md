@@ -15,7 +15,7 @@ Il complète [AGENTS.md](AGENTS.md) (règles générales, toujours applicables) 
 
 1. Créer la page dans `src/pages/<Nom>Page/<Nom>Page.tsx` (composant exporté nommé `<Nom>Page`).
 2. Déclarer la route dans `src/App.tsx` (`<Route path="/<slug>" … />`), slug en anglais et en kebab-case (`/batch-cooking`, `/series`).
-3. Ajouter le lien dans le tableau `LINKS` de `src/shared/Navbar/Navbar.tsx` — libellé en français, tel qu'affiché.
+3. Ajouter le lien dans le tableau `NAV_LINKS` de `src/shared/Navbar/Navbar.tsx` — libellé en français, tel qu'affiché.
 
 ## 2. Composants
 
@@ -24,15 +24,17 @@ Il complète [AGENTS.md](AGENTS.md) (règles générales, toujours applicables) 
   - `Card` : bloc de contenu avec liseré coloré (`variantColor` : `sun`, `candy`, `sky`) et titre `<h2>`.
   - `Tabs` : barre d'onglets (un seul actif). Typer les identifiants d'onglets avec une union (`Tab<"day" | "week">`).
   - `EntryForm` : cadre des formulaires d'une liste enregistrée en base — ajout en haut de la liste, ou modification ouverte à la place d'une entrée (`onClose` l'encadre et ajoute la croix, `deletion` le bouton de suppression avec confirmation). Erreur d'enregistrement affichée sous les champs, Entrée enregistre.
-  - `IconButton` : petit bouton carré à icône posé sur une ligne de liste (crayon d'édition, coche, +) ; `label` sert à la fois d'`aria-label` et d'infobulle.
+  - `IconButton` : petit bouton carré à icône posé sur une ligne de liste (crayon d'édition, coche, +, corbeille) ; `label` sert à la fois d'`aria-label` et d'infobulle. `disabled` le grise sans le retirer quand l'action n'est pas possible (rien à enregistrer, rien à supprimer), pour que la ligne ne bouge pas. `type="submit"` (sans `onClick`) en fait le bouton d'enregistrement d'un formulaire : Entrée l'envoie même avec plusieurs champs.
   - `ActionButton` : grand bouton pleine largeur de l'action principale d'une page (générer le PDF, enregistrer, créer…). `busy` pendant l'action en cours (désactive le bouton, curseur d'attente) ; `variant="secondary"` pour l'action d'à côté (réinitialiser, annuler, supprimer), placée juste au-dessus.
   - `ProgressPie` : camembert de progression en pourcentage, avec la valeur en dessous.
-  - `Accordion` : section repliable (`details`/`summary`) pour grouper une liste dans une card, titre suivi du nombre d'éléments (« 2024 (3 livres) »), groupes séparés par un `<hr />`. `action` pose un `IconButton` à droite du titre (crayon pour modifier le groupe lui-même), hors du `summary` pour que le clic n'ouvre pas la section. `titleWeight="regular"` quand chaque section est un élément de la liste plutôt qu'un groupe (les personnes des Idées cadeaux).
+  - `Accordion` : section repliable (`details`/`summary`) pour grouper une liste dans une card, titre suivi du nombre d'éléments (« 2024 (3 livres) »), groupes séparés par un `<hr />`. `action` pose un `IconButton` à droite du titre (crayon pour modifier le groupe lui-même), hors du `summary` pour que le clic n'ouvre pas la section. `titleWeight="regular"` quand chaque section est un élément de la liste plutôt qu'un groupe (les personnes des Idées cadeaux). Sert aussi à replier les champs facultatifs d'un formulaire.
+  - `Table` : tableau de données, en `<thead>`/`<tbody>` natifs ; `label` nomme sa zone de défilement, car il défile horizontalement dans sa card quand il est plus large qu'elle. Première colonne en `<th scope="row">`, classes `table-cell-number` (chiffres alignés à droite, en-tête compris) et `table-actions` (conteneur des boutons-icônes de la dernière colonne). Une ligne modifiable à sa place (classe `table-row-editing` sur son `<tr>`, qui resserre cellules et champs, nombres sans flèches d'incrément) met un champ par cellule, rattaché par l'attribut `form` au `<form>` posé dans la dernière cellule (un `<form>` ne peut pas englober un `<tr>`).
   - `Tag` : petite étiquette d'état à côté d'un libellé (« En cours »), `variantColor` obligatoire : `mint` (en cours), `sun` (en attente), `neutral` (fini).
   - `Alert` : bandeau fixe dans la page, pour un état qui dure (base non configurée, échec de chargement, mode dev).
   - `Toast` : notification flottante en bas de l'écran, en retour d'une action ponctuelle (`variant` : `success`, `info`, `error`). Fermée par la croix ou au bout de `duration` ms (5 s par défaut, `null` pour la garder). S'utilise via le hook `useToast` (`const { toast, showToast } = useToast()`, puis `{toast}` n'importe où dans le rendu) ; un 3e argument optionnel ajoute un bouton d'action, typiquement `{ label: "Annuler", onClick }` pour défaire l'action. Ne pas hésiter à confirmer les actions par un toast, Myriam apprécie le retour (enregistrement, ajout, épisode marqué vu…) ; et proposer « Annuler » dans le toast plutôt qu'un bouton d'annulation permanent quand l'action se défait facilement. Seule exception : pas de toast quand le résultat s'impose de lui-même (téléchargement d'un PDF, case cochée). Un échec de génération de PDF s'affiche avec `PDF_ERROR_MESSAGE` de `downloadPdf.ts`.
   - `IllustrationSection`.
   - `usePersistentState` : état persisté dans `localStorage` (clé préfixée par la feature : `"cv.title"`).
+  - `todayIso` (`src/dates.ts`) : la date du jour en « aaaa-mm-jj » dans le fuseau local, valeur par défaut d'un champ date.
 - Si un élément d'une page existante doit servir ailleurs, l'extraire vers `src/shared/` et faire utiliser la version partagée par la page d'origine (ex. `Tabs`, extrait de `TemplateTabs` des calendriers) plutôt que dupliquer le style.
 
 ## 3. Données

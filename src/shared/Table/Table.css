@@ -1,0 +1,100 @@
+/* Zone de défilement horizontal, quand le tableau est plus large que sa card */
+.table-scroll {
+  overflow-x: auto;
+}
+
+.table-scroll:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--ink);
+}
+
+/* Une cellule : une seule ligne de texte, le tableau défilant plutôt que de
+   couper une valeur en deux */
+.table th,
+.table td {
+  padding: 0.5rem;
+  text-align: left;
+  vertical-align: middle;
+  white-space: nowrap;
+  border-bottom: 1px solid var(--line);
+}
+
+/* Ligne en modification, un champ par cellule : cellules resserrées pour
+   qu'elle tienne dans la largeur de la card. Placée avant les règles des
+   bords, qui gardent la priorité à sélecteur égal. */
+.table .table-row-editing > :is(th, td) {
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
+}
+
+/* Première et dernière colonnes calées sur les bords de la card, comme le
+   reste de son contenu */
+.table :is(th, td):first-child {
+  padding-left: 0;
+}
+
+.table :is(th, td):last-child {
+  padding-right: 0;
+}
+
+/* En-têtes de colonnes. Ils peuvent passer sur deux lignes (« Hanche » /
+   « (cm) ») : la colonne garde alors la largeur de ses valeurs. */
+.table thead th {
+  font-size: 0.85rem;
+  font-weight: 700;
+  white-space: normal;
+  vertical-align: bottom;
+  border-bottom-width: 2px;
+}
+
+/* En-tête de ligne (première colonne) : il nomme la ligne sans le gras des
+   en-têtes de colonnes */
+.table tbody th {
+  font-weight: 400;
+}
+
+.table tbody tr:last-child :is(th, td) {
+  border-bottom: none;
+}
+
+/* Colonne de chiffres, en-tête compris. Double classe pour l'emporter sur
+   l'alignement à gauche des cellules. */
+.table .table-cell-number {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Les boutons-icônes de la dernière colonne (crayon, corbeille…) */
+.table-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Champs d'une ligne en modification : marge intérieure réduite. Sélecteur
+   d'App.css (qui pose la marge des champs) repris pour l'emporter sur lui. */
+.table-row-editing
+input:not([type="checkbox"]):not([type="file"]):not([type="color"]) {
+  padding: 0 0.4rem;
+}
+
+/* Nombre d'une ligne en modification : juste la largeur de « 100,5 », au lieu
+   des 6.5rem d'un formulaire, et sans les flèches d'incrément, qui prennent la
+   place d'un chiffre. */
+.table-row-editing input[type="number"] {
+  width: 3.75rem;
+  appearance: textfield;
+}
+
+.table-row-editing input[type="number"]::-webkit-inner-spin-button,
+.table-row-editing input[type="number"]::-webkit-outer-spin-button {
+  appearance: none;
+  margin: 0;
+}

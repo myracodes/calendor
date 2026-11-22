@@ -95,6 +95,17 @@
   height: var(--control-h);
 }
 
+/* Variante pour une ligne de nombreux champs courts :
+   écart et champs de nombre resserrés (5rem, de quoi afficher « 100,5 ») pour
+   qu'elle tienne sur une ligne sur ordinateur ; elle passe à la ligne sur mobile. */
+.row-compact {
+  gap: 0.75rem;
+}
+
+.row-compact input[type="number"] {
+  width: 5rem;
+}
+
 label {
   display: flex;
   flex-direction: column;
@@ -256,4 +267,10 @@ hr {
   justify-self: flex-end;
   color: var(--ink-light);
   font-size: 0.85rem;
+}
+
+.footer-version {
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
 }

@@ -1,0 +1,185 @@
+/* Cadre mesuré par le composant : le SVG prend toute sa largeur, et
+   l'infobulle se place par rapport à lui. */
+.line-chart-frame {
+  position: relative;
+  width: 100%;
+}
+
+.line-chart-frame:focus-visible {
+  outline: none;
+  box-shadow: var(--focus-ring);
+}
+
+/* Le graphique : le premier et le dernier libellé de date peuvent déborder
+   un peu sur le padding de la card plutôt que d'être coupés. */
+.line-chart-svg {
+  display: block;
+  overflow: visible;
+}
+
+/* Grille des valeurs et des dates : discrète, elle ne porte pas l'information */
+.line-chart-grid-line {
+  stroke: var(--line);
+  stroke-width: 1px;
+  shape-rendering: crispEdges;
+}
+
+/* Libellés des graduations (« 65 kg », « nov. ») : --ink pour le contraste
+   AAA du texte, --ink-light n'atteignant que 4,7:1 sur --surface. */
+.line-chart-axis-label {
+  fill: var(--ink);
+  font-size: 0.75rem;
+}
+
+.line-chart-axis-label--value {
+  text-anchor: end;
+  dominant-baseline: middle;
+}
+
+.line-chart-axis-label--time {
+  text-anchor: middle;
+}
+
+/* Valeur de référence (l'objectif de poids), en pointillés : --success
+   (7,1:1 sur --surface) */
+.line-chart-reference {
+  stroke: var(--success);
+  stroke-width: 2px;
+  stroke-dasharray: 6 4;
+}
+
+/* Repère vertical du jour pointé */
+.line-chart-crosshair {
+  stroke: var(--ink-light);
+  stroke-width: 1px;
+  shape-rendering: crispEdges;
+}
+
+/* Couleur d'une courbe, reprise par sa ligne, ses points et sa clé de
+   légende (currentColor). accent (3,5:1 sur --surface) pour une courbe
+   seule ; les tokens --chart-* (voir index.css) pour plusieurs courbes. */
+.line-chart-series--accent {
+  color: var(--accent-strong);
+}
+
+.line-chart-series--plum {
+  color: var(--chart-plum);
+}
+
+.line-chart-series--orange {
+  color: var(--chart-orange);
+}
+
+.line-chart-series--crimson {
+  color: var(--chart-crimson);
+}
+
+.line-chart-series--pink {
+  color: var(--chart-pink);
+}
+
+.line-chart-line {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+}
+
+/* Un point : cerclé de --surface pour se détacher des lignes qui y passent */
+.line-chart-dot {
+  fill: currentColor;
+  stroke: var(--surface);
+  stroke-width: 2px;
+}
+
+/* Nom d'une courbe à son bout, en --ink (le texte ne prend jamais la couleur
+   de la courbe) ; le contour --surface peint sous le texte le détache des
+   lignes qu'il croise. */
+.line-chart-end-label {
+  fill: var(--ink);
+  font-size: 0.75rem;
+  font-weight: 600;
+  dominant-baseline: middle;
+  paint-order: stroke;
+  stroke: var(--surface);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+
+/* Zone de survol, invisible. pan-y : au doigt, un glissé vertical fait
+   toujours défiler la page, un glissé horizontal déplace le repère. */
+.line-chart-hit-area {
+  fill: transparent;
+  cursor: crosshair;
+  touch-action: pan-y;
+}
+
+/* Infobulle du jour pointé, en haut du graphique, à droite du repère
+   (--crosshair-x, posée par le composant), ou à sa gauche sur la moitié
+   droite du graphique pour ne pas sortir de la card. */
+.line-chart-tooltip {
+  position: absolute;
+  top: 0;
+  left: var(--crosshair-x);
+  transform: translateX(0.75rem);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8rem;
+  color: var(--ink);
+  white-space: nowrap;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-soft);
+  pointer-events: none;
+}
+
+.line-chart-tooltip--left {
+  transform: translateX(calc(-100% - 0.75rem));
+}
+
+.line-chart-tooltip-day {
+  margin: 0 0 0.25rem;
+}
+
+.line-chart-tooltip-values {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Une valeur de l'infobulle : la clé de sa courbe, la valeur, puis le nom */
+.line-chart-tooltip-value {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Clé d'une courbe (légende, infobulle) : un trait court de sa couleur,
+   comme la ligne qu'il désigne */
+.line-chart-key {
+  flex: none;
+  width: 1rem;
+  height: 2px;
+  background: currentColor;
+}
+
+/* Légende, sous le graphique, dès deux courbes */
+.line-chart-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.25rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.85rem;
+  color: var(--ink);
+}
+
+.line-chart-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}

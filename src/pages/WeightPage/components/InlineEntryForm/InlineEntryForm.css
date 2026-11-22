@@ -1,0 +1,10 @@
+/* Les boutons du formulaire (coche, corbeille), calés au bord droit comme
+   le crayon des lignes de liste, y compris quand ils passent sous les champs
+   sur petit écran. Plus resserrés entre eux que le gap de .row, pour se lire
+   comme les actions du même formulaire. */
+.inline-entry-form-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-left: auto;
+}

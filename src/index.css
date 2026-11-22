@@ -30,6 +30,17 @@
   --warning: #8a3c0d;
   --danger: #9e1b32;
 
+  /* --- Couleurs des courbes à plusieurs séries (mesures du suivi de poids) ---
+     Très différentes entre elles, daltonisme compris : validées deux à deux par
+     le script de la skill dataviz (validate_palette.js), et toutes au-dessus
+     des 3:1 demandés pour un tracé sur --paper et --surface (plum 8,5:1,
+     crimson 7,4:1, orange et pink 3,2:1, foncés juste ce qu'il faut pour y
+     arriver). Pas pour du texte : orange et pink restent loin des 7:1. */
+  --chart-plum: #683391;
+  --chart-orange: #cc7f16;
+  --chart-crimson: #a61941;
+  --chart-pink: #e66595;
+
   /* --- Gradients réutilisables --- */
   --gradient-rainbow: linear-gradient(
     90deg,
