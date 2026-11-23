@@ -4,6 +4,7 @@ import "./Navbar.css"
 
 export const NAV_LINKS = [
   { to: "/calendars", label: "Calendriers" },
+  { to: "/planning", label: "Planning" },
   { to: "/budget", label: "Budget" },
   { to: "/batch-cooking", label: "Batch cooking" },
   { to: "/courses", label: "Courses" },

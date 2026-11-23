@@ -1,0 +1,78 @@
+/* La ligne d'un jour (--day-row), sur toute la largeur de la grille : elle
+   reprend ses colonnes (subgrid) pour caler sa date dans la 1re colonne et
+   sa zone d'ajout sous les colonnes des tâches */
+.planning-day {
+  grid-row: var(--day-row);
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: subgrid;
+  border-bottom: 1px solid var(--line);
+}
+
+/* Le week-end, grisé pour se repérer dans les semaines */
+.planning-day--weekend {
+  background: color-mix(in srgb, var(--line) 55%, transparent);
+}
+
+/* Une nouvelle semaine commence le lundi */
+.planning-day--week-start {
+  border-top: 1px solid var(--accent-strong);
+}
+
+/* Aujourd'hui, teinté de vert d'eau */
+.planning-day--today {
+  background: color-mix(in srgb, var(--celadon) 45%, var(--surface));
+}
+
+/* La date : « lun. 23 », et le mois en dessous quand il change */
+.planning-day-label {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-right: 0.75rem;
+  font-size: 0.85rem;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.planning-day--today .planning-day-label {
+  font-weight: 700;
+}
+
+/* La zone d'ajout : tout le reste de la ligne, sans l'allure d'un bouton ;
+   le + n'apparaît qu'au survol ou au clavier */
+.planning-day-add {
+  grid-column: 2 / -1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  padding: 0 0.5rem;
+  background: none;
+  box-shadow: none;
+}
+
+.planning-day-add:hover,
+.planning-day-add:active {
+  transform: none;
+  box-shadow: none;
+  filter: none;
+  background: color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+/* Après le survol, qui retire l'ombre : l'anneau de focus reste visible sous
+   la souris */
+.planning-day-add:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+
+.planning-day-add img {
+  width: 16px;
+  height: 16px;
+  opacity: 0;
+}
+
+.planning-day-add:hover img,
+.planning-day-add:focus-visible img {
+  opacity: 1;
+}

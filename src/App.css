@@ -110,8 +110,17 @@ label {
   display: flex;
   flex-direction: column;
   gap: 0.3rem;
+}
+
+/* Libellé d'un champ, ou titre d'un groupe d'options (fieldset) */
+label,
+legend {
   font-size: 0.9rem;
   color: var(--ink-light);
+}
+
+legend {
+  padding: 0;
 }
 
 /* Une case à cocher de paramétrage (ex. inclure les anniversaires, masquer une section du CV...) */
@@ -125,7 +134,9 @@ label {
 }
 
 /* Contrôles alignés sur une même hauteur (--control-h-medium) */
-input:not([type="checkbox"]):not([type="file"]):not([type="color"]),
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not(
+  [type="color"]
+),
 select {
   max-width: 100%;
   height: var(--control-h-medium);
@@ -143,7 +154,7 @@ select {
 
 /* Champ de taille small : même hauteur qu'un bouton-icône small, à côté duquel il
    se pose. Sélecteur repris de la règle ci-dessus pour l'emporter sur elle. */
-input:not([type="checkbox"]):not([type="file"]):not(
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not(
   [type="color"]
 ).input--small {
   height: var(--control-h-small);

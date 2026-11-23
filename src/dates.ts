@@ -116,7 +116,26 @@ export function monthGrid(year: number, month: number): DayCell[][] {
   return weeks
 }
 
-const WEEK_MS = 7 * 24 * 60 * 60 * 1000
+const DAY_MS = 24 * 60 * 60 * 1000
+const WEEK_MS = 7 * DAY_MS
+
+/**
+ * Numéro du jour (jours écoulés depuis le 1er janvier 1970) : l'abscisse d'une
+ * pesée sur la courbe, l'écart en jours entre deux dates du planning.
+ */
+export function dayNumber(iso: string): number {
+  return Math.round(Date.parse(`${iso}T00:00:00Z`) / DAY_MS)
+}
+
+/** Le jour ISO d'un numéro de jour (inverse de dayNumber). */
+export function dayFromNumber(number: number): string {
+  return new Date(number * DAY_MS).toISOString().slice(0, 10)
+}
+
+/** Le jour ISO, `days` jours plus tard (plus tôt si `days` est négatif). */
+export function addDays(iso: string, days: number): string {
+  return dayFromNumber(dayNumber(iso) + days)
+}
 
 /**
  * Index of the Monday-based week containing the given date, counted from
@@ -131,6 +150,12 @@ export function weekIndex(iso: string): number {
 /** 0 = Monday … 6 = Sunday */
 export function weekdayOf(year: number, month: number, day: number): number {
   return (new Date(Date.UTC(year, month - 1, day)).getUTCDay() + 6) % 7
+}
+
+/** 0 = Monday … 6 = Sunday, for an ISO day "yyyy-mm-dd". */
+export function weekdayOfIso(iso: string): number {
+  const [year, month, day] = iso.split("-").map(Number)
+  return weekdayOf(year, month, day)
 }
 
 /** Normalizes (year, month offset) into a real { year, month } pair. */

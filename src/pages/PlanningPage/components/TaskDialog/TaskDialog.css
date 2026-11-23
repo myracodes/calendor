@@ -1,0 +1,32 @@
+/* La fenêtre, centrée par le navigateur : jamais plus large que l'écran
+   moins des marges de 1rem */
+.task-dialog {
+  width: min(30rem, calc(100vw - 2rem));
+  padding: 0;
+  color: var(--ink);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow-lift);
+}
+
+/* Le planning grisé derrière la fenêtre */
+.task-dialog::backdrop {
+  background: color-mix(in srgb, var(--ink) 35%, transparent);
+}
+
+/* Le contenu remplit la fenêtre : un clic en dehors tombe ainsi sur le fond
+   grisé (voir TaskDialog) */
+.task-dialog-content {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding: 1.25rem 1rem;
+}
+
+/* Croix dans le coin, alignée sur le titre */
+.task-dialog-close {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+}

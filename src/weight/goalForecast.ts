@@ -1,4 +1,4 @@
-import { dayFromNumber, dayNumber } from "./days"
+import { dayFromNumber, dayNumber } from "../dates"
 import { sortByDay } from "./order"
 import type { WeightEntry } from "./types"
 import { kgPerDay } from "./weightChange"

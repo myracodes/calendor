@@ -1,0 +1,37 @@
+/* Couleurs des catégories de tâches (src/planning/categories.ts), reprises
+   par la tâche dans la grille (PlanningTaskBlock) et par sa pastille dans le
+   choix de la catégorie (TaskFields) : un fond où l'encre garde un contraste
+   AAA, et un liseré plus soutenu qui fait reconnaître la catégorie. */
+
+/* Pro : turquoise */
+.task-category--work {
+  /* Encre 8,5:1 */
+  --category-background: var(--electric-aqua);
+  /* Pas de token turquoise soutenu : l'aqua assombri au noir, jusqu'à 3,2:1
+     sur --paper pour peser autant que les liserés jaune et rose */
+  --category-accent: color-mix(in srgb, var(--electric-aqua) 65%, black);
+}
+
+/* Médical : jaune (le « ventre » des mesures de la page Poids). Le token pur
+   n'atteint pas les 7:1 avec l'encre : il ne fait que le liseré, le fond
+   en est éclairci (encre 7,5:1). */
+.task-category--medical {
+  --category-background: color-mix(
+    in srgb,
+    var(--chart-orange) 40%,
+    var(--surface)
+  );
+  --category-accent: var(--chart-orange);
+}
+
+/* Perso : rose (la « cuisse » des mesures de la page Poids). Le token pur
+   n'atteint pas les 7:1 avec l'encre : il ne fait que le liseré, le fond en
+   est éclairci (encre 7,4:1). */
+.task-category--personal {
+  --category-background: color-mix(
+    in srgb,
+    var(--chart-pink) 40%,
+    var(--surface)
+  );
+  --category-accent: var(--chart-pink);
+}

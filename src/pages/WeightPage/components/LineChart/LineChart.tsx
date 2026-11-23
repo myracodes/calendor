@@ -4,8 +4,8 @@ import {
   type PointerEvent,
   useState,
 } from "react"
+import { dayNumber } from "../../../../dates"
 import type { ChartPoint } from "../../../../weight/chartPoints"
-import { dayNumber } from "../../../../weight/days"
 import {
   formatDifference,
   formatFullDay,

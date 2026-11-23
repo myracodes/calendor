@@ -3,8 +3,15 @@
 
 import { MONTH } from "../constants/months"
 import { WEEKDAY } from "../constants/weekdays"
-import { addMonths, monthShortName, toIso, weekdayOf } from "../dates"
-import { dayFromNumber, dayNumber, splitDay } from "./days"
+import {
+  addMonths,
+  dayFromNumber,
+  dayNumber,
+  monthShortName,
+  toIso,
+  weekdayOf,
+} from "../dates"
+import { splitDay } from "./days"
 import { formatDayAndMonth } from "./format"
 
 export interface TimeTick {

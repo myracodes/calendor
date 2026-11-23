@@ -1,9 +1,13 @@
 // Calculs sur les jours ISO « aaaa-mm-jj » des pesées, en UTC comme
 // src/dates.ts : un jour reste le même quel que soit le fuseau.
 
-import { addMonths, daysInMonth, toIso } from "../dates"
-
-const DAY_MS = 24 * 60 * 60 * 1000
+import {
+  addMonths,
+  dayFromNumber,
+  dayNumber,
+  daysInMonth,
+  toIso,
+} from "../dates"
 
 /** @returns month 1-12 */
 export function splitDay(iso: string): {
@@ -13,16 +17,6 @@ export function splitDay(iso: string): {
 } {
   const [year, month, day] = iso.split("-").map(Number)
   return { year, month, day }
-}
-
-/** Numéro du jour (jours écoulés depuis le 1er janvier 1970) : l'abscisse d'une pesée sur la courbe. */
-export function dayNumber(iso: string): number {
-  return Math.round(Date.parse(`${iso}T00:00:00Z`) / DAY_MS)
-}
-
-/** Le jour ISO d'un numéro de jour (inverse de dayNumber). */
-export function dayFromNumber(number: number): string {
-  return new Date(number * DAY_MS).toISOString().slice(0, 10)
 }
 
 /** Le jour ISO, `days` jours plus tôt. */

@@ -1,0 +1,153 @@
+/* Une tâche, posée sur ses lignes de jours (--first-row, --row-span) dans sa
+   colonne (--lane-column), aux couleurs de sa catégorie (taskCategories.css) :
+   titre à gauche, bouton copie à droite, poignée d'extension sur le bord du
+   bas. */
+.planning-task {
+  grid-row: var(--first-row) / span var(--row-span);
+  grid-column: var(--lane-column);
+  /* À la largeur de son titre, pas de sa colonne : à côté, la ligne du jour
+     reste cliquable pour ajouter une autre tâche */
+  justify-self: start;
+  /* Un titre très court reste facile à cliquer : 4rem libres à côté du
+     bouton copie (small), posé par-dessus la fin du titre au survol */
+  min-width: calc(var(--control-h-small) + 4rem);
+  /* Un titre plus long est coupé (entier dans l'infobulle), pour ne pas
+     élargir sa colonne sur tous les jours */
+  max-width: 12rem;
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.25rem;
+  /* Retrait dans ses cases : deux tâches voisines ne se touchent pas, et la
+     ligne du jour reste cliquable tout autour */
+  margin: 3px;
+  padding: 0.125rem 0.25rem 0.125rem 0;
+  background: var(--category-background);
+  border-left: 4px solid var(--category-accent);
+  border-radius: var(--radius-s);
+  /* Au-dessus de la ligne du jour, qui ouvre l'ajout d'une tâche */
+  z-index: 1;
+  cursor: grab;
+  /* Pas de sélection du titre ni de menu de l'appui long pendant un glisser */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Tâche coupée par le haut ou le bas des jours affichés : elle continue
+   au-delà, son bord coupé reste droit */
+.planning-task--starts-before {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+  margin-top: 0;
+}
+
+.planning-task--ends-after {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  margin-bottom: 0;
+}
+
+.planning-task--dragging {
+  /* Au-dessus des autres tâches qu'elle survole */
+  z-index: 2;
+  cursor: grabbing;
+  box-shadow: var(--shadow-lift);
+}
+
+/* Le titre, sur toute la hauteur de la tâche : il l'ouvre, sans l'allure
+   d'un bouton */
+.planning-task-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  min-height: 0;
+  padding: 0 0.25rem 0 0.5rem;
+  overflow: hidden;
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.75rem;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ink);
+  background: none;
+  box-shadow: none;
+  cursor: inherit;
+}
+
+.planning-task-title:hover,
+.planning-task-title:active {
+  transform: none;
+  box-shadow: none;
+  filter: none;
+}
+
+/* Après le survol, qui retire l'ombre : l'anneau de focus reste visible sous
+   la souris */
+.planning-task-title:focus-visible {
+  box-shadow: var(--focus-ring);
+}
+
+/* Sur plusieurs jours, le titre a la place de passer à la ligne */
+.planning-task--multi-day .planning-task-title {
+  line-height: 1.4;
+  padding-top: 0.25rem;
+  white-space: normal;
+}
+
+/* Avec une souris, le bouton copie n'apparaît qu'au survol de la tâche (ou
+   au clavier), par-dessus la fin du titre : il ne prend pas de place, la
+   tâche reste à la largeur de son titre. Au doigt, il reste visible à côté
+   du titre. */
+@media (hover: hover) {
+  .planning-task-actions {
+    position: absolute;
+    /* Dans le coin, au niveau du padding de la tâche */
+    top: 0.125rem;
+    right: 0.25rem;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+  }
+
+  .planning-task:hover .planning-task-actions,
+  .planning-task:focus-within .planning-task-actions {
+    opacity: 1;
+  }
+}
+
+/* Poignée du bas : on la tire vers un autre jour pour étendre la tâche */
+.planning-task-resize {
+  position: absolute;
+  inset: auto 0 -3px;
+  height: 8px;
+  cursor: ns-resize;
+  /* Au doigt, la tirer étire la tâche au lieu de faire défiler la page */
+  touch-action: none;
+}
+
+/* Petit trait au milieu de la poignée, visible au survol de la tâche */
+.planning-task-resize::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 4px;
+  width: 1.5rem;
+  height: 3px;
+  margin-left: -0.75rem;
+  border-radius: var(--radius-pill);
+  background: var(--ink-light);
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+
+.planning-task:hover .planning-task-resize::after,
+.planning-task--dragging .planning-task-resize::after {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  .planning-task-resize::after {
+    opacity: 1;
+  }
+}

@@ -1,4 +1,4 @@
-import { dayNumber } from "./days"
+import { dayNumber } from "../dates"
 import { sortByDay } from "./order"
 import { roundToTenth } from "./rounding"
 import type { WeightEntry } from "./types"

@@ -1,0 +1,21 @@
+/* Zone de défilement horizontal, quand les tâches d'un même jour sont trop
+   nombreuses pour la largeur de la card */
+.planning-scroll {
+  overflow-x: auto;
+}
+
+/* La grille : la colonne des dates, une colonne par tâche d'un même jour
+   (--lane-count) à la largeur de sa tâche la plus large, puis le reste de la
+   ligne, toujours libre pour ajouter une tâche ; une ligne par jour, de
+   hauteur fixe pour qu'une tâche de plusieurs jours couvre exactement ses
+   lignes */
+.planning-grid {
+  display: grid;
+  /* 2.5rem au moins après les tâches : de quoi cliquer, et voir le +, même
+     sur un jour chargé */
+  grid-template-columns: max-content repeat(var(--lane-count), max-content) minmax(
+      2.5rem,
+      1fr
+    );
+  grid-auto-rows: 2.5rem;
+}

@@ -1,0 +1,5 @@
+/* « Jours précédents » et « Jours suivants » : à la largeur de leur texte,
+   au-dessus et en dessous de la grille */
+.planning-more-days {
+  align-self: flex-start;
+}

@@ -16,6 +16,7 @@ import { HomePage } from "./pages/HomePage/HomePage"
 import { KeyboardPage } from "./pages/KeyboardPage/KeyboardPage"
 import { LoginPage } from "./pages/LoginPage/LoginPage"
 import { PaperFactoryPage } from "./pages/PaperFactoryPage/PaperFactoryPage"
+import { PlanningPage } from "./pages/PlanningPage/PlanningPage"
 import { RecommendationsPage } from "./pages/RecommendationsPage/RecommendationsPage"
 import { SeriesPage } from "./pages/SeriesPage/SeriesPage"
 import { WeightPage } from "./pages/WeightPage/WeightPage"
@@ -87,6 +88,7 @@ function AppContent() {
           <Route path="/" element={<LastPageRedirect />} />
           <Route path={HOME_PATH} element={<HomePage />} />
           <Route path="/calendars" element={<CalendarsPage />} />
+          <Route path="/planning" element={<PlanningPage />} />
           <Route path="/budget" element={<BudgetPage />} />
           <Route path="/batch-cooking" element={<BatchCookingPage />} />
           <Route path="/paper-factory" element={<PaperFactoryPage />} />
