@@ -29,10 +29,11 @@ Chaque table choisit, par ses règles RLS (`supabase/*.sql`), si ses données so
 | `gift_recipients` | Personnes de la page Idées cadeaux | Propres à chaque compte : elle démarre sans personne et ne voit pas les listes des autres. |
 | `gift_ideas` | Idées cadeaux de chaque personne | Propres à chaque compte, comme `gift_recipients`. |
 | `planning_tasks` | Tâches du planning | Propres à chaque compte : elle démarre avec un planning vide et ne voit pas celui des autres. |
+| `life_events` | Anniversaires et décès (calendriers, accueil) | Propres à chaque compte : elle démarre sans anniversaire et ne voit pas ceux des autres. |
 
 | `cv_contact` | Coordonnées du CV de Myriam | **Partagées** : tout compte connecté peut les lire (en générant le CV). À restreindre si le compte n'est pas pour une personne de confiance. |
 
-Le reste de l'app (calendriers, courses, courrier…) n'utilise pas encore la base : les réglages sont gardés dans le navigateur de chacune (`localStorage`), donc séparés.
+Le reste de l'app (réglages des calendriers, courses, courrier…) n'utilise pas encore la base : les réglages sont gardés dans le navigateur de chacune (`localStorage`), donc séparés.
 
 **À tenir à jour** : chaque nouvelle table Supabase doit être ajoutée à ce tableau (voir [NEW_FEATURE.md](../NEW_FEATURE.md)).
 

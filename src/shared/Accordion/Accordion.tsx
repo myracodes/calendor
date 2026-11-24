@@ -1,8 +1,7 @@
 import type { ReactNode } from "react"
 import "./Accordion.css"
 
-/** « regular » : chaque section est un élément de la liste (une personne…) plutôt qu'un groupe. */
-export type AccordionTitleWeight = "bold" | "regular"
+export type AccordionTitleWeight = "regular" | "bold"
 
 interface AccordionProps {
   title: string
@@ -17,7 +16,7 @@ interface AccordionProps {
 /** Section repliable, basée sur les éléments natifs details/summary. */
 export function Accordion({
   title,
-  titleWeight = "bold",
+  titleWeight = "regular",
   defaultOpen,
   action,
   children,
@@ -25,7 +24,7 @@ export function Accordion({
   const details = (
     <details className="accordion" open={defaultOpen}>
       <summary
-        className={`accordion-title${titleWeight === "regular" ? " accordion-title--regular" : ""}`}
+        className={`accordion-title${titleWeight === "bold" ? " accordion-title--bold" : ""}`}
       >
         {title}
       </summary>

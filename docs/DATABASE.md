@@ -44,6 +44,7 @@ Ne pas ré-exécuter le script de création : il échoue (`already exists`). Les
 | `supabase/gift_recipients.sql` | `gift_recipients` | Idées cadeaux (à exécuter avant `gift_ideas.sql`) |
 | `supabase/gift_ideas.sql` | `gift_ideas` | Idées cadeaux |
 | `supabase/planning_tasks.sql` | `planning_tasks` | Planning |
+| `supabase/life_events.sql` | `life_events` | Calendriers, onglet Anniversaires (aussi lus par l'accueil) |
 | `supabase/weight_entries.sql` | `weight_entries` | Poids (page cachée) |
 | `supabase/weight_goals.sql` | `weight_goals` | Poids (page cachée) |
 | `supabase/shortcuts.sql` | `shortcuts` | Accès aux pages cachées (séquence de touches du compte, à remplir à la main) |

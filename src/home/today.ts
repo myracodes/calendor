@@ -1,24 +1,25 @@
-// Ce qui tombe un jour donné, tiré des données du calendrier (src/events/).
+// Ce qui tombe un jour donné, tiré des données du calendrier (src/events/ et
+// anniversaires enregistrés en base).
 
-import type { Month } from "../constants/months"
-import { weekdayOf } from "../dates"
-import { BIRTHDAYS } from "../events/birthdays"
+import { monthOf, weekdayOf } from "../dates"
 import type { LifeEvent } from "../events/lifeEvents.type"
 import { publicHolidaysForYear } from "../events/publicHolidays"
 import { schedulesForWeekday } from "../events/schedules"
 import type { Schedule } from "../events/schedules.type"
-
-function monthOf(date: Date): Month {
-  // getMonth() va de 0 à 11, les mois de l'app de 1 à 12.
-  return (date.getMonth() + 1) as Month
-}
+import type { LifeEventEntry } from "../lifeEvents/types"
 
 function fallsOn(event: LifeEvent, date: Date): boolean {
   return event.month === monthOf(date) && event.day === date.getDate()
 }
 
-export function birthdaysOn(date: Date): LifeEvent[] {
-  return BIRTHDAYS.filter(birthday => fallsOn(birthday, date))
+/** Les anniversaires (de naissance, pas les décès) qui tombent ce jour-là. */
+export function birthdaysOn(
+  lifeEvents: LifeEventEntry[],
+  date: Date,
+): LifeEventEntry[] {
+  return lifeEvents.filter(
+    event => event.kind === "birthday" && fallsOn(event, date),
+  )
 }
 
 /** Le jour férié du jour, undefined si ce n'en est pas un. */

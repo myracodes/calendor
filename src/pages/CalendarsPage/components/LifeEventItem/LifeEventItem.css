@@ -1,0 +1,28 @@
+/* Une date : le jour, le libellé, puis crayon et corbeille calés à droite */
+.life-event-item {
+  display: grid;
+  /* 1.5rem : la place d'un jour à deux chiffres, pour que les libellés
+     s'alignent ; minmax(0, …) : un long nom passe à la ligne au lieu de
+     pousser les boutons hors de la card */
+  grid-template-columns: 1.5rem minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.life-event-item-day {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+}
+
+.life-event-item-label {
+  margin: 0;
+  overflow-wrap: anywhere;
+  color: var(--ink);
+}
+
+/* Crayon et corbeille, plus resserrés entre eux que le libellé et les boutons */
+.life-event-item-actions {
+  display: flex;
+  gap: 0.25rem;
+}

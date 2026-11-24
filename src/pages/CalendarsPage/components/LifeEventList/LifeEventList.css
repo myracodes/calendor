@@ -1,0 +1,16 @@
+/* Les sections des mois, séparées par un <hr /> */
+.life-event-list-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Les dates d'un mois, sans puces : le jour ouvre chaque ligne */
+.life-event-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}

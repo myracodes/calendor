@@ -36,7 +36,7 @@ export function formatBirthday(
   birthday: LifeEvent,
   currentYear: number,
 ): string {
-  if (birthday.year === undefined || birthday.died) {
+  if (birthday.year === undefined || birthday.deathYear !== undefined) {
     return lifeEventLabel("🎂", birthday, currentYear, true)
   }
   return `🎂 ${birthday.name} (${currentYear - birthday.year} ans)`

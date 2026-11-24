@@ -28,7 +28,6 @@
 
 ### Global
 
-- migrer les anniversaires (`src/events/birthdays.ts`) vers la base de données et ajouter un formulaire d'ajout
 - pouvoir injecter les couleurs via des variables dans les svg de src/assets/icons ?
 - gérer les emoji nativement
 - bg image par défaut pour les différents modules, par ex le bujo

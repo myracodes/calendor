@@ -12,10 +12,12 @@ import {
 import { WEEKDAY } from "../../constants/weekdays"
 import { monthGrid, monthName, weekdayNames } from "../../dates"
 import { CALENDAR_LANGUAGES } from "../../calendar/languages"
+import type { LifeEventEntry } from "../../lifeEvents/types"
 import type { CalendarSettings } from "../../types"
 import {
   eventsForDay,
-  LIFE_EVENT_KINDS,
+  type CalendarLifeEventKey,
+  lifeEventKinds,
   lifeEventLabel,
   lifeEventsForDay,
   publicHolidaysFor,
@@ -137,25 +139,22 @@ const styles = StyleSheet.create({
     fontSize: 8,
     lineHeight: 1.15,
   },
-  // Couleur du texte pour un anniversaire (LIFE_EVENT_KINDS "birthday").
+  // Couleur du texte pour un anniversaire (lifeEventKinds "birthday").
   birthday: {
     color: BIRTHDAY,
   },
-  // Couleur du texte pour un décès (LIFE_EVENT_KINDS "death").
+  // Couleur du texte pour un décès (lifeEventKinds "death").
   death: {
     color: DEATH,
   },
-  // Couleur du texte pour un jour de fête (LIFE_EVENT_KINDS "festive").
+  // Couleur du texte pour un jour de fête (lifeEventKinds "festive").
   festive: {
     color: FESTIVE,
   },
 })
 
-// Couleur du texte par type d'événement de vie (voir LIFE_EVENT_KINDS).
-const LIFE_EVENT_STYLE: Record<
-  (typeof LIFE_EVENT_KINDS)[number]["key"],
-  typeof styles.birthday
-> = {
+// Couleur du texte par type d'événement de vie (voir lifeEventKinds).
+const LIFE_EVENT_STYLE: Record<CalendarLifeEventKey, typeof styles.birthday> = {
   birthday: styles.birthday,
   death: styles.death,
   festive: styles.festive,
@@ -163,11 +162,21 @@ const LIFE_EVENT_STYLE: Record<
 
 interface MonthPageProps {
   settings: CalendarSettings
+  /** Anniversaires et décès enregistrés en base, affichés selon les réglages. */
+  lifeEvents: LifeEventEntry[]
   year: number
   month: number
 }
 
-export function MonthPage({ settings, year, month }: MonthPageProps) {
+export function MonthPage({
+  settings,
+  lifeEvents,
+  year,
+  month,
+}: MonthPageProps) {
+  const enabledLifeEventKinds = lifeEventKinds(lifeEvents).filter(kind =>
+    kind.isEnabled(settings),
+  )
   const weeks = monthGrid(year, month)
   const { locale } = CALENDAR_LANGUAGES[settings.language]
   const weekdays = weekdayNames(locale)
@@ -227,9 +236,7 @@ export function MonthPage({ settings, year, month }: MonthPageProps) {
                   <View key={cellIndex} style={cellStyle}>
                     {day !== null && iso !== null ? (
                       <>
-                        {LIFE_EVENT_KINDS.filter(kind =>
-                          kind.isEnabled(settings),
-                        ).map(kind =>
+                        {enabledLifeEventKinds.map(kind =>
                           lifeEventsForDay(kind.events, month, day).map(
                             event => (
                               <Text

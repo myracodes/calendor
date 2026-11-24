@@ -39,9 +39,9 @@ export interface CalendarSettings {
   illustration: string | null
   /** false = pas d'image de fond du tout (ni importée, ni celle par défaut du mois) */
   showBackground: boolean
-  /** show the birthdays from src/events/birthdays.ts on the calendar */
+  /** show the birthdays recorded in the database (table life_events, tab Anniversaires) on the calendar */
   includeBirthdays: boolean
-  /** show the deaths from src/events/deaths.ts on the calendar */
+  /** show the deaths recorded in the database (table life_events, tab Anniversaires) on the calendar */
   includeDeaths: boolean
   /** show the festive days from src/events/otherEvents.ts on the calendar */
   includeOtherEvents: boolean

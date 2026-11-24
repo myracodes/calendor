@@ -1,12 +1,11 @@
 /* Pas de cadre ni de fond, juste un titre cliquable qui révèle le contenu. */
 .accordion-title {
   cursor: pointer;
-  font-weight: 700;
   color: var(--ink);
 }
 
-.accordion-title--regular {
-  font-weight: 400;
+.accordion-title--bold {
+  font-weight: 700;
 }
 
 .accordion-content {

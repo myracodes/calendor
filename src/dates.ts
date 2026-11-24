@@ -1,6 +1,8 @@
 // All computations use UTC timestamps so the generated grids are
 // independent of the machine's timezone.
 
+import type { Month } from "./constants/months"
+
 export interface DayCell {
   /** day of month, or null for padding cells outside the month */
   day: number | null
@@ -59,6 +61,12 @@ export function weekdayNames(locale = "fr-FR"): string[] {
   return Array.from({ length: 7 }, (_, i) =>
     format.format(new Date(Date.UTC(2026, 0, 5 + i))),
   )
+}
+
+/** Le mois d'une date, dans le fuseau local (1 = janvier … 12 = décembre). */
+export function monthOf(date: Date): Month {
+  // getMonth() va de 0 à 11, les mois de l'app de 1 à 12.
+  return (date.getMonth() + 1) as Month
 }
 
 /** @param month 1-12 */

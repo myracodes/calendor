@@ -8,9 +8,10 @@ import {
   weekdayOf,
 } from "../../dates"
 import { CALENDAR_LANGUAGES } from "../../calendar/languages"
+import type { LifeEventEntry } from "../../lifeEvents/types"
 import type { CalendarSettings } from "../../types"
 import {
-  LIFE_EVENT_KINDS,
+  lifeEventKinds,
   lifeEventsForDay,
   publicHolidaysFor,
 } from "./calendarData"
@@ -184,20 +185,23 @@ const styles = StyleSheet.create({
 
 interface AnnualPageProps {
   settings: CalendarSettings
+  /** Anniversaires et décès enregistrés en base, affichés selon les réglages. */
+  lifeEvents: LifeEventEntry[]
   year: number
 }
 
-export function AnnualPage({ settings, year }: AnnualPageProps) {
+export function AnnualPage({ settings, lifeEvents, year }: AnnualPageProps) {
   const publicHolidays = publicHolidaysFor(settings, year)
   const { locale } = CALENDAR_LANGUAGES[settings.language]
   const initials = weekdayInitials(locale)
   const translatedFont = languageFont(settings.language)
-  const birthdayKind = LIFE_EVENT_KINDS.find(kind => kind.key === "birthday")
+  const kinds = lifeEventKinds(lifeEvents)
+  const birthdayKind = kinds.find(kind => kind.key === "birthday")
   const birthdayEvents =
     birthdayKind && birthdayKind.isEnabled(settings)
       ? birthdayKind.events
       : null
-  const deathKind = LIFE_EVENT_KINDS.find(kind => kind.key === "death")
+  const deathKind = kinds.find(kind => kind.key === "death")
   const deathEvents =
     deathKind && deathKind.isEnabled(settings) ? deathKind.events : null
 

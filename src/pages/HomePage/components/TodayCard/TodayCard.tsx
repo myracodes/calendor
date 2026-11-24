@@ -8,20 +8,29 @@ import {
   publicHolidayOn,
   schedulesOn,
 } from "../../../../home/today"
+import type { LifeEventEntry } from "../../../../lifeEvents/types"
 import { Card } from "../../../../shared/Card/Card"
 import "./TodayCard.css"
 
 interface TodayCardProps {
   now: Date
+  /** Anniversaires et décès enregistrés en base (vide tant qu'ils chargent). */
+  lifeEvents: LifeEventEntry[]
+  /** Échec du chargement des anniversaires : signalé à leur place. */
+  lifeEventsError: string | null
 }
 
 /**
  * La journée en deux colonnes : à gauche la date, l'heure, le jour férié et les anniversaires ;
  * à droite les horaires hebdomadaires du jour (marché, bibliothèque, piscine…).
  */
-export function TodayCard({ now }: TodayCardProps) {
+export function TodayCard({
+  now,
+  lifeEvents,
+  lifeEventsError,
+}: TodayCardProps) {
   const holiday = publicHolidayOn(now)
-  const birthdays = birthdaysOn(now)
+  const birthdays = birthdaysOn(lifeEvents, now)
   const schedules = schedulesOn(now)
 
   return (
@@ -36,11 +45,16 @@ export function TodayCard({ now }: TodayCardProps) {
           {birthdays.length > 0 && (
             <ul className="today-card-list">
               {birthdays.map(birthday => (
-                <li key={`${birthday.name}-${birthday.year}`}>
+                <li key={birthday.id}>
                   {formatBirthday(birthday, now.getFullYear())}
                 </li>
               ))}
             </ul>
+          )}
+          {lifeEventsError !== null && (
+            <p className="hint">
+              Anniversaires non chargés : {lifeEventsError}
+            </p>
           )}
         </div>
         <div className="today-card-column today-card-schedules">

@@ -101,7 +101,6 @@ export function RecipientAccordion({
   return (
     <Accordion
       title={recipient.name}
-      titleWeight="regular"
       defaultOpen={defaultOpen}
       action={
         <IconButton

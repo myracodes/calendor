@@ -1,18 +1,32 @@
 import { Document } from "@react-pdf/renderer"
 import { CALENDAR_TEXTS } from "../../calendar/languages"
 import { addMonths } from "../../dates"
+import type { LifeEventEntry } from "../../lifeEvents/types"
 import type { CalendarSettings } from "../../types"
 import { AnnualPage } from "./AnnualPage"
 import { MonthPage } from "./MonthPage"
 import { WeekPage } from "./WeekPage"
 
-export function CalendarDocument({ settings }: { settings: CalendarSettings }) {
+interface CalendarDocumentProps {
+  settings: CalendarSettings
+  /** Anniversaires et décès enregistrés en base, affichés selon les réglages. */
+  lifeEvents: LifeEventEntry[]
+}
+
+export function CalendarDocument({
+  settings,
+  lifeEvents,
+}: CalendarDocumentProps) {
   const title = CALENDAR_TEXTS.documentTitle[settings.language]
 
   if (settings.format === "annual") {
     return (
       <Document title={title}>
-        <AnnualPage settings={settings} year={settings.year} />
+        <AnnualPage
+          settings={settings}
+          lifeEvents={lifeEvents}
+          year={settings.year}
+        />
       </Document>
     )
   }
@@ -37,6 +51,7 @@ export function CalendarDocument({ settings }: { settings: CalendarSettings }) {
         <MonthPage
           key={`${year}-${month}`}
           settings={settings}
+          lifeEvents={lifeEvents}
           year={year}
           month={month}
         />
