@@ -1,5 +1,5 @@
 import { type CSSProperties, useRef } from "react"
-import { layoutTasks } from "../../../../planning/layout"
+import { layoutTasks, type TaskPlacement } from "../../../../planning/layout"
 import { type DayRange, daysOf } from "../../../../planning/range"
 import type {
   PlanningTask,
@@ -25,8 +25,8 @@ interface PlanningGridProps {
 }
 
 /**
- * Le planning : une ligne par jour, les tâches posées sur leurs jours, côte à
- * côte quand elles en partagent.
+ * Le planning : une ligne par jour avec ses tâches d'un seul jour, et à
+ * droite les tâches de plusieurs jours, sur la hauteur de leurs jours.
  */
 export function PlanningGrid({
   range,
@@ -60,7 +60,27 @@ export function PlanningGrid({
               }
             : task,
         )
-  const { placements, laneCount } = layoutTasks(shownTasks, range)
+  const { singleDayTasks, placements, laneCount } = layoutTasks(
+    shownTasks,
+    range,
+  )
+
+  function taskBlock(task: PlanningTask, placement?: TaskPlacement) {
+    return (
+      <PlanningTaskBlock
+        key={task.id}
+        task={task}
+        placement={placement}
+        dragging={preview?.id === task.id}
+        onDragStart={(event, kind) => start(event, task, kind)}
+        onOpen={() => {
+          if (!isClickSuppressed()) onOpenTask(task)
+        }}
+        onDuplicate={() => onDuplicateTask(task)}
+        showToast={showToast}
+      />
+    )
+  }
 
   // Exception à la règle "pas de CSS inline" (voir AGENTS.md) : seul le
   // nombre de colonnes de tâches passe par style, tout le dessin reste dans
@@ -78,21 +98,11 @@ export function PlanningGrid({
             index={index}
             today={today}
             onAdd={() => onAddOnDay(day)}
-          />
+          >
+            {singleDayTasks.get(day)?.map(task => taskBlock(task))}
+          </PlanningDayRow>
         ))}
-        {placements.map(placement => (
-          <PlanningTaskBlock
-            key={placement.task.id}
-            placement={placement}
-            dragging={preview?.id === placement.task.id}
-            onDragStart={(event, kind) => start(event, placement.task, kind)}
-            onOpen={() => {
-              if (!isClickSuppressed()) onOpenTask(placement.task)
-            }}
-            onDuplicate={() => onDuplicateTask(placement.task)}
-            showToast={showToast}
-          />
-        ))}
+        {placements.map(placement => taskBlock(placement.task, placement))}
       </div>
     </div>
   )

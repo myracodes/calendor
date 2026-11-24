@@ -1,13 +1,7 @@
-/* Une tâche, posée sur ses lignes de jours (--first-row, --row-span) dans sa
-   colonne (--lane-column), aux couleurs de sa catégorie (taskCategories.css) :
-   titre à gauche, bouton copie à droite, poignée d'extension sur le bord du
-   bas. */
+/* Une tâche, aux couleurs de sa catégorie (taskCategories.css), à la
+   largeur de son titre : titre à gauche, bouton copie à droite, poignée
+   d'extension sur le bord du bas. */
 .planning-task {
-  grid-row: var(--first-row) / span var(--row-span);
-  grid-column: var(--lane-column);
-  /* À la largeur de son titre, pas de sa colonne : à côté, la ligne du jour
-     reste cliquable pour ajouter une autre tâche */
-  justify-self: start;
   /* Un titre très court reste facile à cliquer : 4rem libres à côté du
      bouton copie (small), posé par-dessus la fin du titre au survol */
   min-width: calc(var(--control-h-small) + 4rem);
@@ -25,13 +19,24 @@
   background: var(--category-background);
   border-left: 4px solid var(--category-accent);
   border-radius: var(--radius-s);
-  /* Au-dessus de la ligne du jour, qui ouvre l'ajout d'une tâche */
+  /* Au-dessus de la ligne du jour, qui ouvre l'ajout d'une tâche ; cliquable
+     dans le conteneur des tâches du jour, qui laisse passer les clics */
   z-index: 1;
+  pointer-events: auto;
   cursor: grab;
   /* Pas de sélection du titre ni de menu de l'appui long pendant un glisser */
   -webkit-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
+}
+
+/* Tâche de plusieurs jours, posée sur ses lignes de jours (--first-row,
+   --row-span) dans sa colonne (--lane-column). À la largeur de son titre, pas
+   de sa colonne : à côté, la ligne du jour reste visible */
+.planning-task--multi-day {
+  grid-row: var(--first-row) / span var(--row-span);
+  grid-column: var(--lane-column);
+  justify-self: start;
 }
 
 /* Tâche coupée par le haut ou le bas des jours affichés : elle continue

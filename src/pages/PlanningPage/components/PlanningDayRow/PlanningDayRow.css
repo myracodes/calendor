@@ -1,6 +1,7 @@
 /* La ligne d'un jour (--day-row), sur toute la largeur de la grille : elle
-   reprend ses colonnes (subgrid) pour caler sa date dans la 1re colonne et
-   sa zone d'ajout sous les colonnes des tâches */
+   reprend ses colonnes (subgrid) pour caler sa date dans la 1re colonne, et
+   ses tâches d'un seul jour par-dessus sa zone d'ajout dans la 2e ; sa
+   hauteur suit ses tâches */
 .planning-day {
   grid-row: var(--day-row);
   grid-column: 1 / -1;
@@ -26,6 +27,11 @@
 
 /* La date : « lun. 23 », et le mois en dessous quand il change */
 .planning-day-label {
+  grid-row: 1;
+  /* Centrée sur la première rangée de tâches, même quand elles passent à la
+     ligne : 2.5rem, la hauteur minimale d'une ligne de la grille */
+  align-self: start;
+  min-height: 2.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -39,10 +45,11 @@
   font-weight: 700;
 }
 
-/* La zone d'ajout : tout le reste de la ligne, sans l'allure d'un bouton ;
-   le + n'apparaît qu'au survol ou au clavier */
+/* La zone d'ajout : toute la colonne des tâches d'un seul jour, sous elles,
+   sans l'allure d'un bouton ; le + n'apparaît qu'au survol ou au clavier */
 .planning-day-add {
-  grid-column: 2 / -1;
+  grid-row: 1;
+  grid-column: 2;
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -75,4 +82,19 @@
 .planning-day-add:hover img,
 .planning-day-add:focus-visible img {
   opacity: 1;
+}
+
+/* Les tâches d'un seul jour, par-dessus la zone d'ajout : à la suite, et à
+   la ligne quand elles ne tiennent plus. Les clics à côté d'elles passent à
+   la zone d'ajout. */
+.planning-day-tasks {
+  grid-row: 1;
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  /* Toujours de la place libre au bout de la ligne : de quoi cliquer pour
+     ajouter une tâche, et voir le + */
+  padding-right: 2.5rem;
+  pointer-events: none;
 }

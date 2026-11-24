@@ -2,6 +2,7 @@ import type { CSSProperties, PointerEvent } from "react"
 import copyIcon from "../../../../assets/icons/copy.svg"
 import { categoryLabel } from "../../../../planning/categories"
 import type { TaskPlacement } from "../../../../planning/layout"
+import type { PlanningTask } from "../../../../planning/types"
 import { taskPeriod } from "../../../../planning/wording"
 import { IconButton } from "../../../../shared/IconButton/IconButton"
 import type { useToast } from "../../../../shared/Toast/useToast"
@@ -11,7 +12,13 @@ import "../../taskCategories.css"
 import "./PlanningTaskBlock.css"
 
 interface PlanningTaskBlockProps {
-  placement: TaskPlacement
+  task: PlanningTask
+  /**
+   * Tâche de plusieurs jours : sa place dans la grille (ses lignes de jours,
+   * sa colonne). Absente pour une tâche d'un seul jour, posée dans la ligne
+   * de son jour.
+   */
+  placement?: TaskPlacement
   /** En cours de glisser-déposer (ou d'enregistrement après le lâcher). */
   dragging: boolean
   onDragStart: (event: PointerEvent, kind: DragKind) => void
@@ -22,11 +29,13 @@ interface PlanningTaskBlockProps {
 }
 
 /**
- * Une tâche dans la grille, sur la hauteur de ses jours : un clic l'ouvre,
+ * Une tâche dans la ligne de son jour, ou sur la hauteur de ses jours dans
+ * une colonne à droite si elle en a plusieurs : un clic l'ouvre,
  * un glisser la déplace, sa poignée du bas l'étend sur d'autres jours, et le
  * bouton copie la duplique.
  */
 export function PlanningTaskBlock({
+  task,
   placement,
   dragging,
   onDragStart,
@@ -35,27 +44,29 @@ export function PlanningTaskBlock({
   showToast,
 }: PlanningTaskBlockProps) {
   const { busy, run } = useInlineAction(showToast)
-  const { task } = placement
   const category = categoryLabel(task.category)
-  const multiDay = placement.lastDayIndex > placement.firstDayIndex
 
   // Exception à la règle "pas de CSS inline" (voir AGENTS.md) : seule la
   // place de la tâche dans la grille (ses lignes de jours et sa colonne)
   // passe par style, tout le dessin reste dans le .css. Le cast est
   // nécessaire, CSSProperties ne connaît pas les variables CSS.
-  const placementStyle = {
-    "--first-row": placement.firstDayIndex + 1,
-    "--row-span": placement.lastDayIndex - placement.firstDayIndex + 1,
-    // + 2 : la 1re colonne de la grille est celle des dates.
-    "--lane-column": placement.lane + 2,
-  } as CSSProperties
+  const placementStyle =
+    placement === undefined
+      ? undefined
+      : ({
+          "--first-row": placement.firstDayIndex + 1,
+          "--row-span": placement.lastDayIndex - placement.firstDayIndex + 1,
+          // + 3 : la grille commence par la colonne des dates, puis celle des
+          // tâches d'un seul jour.
+          "--lane-column": placement.lane + 3,
+        } as CSSProperties)
 
   const classes = [
     "planning-task",
     `task-category--${task.category}`,
-    multiDay && "planning-task--multi-day",
-    placement.startsBefore && "planning-task--starts-before",
-    placement.endsAfter && "planning-task--ends-after",
+    placement !== undefined && "planning-task--multi-day",
+    placement?.startsBefore && "planning-task--starts-before",
+    placement?.endsAfter && "planning-task--ends-after",
     dragging && "planning-task--dragging",
   ]
     .filter(Boolean)
@@ -69,6 +80,7 @@ export function PlanningTaskBlock({
       style={placementStyle}
       data-task-id={task.id}
       data-task-start={task.startDate}
+      data-task-end={task.endDate}
       onPointerDown={event => onDragStart(event, "move")}
     >
       <button

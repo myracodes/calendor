@@ -6,6 +6,7 @@ import {
   useState,
 } from "react"
 import { dayNumber } from "../../../../dates"
+import { isMultiDay } from "../../../../planning/layout"
 import { sortOrderBefore } from "../../../../planning/order"
 import { resizedDraft, shiftedDraft } from "../../../../planning/taskDates"
 import type {
@@ -46,30 +47,40 @@ function dayAt(x: number, y: number): string | null {
 }
 
 /**
- * La tâche devant laquelle poser celle qu'on déplace, d'après le pointeur :
- * la première, de gauche à droite, parmi celles qui commencent le jour
- * `startDate` (attributs data-task-* de PlanningTaskBlock), dont le milieu
- * est à droite du pointeur ; null pour la poser après toutes.
+ * La tâche devant laquelle poser celle qu'on déplace, d'après le pointeur
+ * (x, y) : parmi celles de sa sorte qui commencent le jour `startDate`
+ * (attributs data-task-* de PlanningTaskBlock), la première, dans l'ordre de
+ * lecture, que le pointeur précède ; null pour la poser après toutes.
  */
 function taskAfterPointer(
   grid: HTMLElement | null,
+  moving: PlanningTask,
   startDate: string,
-  movingId: string,
   x: number,
+  y: number,
 ): string | null {
   if (grid === null) return null
+  const multiDay = isMultiDay(moving)
   const sameDay = [...grid.querySelectorAll<HTMLElement>("[data-task-id]")]
     .filter(
-      element =>
-        element.dataset.taskStart === startDate &&
-        element.dataset.taskId !== movingId,
+      ({ dataset }) =>
+        dataset.taskStart === startDate &&
+        dataset.taskId !== moving.id &&
+        (dataset.taskStart !== dataset.taskEnd) === multiDay,
     )
     .map(element => ({
       id: element.dataset.taskId ?? null,
       rect: element.getBoundingClientRect(),
     }))
-    .sort((a, b) => a.rect.left - b.rect.left)
-  const after = sameDay.find(({ rect }) => rect.left + rect.width / 2 > x)
+    .sort((a, b) => a.rect.top - b.rect.top || a.rect.left - b.rect.left)
+  const after = sameDay.find(({ rect }) => {
+    const beforeMiddle = x < rect.left + rect.width / 2
+    // Les tâches de plusieurs jours sont côte à côte sur une seule rangée ;
+    // celles d'un jour passent à la ligne : le pointeur précède aussi une
+    // tâche d'une rangée plus bas.
+    if (multiDay) return beforeMiddle
+    return y < rect.top || (y <= rect.bottom && beforeMiddle)
+  })
   return after?.id ?? null
 }
 
@@ -178,9 +189,10 @@ export function useTaskDrag(
         next = shiftedDraft(task, dayNumber(pointedDay) - grabbedDayNumber)
         const beforeId = taskAfterPointer(
           gridRef.current,
+          task,
           next.startDate,
-          task.id,
           pointerX,
+          pointerY,
         )
         next.sortOrder = sortOrderBefore(
           tasksRef.current,

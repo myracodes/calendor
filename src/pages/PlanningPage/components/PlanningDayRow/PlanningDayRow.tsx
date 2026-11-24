@@ -1,4 +1,4 @@
-import type { CSSProperties } from "react"
+import type { CSSProperties, ReactNode } from "react"
 import plusIcon from "../../../../assets/icons/plus.svg"
 import { WEEKDAY } from "../../../../constants/weekdays"
 import { weekdayOfIso } from "../../../../dates"
@@ -12,17 +12,21 @@ interface PlanningDayRowProps {
   index: number
   today: string
   onAdd: () => void
+  /** Ses tâches d'un seul jour, dans leur ordre. */
+  children: ReactNode
 }
 
 /**
- * La ligne d'un jour, sous ses tâches : sa date à gauche, et le reste de la
- * ligne qui ouvre l'ajout d'une tâche ce jour-là.
+ * La ligne d'un jour : sa date à gauche, puis ses tâches d'un seul jour, qui
+ * passent à la ligne quand elles ne tiennent plus en largeur. Tout autour
+ * d'elles, un clic ouvre l'ajout d'une tâche ce jour-là.
  */
 export function PlanningDayRow({
   day,
   index,
   today,
   onAdd,
+  children,
 }: PlanningDayRowProps) {
   const label = dayLabelParts(day)
   const weekday = weekdayOfIso(day)
@@ -63,6 +67,7 @@ export function PlanningDayRow({
         {/* alt vide : le bouton porte déjà le libellé (aria-label). */}
         <img src={plusIcon} alt="" />
       </button>
+      <div className="planning-day-tasks">{children}</div>
     </div>
   )
 }
