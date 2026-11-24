@@ -32,13 +32,8 @@
 - gérer les emoji nativement
 - bg image par défaut pour les différents modules, par ex le bujo
 - améliorer la structure des données en BDD
-- ajouter une durée de session
-
-### CV
 
 
 ## Idées d'évolutions futures
 
-- pages imprimables : portée (musique)
 - accords piano / guitare / ukulele (charts)
-- pouvoir ajouter une photo différente par mois

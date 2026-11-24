@@ -25,7 +25,7 @@ import { LogoutButton } from "./shared/LogoutButton/LogoutButton"
 import { Navbar } from "./shared/Navbar/Navbar"
 import { useAccountKeySequence } from "./shortcuts/useAccountKeySequence"
 import { useKeySequence } from "./shortcuts/useKeySequence"
-import { useRepeatedTaps } from "./shortcuts/useRepeatedTaps"
+import { useLongPress } from "./shortcuts/useLongPress"
 import { isSupabaseConfigured } from "./supabase/client"
 import { COMMIT_HASH } from "./version"
 import { WEIGHT_PATH } from "./weight/weightPath"
@@ -48,25 +48,27 @@ export default function App() {
   )
 }
 
-const VERSION_TAPS_TO_UNLOCK = 7
+const VERSION_PRESS_TO_UNLOCK_MS = 2000
 
 function AppContent() {
   // Pages cachées (Poids) : visibles une fois la séquence de touches du
-  // compte tapée, ou la version tapée sept fois, jusqu'au prochain
+  // compte tapée, ou la version maintenue enfoncée, jusqu'au prochain
   // rechargement de l'app. Réservées aux comptes qui ont une séquence en
-  // base (supabase/shortcuts.sql) : sans elle, les tapes ne font rien non
+  // base (supabase/shortcuts.sql) : sans elle, l'appui long ne fait rien non
   // plus.
   const keySequence = useAccountKeySequence()
   const keySequenceTyped = useKeySequence(keySequence)
-  const [versionTapped, tapVersion] = useRepeatedTaps(VERSION_TAPS_TO_UNLOCK)
-  const unlockedByTaps = versionTapped && keySequence !== null
-  const secretPagesUnlocked = keySequenceTyped || unlockedByTaps
+  const [versionPressed, versionPressHandlers] = useLongPress(
+    VERSION_PRESS_TO_UNLOCK_MS,
+  )
+  const unlockedByPress = versionPressed && keySequence !== null
+  const secretPagesUnlocked = keySequenceTyped || unlockedByPress
 
   // Le pied de page est loin du menu : remonte en haut de la page pour
   // montrer l'onglet qui vient d'apparaître.
   useEffect(() => {
-    if (unlockedByTaps) window.scrollTo({ top: 0, behavior: "smooth" })
-  }, [unlockedByTaps])
+    if (unlockedByPress) window.scrollTo({ top: 0, behavior: "smooth" })
+  }, [unlockedByPress])
 
   return (
     <HashRouter>
@@ -115,7 +117,7 @@ function AppContent() {
         </Routes>
 
         <footer className="footer">
-          <p className="footer-version" onClick={tapVersion}>
+          <p className="footer-version" {...versionPressHandlers}>
             version {COMMIT_HASH}
           </p>
         </footer>

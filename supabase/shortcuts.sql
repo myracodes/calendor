@@ -1,7 +1,7 @@
 -- Raccourcis du compte : la séquence de touches qui affiche les pages cachées
 -- (voir App.tsx), stockée hors du code et du bundle publics. Au plus une
 -- ligne par compte ; un compte sans ligne n'a pas accès aux pages cachées,
--- ni par la séquence ni par les tapes sur la version.
+-- ni par la séquence ni par l'appui long sur la version.
 -- À exécuter une fois dans le SQL editor du dashboard Supabase.
 
 create table public.shortcuts (

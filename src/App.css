@@ -295,8 +295,14 @@ hr {
   font-size: 0.85rem;
 }
 
+/* Cible de l'appui long qui affiche les pages cachées (voir App.tsx). */
 .footer-version {
+  /* Agrandit la zone à presser, et l'éloigne du bord bas de l'écran, où
+     Safari iOS intercepte le doigt pour déplier sa barre d'outils. */
+  padding: 0.75rem 0;
   -webkit-user-select: none;
   user-select: none;
+  /* Sans ça, iOS ouvre sa bulle (copier, rechercher…) pendant l'appui. */
+  -webkit-touch-callout: none;
   touch-action: manipulation;
 }
