@@ -1,0 +1,17 @@
+/* L'intitulé d'un mois, sur sa propre ligne (--month-row) et toute la
+   largeur de la grille, souligné du trait qui marque aussi les semaines.
+   Les tâches de plusieurs jours qui changent de mois passent par-dessus. */
+.planning-month {
+  grid-row: var(--month-row);
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 1rem 0 0.25rem;
+  font-size: 1rem;
+  font-weight: 400;
+  border-bottom: 2px solid var(--accent-strong);
+}
+
+/* En tête de la grille, pas besoin d'espace au-dessus */
+.planning-month:first-child {
+  padding-top: 0;
+}

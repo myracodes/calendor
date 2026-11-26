@@ -19,6 +19,12 @@ interface PlanningTaskBlockProps {
    * de son jour.
    */
   placement?: TaskPlacement
+  /**
+   * Avec `placement` : les lignes de la grille de son premier et de son
+   * dernier jour visibles, qui comptent aussi les intitulés de mois entre
+   * les deux (voir gridRows.ts).
+   */
+  rows?: { first: number; last: number }
   /** En cours de glisser-déposer (ou d'enregistrement après le lâcher). */
   dragging: boolean
   onDragStart: (event: PointerEvent, kind: DragKind) => void
@@ -37,6 +43,7 @@ interface PlanningTaskBlockProps {
 export function PlanningTaskBlock({
   task,
   placement,
+  rows,
   dragging,
   onDragStart,
   onOpen,
@@ -51,11 +58,11 @@ export function PlanningTaskBlock({
   // passe par style, tout le dessin reste dans le .css. Le cast est
   // nécessaire, CSSProperties ne connaît pas les variables CSS.
   const placementStyle =
-    placement === undefined
+    placement === undefined || rows === undefined
       ? undefined
       : ({
-          "--first-row": placement.firstDayIndex + 1,
-          "--row-span": placement.lastDayIndex - placement.firstDayIndex + 1,
+          "--first-row": rows.first,
+          "--row-span": rows.last - rows.first + 1,
           // + 3 : la grille commence par la colonne des dates, puis celle des
           // tâches d'un seul jour.
           "--lane-column": placement.lane + 3,

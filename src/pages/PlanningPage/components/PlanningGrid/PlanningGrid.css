@@ -7,7 +7,9 @@
 /* La grille : la colonne des dates, celle des tâches d'un seul jour (qui
    passent à la ligne quand elles ne tiennent plus), puis une colonne par
    tâche de plusieurs jours en cours en même temps (--lane-count), à la
-   largeur de la plus large. Une ligne par jour, qui grandit avec ses tâches */
+   largeur de la plus large. Une ligne par intitulé de mois, puis par jour
+   (PlanningDayRow, qui fixe sa hauteur minimale et grandit avec ses
+   tâches) */
 .planning-grid {
   display: grid;
   /* 8rem au moins pour les tâches d'un seul jour : une tâche, et la place
@@ -16,5 +18,5 @@
       var(--lane-count),
       max-content
     );
-  grid-auto-rows: minmax(2.5rem, auto);
+  grid-auto-rows: auto;
 }

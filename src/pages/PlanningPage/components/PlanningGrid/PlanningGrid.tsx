@@ -1,4 +1,5 @@
 import { type CSSProperties, useRef } from "react"
+import { gridRowsOf, startsMonth } from "../../../../planning/gridRows"
 import { layoutTasks, type TaskPlacement } from "../../../../planning/layout"
 import { publicHolidaysIn } from "../../../../planning/publicHolidays"
 import { type DayRange, daysOf } from "../../../../planning/range"
@@ -8,6 +9,7 @@ import type {
 } from "../../../../planning/types"
 import type { useToast } from "../../../../shared/Toast/useToast"
 import { PlanningDayRow } from "../PlanningDayRow/PlanningDayRow"
+import { PlanningMonthHeader } from "../PlanningMonthHeader/PlanningMonthHeader"
 import { PlanningTaskBlock } from "../PlanningTaskBlock/PlanningTaskBlock"
 import "./PlanningGrid.css"
 import { useTaskDrag } from "./useTaskDrag"
@@ -26,9 +28,9 @@ interface PlanningGridProps {
 }
 
 /**
- * Le planning : une ligne par jour avec son jour férié et ses tâches d'un
- * seul jour, et à droite les tâches de plusieurs jours, sur la hauteur de
- * leurs jours.
+ * Le planning : l'intitulé de chaque mois sur sa propre ligne, une ligne par
+ * jour avec son jour férié et ses tâches d'un seul jour, et à droite les
+ * tâches de plusieurs jours, sur la hauteur de leurs jours.
  */
 export function PlanningGrid({
   range,
@@ -67,6 +69,8 @@ export function PlanningGrid({
     range,
   )
   const publicHolidays = publicHolidaysIn(range)
+  const days = daysOf(range)
+  const { monthHeaders, dayRows } = gridRowsOf(days)
 
   function taskBlock(task: PlanningTask, placement?: TaskPlacement) {
     return (
@@ -74,6 +78,12 @@ export function PlanningGrid({
         key={task.id}
         task={task}
         placement={placement}
+        rows={
+          placement && {
+            first: dayRows[placement.firstDayIndex],
+            last: dayRows[placement.lastDayIndex],
+          }
+        }
         dragging={preview?.id === task.id}
         onDragStart={(event, kind) => start(event, task, kind)}
         onOpen={() => {
@@ -94,11 +104,19 @@ export function PlanningGrid({
   return (
     <div className="planning-scroll">
       <div ref={gridRef} className="planning-grid" style={gridStyle}>
-        {daysOf(range).map((day, index) => (
+        {monthHeaders.map(header => (
+          <PlanningMonthHeader
+            key={header.firstDay}
+            firstDay={header.firstDay}
+            row={header.row}
+          />
+        ))}
+        {days.map((day, index) => (
           <PlanningDayRow
             key={day}
             day={day}
-            index={index}
+            row={dayRows[index]}
+            firstOfMonth={startsMonth(day, index)}
             today={today}
             publicHoliday={publicHolidays.get(day)}
             onAdd={() => onAddOnDay(day)}

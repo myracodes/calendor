@@ -13,8 +13,8 @@ function formatter(options: Intl.DateTimeFormatOptions) {
 
 const WEEKDAY_SHORT = formatter({ weekday: "short" })
 const WEEKDAY_LONG = formatter({ weekday: "long" })
-const MONTH_SHORT = formatter({ month: "short" })
 const MONTH_LONG = formatter({ month: "long" })
+const MONTH_YEAR = formatter({ month: "long", year: "numeric" })
 
 /** « 1er », « 23 » : le numéro du jour, avec l'ordinal du premier du mois. */
 function dayOfMonth(iso: string): string {
@@ -22,18 +22,16 @@ function dayOfMonth(iso: string): string {
   return day === 1 ? "1er" : String(day)
 }
 
-/** Les morceaux du libellé d'une ligne du planning : « lun. », « 23 », « nov. ». */
-export function dayLabelParts(iso: string): {
-  weekday: string
-  day: string
-  month: string
-} {
+/** « lun. 23 » : le libellé d'une ligne du planning (le mois est sur la ligne de son intitulé). */
+export function shortDay(iso: string): string {
   const date = dateOf(iso)
-  return {
-    weekday: WEEKDAY_SHORT.format(date),
-    day: String(date.getUTCDate()),
-    month: MONTH_SHORT.format(date),
-  }
+  return `${WEEKDAY_SHORT.format(date)} ${date.getUTCDate()}`
+}
+
+/** « Décembre 2026 » : l'intitulé d'un mois dans le planning. */
+export function monthTitle(iso: string): string {
+  const text = MONTH_YEAR.format(dateOf(iso))
+  return text.charAt(0).toUpperCase() + text.slice(1)
 }
 
 /** « lundi 1er décembre » : un jour dans une phrase. */
