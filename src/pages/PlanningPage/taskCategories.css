@@ -35,3 +35,11 @@
   );
   --category-accent: var(--chart-pink);
 }
+
+/* Off (congés, et jours fériés : PlanningHolidayBlock) : gris, la couleur
+   des lignes du thème en fond (encre 9,3:1) et l'encre claire en liseré
+   (4,6:1 sur --paper) */
+.task-category--off {
+  --category-background: var(--line);
+  --category-accent: var(--ink-light);
+}

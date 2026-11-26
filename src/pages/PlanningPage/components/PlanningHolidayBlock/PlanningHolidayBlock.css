@@ -1,0 +1,7 @@
+/* Un jour férié : le dessin d'une tâche (PlanningTaskBlock.css), sans rien à
+   saisir ni à glisser */
+.planning-holiday {
+  /* Pas de bouton copie à côté du titre : la largeur de son nom suffit */
+  min-width: 0;
+  cursor: default;
+}

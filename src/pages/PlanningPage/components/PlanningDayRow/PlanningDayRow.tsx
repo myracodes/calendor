@@ -3,6 +3,7 @@ import plusIcon from "../../../../assets/icons/plus.svg"
 import { WEEKDAY } from "../../../../constants/weekdays"
 import { weekdayOfIso } from "../../../../dates"
 import { dayLabelParts, longDay } from "../../../../planning/wording"
+import { PlanningHolidayBlock } from "../PlanningHolidayBlock/PlanningHolidayBlock"
 import "./PlanningDayRow.css"
 
 interface PlanningDayRowProps {
@@ -11,20 +12,23 @@ interface PlanningDayRowProps {
   /** Sa ligne dans la grille, 0 = la première. */
   index: number
   today: string
+  /** Nom du jour férié qui tombe ce jour-là, absent sinon. */
+  publicHoliday?: string
   onAdd: () => void
   /** Ses tâches d'un seul jour, dans leur ordre. */
   children: ReactNode
 }
 
 /**
- * La ligne d'un jour : sa date à gauche, puis ses tâches d'un seul jour, qui
- * passent à la ligne quand elles ne tiennent plus en largeur. Tout autour
+ * La ligne d'un jour : sa date à gauche, puis son jour férié s'il en a un et
+ * ses tâches d'un seul jour, qui passent à la ligne quand elles ne tiennent plus en largeur. Tout autour
  * d'elles, un clic ouvre l'ajout d'une tâche ce jour-là.
  */
 export function PlanningDayRow({
   day,
   index,
   today,
+  publicHoliday,
   onAdd,
   children,
 }: PlanningDayRowProps) {
@@ -67,7 +71,12 @@ export function PlanningDayRow({
         {/* alt vide : le bouton porte déjà le libellé (aria-label). */}
         <img src={plusIcon} alt="" />
       </button>
-      <div className="planning-day-tasks">{children}</div>
+      <div className="planning-day-tasks">
+        {publicHoliday !== undefined && (
+          <PlanningHolidayBlock name={publicHoliday} />
+        )}
+        {children}
+      </div>
     </div>
   )
 }

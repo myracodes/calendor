@@ -1,5 +1,6 @@
 import { type CSSProperties, useRef } from "react"
 import { layoutTasks, type TaskPlacement } from "../../../../planning/layout"
+import { publicHolidaysIn } from "../../../../planning/publicHolidays"
 import { type DayRange, daysOf } from "../../../../planning/range"
 import type {
   PlanningTask,
@@ -25,8 +26,9 @@ interface PlanningGridProps {
 }
 
 /**
- * Le planning : une ligne par jour avec ses tâches d'un seul jour, et à
- * droite les tâches de plusieurs jours, sur la hauteur de leurs jours.
+ * Le planning : une ligne par jour avec son jour férié et ses tâches d'un
+ * seul jour, et à droite les tâches de plusieurs jours, sur la hauteur de
+ * leurs jours.
  */
 export function PlanningGrid({
   range,
@@ -64,6 +66,7 @@ export function PlanningGrid({
     shownTasks,
     range,
   )
+  const publicHolidays = publicHolidaysIn(range)
 
   function taskBlock(task: PlanningTask, placement?: TaskPlacement) {
     return (
@@ -97,6 +100,7 @@ export function PlanningGrid({
             day={day}
             index={index}
             today={today}
+            publicHoliday={publicHolidays.get(day)}
             onAdd={() => onAddOnDay(day)}
           >
             {singleDayTasks.get(day)?.map(task => taskBlock(task))}

@@ -11,10 +11,10 @@ create table public.planning_tasks (
   -- une tâche d'un seul jour
   start_date date not null,
   end_date date not null,
-  -- Pro, médical ou perso : donne sa couleur à la tâche (voir
+  -- Pro, médical, perso ou off (congés) : donne sa couleur à la tâche (voir
   -- src/planning/categories.ts)
   category text not null default 'personal'
-    check (category in ('work', 'medical', 'personal')),
+    check (category in ('work', 'medical', 'personal', 'off')),
   -- Place parmi les tâches qui commencent le même jour, de gauche à droite,
   -- changée par glisser-déposer. Nombre à virgule : une tâche glissée entre
   -- deux autres prend la moyenne des leurs, sans renuméroter le reste. Par
@@ -60,3 +60,12 @@ grant select, insert, update, delete on public.planning_tasks to authenticated;
 --   add column sort_order double precision not null
 --     default extract(epoch from clock_timestamp());
 -- update public.planning_tasks set sort_order = extract(epoch from created_at);
+
+-- Migration d'une table créée avant la catégorie off (congés) : à exécuter
+-- une fois, seule, dans le SQL editor. Remplace la contrainte de la colonne
+-- category, nommée automatiquement par Postgres.
+--
+-- alter table public.planning_tasks
+--   drop constraint planning_tasks_category_check,
+--   add constraint planning_tasks_category_check
+--     check (category in ('work', 'medical', 'personal', 'off'));

@@ -8,7 +8,7 @@ export interface PlanningTask {
   startDate: string
   /** Dernier jour, inclus : égal à startDate pour une tâche d'un seul jour. */
   endDate: string
-  /** Pro, médical ou perso : donne sa couleur à la tâche. */
+  /** Pro, médical, perso ou off (congés) : donne sa couleur à la tâche. */
   category: TaskCategory
   /**
    * Place parmi les tâches qui commencent le même jour, de gauche à droite
