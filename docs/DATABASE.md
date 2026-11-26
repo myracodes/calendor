@@ -48,5 +48,6 @@ Ne pas ré-exécuter le script de création : il échoue (`already exists`). Les
 | `supabase/weight_entries.sql` | `weight_entries` | Poids (page cachée) |
 | `supabase/weight_goals.sql` | `weight_goals` | Poids (page cachée) |
 | `supabase/shortcuts.sql` | `shortcuts` | Accès aux pages cachées (séquence de touches du compte, à remplir à la main) |
+| `supabase/session_max_age.sql` | toutes les tables ci-dessus | Durée maximale de session (14 jours). Les scripts listés en dessous en dépendent : à exécuter avant eux |
 
 Chaque nouveau script doit être ajouté ici (voir [NEW_FEATURE.md](../NEW_FEATURE.md)).

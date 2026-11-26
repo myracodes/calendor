@@ -1,11 +1,13 @@
 // Fournit la session Supabase courante à toute l'app (via useAuth). La session
-// est persistée par le SDK dans le localStorage du navigateur : on ne se
-// connecte qu'une fois par appareil.
+// est persistée par le SDK dans le localStorage du navigateur : on reste
+// connecté sur un appareil jusqu'à la durée maximale de session
+// (sessionMaxAge.ts), puis on doit se reconnecter.
 
 import type { Session } from "@supabase/supabase-js"
 import { type ReactNode, useEffect, useState } from "react"
 import { supabase } from "../supabase/client"
 import { AuthContext } from "./context"
+import { sessionExpiresAt } from "./sessionMaxAge"
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null)
@@ -26,6 +28,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     })
     return () => data.subscription.unsubscribe()
   }, [])
+
+  // Déconnecte une fois la durée maximale de session atteinte : tout de suite
+  // si elle l'est déjà au démarrage, sinon à l'échéance. Un minuteur peut
+  // prendre du retard pendant la mise en veille de l'appareil, mais au réveil
+  // le SDK renouvelle le jeton : la session change, et ce calcul est refait.
+  useEffect(() => {
+    if (supabase === null || session === null) return
+    const expiresAt = sessionExpiresAt(session)
+    if (expiresAt === null) return
+
+    const client = supabase
+    const timer = setTimeout(
+      () => {
+        // "local" : ne déconnecte que cet appareil, pas les autres sessions.
+        void client.auth.signOut({ scope: "local" })
+      },
+      Math.max(0, expiresAt - Date.now()),
+    )
+    return () => clearTimeout(timer)
+  }, [session])
 
   return (
     <AuthContext.Provider value={{ session, loading }}>
