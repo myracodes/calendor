@@ -1,6 +1,8 @@
--- Coordonnées du CV, stockées hors du bundle : lisibles uniquement connectée.
+-- Coordonnées du CV, stockées hors du bundle : lisibles uniquement par les
+-- comptes qui ont accès à la page CV (table page_access).
 -- Une ligne par langue du CV ('fr' / 'en').
--- À exécuter une fois dans le SQL editor du dashboard Supabase.
+-- À exécuter une fois dans le SQL editor du dashboard Supabase, APRÈS
+-- page_access.sql.
 
 create table public.cv_contact (
   -- Langue de la version du CV (voir CvLanguage dans src/cv/types.ts)
@@ -16,10 +18,17 @@ create table public.cv_contact (
 
 alter table public.cv_contact enable row level security;
 
--- Lecture pour toute personne connectée. Aucune policy d'écriture : les
--- données se modifient depuis le dashboard Supabase (Table editor ou SQL).
-create policy "lecture authentifiée" on public.cv_contact
-  for select to authenticated using (true);
+-- Lecture réservée aux comptes qui ont accès à la page CV (supabase/page_access.sql) :
+-- pour les autres, la requête renvoie zéro ligne. Aucune policy d'écriture :
+-- les données se modifient depuis le dashboard Supabase (Table editor ou SQL).
+create policy "lecture réservée à la page CV" on public.cv_contact
+  for select to authenticated
+  using (
+    exists (
+      select 1 from public.page_access
+      where page_access.user_id = auth.uid() and page_access.page = 'cv'
+    )
+  );
 
 -- Privilège SQL de base, indépendant de la RLS : sans lui, PostgreSQL refuse
 -- le SELECT avant même d'évaluer la policy (erreur 42501 "permission denied").
@@ -51,6 +60,11 @@ grant select on public.cv_contact to authenticated;
 --   { "id": "location", "texte": "Based in …" },
 --   { "id": "practical", "texte": "Bike | driving license | remote :)" }
 -- ]');
+
+-- Migration d'une table existante (policy "lecture authentifiée", ouverte à
+-- tout compte connecté) : après avoir exécuté page_access.sql,
+--    drop policy "lecture authentifiée" on public.cv_contact;
+-- puis exécuter le create policy "lecture réservée à la page CV" ci-dessus.
 
 -- Migration d'une table existante (colonne `infos` encore en `text`) :
 -- 1. Convertir la colonne en jsonb (perd la valeur existante, à ressaisir) :

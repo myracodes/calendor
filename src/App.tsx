@@ -4,6 +4,8 @@ import "./App.css"
 import { AuthProvider } from "./auth/AuthProvider"
 import { useAuth } from "./auth/useAuth"
 import { HOME_PATH } from "./home/homePath"
+import { RESTRICTED_PAGE } from "./pageAccess/restrictedPages"
+import { useAccountPageAccess } from "./pageAccess/useAccountPageAccess"
 import { BatchCookingPage } from "./pages/BatchCookingPage/BatchCookingPage"
 import { BooksPage } from "./pages/BooksPage/BooksPage"
 import { BudgetPage } from "./pages/BudgetPage/BudgetPage"
@@ -23,6 +25,7 @@ import { WeightPage } from "./pages/WeightPage/WeightPage"
 import { LastPageRedirect, LastPageTracker } from "./shared/LastPage/LastPage"
 import { LogoutButton } from "./shared/LogoutButton/LogoutButton"
 import { Navbar } from "./shared/Navbar/Navbar"
+import { RestrictedRoute } from "./shared/RestrictedRoute/RestrictedRoute"
 import { useAccountKeySequence } from "./shortcuts/useAccountKeySequence"
 import { useKeySequence } from "./shortcuts/useKeySequence"
 import { useLongPress } from "./shortcuts/useLongPress"
@@ -63,6 +66,9 @@ function AppContent() {
   )
   const unlockedByPress = versionPressed && keySequence !== null
   const secretPagesUnlocked = keySequenceTyped || unlockedByPress
+  // Pages réservées (CV) : visibles seulement des comptes qui y ont accès en
+  // base (supabase/page_access.sql).
+  const pageAccess = useAccountPageAccess()
 
   // Le pied de page est loin du menu : remonte en haut de la page pour
   // montrer l'onglet qui vient d'apparaître.
@@ -83,7 +89,10 @@ function AppContent() {
             </h1>
             <LogoutButton />
           </div>
-          <Navbar showSecretLinks={secretPagesUnlocked} />
+          <Navbar
+            showSecretLinks={secretPagesUnlocked}
+            accessiblePages={pageAccess.pages}
+          />
         </div>
 
         <Routes>
@@ -96,7 +105,14 @@ function AppContent() {
           <Route path="/paper-factory" element={<PaperFactoryPage />} />
           <Route path="/courrier" element={<CourrierPage />} />
           <Route path="/courses" element={<CoursesPage />} />
-          <Route path="/cv" element={<CvPage />} />
+          <Route
+            path="/cv"
+            element={
+              <RestrictedRoute page={RESTRICTED_PAGE.CV} access={pageAccess}>
+                <CvPage />
+              </RestrictedRoute>
+            }
+          />
           <Route path="/series" element={<SeriesPage />} />
           <Route path="/books" element={<BooksPage />} />
           <Route path="/recommendations" element={<RecommendationsPage />} />

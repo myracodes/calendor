@@ -16,6 +16,7 @@ Il complète [AGENTS.md](AGENTS.md) (règles générales, toujours applicables) 
 1. Créer la page dans `src/pages/<Nom>Page/<Nom>Page.tsx` (composant exporté nommé `<Nom>Page`).
 2. Déclarer la route dans `src/App.tsx` (`<Route path="/<slug>" … />`), slug en anglais et en kebab-case (`/batch-cooking`, `/series`).
 3. Ajouter le lien dans le tableau `NAV_LINKS` de `src/shared/Navbar/Navbar.tsx` — libellé en français, tel qu'affiché.
+4. Page réservée à certains comptes (ex. CV) : ajouter son identifiant à `RESTRICTED_PAGE` (`src/pageAccess/restrictedPages.ts`) et à la contrainte check de `supabase/page_access.sql`, poser `restrictedPage` sur son lien de `NAV_LINKS`, et envelopper sa route dans `RestrictedRoute`. Ses données en base se protègent aussi côté Supabase : une policy qui vérifie la ligne de `page_access` (modèle : `supabase/cv_contact.sql`), car l'interface seule ne protège rien.
 
 ## 2. Composants
 
