@@ -1,8 +1,6 @@
 # TO DO LIST
 
-## A FAIRE
-
-### Calendrier
+## Calendrier
 
 - ajouter les vacances scolaires ? avec un booléen pour choisir de les afficher ou non ?
 - preset Période pour pouvoir choisir "le mois prochain", "l'année prochaine", "les 6 prochains mois" ou custom (custom = l'actuel)
@@ -12,18 +10,18 @@
 - gérer le cas où on a beaucoup de choses dans une case, ça crée une deuxième page vide, ou bien ça agrandit les cases
 - invitation anniversaire
 
-### Planning
+## Planning
 
 - séparer les types de tâches (pro / perso / médical) : une sous-ligne par type dans chaque jour, ou bien les tâches regroupées par type dans la ligne + un filtre pour n'afficher que certains types (choix à faire)
 - export PDF d'un résumé des activités : bouton « Exporter » qui ouvre un écran avec la période (du / au) et les types à inclure (un, plusieurs ou tous) ; mise en page du PDF à définir
 - (plus tard) anniversaires dans le planning, couleur #404fa5 : la rgb(121, 134, 203) demandée, assombrie à teinte et saturation égales (HSL 231° 44 % 45 %) pour un texte blanc à 7,3:1 (AAA) ; à ajouter comme token. À préciser : modifiables / déplaçables, ou affichés seulement ?
 
-### Authentification
+## Authentification
 
 - créer les comptes pour les nouvelles users (procédure : docs/ADD_USER.md)
 - gérer la durée de la session
 
-### Global
+## Global
 
 - pouvoir injecter les couleurs via des variables dans les svg de src/assets/icons ?
 - gérer les emoji nativement
@@ -34,3 +32,7 @@
 ## Idées d'évolutions futures
 
 - accords piano / guitare / ukulele (charts)
+
+## Courrier
+
+- ajouter la prévisualisation

@@ -36,10 +36,14 @@ import { WEIGHT_PATH } from "./weight/weightPath"
 // Le verrou : l'app ne s'affiche qu'avec une session valide, en dev comme en
 // prod, dès que Supabase est configuré (voir isSupabaseConfigured).
 function AppGate() {
-  const { session, loading } = useAuth()
+  const { session, loading, passwordRecovery } = useAuth()
   // Évite un flash de l'écran de connexion pendant la relecture de la session.
   if (loading) return null
-  if (isSupabaseConfigured && session === null) return <LoginPage />
+  // Une session ouverte par un lien de réinitialisation passe d'abord par le
+  // choix du nouveau mot de passe, sur l'écran de connexion.
+  if (isSupabaseConfigured && (session === null || passwordRecovery)) {
+    return <LoginPage />
+  }
   return <AppContent />
 }
 

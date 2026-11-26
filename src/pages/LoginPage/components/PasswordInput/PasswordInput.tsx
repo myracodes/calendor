@@ -10,9 +10,12 @@ import "./PasswordInput.css"
 export function PasswordInput({
   value,
   onChange,
+  autoComplete,
 }: {
   value: string
   onChange: (value: string) => void
+  /** "new-password" pour que le gestionnaire de mots de passe propose d'enregistrer le nouveau. */
+  autoComplete: "current-password" | "new-password"
 }) {
   const [visible, setVisible] = useState(false)
   const toggleLabel = visible
@@ -24,7 +27,7 @@ export function PasswordInput({
       <input
         type={visible ? "text" : "password"}
         value={value}
-        autoComplete="current-password"
+        autoComplete={autoComplete}
         required
         onChange={e => onChange(e.target.value)}
       />

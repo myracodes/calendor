@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { type AuthState, AuthContext } from "./context"
 
-/** L'état d'authentification courant (session + chargement initial). */
+/** L'état d'authentification courant (session, chargement initial, lien de réinitialisation). */
 export function useAuth(): AuthState {
   return useContext(AuthContext)
 }

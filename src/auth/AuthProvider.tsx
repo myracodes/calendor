@@ -7,12 +7,19 @@ import type { Session } from "@supabase/supabase-js"
 import { type ReactNode, useEffect, useState } from "react"
 import { supabase } from "../supabase/client"
 import { AuthContext } from "./context"
+import { openedFromInvalidLink, openedFromRecoveryLink } from "./emailLink"
 import { sessionExpiresAt } from "./sessionMaxAge"
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<Session | null>(null)
   // Sans Supabase configuré il n'y a rien à relire : on démarre déjà "chargé".
   const [loading, setLoading] = useState(supabase !== null)
+  const [passwordRecovery, setPasswordRecovery] = useState(
+    openedFromRecoveryLink,
+  )
+  const [invalidEmailLink, setInvalidEmailLink] = useState(
+    openedFromInvalidLink,
+  )
 
   useEffect(() => {
     if (supabase === null) return
@@ -25,6 +32,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     })
     const { data } = supabase.auth.onAuthStateChange((_event, newSession) => {
       setSession(newSession)
+      if (newSession === null) {
+        // Lien de réinitialisation refusé par Supabase, ou déconnexion : plus
+        // de mot de passe à choisir.
+        setPasswordRecovery(false)
+      } else {
+        // Connectée : le message du lien invalide n'a plus lieu d'être.
+        setInvalidEmailLink(false)
+      }
     })
     return () => data.subscription.unsubscribe()
   }, [])
@@ -50,7 +65,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [session])
 
   return (
-    <AuthContext.Provider value={{ session, loading }}>
+    <AuthContext.Provider
+      value={{
+        session,
+        loading,
+        passwordRecovery,
+        finishPasswordRecovery: () => setPasswordRecovery(false),
+        invalidEmailLink,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   )

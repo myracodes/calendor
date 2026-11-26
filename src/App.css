@@ -268,6 +268,27 @@ button:disabled {
   background: var(--line);
 }
 
+/* Action secondaire en texte souligné, comme un lien (ex. « Mot de passe
+   oublié ? ») : sans fond, ombre ni translation, pour ne pas concurrencer le
+   bouton principal. */
+.btn-link {
+  height: auto;
+  padding: 0.25rem 0.4rem;
+  font-size: 0.9rem;
+  background: none;
+  box-shadow: none;
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+.btn-link:hover,
+.btn-link:active {
+  transform: none;
+  box-shadow: none;
+  filter: none;
+  text-decoration-thickness: 2px;
+}
+
 .hint {
   margin: 0.75rem 0 0.5rem;
   font-size: 0.85rem;

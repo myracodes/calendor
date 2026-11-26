@@ -21,3 +21,10 @@
   font-size: 0.9rem;
   color: var(--danger);
 }
+
+/* Confirmation sous les champs (ex. lien de réinitialisation envoyé). */
+.login-notice {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--success);
+}
